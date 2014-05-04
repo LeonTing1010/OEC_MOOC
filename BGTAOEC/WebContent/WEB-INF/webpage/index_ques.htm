@@ -1,0 +1,31 @@
+         <div class="leftBox">
+              <ul>
+              [@trade_top_ques tradeId='${tradeId!}' len='3']
+                [#list list as question]
+                 <li><a href="${base}/questionCenter/questiondetail/${question.quesID!}/">
+                    <img src="${cache}/images/index/${question_index+1}.jpg" alt="" width="80" height="80">
+                    <div class="question-title ellipsis">[@text_cut s='${question.quesContent!}' len='28' append='..'][/@text_cut]</div>
+                    <div class="answer">[#if question.answerVo??][@html_unescape_cut s='${question.answerVo.answContent!}' len='80' append='..'][/@html_unescape_cut][/#if]</div>
+                    <div class="clear"></div>
+                   </a>
+                  </li>
+                 [/#list]
+               [/@trade_top_ques] 
+              </ul>
+            </div>
+            <div class="rightBox">
+              <div class="teacher-title">名师推荐</div>
+              <div class="teacher-con">
+                <ul class="clearfix"> 
+                 [@trade_top_teacher tradeId='${tradeId!}' len='6']
+                  [#list list as teacher]
+                  <li><a href="${base}/qacenter/teacherdetail/${teacher.id!}/">
+                  <img src="[#if teacher.teacherPic??]${cache!}${teacher.teacherPic!}[#else]${cache!}/images/base/default_pic_temp_user.jpg[/#if]" 
+               	 
+                  width="108" height="80" alt="${teacher.teacherName!}"/><span>${teacher.teacherName!}</span></a></li>
+                  [/#list]
+                  [/@trade_top_teacher]
+                </ul>
+              </div>
+            </div>
+            <div class="clear"></div>

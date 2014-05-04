@@ -1,0 +1,13 @@
+[#if section??]
+<div class="poupBox-con">
+	<div class="title">知识点回顾</div>
+	[#if section.coreKnowledge??]
+	<ol class="wordBreak">
+		${section.coreKnowledge!}
+	</ol>
+	[/#if]
+	<div class="ml10 mt20">
+		<button onclick="testShow()" class="btn btn-small btn-success">随堂练习</button>
+	</div>
+</div>
+[/#if]

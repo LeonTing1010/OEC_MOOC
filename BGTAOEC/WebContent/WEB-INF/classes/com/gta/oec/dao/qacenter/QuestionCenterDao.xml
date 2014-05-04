@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gta.oec.vo.qacenter.QuestionVo">
+	<resultMap type="com.gta.oec.vo.qacenter.QuestionVo" id="questionMap">
+		<result column="QuesID" property="quesID" />
+		<result column="Course_ID" property="courseID" />
+		<result column="UserID" property="userID" />
+		<result column="Job_ID" property="jobID" />
+		<result column="Ques_Content" property="quesContent" />
+		<result column="Ques_Status" property="quesStatus" />
+		<result column="Ques_Type" property="quesType" />
+		<result column="Ques_AnswerCount" property="quesAnswerCount" />
+		<result column="Ques_AttentionCount" property="quesAttentionCount" />
+		<result column="Ques_Label" property="quesLabel" />
+		<result column="Ques_AnswerPerson" property="quesAnswerPerson" />
+		<result column="Ques_LookLimit" property="quesLookLimit" />
+		<result column="Ques_AnswerLimit" property="quesAnswerLimit" />
+		<result column="Ques_Price" property="quesPrice" />
+		<result column="Ques_Ctime" property="quesCtime" />
+		<result column="Ques_Utime" property="quesUtime" />
+		<result column="Ques_IsChoiceness" property="quesIsChoiceness"/>
+		
+		
+		<result column="Sec_ID" property="secID" />
+		<result column="Job_GroupID" property="jobGroupID" />
+		<result column="Ques_Description" property="quesDescription" />
+		
+		<result column="Pro_ID" property="proID" />
+		<result column="Pro_Name" property="proName" />
+		<result column="Ques_pic" property="quesPic" />
+		<!-- 问题是否已在前端被屏蔽，1为屏蔽 -->
+		<result column="Ques_isVisible" property="visibleQuestionOrNot" />
+		
+		
+	</resultMap>
+	<!-- select -->
+	
+	<!-- add by:dongs -->
+	<select id="getQuestionListByJobGroupId" parameterType="java.util.Map" resultMap="questionMap">
+		SELECT q.* FROM q_question AS q WHERE q.QuesID!=#{quesId} and q.Ques_Type=0 and q.Ques_isVisible = 0 and q.Job_ID=#{jobGroupId} ORDER BY rand() LIMIT #{num}
+	</select> 
+	
+	<!-- add by:dongs -->
+	<select id="getSortQuestionPage" parameterType="java.util.Map" resultMap="questionMap">
+		SELECT q.*
+		FROM q_question AS q ,p_job AS j
+		WHERE q.Ques_Type=0 and q.Job_ID=j.Job_ID and q.Ques_isVisible = 0 
+		<if test="type==1">
+		AND j.Pro_ID=#{id}
+		</if>
+		<if test="type==2">
+		AND j.Job_ID=#{id} 
+		</if>
+		
+		<if test="flag==0">
+		ORDER BY q.Ques_AnswerCount DESC ,q.Ques_Ctime DESC
+		</if>
+		<if test="flag==1">
+		order by q.Ques_Ctime DESC
+		</if>
+		<if test="flag==2">
+		ORDER BY q.Ques_AnswerCount DESC ,q.Ques_Ctime DESC
+		</if>
+		
+		LIMIT #{limit} OFFSET #{offset}
+	</select> 
+	
+		<!-- add by:dongs -->
+	<select id="countSortQuestionPage" parameterType="java.util.Map" resultType="int">
+		SELECT count(q.QuesID)
+		FROM q_question AS q ,p_job AS j
+		WHERE q.Ques_Type=0 and q.Ques_isVisible = 0 and q.Job_ID=j.Job_ID
+		<if test="type==1">
+		AND j.Pro_ID=#{id}
+		</if>
+		<if test="type==2">
+		AND j.Job_ID=#{id} 
+		</if>
+	</select> 
+	
+	<!--根据关键字搜索  add by:刘祚家 -->
+	<select id="getSearchListPage" parameterType="java.util.Map" resultMap="questionMap">
+		SELECT q.*
+		FROM q_question AS q 
+		<if test="type==1">
+		,p_job AS j
+		</if>
+		WHERE 1=1
+		<if test="type==1">
+		and q.Job_ID=j.Job_ID
+		AND j.Pro_ID=#{id}
+		</if>
+		and q.Ques_isVisible = 0 
+		and q.Ques_Content like CONCAT('%',#{search},'%')
+		ORDER BY q.Ques_AnswerCount DESC 
+		LIMIT #{limit} OFFSET #{offset}
+	</select> 
+	
+	<!--根据关键字搜索-统计总数  add by:刘祚家 -->
+	<select id="countSearchListPage" parameterType="java.util.Map" resultType="int">
+		SELECT count(q.QuesID)
+		FROM q_question AS q 
+		<if test="type==1">
+		,p_job AS j
+		</if>
+		WHERE 1=1
+		<if test="type==1">
+		 and  q.Job_ID=j.Job_ID
+		AND j.Pro_ID=#{id}
+		</if>
+		and q.Ques_isVisible = 0 
+		and q.Ques_Content like CONCAT('%',#{search},'%')
+	</select>
+	 
+	<!--关键字查询问题 -->
+	<select id="getQuestionListByKeyword" parameterType="java.util.Map" resultMap="questionMap">
+		SELECT q.*
+		FROM q_question AS q
+		WHERE q.Ques_isVisible = 0 and q.Ques_Content like CONCAT('%',#{search},'%')
+		ORDER BY q.Ques_AnswerCount DESC ,q.Ques_Ctime DESC   
+		LIMIT #{limit}
+	</select> 
+		
+		<!-- add by:dongs -->
+	<select id="getRelationQuestionByProfID" parameterType="int" resultMap="questionMap">
+		SELECT q.*,j.Pro_ID 
+		FROM q_question AS q , p_job AS j
+		WHERE q.Ques_Type=0 and  j.Job_ID=q.Job_ID and q.Ques_isVisible = 0 AND j.Pro_ID=#{proID}
+ 		ORDER BY q.Ques_AnswerCount DESC
+	</select>	
+	
+	<select id="getQuestionDital" parameterType="int" resultMap="questionMap">
+	SELECT q.* FROM q_question AS q WHERE  q.QuesID=#{quesId} and q.Ques_isVisible = 0 ;
+	</select>
+	<select id="getChosenQuestionList" parameterType="int" resultMap="questionMap">
+		SELECT q.* FROM q_question AS q WHERE q.Ques_Type=0 and  q.Ques_IsChoiceness=1 and q.Ques_isVisible = 0  ORDER BY Ques_Ctime DESC LIMIT #{limitCont};
+	</select>
+	<select id="getNewQuestionList" parameterType="int" resultMap="questionMap">
+		SELECT a.QuesID,c.Pro_ID,c.Pro_Name,b.job_ID,a.Ques_Content,a.Ques_AnswerCount,a.Ques_Ctime FROM q_question a , p_job b  ,p_profession c   WHERE 
+		a.Ques_Type=0 and a.Job_ID=b.Job_ID and b.Pro_ID=c.Pro_ID
+		and a.Ques_isVisible = 0 and c.Pro_ID = #{proId} order by a.Ques_Ctime DESC limit 10
+	</select>
+	
+	<!-- 根据课程id和问题类型查询问题列表  by zhangjin -->
+	<select id="getQuestionListByCourId" parameterType="java.util.Map" resultMap="questionMap">
+		select * from q_question where Ques_Type=0 and Ques_isVisible = 0 and course_ID =  #{courId} and Ques_Type = #{quesType}
+	</select>
+	
+	<!-- 根据用户id查询问题列表  by zhangjin -->
+	<select id="getQuestionListByUserId" parameterType="int" resultMap="questionMap">
+		select * from q_question where Ques_Type=0 and Ques_isVisible = 0 and userID =  #{userId}
+	</select>
+	
+	<select id="getQuestionListByIdsAndUserId" parameterType="java.util.Map" resultMap="questionMap">
+		select * from (SELECT a.QuesID,c.Pro_ID,c.Pro_Name,b.job_ID,a.Ques_Content,a.Ques_AnswerCount,a.Ques_Ctime FROM q_question a , p_job b  ,p_profession c   WHERE 
+		 a.Ques_Type=0 and a.Ques_isVisible = 0 and a.Job_ID=b.Job_ID and b.Pro_ID=c.Pro_ID and a.QuesID in 
+		      <foreach collection="list" item="ids"  open="(" separator="," close=")">  
+                #{ids} 
+              </foreach>
+      	<if test="userId!=0">
+      	      and a.UserID= #{userId}
+      	</if>
+		 order by a.Ques_AnswerCount desc) d
+		<if test="m!=0">
+          limit #{n},#{m}
+        </if>
+	</select>
+	
+	<select id="getHotQuestionList" parameterType="java.util.Map" resultMap="questionMap">
+		SELECT a.QuesID,c.Pro_ID,c.Pro_Name,b.job_ID,a.Ques_Content,a.Ques_AnswerCount,a.Ques_AttentionCount, a.Ques_Ctime FROM q_question a , p_job b  ,p_profession c   WHERE 
+		 a.Ques_Type=0 and a.Ques_isVisible = 0 and a.Job_ID=b.Job_ID and b.Pro_ID=c.Pro_ID
+		<if test="proId!=0">
+      	        and c.Pro_ID = #{proId}
+      	</if>
+      	<if test="proId==0">
+      	        and a.UserID= #{userId}
+      	</if>
+		 order by a.Ques_AnswerCount DESC,a.Ques_Ctime DESC
+		<if test="m!=0">
+         limit #{n},#{m}
+        </if>
+	</select>
+
+	<insert id="saveQuestion" parameterType="com.gta.oec.vo.qacenter.QuestionVo" keyProperty="quesID" useGeneratedKeys="true">
+		insert into q_question(QuesID,Course_ID,Sec_ID,UserID,Job_ID,Job_GroupID,Ques_Content,Ques_Description,Ques_Status,Ques_Type,Ques_AnswerCount,Ques_AttentionCount,Ques_Label,Ques_AnswerPerson,Ques_LookLimit,Ques_AnswerLimit,Ques_Price,Ques_Ctime,Ques_Utime,Ques_pic,Ques_isVisible) 
+		values(#{quesID},#{courseID},#{secID},#{userID},#{jobID},#{jobGroupID},#{quesContent},#{quesDescription},#{quesStatus}
+		,#{quesType},#{quesAnswerCount},#{quesAttentionCount},#{quesLabel},#{quesAnswerPerson},#{quesLookLimit},#{quesAnswerLimit},#{quesPrice},#{quesCtime},#{quesUtime},#{quesPic},0)
+	</insert>
+	
+	<!-- 根据问题ID，更新关注数量 -->
+	<update id="updateAttentionQuestionCount" parameterType="int">
+		update  q_question set Ques_AttentionCount=Ques_AttentionCount+1 where QuesID=#{quesId}
+	</update>
+	<!-- 根据问题ID，删除更新关注数量 -->
+	<update id="deleteAttentionQuestionCount" parameterType="int">
+		update  q_question set Ques_AttentionCount=Ques_AttentionCount-1 where QuesID=#{quesId}
+	</update>
+	
+	
+	<!-- 根据问题ID，更新回答数量 -->
+	<update id="updateAnswerQuestionCount" parameterType="int">
+		update  q_question set Ques_AnswerCount=Ques_AnswerCount+1 where QuesID=#{quesId}
+	</update>
+	
+	<!-- 根据问题ID，更新问题说明 -->
+	<update id="updateQuestion" parameterType="java.util.Map">
+		update  q_question set Ques_Description=#{quesDescription} where QuesID=#{quesID}
+	</update>
+	
+	<!-- 更改问题回答状态 -->
+	<update id="updateQuestionStatus" parameterType="int">
+		update  q_question set Ques_Status=1 where QuesID=#{quesId}
+	</update>
+	
+	<!-- 根据回答过此问题的用户id,查询分页信息 by dongs-->
+	<select id="questionPageByAnswUserId" parameterType="java.util.Map" resultMap="questionMap">
+		select distinct q.*
+		from  q_question as q,q_answer as a 
+		where q.Ques_Type=0 and q.Ques_isVisible = 0 and  q.QuesID=a.Ques_ID and a.User_ID=#{userId}
+		order by a.Answ_Ctime desc
+		limit #{pageSize}  offset #{offset}
+	</select>
+		
+	<!-- 根据回答问题的用户id.查询记录总数  by dongs-->
+	<select id="questionCountByAnswUserId" parameterType="java.util.Map" resultType="int">
+		select count( distinct q.QuesID)
+		from  q_question as q,q_answer as a 
+		where q.Ques_Type=0 and q.Ques_isVisible = 0 and  q.QuesID=a.Ques_ID and a.User_ID=#{userId}
+	</select>
+	
+	
+	<!-- 通过问题类型(答疑,课程),未回答问题  by dongs-->
+	
+	<select id="getUnsolvedQuestionPageListByQuestionUserByquesType" parameterType="java.util.Map" resultMap="questionMap">
+	SELECT  q.*
+	FROM q_question  AS q, q_question_user AS u
+	WHERE q.QuesID=u.Ques_ID AND u.Teacher_ID=#{userId} AND u.Status=#{status} and q.Ques_isVisible = 0	 
+	<if test="quesType==0 or quesType==1">
+      	  AND q.Ques_Type=#{quesType}
+     </if>
+     ORDER BY q.Ques_Ctime DESC
+	LIMIT  #{limit}  OFFSET #{offset}
+	</select>
+
+	<!-- 通过问题类型(答疑,课程),已解答问题  by dongs-->
+	
+	<select id="getSolvedQuestionPageListByQuestionUserByquesType" parameterType="java.util.Map" resultMap="questionMap">
+	SELECT DISTINCT q.*
+	FROM q_question  AS q, q_answer AS a
+	WHERE q.QuesID=a.Ques_ID AND a.User_ID=#{userId} and q.Ques_isVisible = 0
+	<if test="quesType==0 or quesType==1">
+      	  AND q.Ques_Type=#{quesType}
+     </if>
+     ORDER BY q.Ques_Ctime DESC
+	LIMIT  #{limit}  OFFSET #{offset}
+	</select>
+
+
+	
+	<!-- 问题类型(答疑,课程),未回答,统计问题总条数  by dongs-->
+	<select id="countUnsolvedQuestionPageListByQuestionUserByquesType" parameterType="java.util.Map" resultType="int">
+	SELECT  COUNT(q.QuesID)
+	FROM q_question  AS q, q_question_user AS u
+	WHERE q.QuesID=u.Ques_ID AND u.Teacher_ID=#{userId} AND u.Status=#{status}  and q.Ques_isVisible = 0
+	<if test="quesType==0 or quesType==1">
+      	  AND q.Ques_Type=#{quesType}
+     </if>
+	</select>
+	
+	<!-- 问题类型(答疑,课程),已解答,统计问题总条数  by dongs-->
+	<select id="countSolvedQuestionPageListByQuestionUserByquesType" parameterType="java.util.Map" resultType="int">
+		SELECT COUNT(DISTINCT q.QuesID)
+	FROM q_question  AS q, q_answer AS a
+	WHERE q.QuesID=a.Ques_ID AND a.User_ID=#{userId} and q.Ques_isVisible = 0
+	<if test="quesType==0 or quesType==1">
+      	  AND q.Ques_Type=#{quesType}
+     </if>
+	</select>
+	
+	 <!-- 根据问题id集合查询问题   by zhangjin-->
+	 <select id="getQuestionListByIds" parameterType="java.util.Map" resultMap="questionMap">
+		SELECT * FROM q_question a where 
+		a.Ques_isVisible = 0 and  
+		a.QuesID in 
+      	  <foreach collection="list" item="ids"  open="(" separator="," close=")">  
+               #{ids} 
+          </foreach>
+		 order by a.Ques_Ctime desc
+		<if test="m!=0">
+         limit #{n},#{m}
+        </if>
+	</select>
+	
+	<!-- 根据用户id查询问题id的集合  by zhangjin-->
+	<select id="getQuesIdListByUserId" parameterType="java.util.Map" resultType="int">
+		SELECT QuesID FROM q_question   
+		<where>
+			<if test="userId!=0">
+				and userID = #{userId}
+			</if>
+			<if test="quesType!=-1">
+				and ques_Type = #{quesType}
+			</if>
+			and Ques_isVisible = 0 
+		</where>
+	</select>
+	
+	<select id="getQestionList" parameterType="com.gta.oec.vo.qacenter.QuestionVo" resultMap="questionMap">
+	   SELECT * FROM q_question AS q WHERE 1=1 
+	   <if test="courseID!=0">
+	     and q.Course_ID = #{courseID}
+	   </if>
+	   <if test="userID!=0">
+	     and q.UserID = #{userID}
+	   </if>
+	   <if test="secID!=0">
+	     and q.Sec_ID = #{secID}
+	   </if>
+	   and q.Ques_isVisible = 0 
+	    order by q.Ques_Ctime desc
+	</select>
+</mapper>    

@@ -1,0 +1,99 @@
+<!doctype html>
+<html>
+<head>
+<title>意见反馈-国泰安网络教育</title>
+
+<meta charset="utf-8">
+<meta name="description" content="意见反馈" />
+<meta name="Keywords" content="意见反馈" />
+
+<link href="${base}/css/general.css" rel="stylesheet" type="text/css">
+<link href="${base}/css/login/feedBack.css" rel="stylesheet" type="text/css" media="all">
+
+<script type="text/javascript" src="${base}/js/jquery-1.10.2.min.js"></script>
+<script src="${base}/js/feedback.js" type="text/javascript" ></script>
+
+
+<script type="text/javascript">
+
+var base = '${base!}';
+function refresh(obj) {
+    obj.src = "${base}/user/CheckCode/?"+Math.random();
+}
+
+function refresImg(tag){
+    $(tag).parent().find('img').click();
+}
+
+   
+function changeIntoText(obj){
+	
+	if((obj.value=="最多50字") 
+			|| (obj.value=="最多500字") 
+			|| (obj.value=="您的常用邮箱账号")
+			|| (obj.value=="请输入验证码")){
+		obj.value='';
+	}
+	obj.style.color="black";
+}
+
+</script>
+</head>
+
+<body>
+  <div class="wrapper">
+    <div class="header">
+    	<div class="headerCon">
+    	  <a href="${base}/index/?headTab=1"><div class="logo"></div></a>
+          <h2>意见反馈</h2>  
+        </div>
+    </div>
+    <div class="container-reg mt20">
+      <div class="mainCon">
+        <form action="${base}/feedback/feeSuc/" method="post" id="feeForm"  onsubmit="return formverify();">
+          <div class="form-row">
+          	<div><input type="hidden" id="hidFeeTitle"/></div>
+              <div class="label"><label>标题&nbsp;<span style="color: red">*</span></label></div>
+              <div class="input ">
+                  <input  type="text" name="textTitle"  id="feeTitle" feetag="*,feedbackTile,checkFeedbackTitle" onclick="changeIntoText(this)" value="最多50字" />            
+              </div>
+          </div>
+          <div class="form-row">
+          <div><input type="hidden" id="hidFeeContent"/></div>
+              <div class="label"><label>内容&nbsp;<span style="color: red">*</span></label></div>
+              <div class="input">
+                  <textarea name="textContent" id="feeContent" feetag="*,feedbackContent,checkFeedbackContent" onclick="changeIntoText(this)">最多500字</textarea>
+              </div>
+          </div> 	
+          <div class="form-row">
+          <div><input type="hidden" id="hidFeeEmail"/></div>
+              <div class="label"><label>邮箱&nbsp;<span style="color: red">*</span></label></div>
+              <div class="input">
+                 <input class="large" style="color:#999999" type="text" name="textEmail" value="${userEmail!'您的常用邮箱账号'}" feetag="*,email" id="emailID" onclick="changeIntoText(this)" />
+              </div>
+          </div>
+           <div class="form-row">
+              <div class="label"><label>输入验证码&nbsp;<span style="color: red">*</span></label></div>
+              <div class="input">
+              <input type="hidden" id="hdrandomCode"/>
+               <input type="text"  style="color:#999999" name="randomCode" id="randomCode" feetag="*,checkRandomCode" onclick="changeIntoText(this)" value="请输入验证码"/>&nbsp;<img style="cursor:pointer"  title="点击更换" onclick="javascript:refresh(this);" src="${base}/user/CheckCode/">
+              </div>
+          </div>
+          <div class="form-row hide">
+              <div class="label"><label>短信验证码：</label></div>
+              <div class="input">
+                  <input type="text" value="" class="small" placeholder="输入验证码">
+              </div>
+          </div>
+          <div class="form-button-bar">
+              <button class="btn-reg btn-success btn-small-reg ml20 mr20" id="feeSubmit" type="submit">提交</button>
+              <button class="btn-reg btn-success btn-small-reg ml20" id="feeReset" onclick="location.reload()">重置</button>   
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="footer">
+    </div>
+  </div>
+</body>
+</html>

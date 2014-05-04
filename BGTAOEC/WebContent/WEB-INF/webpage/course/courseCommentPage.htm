@@ -1,0 +1,37 @@
+         
+         
+          <div class="title mb10" style="border-bottom:1px solid #d7d7d7;"><h2>课程点评[#if courseCommentCount gt 0]（${courseCommentCount}）[/#if]<span class="btn btnreview fr mr20" id="btnreview" onclick="toDeliverComment(this);">我要点评</span></h2></div>
+          <div class="view" id="view" style="display:none;">
+            <div class="error_txt hide" id="courseCommentMsgDiv"><em></em><span id="courseCommentMsg">验证码错误</span></div>
+          	<form id="courseCommentId" >
+          		<input type="hidden" value="${courseId}" name="comCourseId" id="comCourseId"/>
+            	<div class="txtarea"><textarea placeholder="200字以内"  name="comContent" id="txtareac" onblur="verifyComContent(this);"></textarea></div>
+          		<div class="txtapply"><input type="button" value="取消" class="applyres" id="applyres" onclick="cancelDeliverComment();"/><input type="button" class="applybut" value="提交" onclick="deliverComment();"/> 
+          		<input type="text" class="applytxt" name="verificationCode" id="verificationCode" onblur="verifyComVerificationCode(this);"/> <i><img style="cursor:pointer" id="verifyComVerificationCodeImg" title="点击更换" onclick="javascript:refreshCode(this);" src="${base}/course/generateCommentCode/" > </i></div>
+          	</form>
+          </div>
+          <div class="review">
+          	<ul>
+			        [#if courseCommentPageModel??]  
+			      	 [#if (courseCommentPageModel.list?size>0)]
+						[#list courseCommentPageModel.list as courseComment]
+							<li>
+			                	<p>${courseComment.comContent}</p>
+			                    <div class="person"><em>${courseComment.userName!}</em><span>${courseComment.comCriTime?string('yyyy-MM-dd HH:mm:ss')}</span></div>
+			                </li>
+					 	[/#list]
+					 	[@p.tab value=courseCommentPageModel][#rt/][/@p.tab]
+					[#else]
+						此课程还没有点评信息，快速来抢占沙发吧！
+					[/#if]
+				[/#if]      	
+            </ul>
+          </div>
+          
+          
+			<script type="text/javascript">
+				function _gotoPage(pageNo){
+					var courseId = $("#comCourseId").val();
+					$('#courseCommentDiv').load(base+"/course/courseCommentPageSearch/?commentPageNo="+pageNo+"&comCourseId="+courseId+"&code="+Math.random());
+				}
+			</script>

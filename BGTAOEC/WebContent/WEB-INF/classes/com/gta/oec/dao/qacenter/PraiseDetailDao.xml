@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gta.oec.vo.qacenter.PraiseDetailVo">
+	<resultMap type="com.gta.oec.vo.qacenter.PraiseDetailVo" id="praiseDetailMap">
+
+		<result column="prai_ID" property="praiID" />
+		<result column="Answ_ID" property="answID" />
+		<result column="User_ID" property="userID" />
+		<result column="prai_Ctime" property="praiCtime" />
+		<result column="prai_Utime" property="praiUtime" />
+
+	</resultMap>
+	
+	<insert id="savePraiseDetail" parameterType="com.gta.oec.vo.qacenter.PraiseDetailVo">
+		insert into p_praisedetail(prai_ID,Answ_ID,User_ID,prai_Ctime,prai_Utime) 
+		values(#{praiID},#{answID},#{userID},#{praiCtime},#{praiUtime})
+	</insert>
+	
+	<delete id="deletePraiseDetail" parameterType="com.gta.oec.vo.qacenter.PraiseDetailVo">
+		delete from p_praisedetail where prai_ID=#{praiID}
+	</delete>
+	
+	<select id="getPraiseDetailByUserIdByAnsId" parameterType="java.util.Map" resultMap="praiseDetailMap">
+			SELECT p.* FROM p_praisedetail AS p
+			WHERE p.Answ_ID=#{answID} AND p.User_ID=#{userID};
+	</select>
+	
+	
+</mapper>    

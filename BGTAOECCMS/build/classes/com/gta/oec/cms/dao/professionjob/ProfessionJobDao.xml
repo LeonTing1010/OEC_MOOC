@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gta.oec.cms.dao.professionjob.IProfessionJobDao">
+	
+	<resultMap type="com.gta.oec.cms.vo.profession.Profession" id="professionResultMap">
+		<result column="Pro_ID" property="proID"/>
+		<result column="Pro_Name" property="proName"/>
+		<result column="Pro_Description" property="proDescription"/>
+		<result column="Pro_Recommend" property="proRecommend"/>
+		<result column="Pro_Ctime" property="proCtime"/>
+		<result column="Pro_Utime" property="proUtime"/>
+		<result column="Pro_Image" property="proImage" />
+		<result column="Pro_isVisible" property="proIsVisible" />
+	</resultMap>
+	
+	<resultMap type="com.gta.oec.cms.vo.job.Job" id="jobResultMap">
+		<result column="Job_ID" property="jobID"/>
+		<result column="Pro_ID" property="proID"/>
+		<result column="Job_Name" property="jobName"/>
+		<result column="Job_Description" property="jobDescription"/>
+		<result column="Job_PID" property="jobPID"/>
+		<result column="Job_CollectCount" property="jobCollectCount"/>
+		<result column="Job_Detail" property="jobDetail"/>
+		<result column="Job_Develpping" property="jobDevelpping"/>
+		<result column="Job_Duty" property="jobDuty"/>
+		<result column="Job_Demand" property="jobDemand"/>
+		<result column="Job_Level" property="jobLevel"/>
+		<result column="Job_Wage" property="jobWage"/>
+		<result column="Job_Ctime" property="jobCtime"/>
+		<result column="Job_Utime" property="jobUtime"/>
+		<result column="Job_Image" property="jobImage"/>
+		<result column="Job_Recommend" property="jobRecommend"/>
+		<result column="Job_isVisible" property="jobIsVisible"/>
+	</resultMap>
+	
+	<resultMap type="com.gta.oec.cms.vo.job.Job" id="jobContactResultMap" extends="jobResultMap">
+		<result column="Real_Pro_ID" property="realProID"/>
+	</resultMap>
+	
+	<select id="paginationContextPageQuery" resultType="list" resultMap="professionResultMap">
+		select * from p_profession where 1 = 1
+		<if test="parameters.proName != null">
+			AND Pro_Name like concat('%',#{parameters.proName},'%')
+		</if>
+		<if test="parameters.proDescription != null">
+			AND Pro_Description like concat('%',#{parameters.proDescription},'%')
+		</if>
+		<if test="parameters.proRecommend != null">
+			AND Pro_Recommend = #{parameters.proRecommend}
+		</if>
+		<if test="parameters.startDate != null">
+			<![CDATA[AND Pro_Ctime >= concat(#{parameters.startDate},' 00:00:00') ]]>
+		</if>
+		<if test="parameters.endDate != null">
+			<![CDATA[AND Pro_Ctime <= concat(#{parameters.endDate},' 23:59:59') ]]>
+		</if>
+		order by Pro_Ctime desc
+	</select>
+	
+	<select id="findProfessionPageQuery" resultType="list" resultMap="professionResultMap">
+		select * from p_profession
+	</select>
+	
+	<select id="countJobCourseNum" parameterType="java.util.Map" resultType="int">
+		select count(ID) from re_course_job 
+		<choose>
+			<when test="jobID!=null and jobID!=''">
+				<![CDATA[where Job_ID = #{jobID}]]>
+			</when>
+			<when test="proID!=null and proID!=''">
+				<![CDATA[where Job_ID in (select Job_ID from p_job where Pro_ID = #{proID} )]]>
+			</when>
+			<when test="jobPID!=null and jobPID!=''">
+				<![CDATA[where Job_ID in (select Job_ID from p_job where Job_PID = #{jobPID} or Job_ID = #{jobPID} )]]>
+			</when>
+			<otherwise>
+				<![CDATA[where 1=1]]>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findJob" resultType="list" resultMap="jobResultMap" parameterType="int" >
+		select * from p_job where 1 = 1
+		<if test="proId!=0">
+			 AND Pro_ID=#{proId}
+		</if>
+	</select>
+	
+	<select id="selectChildJobByJobPID" resultType="list" resultMap="jobResultMap" parameterType="int" >
+		select 	`Job_ID`, `Pro_ID`, `Job_Name`, `Job_Description`, `Job_PID`, `Job_CollectCount`, 
+		`Job_Detail`, `Job_Develpping`, `Job_Duty`, `Job_Demand`, `Job_Level`, `Job_Wage`, `Job_Ctime`, 
+		`Job_Utime`, `Job_Image`, `Job_Recommend`, `Job_isVisible` from 	`p_job` where 1 = 1
+		<if test="jobPID>-1">
+			 AND Job_PID=#{jobPID}
+		</if>
+	</select>
+	
+	<select id="findJobByJobId" resultMap="jobResultMap" parameterType="int">
+		select 	`Job_ID`, `Pro_ID`, `Job_Name`, `Job_Description`, `Job_PID`, `Job_CollectCount`, 
+		`Job_Detail`, `Job_Develpping`, `Job_Duty`, `Job_Demand`, `Job_Level`, `Job_Wage`, `Job_Ctime`, 
+		`Job_Utime`, `Job_Image`, `Job_Recommend`, `Job_isVisible` from 	`p_job` where 1 = 1
+		<if test="jobID>0">
+			 AND Job_ID=#{jobID}
+		</if>
+	</select>
+	
+	<select id="findChildJobByProId" resultType="list" resultMap="jobResultMap" parameterType="int" >
+		select pj.Job_ID AS Job_ID, concat(pj.Job_ID,pj.Pro_ID) AS Pro_ID,pj.Job_Name AS Job_Name, 
+		pj.Job_Description AS Job_Description,pj.Job_PID AS Job_PID,pj.Job_CollectCount AS Job_CollectCount,
+		pj.Job_Detail AS Job_Detail, pj.Job_Develpping AS Job_Develpping,pj.Job_Duty AS Job_Duty,
+		pj.Job_Demand AS Job_Demand,pj.Job_Level AS Job_Level,pj.Job_Wage AS Job_Wage,pj.Job_Ctime AS Job_Ctime,
+		pj.Job_Utime AS Job_Utime,pj.Job_Image AS Job_Image,pj.Job_Recommend As Job_Recommend,pj.Job_isVisible As Job_isVisible
+		from p_job pj where 1 = 1
+		<if test="proId!=0">
+			 AND pj.Pro_ID=#{proId}
+		</if>
+	</select>
+	
+	<select id="findChildJob" resultType="list" resultMap="jobContactResultMap" parameterType="int" >
+		select pj.Job_ID AS Job_ID, concat(pj.Job_ID,pj.Pro_ID) AS Pro_ID,pj.Pro_ID AS Real_Pro_ID, pj.Job_Name AS Job_Name, 
+		pj.Job_Description AS Job_Description,pj.Job_PID AS Job_PID,pj.Job_CollectCount AS Job_CollectCount,
+		pj.Job_Detail AS Job_Detail, pj.Job_Develpping AS Job_Develpping,pj.Job_Duty AS Job_Duty,
+		pj.Job_Demand AS Job_Demand,pj.Job_Level AS Job_Level,pj.Job_Wage AS Job_Wage,pj.Job_Ctime AS Job_Ctime,
+		pj.Job_Utime AS Job_Utime,pj.Job_Image AS Job_Image,pj.Job_Recommend As Job_Recommend,pj.Job_isVisible As Job_isVisible
+		from p_job pj where 1 = 1
+		<if test="proId!=-1">
+			AND pj.Pro_ID=#{proId}
+		</if>
+		<if test="jobPID!=-1">
+			AND pj.Job_PID=#{jobPID}
+		</if>
+		<if test="jobPID==-1">
+			AND pj.Job_PID is null
+		</if>
+	</select>
+	
+	<select id="findChildPrfession" resultType="list" resultMap="professionResultMap" parameterType="int">
+		select Pro_ID, Pro_Name, Pro_Description, Pro_Ctime, Pro_Utime, Pro_Recommend, Pro_Image, Pro_isVisible 
+		from p_profession job where 1 = 1
+		<if test="proId!=0">
+			 AND Pro_ID=#{proId}
+		</if>
+	</select>
+	<select id="findJobGroupListByProId" resultType="list" resultMap="jobResultMap" parameterType="_int" >
+		select *
+		from p_job
+		where Job_PID is null
+		<if test="proId!=0">
+			 AND Pro_ID= #{proId} 
+		</if>
+	</select>
+	
+	<insert id="addJob" useGeneratedKeys="true" parameterType="Job">
+		insert into p_job (`Pro_ID`, `Job_Name`, `Job_Description`, 
+			<if test="Job.jobPID > 0">
+				`Job_PID`,
+			</if>
+			 `Job_CollectCount`, 
+			`Job_Detail`, `Job_Develpping`,	`Job_Duty`,	`Job_Demand`, `Job_Level`,	`Job_Wage`, 
+			`Job_Ctime`, `Job_Utime`, `Job_Image`,	`Job_Recommend`
+		)values
+		( #{Job.proID}, #{Job.jobName}, #{Job.jobDescription}, 
+		<if test="Job.jobPID > 0">
+			#{Job.jobPID},
+		</if>
+		#{Job.jobCollectCount}, 
+		#{Job.jobDetail}, #{Job.jobDevelpping}, #{Job.jobDuty},	#{Job.jobDemand}, #{Job.jobLevel}, 
+		#{Job.jobWage}, #{Job.jobCtime}, #{Job.jobUtime}, #{Job.jobImage}, #{Job.jobRecommend}
+		)
+	</insert>
+	
+	<insert id="saveProfession" useGeneratedKeys="true" parameterType="profession">
+		insert into p_profession(Pro_Name,Pro_Description,Pro_Recommend,Pro_Ctime,Pro_Utime,Pro_Image) values
+		(#{profession.proName},#{profession.proDescription},#{profession.proRecommend},#{profession.proCtime},#{profession.proUtime},#{profession.proImage})
+	</insert>
+	
+	<update id="updateProfession" parameterType="profession">
+		update p_profession
+		<set>
+			<if test="profession.proName!=null and profession.proName!=''">
+				Pro_Name = #{profession.proName},
+			</if>
+			<if test="profession.proDescription!=null and profession.proDescription!=''">
+				Pro_Description = #{profession.proDescription},
+			</if>
+			<if test="profession.proRecommend >= 0">
+				Pro_Recommend = #{profession.proRecommend},
+			</if>
+			<if test="profession.proCtime!=null and profession.proCtime!=''">
+				Pro_Ctime = #{profession.proCtime},
+			</if>
+			<if test="profession.proUtime!=null and profession.proUtime!=''">
+				Pro_Utime = #{profession.proUtime},
+			</if>
+			<if test="profession.proImage!=null and profession.proImage!=''">
+				Pro_Image = #{profession.proImage},
+			</if>
+			<if test="profession.proIsVisible >= 0">
+				Pro_isVisible = #{profession.proIsVisible}
+			</if>
+		</set>
+		where Pro_ID= #{profession.proID} 
+	</update>
+	
+	<update id="updateJobVisibleByParameters" parameterType="java.util.Map">
+		update p_job 
+		<set>
+			<if test="jobIsVisible!=null and jobIsVisible!=''">
+				Job_isVisible = #{jobIsVisible}
+			</if>
+		</set>
+		<choose>
+			<when test="proID!=null and proID!=''">
+				<![CDATA[ where Pro_ID = #{proID} ]]>
+			</when>
+			<when test="jobPID!=null and jobPID!=''">
+				<![CDATA[ where Job_ID = #{jobPID} or Job_PID = #{jobPID} ]]>
+			</when>
+			<otherwise>
+				<![CDATA[where 1=1]]>
+			</otherwise>
+		</choose>
+	</update>
+	
+	<update id="updateJob" parameterType="Job">
+		update p_job
+		<set>
+			<if test="Job.proID > 0">
+				Pro_ID = #{Job.proID},
+			</if>
+			<if test="Job.jobName!=null and Job.jobName!=''">
+				Job_Name = #{Job.jobName},
+			</if>
+			<if test="Job.jobDescription!=null and Job.jobDescription!=''">
+				Job_Description = #{Job.jobDescription},
+			</if>
+			<if test="Job.jobPID > 0">
+				Job_PID = #{Job.jobPID},
+			</if>
+			<if test="Job.jobCollectCount > -1">
+				Job_CollectCount = #{Job.jobCollectCount},
+			</if>
+			<if test="Job.jobDetail!=null and Job.jobDetail!=''">
+				Job_Detail = #{Job.jobDetail},
+			</if>
+			<if test="Job.jobDevelpping!=null and Job.jobDevelpping!=''">
+				Job_Develpping = #{Job.jobDevelpping},
+			</if>
+			<if test="Job.jobDuty!=null and Job.jobDuty!=''">
+				Job_Duty = #{Job.jobDuty},
+			</if>
+			<if test="Job.jobDemand!=null and Job.jobDemand!=''">
+				Job_Demand = #{Job.jobDemand},
+			</if>
+			<if test="Job.jobLevel > -1">
+				Job_Level = #{Job.jobLevel},
+			</if>
+			<if test="Job.jobWage!=null and Job.jobWage!=''">
+				Job_Wage = #{Job.jobWage},
+			</if>
+			<if test="Job.jobCtime!=null and Job.jobCtime!=''">
+				Job_Ctime = #{Job.jobCtime},
+			</if>
+			<if test="Job.jobUtime!=null and Job.jobUtime!=''">
+				Job_Utime = #{Job.jobUtime},
+			</if>
+			<if test="Job.jobImage!=null and Job.jobImage!=''">
+				Job_Image = #{Job.jobImage},
+			</if>
+			<if test="Job.jobRecommend > -1">
+				Job_Recommend = #{Job.jobRecommend},
+			</if>
+			<if test="Job.jobIsVisible > -1">
+				Job_isVisible = #{Job.jobIsVisible}
+			</if>
+		</set>
+		where Job_ID= #{Job.jobID}
+	</update>
+	
+	<delete id="deleteJobByIds" parameterType="java.util.List">
+		delete from p_job WHERE Job_ID in
+		<foreach item="item" index="index" collection="jobIds"
+		      open="(" separator="," close=")">
+		        #{item}
+		  </foreach>
+	</delete>
+	
+	<delete id="deleteProfessionByProId" parameterType="int">
+		delete from p_profession where Pro_ID= #{proId} 
+	</delete>
+	
+	<delete id="deleteJobByPids" parameterType="java.util.List">
+		delete from p_job WHERE Job_PID in
+		<foreach item="item" index="index" collection="jobIds"
+	      open="(" separator="," close=")">
+	        #{item}
+	   </foreach> 
+	</delete>
+</mapper>

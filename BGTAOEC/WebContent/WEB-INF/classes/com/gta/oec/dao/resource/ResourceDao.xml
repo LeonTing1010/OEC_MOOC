@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gta.oec.vo.resource.ResourceVo">
+	<resultMap type="com.gta.oec.vo.resource.ResourceVo" id="resourceMap">
+		<result column="ReSour_ID" property="reSourceID"/>
+		<result column="Data_Url" property="dataUrl" />
+		<result column="Resourse_Name" property="resourseName" />
+		<result column="Data_Isdownload" property="dataIsdownload" />
+		<result column="Source_Type" property="sourceType" />
+		<result column="ReSour_Ctime" property="reSourCtime" />
+		<result column="ReSour_Utime" property="reSourUtime"/>    
+		<result column="Section_ID"  property="secID"/>     
+		<result column="Course_ID"   property="courseID"/>      
+		<result column="CourRe_ID"   property="courReID"/> 
+		<result column="CourRe_Ctime"   property="courReCtime"/> 
+		<result column="CourRe_Utime"   property="courReUtime"/>                            
+	</resultMap>
+
+	<!-- select -->
+		<select id="selectRescourceList" parameterType="com.gta.oec.vo.resource.ResourceVo" resultMap="resourceMap">
+			SELECT  r.* FROM r_resource r,re_course_resource rc WHERE r.resour_id = rc.ReSource_ID 
+			<if test="reSourceID !=0">
+				AND  r.ReSour_ID =#{reSourceID}
+			</if>
+			<if test="courseID>0">
+			  AND rc.Course_ID = #{courseID}
+			</if>
+			<if test="secID>0">
+			  AND rc.Section_ID = #{secID}
+			</if>
+			<if test="sourceType!=null">
+			  AND r.Source_Type = #{sourceType}
+			</if>
+		</select> 
+	<!-- select -->
+		<select id="getResourceById" parameterType="int" resultMap="resourceMap">
+			SELECT  r.* FROM r_resource r WHERE  r.ReSour_ID =#{id}
+		</select>		
+		<select id="selectReCourResourceList" parameterType="java.util.Map" resultMap="resourceMap">
+			 SELECT * FROM re_course_resource WHERE 1=1
+			 <if test="resourceVo !=null and resourceVo.reSourceID !=0">
+			 	AND ReSource_ID=#{resourceVo.reSourceID}
+			 </if>	
+			<if test="resourceVo !=null and resourceVo.courseID !=0">
+				AND Course_ID=#{resourceVo.courseID}      
+			</if>
+			<if test="resourceVo !=null and resourceVo.secID !=0">
+				AND Section_ID=#{resourceVo.secID}
+			</if>
+			<if test="id !=0">
+				AND ReSource_ID=#{id}
+			</if>
+		</select>
+		<select id="getSectionResourceCount" parameterType="map" resultType="int">
+		  SELECT COUNT(r.ReSour_ID) FROM re_course_resource AS rc,r_resource AS r WHERE rc.ReSource_ID = r.ReSour_ID AND rc.section_id=#{sectionId}
+		  <if test="sourceType!=null">
+		     AND  r.Source_Type = #{sourceType}
+		  </if>
+		</select>
+	<!-- select -->
+	<!-- insert -->
+		<insert id="insertResource" parameterType="com.gta.oec.vo.resource.ResourceVo" keyProperty="reSourceID" useGeneratedKeys="true">
+			INSERT INTO r_resource(Data_Url,Data_Isdownload,Source_Type,ReSour_Ctime,ReSour_Utime,Resourse_Name)
+			VALUES (#{dataUrl},#{dataIsdownload},#{sourceType},#{reSourCtime},#{reSourUtime},#{resourseName})
+		</insert>	
+		<insert id="insertReCourRescource" parameterType="com.gta.oec.vo.resource.ResourceVo">
+			insert into re_course_resource(CourRe_ID,ReSource_ID,Course_ID,Section_ID,CourRe_Ctime,CourRe_Utime)
+			values (#{courReID},#{reSourceID},#{courseID},#{secID},#{courReCtime},#{courReUtime})
+		</insert>
+	<!-- insert -->
+	<!-- delete -->
+		<delete id="deleteResource" parameterType="com.gta.oec.vo.resource.ResourceVo">
+			DELETE FROM r_resource WHERE ReSour_ID=#{reSourceID}
+		</delete>
+		<delete id="deleteBindCourRescourse" parameterType="com.gta.oec.vo.resource.ResourceVo">
+			DELETE FROM re_course_resource WHERE  Course_ID=#{courseID}
+			<if test="reSourceID>0">
+			and ReSource_ID=#{reSourceID}
+			</if>
+			<if test="courseID !=0 and secID==0">
+				AND Course_ID=#{courseID}
+				AND Section_ID=0 
+				OR Section_ID IS NULL
+			</if>
+			<if test="secID !=0">
+				AND Section_ID=#{secID}
+			</if>
+		</delete>
+	<!-- delete -->
+</mapper>    

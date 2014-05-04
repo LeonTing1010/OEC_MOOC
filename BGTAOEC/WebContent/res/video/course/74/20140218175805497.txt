@@ -1,0 +1,104 @@
+/**
+   * 
+   * 功能描述：教师中心
+   *
+   * @author  bingzhong.qin
+   * <p>创建日期 ：2014-1-15 上午11:30:22</p>
+   *
+   * @param request
+   * @param response
+   * @return
+   *
+   * <p>修改历史 ：(修改人，修改时间，修改原因/内容)</p>
+ * @throws LoginException 
+   */
+  @RequestMapping("/teacherCenter/index/")
+  public String teacherCenterIndex(HttpServletRequest request,HttpServletResponse response,ModelMap modelMap) throws LoginException{
+	String tab = RequestUtils.getQueryParam(request, "tab");
+	SiteUtils.checkTeacher(request);
+	if (!StrUtils.isNum(tab)) {
+		tab = "12";
+	}
+	modelMap.put("tab",tab);
+	return "teacenter/main.htm";
+  }
+  
+  /**
+   * 
+   * 功能描述: 跳转教师个人中心页
+   *
+   * @author  biyun.huang
+   * <p>创建日期 ：2014年2月11日 上午11:02:35</p>
+   *
+   * @param request
+   * @param response
+   * @param modelMap
+   * @return
+   *
+   * <p>修改历史 ：(修改人，修改时间，修改原因/内容)</p>
+ * @throws LoginException 
+   */
+  @RequestMapping("/teacherCenter/teacenterIndex/")
+  public String teacenterIndex(HttpServletRequest request,HttpServletResponse response,ModelMap modelMap) throws LoginException{
+	  UserVo userVo=SiteUtils.checkTeacher(request);
+	  CourseVo courseVo=new CourseVo();
+	  CourseVo courseVo2=new CourseVo();
+	  ExamVo examVo=new ExamVo();
+	  ExamStudentVo examStudentVo=new ExamStudentVo();
+	  List<ExamVo> optionList=new ArrayList<ExamVo>();  //作业列表
+	  List<ExamVo> examList=new ArrayList<ExamVo>();   //考试列表
+	  int count=0;    //记录数
+	  courseVo.setUserId(userVo.getUserId());  
+	  courseVo.setStatus(2);  //课程为已发布课程
+	  
+	  //作业批阅模块
+	  examVo.setExamType(3);    //设置考试类型为作业
+	  examVo.setPaperState("2"); //设置批阅状态为未批阅
+	  try {
+		  optionList=examService.getCourExamList(examVo, courseVo, 0, 4);  //只查询前4条
+		  for(ExamVo exam:optionList){
+			  examStudentVo.setExamId(exam.getExamId());
+			  examStudentVo.setPaperState("2");  //未批阅作业
+			  count=examService.getTakeExamCount(examStudentVo);   //得到该作业的未批阅数
+			  exam.setNoCorrect(count);    //设置该作业的未批阅数
+			  
+			  examStudentVo.setPaperState("1");  //已批阅作业
+			  count=examService.getTakeExamCount(examStudentVo);   //得到该作业的已批阅数
+			  exam.setHasCorrect(count);   //设置该作业的已批阅数
+			  
+			  courseVo2.setCourseId(exam.getCourId());
+			  count=courseService.getCourStudyCount(courseVo2);   //得到学习该作业课程的人数
+			  exam.setLearnCount(count);
+		  }
+	  } catch (BaseException e) {
+		e.printStackTrace();
+	  }
+	  
+	  //考试批阅模块
+	  examVo.setExamType(1);   //设置考试类型为考试
+	  examVo.setPaperState("2");//设置批阅状态为未批阅
+	  try {
+		  examList=examService.getCourExamList(examVo, courseVo, 0, 4);  //只查询前4条
+		  for(ExamVo exam:examList){
+			  examStudentVo.setExamId(exam.getExamId());
+			  examStudentVo.setPaperState("2");  //未批阅考试
+			  count=examService.getTakeExamCount(examStudentVo);   //得到该考试的未批阅数
+			  exam.setNoCorrect(count);    //设置该考试的未批阅数
+			  
+			  examStudentVo.setPaperState("1");  //已批阅考试
+			  count=examService.getTakeExamCount(examStudentVo);   //得到该考试的已批阅数
+			  exam.setHasCorrect(count);   //设置该考试的已批阅数	 
+			  
+			  courseVo2.setCourseId(exam.getCourId());
+			  count=courseService.getCourStudyCount(courseVo2);   //得到学习该考试课程的人数
+			  exam.setLearnCount(count);
+		  }
+	  } catch (BaseException e) {
+		e.printStackTrace();
+	  }
+	  
+	  
+	  modelMap.put("optionList", optionList);
+	  modelMap.put("examList", examList);
+	  return "teacenter/index/teacherindex.htm";
+  }

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gta.oec.vo.teacher.TeacherShineVo">
+	<resultMap type="com.gta.oec.vo.teacher.TeacherShineVo" id="teacherShineMap">
+		<result column="id" property="id" />
+		<result column="userid" property="userid" />
+		<result column="proid" property="proid" />
+		<result column="jobid" property="jobid" />	
+		<result column="remark" property="remark" />	
+		<result column="Job_Name" property="jobName" />	
+		<result column="Pro_Name" property="professionName" />	
+	</resultMap>
+	<!-- 根据用户id查询教师擅长信息 -->
+	<select id="getTeacherShineList" parameterType="int" resultMap="teacherShineMap">
+		select s.*,j.Job_Name,p.Pro_Name
+		from  u_teacher_shine as s  left  join p_job as j on j.Job_ID =s.jobid left outer join p_profession as p on p.Pro_ID=s.proid
+		where userid =#{userid} 
+	</select>
+		<!-- 根据用户id删除教师擅长信息 -->
+	<delete id="deleteTeacherShineById" parameterType="int">
+		delete from u_teacher_shine where userid = #{userid} 
+	</delete>
+			<!-- 根据用户id删除教师擅长信息 -->
+	<insert id="saveTeacherShine" parameterType="com.gta.oec.vo.teacher.TeacherShineVo">
+		insert into u_teacher_shine(userid,proid,jobid)
+		values(#{userid},#{proid},#{jobid})
+	</insert>
+</mapper>    

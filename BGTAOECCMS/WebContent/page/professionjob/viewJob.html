@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<div style="padding:20px;">
+<div class="ftitle">岗位信息</div>
+<form id="addSaveOrUpdateJobForm" method="post" novalidate>
+	<input type="hidden" name="jobID_op" value="<#if Job.jobID??><#if Job.jobID != 0>${Job.jobID}</#if></#if>"/><!-- 岗位ID -->
+	<input type="hidden" name="proID_op" value="<#if Job.proID??><#if Job.proID != 0>${Job.proID}</#if></#if>"/><!-- 行业ID -->
+	<input type="hidden" name="jobPID_op" value="<#if Job.jobPID??><#if Job.jobPID != 0>${Job.jobPID}</#if></#if>"/><!-- 父岗位ID -->
+	<input type="hidden" name="jobImage_op" value="<#if Job.jobImage??>${Job.jobImage}</#if>"/><!-- 岗位图片 -->
+	<input type="hidden" name="jobCtime_op" value="<#if Job.jobCtime??>${Job.jobCtime?string('yyyy-MM-dd HH:mm:ss')}</#if>"/><!-- 创建时间 -->
+	<input type="hidden" name="jobUtime_op" value="<#if Job.jobUtime??>${Job.jobUtime?string('yyyy-MM-dd HH:mm:ss')}</#if>"/><!-- 修改时间 -->
+	<input type="hidden" name="modifyFlag" value="<#if Job.jobID?? && Job.jobID != 0>true<#else>false</#if>"/><!-- 修改时间 -->
+    <div class="fitem" >
+        <label>岗位名称:</label>
+        <#if Job.jobName?? && Job.jobID != 0>${Job.jobName}</#if>
+    </div>
+    <div class="fitem">
+        <label>岗位推荐:</label>
+		<#if Job.jobRecommend?? && Job.jobID != 0 && Job.jobRecommend==1>推荐</#if>
+		<#if Job.jobRecommend?? && Job.jobID != 0 && Job.jobRecommend==0>不推荐</#if>
+    </div>
+     <div class="fitem">
+        <label>岗位图片:</label>
+		<#if Job.jobImage?? && Job.jobID != 0>
+			<img  src="${resourcesWebSite!}${Job.jobImage!}" height='70' width='80' />
+		</#if>
+    </div>
+    <div class="fitem">
+        <label>岗位收藏数:</label>
+        <#if Job.jobCollectCount?? && Job.jobID != 0 && Job.jobCollectCount != 0>${Job.jobCollectCount}</#if>
+    </div>
+    <div class="fitem" >
+        <label>薪资行情:</label>
+        <#if Job.jobWage?? && Job.jobID != 0>${Job.jobWage}</#if>
+    </div>
+    <!-- <div class="fitem" >
+        <label>岗位级别:</label>
+        <#if Job.jobLevel?? && Job.jobID != 0 && Job.jobLevel != 0>${Job.jobLevel}</#if>
+    </div> -->
+    <div class="fitem">
+        <label>岗位详情:</label>
+        <#if Job.jobDetail?? && Job.jobID != 0>${Job.jobDetail}</#if>
+    </div>
+   <!--  <div class="fitem">
+        <label>岗位发展方向:</label>
+        <#if Job.jobDevelpping?? && Job.jobID != 0>${Job.jobDevelpping}</#if>
+    </div> -->
+    
+    <div class="fitem">
+        <label>岗位发展前景:</label>
+        <#if Job.jobDevelpping?? && Job.jobID != 0>
+         <img  src="${resourcesWebSite!}${Job.jobDevelpping!}" height='70' width='80' />
+        </#if>
+    </div>
+    <div class="fitem">
+        <label>岗位介绍:</label>
+        <#if Job.jobDescription?? && Job.jobID != 0>${Job.jobDescription}</#if>
+    </div>
+    <div class="fitem">
+        <label>岗位职责:</label>
+        <#if Job.jobDuty?? && Job.jobID != 0>${Job.jobDuty}</#if>
+    </div>
+    <div class="fitem">
+        <label>岗位需求:</label>
+        <#if Job.jobDemand?? && Job.jobID != 0>${Job.jobDemand}</#if>
+    </div>
+</form>
+</div>
+</body>
+</html>

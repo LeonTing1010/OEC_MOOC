@@ -1,0 +1,166 @@
+<link href="${base}/css/jquery-ui.min.css" rel="stylesheet"	type="text/css">
+<script type="text/javascript" src="${base}/js/jquery-ui.min.js"></script>
+<!--[if lt IE 9]><script src="${base}/js/plugins/html5shiv.js"></script><![endif]--> 
+<script type="text/javascript" src="${base}/js/jquery.featureList.js"></script>
+<style>
+	.ui-autocomplete {
+		max-height: 200px;
+		max-width: 290px;
+		overflow-y: auto;
+		/* prevent horizontal scrollbar */
+		overflow-x: auto;
+	}
+	/* IE 6 doesn't support max-height
+	 * we use height instead, but this forces the menu to always be this tall
+	 */
+	* html .ui-autocomplete {
+		height: 200px;
+	}
+</style>
+<script type="text/javascript">
+	$(function($) {
+		var cache = {};
+		$("#searchtext").autocomplete({
+			minLength :1,
+			autoFocus: true,
+			source :function(request, response) {
+				var term = request.term;
+				if (term in cache) {
+					response(cache[term]);
+					return;
+				}
+
+				 $.getJSON(base+"/questionCenter/searchQues/autocomplete.ajax", request, function(data, status, xhr) {
+					cache[term] = data.arrString;
+					response(data.arrString);
+				});
+			},
+			 select: function(event,ui) {
+				 $("#searchtext").val(ui.item.value);
+				 //$(".search_button").click();
+				 $("#searchform").submit();
+				 
+			      }
+			
+		});
+
+		$(".searchButton").click(function(){
+			//$(".search_button").click();
+			$("#searchform").submit();
+		})
+	});
+</script>
+<script>
+jQuery.fn.anchorGoWhere = function(options){
+    var obj = jQuery(this);
+    var defaults = {target:0, timer:1000};
+    var o = jQuery.extend(defaults,options);
+    obj.each(function(i){
+        jQuery(obj[i]).click(function(){
+            var _rel = jQuery(this).attr("href").substr(1);
+            switch(o.target){
+                case 1: 
+                    var _targetTop = jQuery("#"+_rel).offset().top;
+                    jQuery("html,body").animate({scrollTop:_targetTop},o.timer);
+                    break;
+                case 2:
+                    var _targetLeft = jQuery("#"+_rel).offset().left;
+                    jQuery("html,body").animate({scrollLeft:_targetLeft},o.timer);
+                    break;
+            }
+            return false;
+        });  
+		                
+    });
+	
+};
+$(document).ready(function(){
+	var IO=document.getElementById('quick-sideNav'),Y=IO,H=0,IE6,L=0;
+		 IE6=window.ActiveXObject&&!window.XMLHttpRequest;
+		 while(Y){H+=Y.offsetTop;L+=Y.offsetLeft;Y=Y.offsetParent};
+		 if(IE6){
+         	IO.style.cssText="position:absolute;top:expression(this.fix?(document"+".documentElement.scrollTop-(this.javascript||"+H+")):0)";
+		 }
+		 window.onscroll=function (){
+			 var d=document,s=Math.max(d.documentElement.scrollTop,document.body.scrollTop);
+			 if(s>H&&IO.fix||s<=H&&!IO.fix)return;
+			 if(!IE6){IO.style.position=IO.fix?"":"fixed"; IO.style.left = IO.fix?"":L+"px";  }   
+			 IO.fix=!IO.fix;
+    	 };
+		 try{document.execCommand("BackgroundImageCache",false,true)}catch(e){};
+		
+	$(".backtop").anchorGoWhere({target:1});	  	 
+	});
+</script>
+<div class="headBar">[#include "/webpage/common/top.htm"/]</div>
+<div class="header">
+	<div class="content clearfix">
+		<div class="logo">
+			<a href="${base}/index/?headTab=1"><h1></h1></a>
+		</div>
+		[#if Session["_user"]??] [#if Session["_user"].userType !=2]
+		<div class="askButton">
+			<a href="javascript:void(0);" onclick="createLogin('${base}/questionCenter/createQuestion/?headTab=10');">我要提问</a>
+		</div>
+		[/#if] [#else]
+		<div class="askButton">
+			<a href="javascript:void(0);" onclick="createLogin('${base}/questionCenter/createQuestion/?headTab=10');">我要提问</a>
+		</div>
+		[/#if]
+		<div class="search">
+			<form id="searchform" action="${base}/questionCenter/search/"
+				method="POST">
+				<div class="search-input">
+					<input type="text" id="searchtext" name="searchtext" placeholder="请输入问题关键字" value="${(searchVo.searchtext)!''}">
+				<span class="searchButton"></span>
+				</div>
+				<button class="search_button" style="visibility: hidden;"></button>
+			</form>
+		</div>
+	</div>
+</div>
+<div class="nav green">
+	<div class="content">
+		<ul>
+			<li [#if headTab== '6']class="current"[/#if]><a
+				href="${base}/questionCenter/?headTab=6">答疑中心首页</a></li>
+			<li [#if headTab== '7']class="current"[/#if]><a
+				href="${base}/qacenter/qsort/?headTab=7">分类</a></li>
+			<li [#if headTab== '8']class="current"[/#if]><a
+				href="${base}/qacenter/teacherlist/?headTab=8">名师解疑</a></li>
+			<!--<li [#if headTab=='9']class="current"[/#if]><a href="${base}/questionCenter/faq/?headTab=9">FAQ</a></li>-->
+			<!--<li [#if headTab=='10']class="current"[/#if]><a href="${base}/questionCenter/createQuestion/?headTab=10">提问入口(暂时)</a></li>-->
+		</ul>
+		<div class="quick-sideNav" >
+          <dl class="quick-sideNav-con" id="quick-sideNav">
+            <dd class="personalCenter"><a  href="javascript:void(0);" onclick="createLogin('${base}/studentCenter/index/?tab=4');"><div>个人中心</div></a></dd>
+            <dd class="myCourses"><a href="javascript:void(0);" onclick="createLogin('${base}/course/myCourse/');"><div>我的课程</div></a></dd>
+            <dd class="myQuestions"><a href="javascript:void(0);" onclick="createLogin('${base}/studentCenter/index/?tab=10');"><div>我的问题</div></a></dd>
+            <dd class="top"><a href="#backtop" class="backtop"><div>返回顶部</div></a></dd>
+          </dl>
+        </div>
+	</div>
+</div>
+<script src="${base}/js/plugins/jquery.placeholder.gta.js" type="text/javascript" ></script>
+  <script src="${base}/js/plugins/eoc-util.js" type="text/javascript" ></script>
+  <script type="text/javascript">
+  //文本框文字兼容
+  eoc.util.resizePlaceholder = function(){
+    	var $layerPhaceholderGta = $("div#layerPhaceholderGta");
+    	var style = $layerPhaceholderGta.attr("style");
+    	style += ";PADDING-TOP:12px;";
+    	$layerPhaceholderGta.attr("style",style);
+    };
+    
+    eoc.util.applyPlaceholder();
+    if(!(eoc.util.supportAttributeInInput('placeholder') && eoc.util.isNOTIELT11)){
+    	   eoc.util.resizePlaceholder();
+    }
+
+    function createLogin(url){
+    	oec.login.isLogin(function(){
+    		window.location.href = url;
+    		
+    	});
+    }
+</script>

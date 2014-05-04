@@ -1,0 +1,117 @@
+@charset "utf-8";
+/* CSS Document */
+.curSide{
+	width:290px;
+}
+.myClass-list{
+	width:700px;
+	background:#fff;
+	}
+.curSideBox{
+	margin-bottom:10px;
+	background:#fff;
+}
+.curTitle{
+	font-size:18px;
+	border-bottom:1px solid #d7d7d7;
+	height:40px;
+	padding:0 0 0 10px;
+	line-height:40px;
+	font-weight:normal;
+}
+
+.subjectList{
+	margin:0 10px ;
+	padding:12px 0 20px 0; 
+	overflow:hidden;
+	zoom:1;
+	border-bottom:1px dotted #999;
+}
+.subjectList.last{
+	border:none;
+}
+.subjectList dt{
+	font-size:15px;
+	color:#555;
+	padding-bottom:8px;
+	min-
+}
+.modCon{
+	margin:0 0 0 15px;
+	float:left;
+	width:130px;
+}
+.modCon li{
+	line-height:20px;
+	font-size:12px;
+	color:#999;
+}
+.myClass-list .title{
+	
+	height:40px;
+	line-height:40px;
+	font-size:18px;
+	font-weight:normal;
+	border-bottom:1px solid #d7d7d7;
+	padding:0 0 0 10px;
+	}
+.myClass-con li{
+	margin:10px;
+	padding:0 0 10px 0;
+	border-bottom:#d7d7d7 1px dashed;
+	}
+.myClass-con li img{
+	float:left;
+	margin-right:15px;}
+.myClass-con .schoolName{
+	float:left;
+	width:330px;
+	color:#999;
+	}
+.myClass-con h3{
+	float:left;
+	height:40px;
+	width:330px;
+	line-height:40px;
+	color:#555;}
+.myClass-con .time{
+	float:left;
+	width:330px;
+	margin:26px 0 0 0;
+	height:12px;
+	border:1px solid #390;
+	position:relative;
+	}
+.myClass-con .time .begin{
+	position:absolute;
+	top:-26px;
+	line-height:20px;
+	color:#999;
+	left:0px;
+	}
+.myClass-con .time .end{
+	position:absolute;
+	top:-26px;
+	line-height:20px;
+	color:#999;
+	right:0px;
+	}
+.myClass-con .time .progress{
+	height:12px;
+	background:#A4C94B
+	}
+.myClass-con .button{
+	float:left;
+	width:330px;
+	height:30px;
+	line-height:30px;
+	margin:10px 0 0 0;}
+.btn-gray{
+	background:#eee;
+	border: 1px #ccc solid;
+	color:#999;
+	}
+.btn-gray:hover {
+	background: #eee;
+	color:#999;
+}

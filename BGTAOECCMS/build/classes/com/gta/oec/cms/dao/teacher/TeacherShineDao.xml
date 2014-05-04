@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gta.oec.cms.dao.teacher.TeacherShineDao">
+	<resultMap type="com.gta.oec.cms.vo.teacher.TeacherShineVo" id="resultMap">
+		<result column="id" property="id"/>
+		<result column="userid" property="userid"/>
+		<result column="proid" property="proid"/>
+ 		<result column="jobid" property="jobid"/>
+ 		<result column="remark" property="remark"/>
+	</resultMap>
+		<insert id="insertTeacherShine"  parameterType="teacherShineVo">
+				insert into u_teacher_shine(userid,proid,jobid)
+				values(
+							#{teacherShineVo.userid},
+							#{teacherShineVo.proid},
+							#{teacherShineVo.jobid}
+				)
+	
+	</insert>
+	
+	<delete id="delTeacherShine" parameterType="user">
+		delete   from u_teacher_shine   where userid=#{user.userId}
+	</delete>
+	
+</mapper>

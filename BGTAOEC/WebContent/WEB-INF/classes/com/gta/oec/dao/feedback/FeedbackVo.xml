@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gta.oec.vo.feedback.FeedbackVo">
+	<resultMap type="com.gta.oec.vo.feedback.FeedbackVo" id="feedbackMap">
+		<result column="Feedback_ID" property="feeId"/>
+		<result column="Feedback_Title" property="feeTitle"/>
+		<result column="Feedback_Content" property="feeContent" />
+		<result column="Feedback_Email" property="feeEmail" />
+		<result column="Feedback_Ctime" property="feeCtime"/>
+		<result column="Feedback_Source" property="feeSource"/>
+	</resultMap>
+	
+	<insert id="insertFeedback" parameterType="com.gta.oec.vo.feedback.FeedbackVo" keyProperty="Feedback_ID" useGeneratedKeys="true" >
+		 insert into f_feedback(Feedback_Title,Feedback_Content,Feedback_Email,Feedback_Ctime,Feedback_Source) values (#{feeTitle},#{feeContent},#{feeEmail},#{feeCtime},#{feeSource})
+	</insert>	
+	
+</mapper>    

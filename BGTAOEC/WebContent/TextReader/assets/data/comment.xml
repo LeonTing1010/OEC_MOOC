@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root id="AD1D6015-AFEA-BE00-45EA-97BD4030A4C4" bookId="0" courseId="0">
+  <page id="C348F8FC-F87A-CE3B-5BD4-6DDC608E9923" paintId="AD1D6015-AFEA-BE00-45EA-97BD4030A4C4" index="4" userId="swallow">
+    <link id="C8F41A65-B90D-D017-5B76-1D60D59A2E7B" x="558.5" y="384.5" pageId="C348F8FC-F87A-CE3B-5BD4-6DDC608E9923" pageIndex="4" url="www.google.com" text="google" type="0" remark="" userId="swallow"/>
+    <link id="51D345B8-9022-D646-9364-84B7887A37B7" x="469.85" y="713" pageId="C348F8FC-F87A-CE3B-5BD4-6DDC608E9923" pageIndex="4" url="" text="问题" type="1" remark="" userId="swallow"/>
+  </page>
+  <page id="7C7B5F85-FC87-B4E9-85EB-6D3A2A337C51" paintId="AD1D6015-AFEA-BE00-45EA-97BD4030A4C4" index="0" userId="swallow">
+    <link id="564CF685-6AE5-BFA7-0B0B-7BFC33FEB6FD" x="422" y="494.6" pageId="7C7B5F85-FC87-B4E9-85EB-6D3A2A337C51" pageIndex="0" url="" text="问题" type="1" remark="" userId="swallow"/>
+  </page>
+  <page id="AF03E378-9E56-0EDB-DA87-C1740D53BCF3" paintId="AD1D6015-AFEA-BE00-45EA-97BD4030A4C4" index="1">
+    <link id="B848FF98-F302-2AFA-3A66-ACCECEEECE17" x="335" y="237.55" pageId="AF03E378-9E56-0EDB-DA87-C1740D53BCF3" pageIndex="1" url="" text="问题" type="1" remark=""/>
+    <link id="F846B5CA-D2D0-7200-D890-438E62EE1E22" x="164.95" y="160.8" pageId="AF03E378-9E56-0EDB-DA87-C1740D53BCF3" pageIndex="1" url="www.baidu.com" text="百度" type="0" remark=""/>
+  </page>
+</root>

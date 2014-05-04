@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gta.oec.vo.exam.ExamStudentVo">
+	<resultMap type="com.gta.oec.vo.exam.ExamStudentVo" id="examStudentMap">
+		<result column="ID" property="id"/>
+		<result column="Exam_ID" property="examId" />
+		<result column="Student_ID" property="studentId" />
+		<result column="Exam_Time" property="examTime" />
+		<result column="Exam_Etime" property="examEtime"/>
+		<result column="Exam_Score"  property="examScore"/>
+		<result column="Exam_Ctime" property="examCtime" />
+		<result column="Exam_Utime" property="examUtime"/>
+		<result column="Exam_State" property="examState"/>
+		
+		<result column="Cour_Credit" property="courCredit"/>
+		<result column="Exam_Score" property="examScore"/>
+		<result column="Cour_Name" property="courName"/>
+		<result column="Cour_ID" property="courId"/>
+		<result column="Exam_Etime" property="examEtime"/>
+		<result column="user_name" property="studentName"/>
+		
+       <association property="examVo" column="Exam_ID" javaType="ExamVo"> 
+        <id column="Exam_ID" property="examId"/> 
+        <result column="Exam_Name" property="examName"/> 
+       </association> 
+	</resultMap>
+	
+	    <!-- 插入学生考试  by zhangjin -->
+	    <insert id="insert" parameterType="com.gta.oec.vo.exam.ExamStudentVo" keyProperty="id" useGeneratedKeys="true">
+          INSERT INTO e_exam_student(Exam_ID,Student_ID, Exam_Time, Exam_Etime, Exam_Score, Exam_Ctime, Exam_Utime, Exam_State)
+	            VALUES ( #{examId}, #{studentId}, #{examTime}, #{examEtime} , #{examScore} , #{examCtime} ,#{examUtime},#{examState});
+	    </insert>
+
+	    <!-- 根据考试id集合查询对应的考试学生集合  by zhangjin-->
+		<select id="getExamStudentListByExamIds" parameterType="java.util.Map" resultMap="examStudentMap">
+			SELECT es.ID,es.Exam_ID,es.Student_ID,es.Exam_Time,es.Exam_Time,es.Exam_Etime,es.Exam_Score,es.Exam_State,es.Exam_Ctime,es.Exam_Utime,e.Exam_Name
+			FROM e_exam_student es left join e_exam e on e.Exam_ID = es.Exam_ID WHERE es.Student_ID = #{userId} and es.exam_ID in
+			  <foreach collection="examIds" item="ids"  open="(" separator="," close=")">  
+                #{ids} 
+              </foreach>
+		</select> 
+		
+		<!-- 根据考试id学生id查询学生考试对象  by zhangjin-->
+		<select id="getExamStudentByExamIdAndStuId" parameterType="java.util.Map" resultMap="examStudentMap">
+			SELECT * FROM e_exam_student WHERE student_ID = #{userId} and exam_ID = #{examId}
+		</select> 
+		
+		<!-- 根据学生id和考试类型查询记录数  by zhangjin -->
+		<select id="getExamStudentListCount" parameterType="java.util.Map"  resultType="int">
+			SELECT COUNT(*)  FROM e_exam e, e_exam_student s WHERE e.Exam_ID = s.Exam_ID AND e.Exam_Type = #{examType} AND s.Student_ID = #{studentId}
+		</select> 
+		
+		<!-- 查询参加某门考试的记录数 by huangbiyun -->
+		<select id="selectExamCount" parameterType="com.gta.oec.vo.exam.ExamStudentVo" resultType="int">
+			SELECT  COUNT(*)
+			FROM e_exam_student es ,e_exam e
+			where es.Exam_ID=e.Exam_ID
+			<if test="examId!=0">
+				AND es.Exam_ID=#{examId}
+			</if>
+			<if test="examState!=0">
+				AND es.exam_state=#{examState}
+			</if>
+		</select>
+		
+		<!-- 根据用户id查询所学课程考试信息  by zhangjin-->
+	    <select id="getCourExamInfoList" parameterType="java.util.Map" resultMap="examStudentMap">
+			SELECT es.*,c.cour_name,c.cour_Id,c.Cour_Credit,e.exam_Id  
+			FROM c_course c, e_exam e,e_exam_student es  
+			WHERE c.cour_id=e.cour_id AND e.Exam_ID = es.Exam_ID 
+			<if test="userId!=0">
+				AND es.Student_ID =#{userId} 
+			</if>
+			<if test="examType!=0">
+				and e.Exam_Type=#{examType}
+			</if>
+			 <if test="m!=0">
+	         limit #{n},#{m}
+	        </if>
+	    </select>
+	    
+	    <!-- 根据考试Id查询学生考试集合 by huangbiyun(分页显示)-->
+	   	<select id="selectStuExamListByExamId" parameterType="java.util.Map" resultMap="examStudentMap">
+	   		SELECT e.*,u.user_name
+			FROM e_exam_student e ,u_user u
+			WHERE e.student_id=u.user_id AND e.exam_id=#{examId} 
+			<if test="examState!=0">
+				AND e.exam_state=#{examState}
+			</if>
+			ORDER BY e.exam_Etime
+			<if test="m!=0">
+				limit #{n},#{m}
+			</if>
+	   	</select>
+	   
+	   <!-- 查询学生考试记录数  by huangbiyun -->
+	   <select id="selectStuExamCount" parameterType="com.gta.oec.vo.exam.ExamStudentVo" resultType="int">
+	   		SELECT COUNT(*)
+			FROM e_exam_student e ,u_user u
+			WHERE e.student_id=u.user_id
+				<if test="examId!=0">
+					AND e.exam_id=#{examId}
+				</if>
+				<if test="examState!=0">
+					AND e.Exam_State=#{examState}
+				</if>
+	   </select>
+	   
+	   <!-- 更新学生考试得分和状态 -->
+	   <update id="updateScoreAndState" parameterType="java.util.Map">	
+	   		UPDATE e_exam_student 
+	   		<set>
+	   			<if test="examState!=0">
+	   				exam_state=#{examState},exam_score=#{examScore}
+	   			</if>
+	   			<if test="examState==0">
+	   				exam_score=#{examScore}
+	   			</if>
+	   		</set>
+			WHERE id=#{examStuId}
+	   </update>
+</mapper>    

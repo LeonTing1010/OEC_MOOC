@@ -1,0 +1,37 @@
+  <script src="${base}/js/teachercenter/step4.js" type="text/javascript"></script>
+ <link href="${base}/css/teacherCenter/upload.css" rel="stylesheet" type="text/css"></link>
+        <div class="topBox">
+          <div class="menuBtn" style="cursor:auto"></div>
+          <div class="crumbs">你所在的位置：<span>创建课程</span></div>
+        </div>
+        <input type="hidden" name="courseId" id="courseId" value="${courseId!}"/>
+        <div class="main" >
+        <div class="student-title"><h3>创建课程</h3></div>
+<div class="form-hd">
+			<ul class="bwizard-steps" style="display: block;">
+				<li class="step1"><a data-toggle="tab" href="javascript:void(0)" style="cursor: default">第一步:填写课程信息</a></li>
+				<li class="step2"><a data-toggle="tab" href="javascript:void(0)" style="cursor: default">第二步：创建课程大纲</a></li>
+				<li class="step3"><a data-toggle="tab" href="javascript:void(0)" style="cursor: default">第三步：上传课件资源</a></li>
+				<li class="step4 active"><a data-toggle="tab" href="javascript:void(0)" style="cursor: default">第四步：发布课程</a></li>
+			</ul>
+</div>
+<div class="form-body pad20" id="fourthGrid">
+	<div class="form-row">
+		<div class="label">
+			<label>发布课程：</label>
+		</div>
+		<div class="input">
+			<input type="radio" checked="checked" class="mr10" name="type"><span
+				class="text mr10">公开发布</span><!-- <input  type="radio" class="mr10"
+				name="type"> <span class="text ">仅对校内发布</span> -->				
+		</div>
+	</div>
+	<div class="form-button-bar">
+		<button class="btn btn-default btn-small secondStep" type="button" onclick="step4Prev()">上一步</button>
+		<button class="btn btn-primary btn-small secondStep" type="button" onclick="updateStatus('1')">暂不发布</button>
+		<button class="btn btn-success btn-small secondStep" type="button" onclick="updateStatus('1')">提交审核</button>
+		<!--<span class="validation"><i class="error-icon"></i><span class="error">错误信息</span></span>-->
+	</div>
+</div>
+      </div>
+        <div class="clear"></div>

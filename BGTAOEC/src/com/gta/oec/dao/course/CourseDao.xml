@@ -1,0 +1,558 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gta.oec.vo.course.CourseVo">
+	<resultMap type="com.gta.oec.vo.course.CourseVo" id="courseMap">
+		<result column="Cour_ID" property="courseId" />
+		<result column="Cour_Name" property="courseName" />
+		<result column="User_ID" property="userId" />
+		<result column="User_Name" property="teacherName" />
+		<result column="School_ID" property="schoolID"/>
+		<result column="Sch_Name"  property="schoolName"/>
+		<result column="Cour_Stime" property="courStartTime"/>
+		<result column="Cour_Etime" property="courEndTime"/>
+		<result column="Cour_Week" property="courWeek"/>
+		<result column="Cour_Num" property="courseNum" />
+		<result column="Cour_Introduction" property="introduction" />
+		<result column="Cour_Tag" property="tag" />
+		<result column="Cour_Title_Page" property="titlePage" />
+		<result column="Cour_IsPublic" property="isPublic" />
+		<result column="Cour_PreviewUrl" property="previewUrl" />
+		<result column="Cour_Password" property="password" />
+		<result column="Cour_LiveType" property="liveType" />
+		<result column="Cour_Class" property="courseClass" />
+		<result column="Cour_Credit" property="credit" />
+		<result column="Cour_BuyCount" property="buyCount" />
+		<result column="Cour_Attention" property="attention" />
+		<result column="Cour_Price" property="price" />
+		<result column="Cour_Ctime" property="cTime" />
+		<result column="Cour_Utime" property="uTime" />
+		<result column="Cour_ScoreMethod" property="scoreMethod"/>   
+	    <result column="Cour_CheckStatus" property="status"/>
+	    <result column="Progress" property="progress"/>  
+	     <result column="Job_Name" property="jobName"/>   
+	     <result column="Job_ID" property="jobId"/>
+	     <result column="Collect_ID" property="collectId"/>       
+	     <!-- 课程被浏览次数 -->                                         
+	     <result column="Course_Course_Attention" property="courseAttention"/>                                                
+	</resultMap>
+
+	<!-- select -->
+	<select id="getCourseById" parameterType="int" resultMap="courseMap">
+		SELECT c.*,U.USER_NAME,s.Sch_Name FROM c_course AS c,U_USER AS U,s_school AS s 
+		WHERE C.USER_ID = U.USER_ID AND c.School_ID=s.sch_id AND c.Cour_ID = #{id} 
+	</select>
+	<select id="getCourseList"  parameterType="com.gta.oec.vo.course.CourseVo" resultMap="courseMap">
+		SELECT * FROM c_course  where 1=1
+		<if test="courseName != null">
+			AND Cour_Name = #{courseName}
+		</if>
+		<if test="courseId !=0">
+			AND Cour_ID=#{courseId}
+		</if>
+		<if test="userId !=0">
+			AND User_ID=#{userId}
+		</if>
+		<if test="status!=0">
+			AND Cour_CheckStatus=#{status}
+		</if>
+	</select>
+	<!-- 查询某门课程学习人数 -->
+	<select id="selectCourStudyCount" parameterType="com.gta.oec.vo.course.CourseVo" resultType="int">
+		SELECT COUNT(*)
+		FROM u_user_course u,c_course c
+		WHERE u.Cour_id=c.cour_id 
+		<if test="courseId!=0">
+			 AND u.Cour_id=#{courseId}
+		</if>
+	</select>
+	<!-- 查询用户课程信息 -->
+	<select id="selectUserCourList" parameterType="com.gta.oec.vo.course.CourseVo" resultMap="courseMap">	
+		SELECT c.*,s.Sch_Name,uu.progress  
+		FROM c_course c,s_school s ,u_user_course uu
+		WHERE  c.School_ID=s.Sch_ID AND c.Cour_ID=uu.Cour_ID 
+		<if test="userId !=0">
+			AND uu.User_ID=#{userId}
+		</if>
+		<if test="liveType!=0">
+			AND c.Cour_LiveType= #{liveType}
+		</if>	
+		<if test="status!=0">
+			AND C.Cour_CheckStatus=#{status}
+		</if>
+		ORDER BY Cour_LiveType ,c.Cour_Ctime DESC
+	</select>
+	<!-- 课程信息分页 start  -->
+ 	<select id="selectCourseList" parameterType="java.util.Map" resultMap="courseMap">   	
+		SELECT C.*,U.USER_NAME,s.Sch_Name
+		FROM  c_course AS C ,U_USER AS U , s_school S
+		WHERE C.School_ID = S.Sch_ID AND  C.USER_ID = U.USER_ID
+		<if test="coursevo.userId!=0">
+		  	and  c.User_ID = #{coursevo.userId}
+		</if>
+		<if test="coursevo.liveType!=0">
+			and  c.Cour_LiveType= #{coursevo.liveType}
+		</if>
+		<if test="coursevo.status!=0">
+			and C.Cour_CheckStatus=#{coursevo.status}
+		</if>
+		ORDER BY C.Cour_Stime DESC
+        <if test="m!=0">
+         limit #{n},#{m}
+        </if>
+	</select>
+	<select id="selectCourseListCount" parameterType="com.gta.oec.vo.course.CourseVo" resultType="int">   	
+		SELECT COUNT(*)
+		FROM  c_course AS C ,U_USER AS U , s_school S
+		WHERE C.School_ID = S.Sch_ID AND  C.USER_ID = U.USER_ID
+		<if test="userId!=0">
+		  	and  c.User_ID = #{userId}
+		</if>
+		<if test="liveType!=0">
+			and c.Cour_LiveType= #{liveType}
+		</if>	
+		<if test="status!=0">
+			and c.Cour_CheckStatus=#{status}
+		</if>
+	</select>	
+	<!-- 课程信息分页end  -->
+	
+	<!-- 查询课程信息分页，和用户考试相关  by huangbiyun-->
+	<select id="selectExamCourList" parameterType="java.util.Map" resultMap="courseMap">
+		SELECT C.*
+		FROM c_course AS C ,U_USER AS U
+		WHERE C.USER_ID = U.USER_ID
+		<if test="coursevo.userId!=0">
+			AND c.User_ID = #{coursevo.userId}
+		</if>
+		<if test="coursevo.status!=0">
+			AND C.Cour_CheckStatus=#{coursevo.status}
+		</if>
+		<if test="examType==2">
+			AND c.cour_id IN (SELECT DISTINCT e.cour_id FROM e_exam e
+			WHERE teacher_id=#{coursevo.userId}
+			<if test="examType!=0">
+				AND Exam_Type=#{examType})
+			</if>
+		</if>
+		<if test="examType!=2">
+			AND c.cour_id IN (SELECT DISTINCT e.cour_id FROM e_exam
+			e,e_exam_student es
+			WHERE e.Exam_ID=es.Exam_ID AND teacher_id=#{coursevo.userId}
+			<if test="examType!=0">
+				AND Exam_Type=#{examType}
+			</if>
+			<if test="examStatus!=0">
+				AND es.Exam_State=#{examState})
+			</if>
+		</if>
+		ORDER BY C.Cour_Stime DESC
+		<if test="m!=0">
+			limit #{n},#{m}
+		</if>
+	</select>
+	<!-- 查询课程信息分页，和用户考试相关 课程数量  by huangbiyun-->
+	<select id="selectExamCourCount" parameterType="java.util.Map" resultType="int">
+		SELECT count(*)
+		FROM  c_course AS C ,U_USER AS U 
+		WHERE C.USER_ID = U.USER_ID
+		<if test="coursevo.userId!=0">
+		  	AND  c.User_ID = #{coursevo.userId}
+		</if>
+		<if test="coursevo.status!=0">
+			AND C.Cour_CheckStatus=#{coursevo.status}
+		</if>		
+		<if test="examType==2">
+			AND c.cour_id IN (SELECT DISTINCT e.cour_id FROM e_exam e
+			WHERE teacher_id=#{coursevo.userId}
+			<if test="examType!=0">
+				AND Exam_Type=#{examType})
+			</if>
+		</if>
+		<if test="examType!=2">
+			AND c.cour_id IN (SELECT DISTINCT e.cour_id FROM e_exam
+			e,e_exam_student es
+			WHERE e.Exam_ID=es.Exam_ID AND teacher_id=#{coursevo.userId}
+			<if test="examType!=0">
+				AND Exam_Type=#{examType}
+			</if>
+			<if test="examStatus!=0">
+				AND es.Exam_State=#{examState})
+			</if>
+		</if>
+	</select>
+	
+	
+	<!-- 课程搜索 start   by 刘祚家  -->
+ 	<select id="getSearchCourseList" parameterType="java.util.Map" resultMap="courseMap">   	
+		SELECT c.cour_id,C.*,U.USER_NAME,s.Sch_Name
+		FROM  c_course AS C ,U_USER AS U , s_school S
+		WHERE C.School_ID = S.Sch_ID AND  C.USER_ID = U.USER_ID
+		and c.Cour_CheckStatus=2
+		and c.Cour_Name like CONCAT('%',#{search},'%')
+		
+		ORDER BY C.Cour_Stime DESC
+        <if test="m!=0">
+         limit #{n},#{m}
+        </if>
+	</select>
+	
+	<select id="getSearchCourseListCount" parameterType="com.gta.oec.vo.common.SearchVo" resultType="int">   	
+		SELECT COUNT(*)
+		FROM  c_course AS C ,U_USER AS U , s_school S
+		WHERE C.School_ID = S.Sch_ID AND  C.USER_ID = U.USER_ID
+		and c.Cour_CheckStatus=2
+		and c.Cour_Name like CONCAT('%',#{searchtext},'%')
+		
+		ORDER BY C.Cour_Stime DESC
+	</select>	
+	
+	<!-- 课程搜索-加载更多 start   by 刘祚家  -->
+	<select id="getCourseListByProId" parameterType="java.util.Map" resultMap="courseMap">
+		SELECT C.*,U.USER_NAME,s.Sch_Name
+		FROM c_course AS C ,U_USER AS U ,s_school S,re_course_job r,p_job b
+		WHERE C.School_ID = S.Sch_ID AND C.USER_ID = U.USER_ID
+		and C.Cour_CheckStatus=2
+		and r.Job_ID =b.Job_ID
+		AND c.Cour_ID = r.Course_ID
+		AND b.Pro_ID=#{proId}
+		and c.Cour_Name like CONCAT('%',#{search},'%')
+		
+		ORDER BY C.Cour_Stime DESC
+		<if test="m!=0">
+			limit #{n},#{m}
+		</if>
+	</select>
+	
+	<select id="getCourseListByProIdCount" parameterType="java.util.Map" resultType="int">   	
+		SELECT COUNT(*)
+		FROM c_course AS C ,U_USER AS U ,s_school S,re_course_job r,p_job b
+		WHERE C.School_ID = S.Sch_ID AND C.USER_ID = U.USER_ID
+		and C.Cour_CheckStatus=2
+		and r.Job_ID =b.Job_ID
+		AND c.Cour_ID = r.Course_ID
+		AND b.Pro_ID=#{proId}
+		and c.Cour_Name like CONCAT('%',#{search},'%')
+		
+		ORDER BY C.Cour_Stime DESC
+	</select>	
+	
+	
+
+	<!-- 根据岗位ID查询关联的相关课程-分页 start -->
+	<select id="selectCourseListByJob" parameterType="java.util.Map" resultMap="courseMap">
+		SELECT c.*,U.USER_NAME,s.Sch_Name
+		FROM c_course AS C ,U_USER AS U ,s_school S,re_course_job r
+		WHERE C.School_ID = S.Sch_ID AND C.USER_ID = U.USER_ID AND c.Cour_ID = r.Course_ID
+		<if test="jobID!=null and jobID!=0">
+			AND r.job_id=#{jobID}
+		</if>
+		<if test="coursevo!=null and coursevo.courseId!=0">
+			AND c.Cour_ID =#{coursevo.courseId}
+		</if>
+		<if test="coursevo!=null and coursevo.status!=0">
+			AND c.Cour_CheckStatus =#{coursevo.status}
+		</if>
+		ORDER BY C.Cour_Stime DESC
+		<if test="m!=0">
+			limit #{n},#{m}
+		</if>
+	</select>
+	<select id="getCourseListCountByJob" parameterType="java.util.Map" resultType="int">
+		SELECT count(*)
+		FROM c_course AS C ,U_USER AS U ,s_school S,re_course_job r
+		WHERE C.School_ID = S.Sch_ID AND C.USER_ID = U.USER_ID AND c.Cour_ID = r.Course_ID
+		<if test="jobID!=null and jobID!=0">
+			AND r.job_id=#{jobID}
+		</if>
+		<if test="coursevo!=null and coursevo.courseId!=0">
+			AND c.Cour_ID =#{coursevo.courseId}
+		</if>
+		<if test="coursevo!=null and coursevo.status!=0">
+			AND c.Cour_CheckStatus =#{coursevo.status}
+		</if>
+		ORDER BY C.Cour_Stime DESC
+	</select>
+	
+	
+	<!-- 根据岗位ID查询关联的相关课程-分页 end -->
+	
+	
+	
+
+	<select id="getCollect" parameterType="java.util.Map" resultMap="courseMap">
+		SELECT c.cour_id,c.user_id,p.job_name,c.cour_name,p.job_id
+		 FROM p_job p,c_course c,re_course_job cj ,u_user u 
+		 WHERE p.job_id = cj.job_id AND c.cour_id = cj.course_id AND u.User_ID = c.User_ID 
+		 AND p.job_pid IS NOT NULL  AND c.Cour_CheckStatus=2  	
+		 <if test="jobId!=0">
+		  	AND p.job_id = #{jobId}
+		 </if>
+		<if test="m!=0">
+			limit #{n},#{m}
+		</if>
+	</select>
+	
+	<select id="getCourseCount" parameterType="java.util.Map" resultType="int">
+		SELECT COUNT(*) 
+		 FROM p_job p,c_course c,re_course_job cj ,u_user u 
+		 WHERE p.job_id = cj.job_id AND c.cour_id = cj.course_id AND u.User_ID = c.User_ID  
+		 AND p.job_pid IS NOT NULL AND p.job_id IN   	
+		  <foreach collection="list" item="ids"  open="(" separator="," close=")">  
+               #{ids}  
+          </foreach>
+	</select>
+	
+	<select id="getCourseCollect" parameterType="java.util.Map" resultMap="courseMap">
+		SELECT u.User_Name,c.*,s.Sch_Name,uc.Progress FROM m_my_collect mc 
+		LEFT JOIN c_course c ON c.cour_id = mc.ref_id  
+		LEFT JOIN u_user u ON c.user_id = u.user_id 
+		LEFT JOIN u_user_course uc ON uc.cour_id = c.cour_id AND uc.User_ID =  u.user_id 
+		LEFT JOIN s_school s ON s.sch_id = c.school_id  where c.cour_id!=0  
+	  	<if test="userId!=0">
+	  		AND mc.user_id = ${userId}
+	  	</if>
+	  	<if test="collType!=0">
+	  		AND mc.collect_type = ${collType}
+	  	</if>
+	  	<if test="m!=0">
+          	limit #{n},#{m}
+        </if>
+	</select>
+	
+	<select id="getCourseInfoCount" parameterType="java.util.Map" resultType="int">
+		SELECT  COUNT(*) FROM u_user u 
+	  	LEFT JOIN m_my_collect mc ON u.user_id = mc.User_ID 
+	   	LEFT JOIN c_course c ON c.cour_id = mc.ref_id 
+	   	LEFT JOIN u_user_course uc ON uc.cour_id = c.cour_id AND uc.User_ID =  u.user_id 
+	   	LEFT JOIN s_school s ON s.sch_id = c.school_id where c.cour_id!=0  
+	  	<if test="userId!=0">
+	  		and u.user_id = ${userId}
+	  	</if>
+	  	<if test="collType!=0">
+	  		and mc.collect_type = ${collType}
+	  	</if>
+	</select>
+	<select id="getTradeCourse" parameterType="java.util.Map" resultMap="courseMap">
+	  SELECT DISTINCT c.* FROM re_course_job AS re ,c_course AS c ,p_job AS p
+      WHERE c.Cour_ID = re.Course_ID AND p.Job_ID = re.Job_ID 
+      <if test="courseState>0">
+        AND c.Cour_CheckStatus = #{courseState} 
+      </if>
+       <if test="isIndexPush>0">
+        AND re.isIndex = #{isIndexPush}
+      </if>
+      <if test="tradeId>0">
+        AND  p.Pro_ID=#{tradeId}
+      </if>
+       order by c.cour_ctime DESC
+      <if test="m!=0">
+         limit #{n},#{m}
+        </if>
+	</select>
+	<!-- insert -->
+	<insert id="insert" parameterType="com.gta.oec.vo.course.CourseVo" keyProperty="courseId" useGeneratedKeys="true">
+		insert into
+		c_course(Cour_Name,Cour_Num,Cour_Introduction,Cour_Tag,Cour_Title_Page,Cour_IsPublic,Cour_Password,Cour_LiveType,Cour_Class,Cour_Credit,
+		Cour_BuyCount,Cour_Attention,Cour_Price,Cour_Ctime,Cour_Utime,Cour_PreviewUrl,User_ID,Cour_ScoreMethod,School_ID,Cour_Stime,Cour_CheckStatus) values
+		(#{courseName},#{courseNum},#{introduction},#{tag},#{titlePage},#{isPublic},#{password},#{liveType},#{courseClass},#{credit},#{buyCount},#{attention},
+		 #{price}, #{cTime}, #{uTime},#{previewUrl},#{userId},#{scoreMethod},#{schoolID},#{courStartTime},#{status})
+	</insert>
+	
+	<insert id="courCollect" parameterType="java.util.Map" keyProperty="collectId" useGeneratedKeys="true">
+		insert into m_my_collect(Ref_ID,Collect_Type,User_ID) values
+		(#{courseId},#{collType},#{userId})
+	</insert>
+	<!-- update -->
+	<update id="update" parameterType="com.gta.oec.vo.course.CourseVo" >
+	 update c_course as c
+  	 <set>
+	   <if test="courseName!=null and courseName!=''">
+	      c.Cour_Name = #{courseName},
+	   </if>
+	   <if test="previewUrl!=null and previewUrl!=''">
+	      c.Cour_PreviewUrl = #{previewUrl},
+	   </if>
+	   <if test="liveType!=0">
+	     c.Cour_LiveType = #{liveType},
+	   </if>
+	   <if test="titlePage!=null and titlePage!=''">
+	     c.Cour_Title_Page = #{titlePage},
+	   </if>
+	   <if test="isPublic!=null and isPublic!=''">
+	     c.Cour_IsPublic = #{isPublic},
+	   </if>
+	   <if test="introduction!=null and introduction!=''">
+	     c.Cour_Introduction = #{introduction},
+	   </if>
+	   <if test="scoreMethod!=null and scoreMethod!=''">
+	     c.Cour_ScoreMethod = #{scoreMethod},
+	   </if>
+	   <if test="schoolID!=0">
+	      c.School_ID = #{schoolID},
+	   </if>
+	   <if test="credit!=0">
+	      c.Cour_Credit = #{credit},
+	   </if>
+	   <if test="price>=0">
+	      c.Cour_Price = #{price},
+	   </if>   
+	   <if test="uTime!=null and uTime!=''">
+	      c.Cour_Utime = #{uTime},
+	   </if>
+	   <if test="status!=0">
+	     c.Cour_CheckStatus = #{status},
+	   </if>
+	   <if test="courWeek!=0">
+	     c.Cour_Week = #{courWeek},
+	   </if>
+	 </set>
+	 where c.Cour_ID = #{courseId}
+	</update>
+
+	<!-- 更新课时 -->
+	<update id="updateCourseWeek" parameterType="int">
+	 update c_course as c set c.Cour_Week = (SELECT COUNT(*) FROM c_course_detail AS cc WHERE cc.Cour_ID = #{id} AND cc.Sec_PID != #{id}) where Cour_ID = #{id}
+	</update>
+
+	
+	<delete id="delcourInfo" parameterType="java.util.Map">
+		DELETE FROM u_user_course WHERE cour_id = #{courseId}
+	</delete>
+	
+	<delete id="delUserCourInfo" parameterType="java.util.Map">
+		DELETE FROM c_course WHERE cour_id = #{courseId}
+	</delete>
+	
+	<select id="checkCourCollect" parameterType="java.util.Map" resultType="int">
+		SELECT COUNT(*) FROM m_my_collect 
+		<where>
+			<if test="courseId!=0">
+				ref_id = #{courseId} 
+			</if>
+			<if test="collType!=0">
+				and collect_type = #{collType} 
+			</if>
+			<if test="userId!=0">
+				and user_id = #{userId}
+			</if>
+		</where>
+	</select>
+	
+	
+	<select id="getCourseListByKeyword" parameterType="java.util.Map" resultMap="courseMap">
+		select c.*
+		from  c_course as c
+		WHERE c.Cour_Name like CONCAT('%',#{search},'%') and c.Cour_CheckStatus=2
+		ORDER BY c.Cour_Ctime DESC
+		LIMIT #{limit}
+	</select>
+	<select id="getCourseListByUserId" parameterType="java.util.Map" resultMap="courseMap">
+	    SELECT c.*
+		FROM  c_course AS c 
+		WHERE  c.User_ID = #{userId} and c.Cour_CheckStatus =2
+		ORDER BY c.Cour_Stime DESC
+		LIMIT #{limit} OFFSET #{offset}
+	</select>
+	<select id="countCourseListByUserId" parameterType="int" resultType="int">
+	    SELECT count(*)
+		FROM  c_course AS c 
+		WHERE  c.User_ID = #{userId} and c.Cour_CheckStatus =2
+	</select>
+	
+	<!-- 根据学习人数查询出前5条推荐课程信息 -->
+	<select id="countCourseRecommend" resultMap="courseMap">
+		select * from (select c.cour_id,u.user_id,c.cour_name,c.Cour_Attention,u.user_name,c.Cour_stime,c.Cour_Title_Page,count(uc.user_id) rs
+ 		from  u_user_course uc left join c_course c on c.cour_id = uc.cour_id
+ 		left join u_user u on u.user_id = c.user_id group by uc.cour_id ) table2 order by rs desc limit 5
+	</select>
+	
+	<!-- 课程信息，根据行业id查询课程信息 -->
+	<select id="getCourseInfoByPro" parameterType="java.util.Map" resultMap="courseMap">
+		SELECT c.*,U.USER_NAME,s.Sch_Name
+		FROM c_course AS C ,U_USER AS U ,s_school S,re_course_job r
+		WHERE C.School_ID = S.Sch_ID AND C.USER_ID = U.USER_ID
+		<if test="proId!=null and proId!=0">
+			AND c.Cour_ID = r.Course_ID
+			AND r.pro_id=#{proId}
+		</if>
+		ORDER BY C.Cour_Stime DESC
+		<if test="m!=0">
+			limit #{n},#{m}
+		</if>
+	</select>
+	
+	<!-- 根据岗位群id获得课程信息 -分页   start -->
+	<select id="getCourseListByJobGroupId" parameterType="java.util.Map" resultMap="courseMap">
+		SELECT DISTINCT c.*,U.USER_NAME,s.Sch_Name
+		FROM c_course AS C ,U_USER AS U ,s_school S,re_course_job r
+		WHERE C.School_ID = S.Sch_ID AND C.USER_ID = U.USER_ID
+		AND c.Cour_ID = r.Course_ID AND r.job_id in(SELECT pjob.job_id FROM p_job pjob , p_profession pro WHERE pjob.Pro_ID =
+		pro.Pro_ID AND (pjob.job_pid IS NOT NULL or pjob.job_pid=0)
+		<if test="jobPid!=null and jobPid!=0">
+			AND pjob.job_pid = #{jobPid}
+		</if>
+		)
+		<if test="coursevo!=null">
+			AND  C.Cour_CheckStatus=#{coursevo.status}
+		</if>
+		<if test="m!=0">
+			limit #{n},#{m}
+		</if>
+	</select>
+	<select id="getCourseListCountByJobGroupId" parameterType="java.util.Map" resultType="int">
+		SELECT count(DISTINCT c.cour_id)
+		FROM c_course AS C ,U_USER AS U ,s_school S,re_course_job r
+		WHERE C.School_ID = S.Sch_ID AND C.USER_ID = U.USER_ID
+		AND c.Cour_ID = r.Course_ID AND r.job_id in(SELECT pjob.job_id FROM p_job pjob , p_profession pro WHERE pjob.Pro_ID =
+		pro.Pro_ID AND (pjob.job_pid IS NOT NULL or pjob.job_pid=0)
+		<if test="jobPid!=null and jobPid!=0">
+			AND pjob.job_pid = #{jobPid}
+		</if>
+		)
+		<if test="coursevo!=null">
+			AND  C.Cour_CheckStatus=#{coursevo.status}
+		</if>
+	</select>
+	<!-- 根据岗位群id获得课程信息 -分页   end -->
+	
+	
+	
+	<!-- 课程列表页：根据行业ID查询课程 -分页 start -->
+	<select id="queryCourseListByProId" parameterType="java.util.Map" resultMap="courseMap">
+		SELECT DISTINCT c.*,U.USER_NAME,s.Sch_Name
+		FROM c_course AS C ,U_USER AS U ,s_school S,re_course_job r
+		WHERE C.School_ID = S.Sch_ID AND C.USER_ID = U.USER_ID
+		AND c.Cour_ID = r.Course_ID 
+		AND r.job_id in(select p.job_id from p_job p 
+						where p.job_pid is not null AND  p.pro_id=#{proId}) 
+		<if test="courseVo!=null">
+			AND  C.Cour_CheckStatus=#{courseVo.status}
+		</if>
+		<if test="m!=0">
+			limit #{n},#{m}
+		</if>
+	</select>
+    <select id="queryCourseListCountByProId" parameterType="java.util.Map" resultType="int">
+		SELECT  COUNT(DISTINCT c.cour_id)
+		FROM c_course AS C ,U_USER AS U ,s_school S,re_course_job r
+		WHERE C.School_ID = S.Sch_ID AND C.USER_ID = U.USER_ID
+		AND c.Cour_ID = r.Course_ID 
+		AND r.job_id IN(SELECT p.job_id FROM p_job p 
+						WHERE p.job_pid is not null AND p.pro_id=#{proId}) 
+		<if test="courseVo!=null">
+			AND  C.Cour_CheckStatus=#{courseVo.status}
+		</if>
+	</select>
+	<!-- 课程列表页：根据行业ID查询课程 -分页 end -->
+	
+	<!-- 课程被浏览时   更改课程浏览次数 -->
+	<update id="updateByBrowseTimes" parameterType="com.gta.oec.vo.course.CourseVo" >
+	 update c_course as c
+  	 <set>
+	   <if test="courseAttention !=null and courseAttention !=0 ">
+	      c.Course_Course_Attention = #{courseAttention}
+	   </if>
+	 </set>
+	 where c.Cour_ID = #{courId}
+	</update>
+</mapper>    

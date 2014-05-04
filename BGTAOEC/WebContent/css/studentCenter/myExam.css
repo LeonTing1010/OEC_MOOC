@@ -1,0 +1,113 @@
+@charset "utf-8";
+/* CSS Document */
+.main{padding:24px 20px 10px;}
+.student-title{
+	height:40px;
+	line-height:40px;
+	font-size:18px;
+	border-bottom:2px solid #6e8ed1;
+	position:relative;
+}
+.student-title h3{
+	position:absolute;
+	display:inline;
+	border-bottom:2px solid #33518f;
+	bottom:-2px;
+	font-weight:normal;
+	height:40px;
+	line-height:40px;
+}
+
+.collection-body{padding:15px 0 0 0;}
+.newsCon{
+	background:#fff;
+	border:1px solid #e3e4e5;
+	padding:16px 0 20px ;
+}
+
+.examTitle{
+	background:url(../../images/studentCenter/post-course-dt-bg.png) left center no-repeat;
+	height:28px;
+	line-height:28px;
+	color:#4a4a4a;
+	padding-left:26px;
+	margin-top:10px;
+}
+.examTopic{
+	color:#595757;
+	margin:0 22px 0 30px;
+	border-bottom:1px dotted #e5e5e5;
+	padding:0 0 15px 0;
+}
+.examTopic dt{
+	margin:10px 0;
+	font-weight:bold;
+}
+.examTopic dt span{
+	font-size:12px;
+}
+.examTopic dd{
+	font-size:12px;
+	position:relative;
+}
+.examTopic dd li{
+	height:22px;
+	line-height:22px;
+}
+.examTopic dd li label{
+	padding-left:5px;
+}	
+.score{
+	position:absolute;
+	padding-left:26px;
+	line-height:22px;
+	left:572px;
+	bottom:10px;
+	
+}
+.answer span{
+	color:#fc802d;
+	font-weight:bold;
+}
+.error{background:url(../../images/studentCenter/error.png) left center no-repeat;}
+.orderly{background:url(../../images/studentCenter/orderly.png) left center no-repeat;}
+.subject{color:#6e8ed1;}
+.qaCon{
+	width:482px;
+	padding-left:10px;
+	line-height:22px;
+}
+.qaCon p{
+	padding:0;
+	margin:10px 0;
+}
+.view{
+	height:28px;
+	line-height:28px;
+	background:#6e8ed1;
+	color:#fff;
+	font-size:12px;
+	border-radius:3px;
+	text-align:center;
+	padding:0 10px;
+	display:inline-block;
+}
+.tip{
+	padding:10px 15px;
+	border:1px solid #f9dac9;
+	color:#fc802d;
+	background:#fef8f4;
+	text-indent:2em;	
+	border-radius:3px;
+	position:relative;
+}
+.tipTop{
+	width:14px;
+	height:7px;	
+	position:absolute;
+	background:url(../../images/studentCenter/tip-bg.png) no-repeat;
+	top:-7px;
+	left:35px;
+	z-index:99;
+}
+	

@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<!-- <script type="text/javascript">
+$("#addSaveOrUpdateProfessionForm").find("input[id=proName]").validatebox({
+    required: true,    
+  	validType:['proNameLengthValiate[20]','nameCheck']
+  	
+});
+
+$.extend($.fn.validatebox.defaults.rules, {
+	proNameLengthValiate:{
+		validator: function (value, param) {
+			   var len = 0;
+			    for (var i = 0; i < value.length; i++) {
+			        if (value[i].match(/[^\x00-\xff]/ig) != null) //全角
+			            len += 2;
+			        else
+			            len += 1;
+			    };
+			   
+			    return len<=param[0];
+		},
+	   message: ' 请输入的值在1-{0}个字节之间(一个中文字占2个字节)'
+	},
+	nameCheck:{
+		validator:function(value,param){
+			   return /^[\Α-\￥]+$/i.test(value)|/^\w+[\w\s]+\w+$/i.test(value); 
+		},
+		message:'请输入行业名称，可以是中文或英文'
+	}
+});
+</script>  -->
+<div style="padding:20px;">
+<div class="ftitle">行业信息</div>
+<form id="addSaveOrUpdateProfessionForm" method="post" novalidate>
+	<input type="hidden" name="proID" /><!-- 行业ID -->
+	<input type="hidden" name="proImage" /><!-- 行业图片 -->
+	<input type="hidden" name="proRecommend" value="0"/><!-- 行业图片 -->
+    <div class="fitem" >
+        <label>行业名称:</label>
+        <input name="proName" id="proName" class="easyui-validatebox" required="true"  data-options="validType:'length[1,10]'"/>
+        <!-- <input name="proName" id="proName" class="easyui-validatebox" required="true" data-options="required:true,validType:['proNameLengthValiate[20]','nameCheck']" /> -->
+    </div>
+    <!-- <div class="fitem">
+        <label>热门行业推荐:</label>
+        <input class="easyui-combobox" type="text" id="proRecommend_AddCombox" name="proRecommend" width="200px;" required="true" />
+        <script type="text/javascript">
+	        var _options = {
+	        	id : 'proRecommend_AddCombox',
+	        	onLoadSuccess : function (data) {
+	    			if (data) {
+	    				$('#proRecommend_AddCombox').combobox('setValue',data[2].value);
+	    			}
+	    		}
+	        }
+	        eoc.cms.professionJob.initProCommentCommboxFuncOption(_options);
+        </script>
+    </div> -->
+    <!-- <div class="fitem">
+        <label>行业描述:</label>
+        <textarea rows="5" cols="30" name="proDescription" class="easyui-validatebox" required="true" maxlength="255"></textarea>
+    </div> -->
+</form>
+</div>
+ 
+</body>
+</html>

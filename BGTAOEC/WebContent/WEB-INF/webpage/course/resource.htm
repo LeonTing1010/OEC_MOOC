@@ -1,0 +1,7 @@
+[#if resList?exists && resList?size !=0]
+	[#list resList as list]
+		${list.dataUrl!}<br/>
+	[/#list]
+[#else]
+	没有资源
+[/#if]

@@ -1,0 +1,334 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>发布问题-国泰安网络教育</title>
+<meta name="description" content="插入网站全局描述变量" />
+<meta name="Keywords" content="插入网站全局关键字变量" />
+[#include "/webpage/common/common.htm"/]
+
+<link href="${base}/css/answerCenter/createQuestion.css" rel="stylesheet" type="text/css">
+
+<link href="${base}/kindeditor/themes/default/default.css" rel="stylesheet" type="text/css" />
+<link href="${base}/kindeditor/plugins/code/prettify.css" rel="stylesheet" type="text/css" />
+<link href="${base}/css/jquery-ui.min.css" rel="stylesheet"	type="text/css">
+<script type="text/javascript" src="${base}/js/jquery-ui.min.js"></script>
+<script type="text/javascript" src="${base}/kindeditor/kindeditor.js"></script>
+<script type="text/javascript" src="${base}/kindeditor/lang/zh_CN.js"></script>
+<script type="text/javascript" src="${base}/kindeditor/plugins/code/prettify.js"></script>
+
+<style>  
+    .ke-icon-myimage {  
+     background-image: url(${base}/kindeditor/themes/default/default.png);  
+     background-position: 0px -672px;  
+     width: 16px;  
+     height: 16px;  
+    }  
+	
+</style>  
+
+<script type="text/javascript" charset="UTF-8"><!--
+
+	$(document).ready(function(){
+	$(".addPic .button").click(function(){
+		$(".fileupload").removeClass("hide");
+		});
+	$(".close").click(function(){
+		$(".fileupload").addClass("hide");
+		});
+	$("#secondList").change(function(){
+		$(".recommendTeacher").removeClass("hide")
+		$(".searchInput").removeClass("hide")
+		$(".selected").removeClass("hide")
+		});
+	$("#searchTeacher-input").keydown(function(){
+		$(".search-list").removeClass("hide");
+		})
+	$("#searchTeacher-input").focusout(function(){
+		$(".search-list").addClass("hide");
+		});
+	});
+
+		
+	//统计文本域内容字符数
+	var ad_count = 0;    //描述长度
+	
+	//kindeditor加载配置
+	KindEditor.ready(function(K) {
+		var editor = K.create('#quesDescription', {
+			themeType : 'simple',
+       		width : '692px',
+			height : '300px',
+			resizeType:0,
+			cssPath : '${base}/kindeditor/plugins/code/prettify.css',
+			uploadJson : '${base}/kindeditor/jsp/upload_json.jsp',
+			fileManagerJson : '${base}/kindeditor/jsp/file_manager_json.jsp',
+			allowFileManager : true,
+			afterCreate : function() {
+				this.sync();
+				ad_count = this.count('text');
+			},
+			afterBlur : function() {
+				this.sync();
+				ad_count = this.count('text');
+			},
+			afterChange : function() {
+				this.sync();
+				ad_count = this.count('text');
+			},
+			//'fontname', 'fontsize', '|', 'bold', 'italic', 'underline','|', 'emoticons', 
+			items : ['bold', 'italic', 'underline','image']
+		});
+		prettyPrint();
+		
+	});
+		
+	$(function() {
+		
+		var cache = {};
+		$("#searchTeacher-input").autocomplete({
+			minLength :1,
+			autoFocus: true,
+			source :function(request, response) {
+				var term = request.term;
+				if (term in cache) {
+					response(cache[term]);
+					return;
+				}
+
+				 $.getJSON(base+"/questionCenter/searchTeacher/autocomplete.ajax", request, function(data, status, xhr) {
+					cache[term] = data.arrString;
+					response(data.arrString);
+				});
+			},
+			 select: function(event,ui) {
+
+					var choicedDiv=document.getElementById("choicedTeacher");
+					var str="<span id=\""+ui.item.id+"-X\">"+ui.item.value+"<i class=\"closeX\" onclick=\"deleteChoiceTeacherX(\'"+ui.item.id+"-X\')\">X</i><input type=\"hidden\" name=\"teacherIdList\" value=\""+ui.item.id+"\"/></span>";
+					var allstr=choicedDiv.innerHTML;
+					var str2=ui.item.id+"-X";
+					
+					if(allstr.indexOf(str2) <= 0 ){//不存在
+						choicedDiv.innerHTML=choicedDiv.innerHTML+str;
+					}
+			      }
+			
+		});
+    }); 
+		
+	
+	function createSecondList(Id){
+		$.ajax({
+			url:base+"/questionCenter/createQuestion/getJobData.ajax",
+			data:{"proID":Id},
+		    success:function(data){
+		    	if(data.jobGroupList!=null){
+		    		var select2=document.getElementById("secondList");
+		    		select2.options.length=0;
+		    		select2.options[0]=new Option("请选择","0");
+		    		for(var i=0;i<data.jobGroupList.length;i++){
+			            select2.options[i+1]=new Option(data.jobGroupList[i].jobName,data.jobGroupList[i].jobID);
+		    		}
+	    		}
+		    }
+		});
+	};
+		
+	function createTeacherList(jobGroupId){
+		if(jobGroupId=='00'){
+			jobGroupId=$('#secondGroupId').val();
+		}
+		$.ajax({
+			url:base+"/questionCenter/createQuestion/getRecommendTeacherData.ajax",
+			data:{"jobGroupId":jobGroupId},
+		    success:function(data){
+		    	if(data.teacherList!=null){
+		    		$('#secondGroupId').val(jobGroupId);
+		    		var select2=document.getElementById("recommendTeacher-bd");
+		    		select2.innerHTML="";
+		    		for(var i=0;i<data.teacherList.length;i++){
+		    			select2.innerHTML=select2.innerHTML+"<li><a href=\"javascript:void(0);\" onclick=\"choiceTeacher(\'"+data.teacherList[i].userId+"\',\'"+data.teacherList[i].userName+"\')\"><img src=\""+data.teacherList[i].userHeadPic+"\" width=\"100\" height=\"100\"><span>"+data.teacherList[i].userName+"</span></a></li>";
+		    			
+		    		}
+	    		}
+		    }
+		});
+	};
+		
+	function choiceTeacher(teacherId,teacherName){
+		var choicedDiv=document.getElementById("choicedTeacher");
+		var str="<span id=\""+teacherId+"-X\">"+teacherName+"<i class=\"closeX\" onclick=\"deleteChoiceTeacherX(\'"+teacherId+"-X\')\">X</i><input type=\"hidden\" name=\"teacherIdList\" value=\""+teacherId+"\"/></span>";
+		var allstr=choicedDiv.innerHTML;
+		var str2=teacherId+"-X";
+		if(allstr.indexOf(str2) <= 0 ){//不存在
+			choicedDiv.innerHTML=choicedDiv.innerHTML+str;
+
+			$("#tigs").html("");
+		}
+	}
+		
+	function deleteChoiceTeacherX(teacherIdX){
+		var choicedDiv=document.getElementById("choicedTeacher");
+		var allstr =$(choicedDiv).children();
+		$(allstr).remove("#"+teacherIdX);
+		
+	}
+
+		
+	//提交问题表单-验证
+	function onsubmitData(){
+		var quesContent=$('#quesContent').val();
+		var secondList=$('#secondList').val();
+		
+		if(quesContent==''){
+			//eoc.alert("提示","问题标题不能为空！",null);
+			
+			$("#tig").html("*问题标题不能为空！");
+			return false;
+		}
+		
+		if(secondList=='0'){
+			//eoc.alert("提示","请选择分类！",null);
+			$("#tigs").html("*请选择分类！");
+			return false;
+		}
+
+		$("#questionform").submit();
+		return true;
+	}
+		
+	//计算长度
+	function getByteLen(val) {
+        var len = 0;
+        for (var i = 0; i < val.length; i++) {
+           var length = val.charCodeAt(i);
+           if(length>=0&&length<50){
+                len += 1;
+           }else{
+                len += 1;
+           }
+        }
+        var getstrlenght=document.getElementById("getstrlenght");
+        getstrlenght.innerHTML=len+"/50";
+
+        if(len!=0){
+        	$("#tig").html("");
+        }
+     }
+        
+        
+     function exeonchange(){
+     	if(${flag}==1){
+     		createTeacherList(${(jobVo.jobID)!'0'});
+     		$(".recommendTeacher").removeClass("hide")
+			$(".searchInput").removeClass("hide")
+			$(".selected").removeClass("hide")
+			choiceTeacher(${(teacherUserVo.userId)!'0'},'${(teacherUserVo.userName)!''}');
+		}
+     }
+	--></script>
+</head>
+
+<body onload="exeonchange();"  id="backtop">
+<div class="wrapper">
+   <!-- 答疑中心引入头部 -start-->
+	[#include "/webpage/common/questionhead.htm"/]
+	<!-- 答疑中心引入头部 -end-->
+  
+  <form id="questionform" action="${base}/questionCenter/saveQuestion/" method="POST">
+  <div class="container">
+  	<div class="content clearfix pt10">
+  	  <div class="grid ask">
+        <div class="ask-hd">
+          一句话描述你的问题
+        </div>
+        <div class="ask-title">
+          <input class="grid-5" type="text" id="quesContent" name="quesContent" maxlength="50" onkeyup="getByteLen(this.value);"><span id="getstrlenght">0/50</span>
+          <span id="tig" style="color: red;"></span>
+        </div>
+       
+      
+        <div class="askCon ">
+          <div class="askCon-hd"><label class="fl">问题内容补充</label></div>
+          <div class="askCon-bd">
+					<textarea class="dialog_Textarea" id="quesDescription" name="quesDescription"></textarea>
+          </div>
+          <div class="askCon-foot">
+            <div class="selectMajor">
+              <label>选择分类：</label>
+              [#if flag==0]
+	              <select onchange="createSecondList(this.value);">
+	              	<option value="0">请选择</option>
+	              	[#if professionList?exists && professionList?size !=0]
+						[#list professionList as lists]
+							<option value="${(lists.proID)!'0'}">${(lists.proName)!''}</option>
+						[/#list]
+					[/#if]
+	              </select>
+	              <select id="secondList" onchange="createTeacherList(this.value);"  name="jobID">
+	                <option value="0">请选择</option>
+	              </select>
+              [#else]
+              	<select onchange="createSecondList(this.value);">
+	              	<option value="0">请选择</option>
+	              	[#if professionList?exists && professionList?size !=0]
+						[#list professionList as lists]
+							[#if lists.proID==jobVo.proID]
+								<option value="${(lists.proID)!'0'}" selected="selected">${(lists.proName)!''}</option>
+							[#else]
+								<option value="${(lists.proID)!'0'}">${(lists.proName)!''}</option>
+							[/#if]
+						[/#list]
+					[/#if]
+	              </select>
+	              <select id="secondList" onchange="createTeacherList(this.value);"  name="jobID">
+	                <option value="0">请选择</option>
+	                [#if jobGroupList?exists && jobGroupList?size !=0]
+						[#list jobGroupList as lists]
+							[#if lists.jobID==jobVo.jobID]
+								<option value="${(lists.jobID)!'0'}" selected="selected" >${(lists.jobName)!''}</option>
+							[#else]
+								<option value="${(lists.jobID)!'0'}">${(lists.jobName)!''}</option>
+							[/#if]
+						[/#list]
+					[/#if]
+					
+	                
+	              </select>
+              [/#if]
+              <span id="tigs" style="color: red;"></span>
+            </div>
+          </div>
+          <div class="recommendTeacher hide">
+          	<input type="hidden" id="secondGroupId"/>
+            <div class="recommendTeacher-hd"><span class="fr"><a href="javascript:void(0);" onclick="createTeacherList('00')">换一批</a></span>推荐老师</div>
+            <ul class="recommendTeacher-bd clearfix" id="recommendTeacher-bd">
+            </ul>
+          </div>
+          <div class="selected gray hide" id="choicedTeacher">
+           	 已选择：
+          </div>
+          <input type="hidden" id="teacherIdStr"/>
+          
+          <div class="searchInput mt10 hide">
+            <label class="fl gray">没有你想要的老师？搜索一下：</label>
+            <input class="fl" id="searchTeacher-input" type="text" placeholder="请输入教师/讲师名称">
+
+          </div>
+          <div class="ask-ft mt20">
+<!--          	<input type="submit" class="btn btn-medium btn-darkBlue" value="提交问题" onclick="return onsubmitData();"/>-->
+<!--            <button class="btn btn-medium btn-darkBlue" onclick="return onsubmitData();">提交问题</button>-->
+	<a href="javascript:void(0);" class="btn btn-medium btn-darkBlue" onclick="return onsubmitData();">提交问题</a>
+          </div>
+        </div>
+      </div>
+      
+  	</div>
+  </div>
+  </form>
+  
+  <div class="footerFixer"></div>
+</div>
+[#include "/webpage/common/footer.htm"/]
+</body>
+</html>

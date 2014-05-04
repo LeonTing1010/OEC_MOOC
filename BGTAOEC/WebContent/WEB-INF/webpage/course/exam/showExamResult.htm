@@ -1,0 +1,127 @@
+<script type="text/javascript">
+$(function($){
+	var index=['一','二','三','四'];
+	for(i=0;i<$(".title").length;i++){
+		$(".index").eq(i).html(index[i]);
+	}
+});
+</script>
+
+<div class="m0a curDetailCon">		
+<h3>[#if examType==1]考试名称：[#elseif examType==2]练习名称：[#else]作业名称：[/#if]${examName!""}</h3>
+<div class="itemPool">
+	<!-- 单项选择题 -->
+	<div>
+		[#if examQuesSelectList?? && examQuesSelectList?size>0]
+		<div class="title"><span class="index"></span>.选择题</div>
+		<dl>
+			[#list examQuesSelectList as ques]
+			<dt>
+				${ques_index?if_exists+1}. ${ques.examQuesContent!}<span>（${ques.examQuesScore!}分）</span>
+			</dt>
+			[#if ques.examOptionlist?? && ques.examOptionlist?size>0]
+			<dd>
+				<ul>
+				[#list ques.examOptionlist as option]
+					[#assign index=ques_index+1/]
+					<li><input type="radio" id="topic${index}" disabled="disabled" [#if ques.examAnswerDetailVo??][#if '${ques.examAnswerDetailVo.examAnswer!}' = '${option.optNum!}']checked="checked"[/#if][/#if] name="topic${index}"/>
+						<label for="topic1${index}">${option.optNum!}.${option.optContent!}</label>
+					</li>
+				[/#list]
+				</ul>
+				[#if ques.examAnswerDetailVo?? && ques.examAnswerDetailVo.examAnswer??]
+					[#if '${ques.examAnswerDetailVo.examAnswer!}' == '${ques.examQuesAnswer!}']
+						<div class="score right">
+							<span class="ico"></span> <span class="answer">答案: <span
+								class="mr20">${ques.examQuesAnswer!}</span>
+							</span><span>得分：${ques.examQuesScore!}分</span>
+						</div>
+					[#else]
+						<div class="score error">
+							<span class="ico"></span> <span class="answer">答案: <span
+								class="mr20">${ques.examQuesAnswer!}</span>
+							</span><span>得分：0分</span>
+						</div>
+					[/#if]
+				[#else]	
+					<div class="score error">
+							<span class="ico"></span><span class="answer">您没有作答</span> <span class="answer">答案: <span
+								class="mr20">${ques.examQuesAnswer!}</span>
+							</span><span>得分：0分</span>
+					</div>
+				[/#if]
+			</dd>
+			[/#if]
+			[/#list]
+		</dl>
+		[/#if]
+	</div>
+	
+	
+	<!-- 主观题 -->
+	<div>
+		[#if examQuesShortAnsList?? && examQuesShortAnsList?size>0]
+		<div class="title"><span class="index"></span>.主观题</div>
+		[#list examQuesShortAnsList as ques]
+		<dl>
+			<dt>
+				${ques_index?if_exists+1}. ${ques.examQuesContent!}<span>（${ques.examQuesScore!}分）</span>
+			</dt>
+			<dd>
+				[#if ques.examAnswerDetailVo?? && ques.examAnswerDetailVo.examAnswer??]
+					<p>我的回答：${ques.examAnswerDetailVo.examAnswer!}</p>
+					<p class="result">答案：${ques.examQuesAnswer!}</p>
+					[#if status??][#if status==1]   <!-- 已批阅 -->
+						<p class="green">得分：${ques.examAnswerDetailVo.examAnswerScore!}</p>
+						[#else]			<!-- 未批阅 -->
+						<p class="green">得分：待评分</p>
+					[/#if][/#if]
+				[#else]
+					<p style="color:red">您没有作答本题!</p>
+					<p class="result">答案：${ques.examQuesAnswer!}</p>
+					<p class="green">得分：待评分</p>
+				[/#if]
+			</dd>
+		</dl>
+		[/#list]
+		[/#if]
+	</div>
+	<div class="Total pl20">
+		[#assign flag="false"/]
+		[#if examQuesSelectList?? && examQuesSelectList?size>0]
+			<span class="mr20">选择题得分：${singSelScore!}分</span> 
+			[#assign flag="true"/]
+		[/#if]
+		[#if examQuesShortAnsList?? && examQuesShortAnsList?size>0]
+			[#assign flag="true"/]
+			[#if status??][#if status==1]  <!-- 已批阅 -->
+				<span class="mr20">主观题得分：${shortAnsScore!}分</span>
+			[#else]	<!-- 未批阅 -->
+				<span class="mr20">主观题得分：<span class="green">待评分</span></span>
+			[/#if][/#if]
+		[/#if]
+		[#if flag=='true']
+			[#if status??][#if status==1]
+				<span class="mr20">您的总分：${examTotleScore!}分</span>
+			[#elseif status==2]	<!-- 未批阅 -->
+				<span class="mr20">您的总分：<span class="green">待评分</span></span>
+			[#else]
+			[/#if][/#if]
+		[#else]
+		<span>暂无考试信息!</span>
+		[/#if]
+	</div>
+	
+	<div class="button pl20">
+	[#if examType??]
+	[#if examType==3]
+		<button class="btn btn-darkBlue btn-small" onclick="switchLoad(6)">返回</button>
+	[#elseif examType==2]
+		<button class="btn btn-darkBlue btn-small" onclick="switchLoad(7)">返回</button>
+	[#else]
+	[/#if]
+	[/#if]
+	</div>
+	
+</div>
+</div>

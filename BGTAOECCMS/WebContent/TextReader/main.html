@@ -1,0 +1,158 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN" xml:lang="zh-CN">
+<head>
+    <title>TextReader</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <style type="text/css" media="screen">
+        html, body
+        {
+            height: 100%;
+            background-color: #ffffff;
+        }
+        body
+        {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+    </style>
+    <script type="text/javascript" src="swfobject.js"></script>
+    <script type="text/javascript">
+        var swfVersionStr = "10.0.0";
+        var xiSwfUrlStr = "expressInstall.swf";
+        var flashvars =
+			{
+			    bookId: "abc", 							//资源id
+			    userId: "aaa", 							//用户id
+			    paging: "true", 							//资源加载方式，0或false为一次性加载，1或true为分页加载
+			    sourceUrl: "assets/books/starling/", 		//资源地址，不包括swf文件
+			    swfFile: "Starling*.swf, 110, 0", 		//swf文件名称，总页数，以及是否在左边补零：0.不补零，1.补零
+			   // bookmarkUrl: "http://localhost:18003/ResReader/ResBookMark", 	//书签数据地址
+			   // commentUrl: "http://localhost:18003/ResReader/ResPostion", 	//获取批注数据的URL，可以有多个批注地址，用逗","隔开
+			    skinStyle: "1", 							//皮肤样式：1.易资源皮肤样式。2.数字化校园皮肤样式
+			    skinUrl: "yiSkin.swf", 					//皮肤地址
+			    toolbarVisible: "1", 						//是否显示工具栏:0.不显示，1.显示
+			    backgroundColor: "0xffffff", 				//背景色
+			    backgroundAlpha: "1", 					//背景透明度
+			    backgroundUrl: "assets/images/yiSkin.jpg", //背景图片
+			    toolbarItems: "switchPage,drag,textSelect,addPostil,addBookmark,readerProgress,previousPage,page,nextPage,bookmarkPostil,fullScreen",
+			    onInitComplete: "onInitComplete", 		//阅读器初始化完成回调函数
+			    onLoadSwfComplete: "onLoadSwfComplete", 	//加载文档完成回调函数
+			    onPageChange: "onPageChange", 			//页码发生改变回调函数，格式：单页返回"6",双页返回"6-7"
+			    onElementChange: "onElementChange", 		//元素改变事件
+			    onElementNew: "onElementNew", 			//元素新增事件
+			    onElementDelete: "onElementDelete"			//元素删除事件
+			};
+        var params = {};
+        params.quality = "high";
+        params.bgcolor = "#ffffff";
+        params.allowscriptaccess = "sameDomain";
+        params.allowfullscreen = "true";
+        var attributes = {};
+        attributes.id = "TextReader";
+        attributes.name = "TextReader";
+        swfobject.embedSWF(
+              "TextReader.swf", "flashContent",
+              "1024", "760", 							//设置阅读器宽度、高度
+              swfVersionStr, xiSwfUrlStr,
+              flashvars, params, attributes);
+        swfobject.createCSS("#flashContent", "display:block;text-align:left;");
+
+        /**
+        * 阅读器初始化完毕回调
+        */
+        function onInitComplete() {
+            document.getElementById("promptText").value += "阅读器初始化完毕，调用onInitComplete\n";
+        }
+
+        /**
+        * 加载资源完成回调
+        */
+        function onLoadSwfComplete(page) {
+            if (page == -1) {
+                document.getElementById("promptText").value += "加载全部资源完成回调，调用onLoadSwfComplete\n";
+            }
+            else {
+                document.getElementById("promptText").value += "加载第" + (parseInt(page) + 1) + "页资源完成回调，调用onLoadSwfComplete\n";
+            }
+        }
+
+        /**
+        * 页码发生改变回调
+        */
+        function onPageChange(page) {
+            document.getElementById("promptText").value += "页码发生改变回调，调用onPageChange。当前页：" + page + "\n";
+        }
+
+        /**
+        * 添加元素回调
+        * 返回1表示成功，0失败，不返回默认成功
+        */
+        function onElementNew(elementId, elementType, elementData) {
+            document.getElementById("promptText").value += "添加元素回调，调用onElementNew"
+					+ "\n" + "elementId:" + elementId
+					+ "\n" + "elementType:" + elementType
+					+ "\n" + "elementData:" + elementData
+					+ "\n";
+            return 1;
+        }
+
+        /**
+        * 元素发生改变回调
+        * 返回1表示成功，0失败，不返回默认成功
+        */
+        function onElementChange(elementId, elementType, elementData) {
+            document.getElementById("promptText").value += "元素发生改变回调，调用onElementChange"
+					+ "\n" + "elementId:" + elementId
+					+ "\n" + "elementType:" + elementType
+					+ "\n" + "elementData:" + elementData
+					+ "\n";
+            return 1;
+        }
+
+        /**
+        * 页码删除回调
+        * 返回1表示成功，0失败，不返回默认成功
+        */
+        function onElementDelete(elementId, elementType, elementData) {
+            document.getElementById("promptText").value += "元素删除回调，调用onElementChange"
+					+ "\n" + "elementId:" + elementId
+					+ "\n" + "elementType:" + elementType
+					+ "\n" + "elementData:" + elementData
+					+ "\n";
+            return 1;
+        }
+
+        function getFlashObj(movie) {
+            if (window.document[movie]) {
+                return window.document[movie];
+            }
+            if (navigator.appName.indexOf("Microsoft Internet") == -1) {
+                if (document.embeds && document.embeds[movie]) {
+                    return document.embeds[movie];
+                }
+            }
+            else {
+                return document.getElementById(movie);
+            }
+        }
+
+        function setEditMode(mode) {
+            getFlashObj("TextReader").setEditMode(mode);
+        }
+    </script>
+</head>
+<body>
+    <div id="flashContent" style="position: absolute; top: 5px; left: 5px;">
+    </div>
+    <div>
+        <p>
+            <input type="button" name="reset" id="reset" value="重置资源" onclick="resetDocument()"
+                style="display: none;" />
+        </p>
+    </div>
+    <div style="position: absolute; top: 5px; left: 1050px;">
+        <textarea id="promptText" style="width: 360px; height: 745px"></textarea>
+    </div>
+</body>
+</html>

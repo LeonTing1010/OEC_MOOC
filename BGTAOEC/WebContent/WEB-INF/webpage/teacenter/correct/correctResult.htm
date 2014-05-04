@@ -1,0 +1,28 @@
+
+<form action=""  method="post" id="correctForm">
+	<div class="mt10 font16 gray">主观题（共[#if examQuestionList??]${examQuestionList?size}<input type="hidden" name="totalNo" value="${examQuestionList?size}"/>[/#if]题，${totleScore!}分）：</div>
+	<ul class="subjectiveItem">
+		[#if examQuestionList??]
+		[#list examQuestionList as quesList]
+		<li class="item">
+			<div class="question">${quesList_index?if_exists+1}.&nbsp&nbsp ${quesList.examQuesContent!}</div>
+			<div class="answer">
+				[#if quesList.examAnswerDetailVo.examAnswer?length gt 0]
+					答：${quesList.examAnswerDetailVo.examAnswer!}
+					<input type="hidden" name="examAnswerId" value="${quesList.examAnswerDetailVo.examAnswerId!}"/>
+				[#else]
+					<p style="color:red">该学生没有作答!</p>
+				[/#if]
+			</div>
+			<div style="color:#236FD4">参考答案：${quesList.examQuesAnswer!}</div>
+			<div class="score">
+				您的评分：[#if quesList.examAnswerDetailVo??]${quesList.examAnswerDetailVo.examAnswerScore!}分[/#if]（${quesList.examQuesScore!}分）
+			</div>
+		</li>
+		[/#list]
+		[/#if]
+	</ul>
+	<div class="grade mt10">主观题得分：${subAnswerScore!} &nbsp&nbsp 客观题得分：${objAnswerScore!} &nbsp&nbsp总得分：${totalAnsScore!}</div>
+	<div>
+	</div>
+</form>

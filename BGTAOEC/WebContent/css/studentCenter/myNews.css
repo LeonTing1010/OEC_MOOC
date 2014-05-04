@@ -1,0 +1,85 @@
+@charset "utf-8";
+/* CSS Document */
+.main{padding:24px 20px 10px;}
+.student-title{
+	height:40px;
+	line-height:40px;
+	font-size:18px;
+	border-bottom:2px solid #6e8ed1;
+	position:relative;
+}
+.student-title h3{
+	position:absolute;
+	display:inline;
+	border-bottom:2px solid #33518f;
+	bottom:-2px;
+	font-weight:normal;
+	height:40px;
+	line-height:40px;
+}
+
+.collection-body{padding:15px 0 0 0;}
+.subtitle{
+	height:28px;
+	line-height:28px;
+	margin:10px 0;
+}
+.subtitle span.title{
+	background:url(../../images/studentCenter/speaker.png) 0 center no-repeat;
+	padding-left:20px;
+	color:#6d6e71;
+}
+.subtitle span.time{
+	padding-left:10px;
+	color:#b5b5b6;
+}
+.back{
+	height:28px;
+	line-height:28px;
+	background:#6e8ed1;
+	color:#fff;
+	font-size:12px;
+	border-radius:3px;
+	text-align:center;
+	padding:0 22px;
+	float:right;
+	display:inline-block;
+}
+.newsCon{
+	background:#fff;
+	border:1px solid #e3e4e5;
+	padding:36px 22px 20px ;
+}
+.newsCon h1{
+	color:#6e8ed1;
+	font-size:16px;
+	line-height:50px;
+	text-align:center;
+}
+.demand{
+	margin:15px 0 70px 15px;
+}
+.demand li{
+	line-height:36px;
+	color:#595757;
+	font-size:12px;
+}
+.page{
+	margin:40px 0 0 0;
+}
+.page a{
+	float:right;
+	height:44px;
+	line-height:44px;
+	width:130px;
+	margin-left:10px;
+	color:#fff;
+	text-align:center;
+	border-radius:3px;
+}
+.page .pagePre{
+	background:#e3e3e3;
+}
+.page .pageNext{
+	background:#6e8ed1;
+}

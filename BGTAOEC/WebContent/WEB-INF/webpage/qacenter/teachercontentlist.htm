@@ -1,0 +1,98 @@
+
+[#if pageModel??]
+[#if pageModel.list??  && (pageModel.list?size gt 0)]
+[#list pageModel.list as teacher]
+[#if teacher_index%2==0]
+<li class="item mr10"><a href="${base!}/qacenter/teacherdetail/${teacher.id!}/"> <img  src="[#if teacher.teacherPic??]${cache!}${teacher.teacherPic!}[#else]${cache!}/images/base/default_pic_temp_user.jpg[/#if]" width="100"
+		height="100">
+</a>
+	<div class="info">
+		<div class="name">
+			<a href="${base!}/qacenter/teacherdetail/${teacher.id!}/">${teacher.teacherName!}</a>
+			[#if userVo??]
+				[#if userVo.userType !=2]
+				<span class="btn btn-mini green"><a href="javascript:void(0);" 
+									onclick="createLogin('${base}/questionCenter/helpme/${(teacher.userId)!'0'}/');" style="color: white;">求助</a></span>
+				[/#if] 
+			[#else]
+				<span class="btn btn-mini green"><a href="javascript:void(0);" 
+									onclick="createLogin('${base}/questionCenter/helpme/${(teacher.userId)!'0'}/');" style="color: white;">求助</a></span>
+			[/#if] 
+			
+		</div>
+		<p>
+			<span>专业：</span><label title="${teacher.major!''}" style="cursor:auto">[@text_cut s='${teacher.major!}' len='12' append='...'][/@text_cut] </label>
+		</p>
+		<p>
+			<span>课程：</span>
+			[#assign names=""]
+			[#if teacher.courseList?? && teacher.courseList?size gt 0]
+			[#list teacher.courseList as course]
+				[#if course_has_next]
+					[#assign names=names+course.courseName+"、"]
+				[#else]
+					[#assign names=names+course.courseName]
+				[/#if]
+			[/#list]
+			[/#if]
+			<label title="${names!}" style="cursor:auto">[@text_cut s='${names!}' len='32' append='...'][/@text_cut]</label>
+		</p>
+	</div></li>
+[/#if] 
+[#if teacher_index%2=1]
+
+<li class="item"><a href="${base}/qacenter/teacherdetail/${teacher.id!}/"> <img src="[#if teacher.teacherPic??]${cache!}${teacher.teacherPic!}[#else]${cache!}/images/base/default_pic_temp_user.jpg[/#if]"  width="100"
+		height="100">
+</a>
+	<div class="info">
+		<div class="name">
+			<a href="${base!}/qacenter/teacherdetail/${teacher.id!}/">${teacher.teacherName!}</a>
+			[#if userVo??]
+				[#if userVo.userType !=2]
+				<span class="btn btn-mini green"><a href="javascript:void(0);" 
+									onclick="createLogin('${base}/questionCenter/helpme/${(teacher.userId)!'0'}/');" style="color: white;">求助</a></span>
+				[/#if] 
+			[#else]
+				<span class="btn btn-mini green"><a href="javascript:void(0);" 
+									onclick="createLogin('${base}/questionCenter/helpme/${(teacher.userId)!'0'}/');" style="color: white;">求助</a></span>
+			[/#if] 
+		</div>
+		<p>
+			<span>专业：</span><label title="${teacher.major!}" style="cursor:auto">[@text_cut s='${teacher.major!}' len='12' append='...'][/@text_cut] </label>
+		</p>
+		<p>
+			<span>课程：</span>
+			[#assign names=""]
+			[#if teacher.courseList?? && teacher.courseList?size gt 0]
+			[#list teacher.courseList as course]
+				[#if course_has_next]
+					[#assign names=names+course.courseName+"、"]
+				[#else]
+					[#assign names=names+course.courseName]
+				[/#if]
+			[/#list]
+			[/#if]
+			<label title="${names!}" style="cursor:auto">[@text_cut s='${names!}' len='32' append='...'][/@text_cut]</label>
+		</p>
+	</div></li>
+[/#if] 
+[/#list] 
+
+[#else]
+	<p>暂无相关数据!</p>
+[/#if]
+
+	 [#if pageModel.toPage gte pageModel.totalPage]
+	<script type="text/javascript">
+		$(function($){
+			$(".pageMore").hide();
+		})
+	</script>
+	[#else]
+	<script type="text/javascript">
+		$(function($){
+			$(".pageMore").show();
+		})
+	</script>	
+	[/#if]
+[/#if]

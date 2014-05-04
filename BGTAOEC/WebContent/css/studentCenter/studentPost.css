@@ -1,0 +1,111 @@
+@charset "utf-8";
+/* CSS Document */
+.main{padding:24px 20px 10px;}
+.student-title{
+	height:40px;
+	line-height:40px;
+	font-size:18px;
+	border-bottom:2px solid #6e8ed1;
+	position:relative;
+}
+.student-title h3{
+	position:absolute;
+	display:inline;
+	border-bottom:2px solid #33518f;
+	bottom:-2px;
+	font-weight:normal;
+	height:40px;
+	line-height:40px;
+}
+.post-body{padding:15px 0 0 0;}
+.post-course {
+	width:807px;
+	border:1px solid #e9ecf1;
+	background:#f5f8fd;
+	margin-bottom:9px;
+	overflow:hidden;
+	zoom:1;
+}
+.shrink{
+	float:right;
+	height:14px;
+	width:14px;
+	background:url(../../images/studentCenter/shrink-bg.png) no-repeat;
+	cursor:pointer;
+	margin:18px 18px 0 0;
+	display:inline;
+}
+.shrink-click{
+	background-position: left -20px;
+}
+.delet{
+	display:none;
+	float:right;
+	height:17px;
+	width:18px;
+	background: url(../../images/studentCenter/operate-ico.png) no-repeat  left -34px;
+	cursor:pointer;
+	margin:15px 18px 0 0;
+	}
+.delet:hover{
+	background-position:left -51px;
+	}
+.loading{
+	height:72px;
+	line-height:72px;
+	border:1px solid #e3e4e5;
+	border-top:none;
+	text-align:center;
+	background:#f3f2f3;
+	font-size:14px;
+	font-weight:bold;
+	margin-top:-9px;	
+}
+.loading a{
+	padding-right:18px;
+	background:url(../../images/studentCenter/loading.png) right 3px no-repeat;
+	color:#727171;
+}
+
+.post-course:hover{
+	border:1px solid #6e8ed1;
+}
+.post-course:hover .delet{
+	display:block;}
+.post-course dt{
+	background:url(../../images/studentCenter/post-course-dt-bg.png) left center no-repeat;
+	height:52px;
+	line-height:52px;
+	color:#6e8ed1;
+	font-size:18px;
+	padding-left:14px;
+	font-weight:bold;
+}
+.post-course dt span{
+	font-size:12px;
+	color:#727171;
+	font-weight:normal;
+}
+.post-course dd{
+	padding:8px 9px 16px 17px;
+	overflow:hidden;
+	zoom:1;
+}
+.post-course dd a{
+	width:122px;
+	height:36px;
+	line-height:36px;
+	float:left;
+	background:#dae2ee;
+	color:#595757;
+	margin:0 8px 16px 0;
+	display:inline;
+	text-align:center;
+	border-radius:3px;
+	-o-text-overflow: ellipsis; text-overflow: ellipsis;white-space:nowrap; overflow:hidden;
+}
+
+.post-course dd a:hover{
+	color:#fff;
+	background:#6e8ed1;
+}

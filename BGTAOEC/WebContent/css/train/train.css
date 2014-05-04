@@ -1,0 +1,170 @@
+.container{
+	padding: 0px;
+}
+.conAf{
+	width: 100%;
+	height: 458px;
+	background: url(../../images/train/Af_bg.jpg);
+}
+.conAf .AfBox{
+	width: 1000px;
+	height: 458px;
+	margin: 0 auto;
+	position: relative;
+}
+.conAf .AfBox h1{
+	font-size: 48px;
+	color: #033f7d;
+	padding-top: 86px;
+	font-weight: normal;
+}
+.conAf .AfBox h2{
+	font-size: 28px;
+	color: #fff;
+	font-weight: normal;
+	margin: 20px 0px 25px 0px;
+}
+.conAf .AfBox p{
+	width: 526px;
+	color: #5c93cd;
+	font-size: 12px;
+	line-height: 22px;
+	margin: 0px;
+	padding: 0px;
+}
+.conAf .AfBox img{
+	position: absolute;
+	right: 0px;
+	top: 60px;
+}
+.conBf{
+	width: 100%;
+	height: 300px;
+	background: #FEFEFA;
+}
+.conBf .BfBox{
+	width: 1000px;
+	height: 300px;
+	margin: 0 auto;
+}
+.conBf .BfBox img{
+	margin-top: 19px;
+}
+.conCf{
+	width: 100%;
+	height: 335px;
+	background: #EAF3FC;
+}
+.conCf .CfBox{
+	width: 1000px;
+	height: 335px;
+	margin: 0 auto;
+	background: no-repeat url(../../images/train/Cf_bg.jpg);
+}
+.conCf .CfBox p{
+	color: #033f7d;
+	font-size: 22px;
+	width: 470px;
+	margin: 0px 0px 0px 507px;
+	padding: 25px 0px 0px 0px;
+}
+.conDf{
+	width: 100%;
+	height: 493px;
+	background: #F3F3F3;
+}
+.conDf .DfBox{
+	width: 1000px;
+	height: 493px;
+	margin: 0 auto;
+	padding: 60px 0 0 0px;
+	text-align: center;
+}
+.conDf .DfBox h1{
+	background: no-repeat url(../../images/train/Df_h1_bg.jpg);
+	margin: 0 auto;
+	color: #033f7d;
+	width: 577px;
+	height: 58px;
+	line-height: 58px;
+	font-size: 32px;
+	font-weight: normal;
+}
+.conDf .DfBox .imgBox{
+	margin: 55px 30px 0px 30px;
+	position: relative;
+	width:255px;
+	float:left;
+	display:inline
+}
+.DfBox-con{
+	width:630px;
+	margin:0 auto;
+	}
+.conDf .DfBox .imgBox img{
+	padding: 10px;
+	background: #DADADA;
+}
+.conDf .DfBox .imgBox i{
+	background: #033f7d;
+	color: #fff;
+	font-size: 16px;
+	padding: 6px 18px;
+	opacity: 0.8;
+	position: absolute;
+	top: 10px;
+	right: 10px;
+}
+.conDf .DfBox .imgBox p{
+	color: #033f7d;
+	font-size: 20px;
+	text-align: center;
+}
+.conEf{
+	widows: 100%;
+	height: 528px;
+	background: #fff;
+}
+.conEf .EfBox{
+	width: 1000px;
+	height: 528px;
+	margin: 0 auto;
+	padding: 80px 0 0 0px;
+	text-align: center;
+}
+.conEf .EfBox h1{
+	background: no-repeat url(../../images/train/Ef_h1_bg.jpg);
+	margin: 0 auto;
+	color: #033f7d;
+	width: 600px;
+	height: 58px;
+	line-height: 58px;
+	font-size: 32px;
+	font-weight: normal;
+	padding-left: 35px;
+}
+.conEf .EfBox .imgBox{
+	margin: 55px 30px 0px 40px;
+	position: relative;
+	float:left;
+	display:inline
+}
+.conEf .EfBox .imgBox img{
+	padding: 10px;
+	background: #DADADA;
+}
+.conEf .EfBox .imgBox i{
+	background: #033f7d;
+	color: #fff;
+	font-size: 16px;
+	padding: 6px 18px;
+	opacity: 0.8;
+	position: absolute;
+	top: 10px;
+	right: 10px;
+}
+.conEf .EfBox .imgBox p{
+	color: #033f7d;
+	font-size: 20px;
+	text-align: center;
+}

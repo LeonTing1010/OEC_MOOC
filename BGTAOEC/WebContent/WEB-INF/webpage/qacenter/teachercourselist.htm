@@ -1,0 +1,39 @@
+[#if pageModel??]
+  [#if pageModel.list??] 
+  [#list pageModel.list as item]
+<li class="wordBreak"><a
+	href="${base!}/course/info/${item.courseId!}/"><img height="60"
+		src="[#if item.titlePage??]${cache!}${item.titlePage!}[#else]${cache!}/images/base/default_pic_temp_course.jpg[/#if]"
+		alt="" title="" /></a>
+	<p>[@text_cut s='${item.courseName!}' len='24' append='...'/]</p></li>
+[/#list] 
+	[#if pageModel.toPage gte pageModel.totalPage]
+	<script type="text/javascript">
+	$(function($){
+		$("#courseBtn").hide();
+	})
+	
+	</script>
+	[#else]
+	<script type="text/javascript">
+	$(function($){
+		$("#courseBtn").show();
+	})
+	</script>	
+	[/#if]
+
+[#else]	
+	<script type="text/javascript">
+$(function($){
+	$("#courseBtn").hide();
+})
+	</script>	
+[/#if] 
+
+[#else]
+	<script type="text/javascript">
+     $(function($){
+	  $("#courseBtn").hide();
+       })
+	</script>	
+[/#if]

@@ -1,0 +1,27 @@
+[#if pageModel.list?exists && pageModel.list?size!=0]
+[#list pageModel.list as being]
+<li>
+	<h2>
+		<span class="collectBtn empty" data-id="${being.jobID!}" id="job${being.jobID!}" title="收藏职位" onclick="collectJob(this)"></span><a
+			href="${base}/job/positiondetails/${being.jobID!}/" target="_blank">${being.jobName!}</a>
+	</h2>
+	<p class="gray" id="t">[#if being.jobDescription??] [@text_cut
+		s='${being.jobDescription!}' len='81' append='..'][/@text_cut] [/#if]
+	</p>
+	<div class="clear"></div>
+</li>
+[/#list] 
+	[#if pageModel.toPage gte pageModel.totalPage] 
+	<script type="text/javascript">
+		$(".pageMore").hide();
+	</script>
+	[#else]
+	<script type="text/javascript">
+		$(".pageMore").show();
+	</script>	
+	[/#if]
+[#else]<span style="margin-left: 40%;"> 暂无岗位信息，敬请期待 </span>	
+<script type="text/javascript">
+		$(".pageMore").hide();
+	</script>[/#if]
+ 

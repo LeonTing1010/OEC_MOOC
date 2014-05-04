@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gta.oec.cms.dao.resource.ResourceDao">
+	<resultMap type="com.gta.oec.cms.vo.resource.ResourceVo" id="resourceResultMap">
+		<id column="ReSour_ID" property="resourceId" />
+		<result column="Data_Url" property="resourceURL" />
+		<result column="Resourse_Name" property="resourceName" />
+		<result column="Data_Isdownload" property="isDownload" />
+		<result column="Source_Type" property="resourceType" />
+		<result column="ReSour_Ctime" property="createTime" />
+		<result column="ReSour_Utime" property="updateTime" />
+		<!-- 以下是课程相关属性 start -->
+		<result column="Course_ID" property="courseId" />
+		<result column="Section_ID" property="sectionId" />
+		<!-- 以上是课程相关属性 end -->
+	</resultMap>
+
+	<select id="getResourceByResourceId" parameterType="_int"
+		resultMap="resourceResultMap">
+		SELECT *
+		FROM r_resource
+		WHERE ReSour_ID=#{resourceId}
+	</select>
+	<select id="getCourseResourceListByResourceVo" parameterType="com.gta.oec.cms.vo.resource.ResourceVo"
+		resultMap="resourceResultMap">
+		SELECT R.*,RE.Course_ID,RE.Section_ID
+		FROM r_resource AS
+		R,re_course_resource AS RE
+		WHERE
+		R.ReSour_ID=RE.ReSource_ID
+		<if test="resourceId !=null and resourceId !=0">
+			AND RE.ReSour_ID=#{resourceId}
+		</if>
+		<if test="courseId !=null and courseId !=0">
+			AND RE.Course_ID=#{courseId}
+		</if>
+		<if test="sectionId !=null and sectionId !=0">
+			AND RE.Section_ID=#{sectionId}
+		</if>
+		<if test="resourceType !=null and resourceType !='0'">
+			AND R.Source_Type=#{resourceType}
+		</if>
+	</select>
+	
+	
+	<select id="countCourseResourceListByResourceVo" parameterType="com.gta.oec.cms.vo.resource.ResourceVo"
+		resultType="_int">
+		SELECT count(*)
+		FROM r_resource AS
+		R,re_course_resource AS RE
+		WHERE
+		R.ReSour_ID=RE.ReSource_ID
+		<if test="resourceId !=null and resourceId !=0">
+			AND RE.ReSour_ID=#{resourceId}
+		</if>
+		<if test="courseId !=null and courseId !=0">
+			AND RE.Course_ID=#{courseId}
+		</if>
+		<if test="sectionId !=null and sectionId !=0">
+			AND RE.Section_ID=#{sectionId}
+		</if>
+		<if test="resourceType !=null and resourceType !='0'">
+			AND R.Source_Type=#{resourceType}
+		</if>
+	</select>
+	
+	<select id="getReCourResourceList" parameterType="java.util.Map" resultMap="resourceResultMap">
+			 SELECT * FROM re_course_resource WHERE 1=1
+			 <if test="resource !=null and resource.resourceId !=0">
+			 	AND ReSource_ID=#{resource.resourceId}
+			 </if>	
+			<if test="resource !=null and resource.courseId !=0">
+				AND Course_ID=#{resource.courseId}      
+			</if>
+			<if test="resource !=null and resource.sectionId !=0">
+				AND Section_ID=#{resource.sectionId}
+			</if>
+			<if test="id !=0">
+				AND ReSource_ID=#{id}
+			</if>
+	</select>
+
+	<insert id="addResource" parameterType="com.gta.oec.cms.vo.resource.ResourceVo" keyProperty="resourceId" useGeneratedKeys="true">
+			INSERT INTO r_resource(Data_Url,Data_Isdownload,Source_Type,ReSour_Ctime,ReSour_Utime,Resourse_Name)
+			VALUES (#{resourceURL},#{isDownload},#{resourceType},#{createTime},#{updateTime},#{resourceName})
+	</insert>	
+</mapper>

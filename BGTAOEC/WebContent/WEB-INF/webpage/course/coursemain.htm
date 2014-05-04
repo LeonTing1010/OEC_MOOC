@@ -1,0 +1,82 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>${course.courseName!}-课程详情-国泰安网络教育</title>
+<meta name="description" content="课程详情" />
+<meta name="Keywords" content="课程详情" />
+[#include "/webpage/common/common.htm"/]
+<link href="${base}/css/course/layout.css" rel="stylesheet" type="text/css">
+<link href="${base}/css/course/test.css" rel="stylesheet" type="text/css">
+<script src="${base}/js/coursemain.js" type="text/javascript"></script>
+<script type="text/javascript">
+var tab = '${tab!}';
+var examId = '${examId!}';
+var examType= '${examType!}';
+</script>
+<style type="text/css">
+	.wordBreak {
+		word-break:break-all;word-wrap:break-word;
+	}
+</style>
+</head>
+
+<body id="backtop">
+	<div class="wrapper">
+	[#include "/webpage/common/head.htm"/]
+		<div class="container">
+		[#if course??]
+		 <input type="hidden" value="${course.courseId!}" name="courseId" id="courseId"/>
+		 <input type="hidden" value="${examId!}" name="examId" id="examId"/>
+			<div class="content clearfix pt10">
+				<div class="crumbs grid grid-12">
+					<a href="${base}/course/courselist/">课程</a><a href="${base!}/course/info/${course.courseId!}/">课程介绍</a>
+                   <span>${course.courseName!}</span>
+				</div>
+				<div class="grid grid-12 curDetail">
+					<!--curDetailHead start-->
+					<div class="curDetailHead">
+						<a href="${base}/course/learn/keepOnStudy/?courseId=${course.courseId!}">
+						<div class="btn btn-large keepLearn">
+						 [#if isLearn gt 0]继续学习[#else]开始学习 [/#if]
+						</div>
+						</a>
+						<div class="vidoPic">
+							<img class="fl" src="[#if course.titlePage??]${cache!}${course.titlePage!}[#else]${cache!}/images/base/default_pic_temp_course.jpg[/#if]"
+								
+								width="154" height="80">
+						</div>
+						<h1>${course.courseName!}</h1>
+						<h2>
+							<span>主讲：</span><a href="${base}/qacenter/teacherdetail/${course.userId!}/?userId=${course.userId!}" target="_blank">${course.teacherName!}</a>
+						</h2>
+						<div class="time">
+							<span>时间：</span>[#if course.courStartTime??]${course.courStartTime?string("yyyy-MM-dd")}[/#if]
+						</div>
+						<div class="time">
+							<span>学校：</span>${course.schoolName!}
+						</div>
+
+					</div>
+					<!--curDetailHead end-->
+
+					<!--curDetailBody start-->
+					<div class="curDetailBody wordBreak">
+						[#include "/webpage/course/coursemain_left.htm"/]
+						<div class="grid main" id="courseMain">
+						
+						</div>
+					</div>
+
+				</div>
+			</div>
+			<!--curDetailBody end-->
+         [/#if]
+		</div>
+	</div>
+	</div>
+  <div class="footerFixer"></div>
+</div>
+[#include "/webpage/common/footer.htm"/]
+</body>
+</html>

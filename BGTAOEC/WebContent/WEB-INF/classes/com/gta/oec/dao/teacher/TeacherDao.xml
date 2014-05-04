@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gta.oec.vo.teacher.TeacherVo">
+	<resultMap type="com.gta.oec.vo.teacher.TeacherVo" id="teacherMap">
+		<result column="ID" property="id" />
+		<result column="user_ID" property="userId" />
+		<result column="school" property="school" />
+		<result column="Job" property="job" />
+		<result column="major" property="major" />
+		<result column="introduce" property="introduce" />
+	    <result column="TeacherLevel" property="teacherLevel" />
+	    <result column="RoleID" property="roleID"/>
+		<result column="User_Name" property="userName"/>
+		<result column="User_Mobile" property="userMobile"/>
+		<result column="User_Email" property="userEmail" />
+		<result column="User_Password" property="password" />
+		<result column="User_Type" property="userType"/>
+		<result column="User_HeadPic" property="userHeadPic"/>
+		<result column="User_LoginInfo" property="userLoginInfo"/>	
+		<result column="User_ResetPwdCode" property="userResetPwdCode"/>			
+		<result column="ID" property="id"/>
+		<result column="Major" property="major"/>
+		<result column="TeacherLevel" property="teacherLevel"/>
+		<result column="IsRecommended" property="isRecommended"/>	
+		<!-- add by:dongs -->
+		<result column="Job_GroupID" property="jobGroupId" />
+	</resultMap>
+    
+    <!-- 根据用户id查询老师 -->
+	<select id="getTeacherByUserId" parameterType="int" resultMap="teacherMap">
+		SELECT u.*,uu.* FROM u_teacher AS u,u_user AS uu WHERE u.user_ID = uu.user_ID AND  u.user_ID =  #{userId} 
+	</select>
+	<!-- add by:dongs -->
+	<!-- 根据行业id查询老师 -->
+	<select id="getTeacherListByProfessionId" parameterType="java.util.Map" resultMap="teacherMap">
+		SELECT t.*
+		FROM u_teacher AS t LEFT OUTER JOIN p_job AS j ON t.Job_GroupID=j.Job_ID 
+		WHERE j.Pro_ID=#{proId} 
+		LIMIT #{limit} OFFSET #{offset}
+	</select>
+	<!-- 根据老师擅长领域对应的行业id查询老师 -->
+	<select id="getTeacherListByShineProfId" parameterType="java.util.Map" resultMap="teacherMap">
+		SELECT distinct t.*
+		FROM u_teacher AS t LEFT JOIN u_teacher_shine AS s ON t.User_ID=s.userid
+		WHERE s.proid=#{proId}
+		LIMIT #{limit} OFFSET #{offset}
+	</select>
+	<!-- add by:dongs -->
+	<!-- 根据岗位群id查询老师 -->
+	<select id="getTeacherListByjobGroupId" parameterType="java.util.Map" resultMap="teacherMap">
+		SELECT t.* 
+		FROM u_teacher AS t 
+		WHERE t.Job_GroupID=#{jobGroupId}
+		LIMIT #{limit} OFFSET #{offset}
+	</select>
+	<!-- add by:dongs -->
+	<!-- 根据老师擅长领域对应的岗位群id查询老师 -->
+	<select id="getTeacherListByShineJobgId" parameterType="java.util.Map" resultMap="teacherMap">
+		SELECT distinct t.*
+		FROM u_teacher AS t LEFT JOIN u_teacher_shine AS s ON t.User_ID=s.userid
+		WHERE s.jobid=#{jobGroupId}
+		LIMIT #{limit} OFFSET #{offset}
+	</select>
+		<!-- add by:dongs -->
+	<!-- 根据行业id查询老师总数 -->
+	<select id="countTeacherListByProfessionId" parameterType="int" resultType="int">
+		SELECT count(*)
+		SELECT distinct t.*
+		FROM u_teacher AS t LEFT JOIN u_teacher_shine AS s ON t.User_ID=s.userid
+		WHERE s.proid=#{proId}
+		LIMIT #{limit} OFFSET #{offset}
+	</select>
+		<!-- add by:dongs -->
+	<!-- 根据老师擅长领域对应的行业id查询老师总数 -->
+	<select id="countTeacherListByShineProId" parameterType="int" resultType="int">
+		SELECT COUNT(DISTINCT userid) 
+		from u_teacher_shine as s
+		where s.proid=#{proId}
+		GROUP BY s.proid
+	</select>
+	<!-- add by:dongs -->
+	<!-- 根据岗位群id查询老师总数 -->
+	<select id="countTeacherListByjobGroupId" parameterType="int" resultType="int">
+		SELECT count(*) 
+		FROM u_teacher AS t 
+		WHERE t.Job_GroupID=#{jobGroupId}
+	</select>
+	<!-- add by:dongs -->
+	<!-- 根据老师擅长领域对应的岗位群id查询老师总数 -->
+	<select id="countTeacherListByShinejobgId" parameterType="int" resultType="int">
+		SELECT COUNT(DISTINCT userid) 
+		from u_teacher_shine as s
+		where s.jobid=#{jobGroupId}
+		GROUP BY s.jobid
+	</select>
+	<!-- add by:dongs -->
+	<!-- 查询老师总数 -->
+	<select id="countTeacher" parameterType="int" resultType="int">
+		SELECT count(*) 
+		FROM u_teacher AS t 
+	</select>
+	<!-- add by:dongs -->
+	<!-- 老师擅长领域对应的查询老师总数 -->
+	<select id="countShineTeacher" parameterType="int" resultType="int">
+		SELECT COUNT(DISTINCT userid) 
+		from u_teacher_shine 
+	</select>
+	 <!-- add by:dongs -->
+	 <!-- 查询所有老师的分页 -->
+	<select id="getTeacherList" parameterType="java.util.Map" resultMap="teacherMap">
+	SELECT t.* FROM u_teacher AS t 
+	LIMIT #{limit} OFFSET #{offset}
+	</select>
+	 <!-- 根据教师擅长领域查询所有老师的分页 -->
+	<select id="getTeacherListInShine" parameterType="java.util.Map" resultMap="teacherMap">
+	SELECT distinct t.*
+	FROM u_teacher AS t, u_teacher_shine AS s
+	WHERE t.User_ID=s.userid
+	LIMIT #{limit} OFFSET #{offset}
+	</select>
+	 <!-- add by:dongs -->
+	 <!-- 通过教师id查询老师 -->
+	<select id="getTeacherById" parameterType="int" resultMap="teacherMap">
+	SELECT u.*,uu.* FROM u_teacher AS u,u_user AS uu WHERE u.user_ID = uu.user_ID AND  u.id =  #{teacherId}
+	</select>
+	
+	<!-- Add By缪佳：修改老师 -->
+	<update id="updateTeacher" parameterType="com.gta.oec.vo.teacher.TeacherVo" flushCache="true">
+		     update u_teacher 
+		     <set>
+		     	<if test="school !=null">
+		     		School = #{school}
+		     	</if>
+		     	<if test="major !=null">
+		     		,Major = #{major}
+		     	</if>
+		     	<if test="teacherLevel !=null">
+		     		,TeacherLevel = #{teacherLevel}
+		     	</if>
+		     	<if test="introduce !=null">
+		     		,Introduce = #{introduce}
+		     	</if>		     	
+		     </set>
+		      where User_ID = #{userId}
+	</update>
+</mapper>    

@@ -1,0 +1,42 @@
+
+				[#if professionVo?exists]
+
+					<div class="questionTabCon">
+						<div class="newsQuestionCon">
+							<h3><a href="${base}/questionCenter/morequestion/${(professionVo.proID)!'0'}/1/?headTab=7" class="more" title="更多最新问题">更多</a>最新问题</h3>
+							<ul class="wordBreak">
+								[#if professionVo.newQuestionList?exists && professionVo.newQuestionList?size !=0]
+									[#list professionVo.newQuestionList as lists]
+										<li><span class="time">${(lists.compareTime)!''}</span><span class="counts">${(lists.quesAnswerCount)!'0'}回答</span><a href="${base}/questionCenter/questiondetail/${(lists.quesID)!'0'}/" title="${(lists.quesContent)!''}">[@text_cut s='${lists.quesContent!}' len='35' append='..'][/@text_cut]</a></li>
+									[/#list]
+								
+								[/#if]
+							</ul>
+						</div>
+						<div class="hotQuestionCon" style="padding-bottom: 20px;">
+							<h3><a href="${base}/questionCenter/morequestion/${(professionVo.proID)!'0'}/2/?headTab=7" class="more" title="更多最热门问题">更多</a>最热门问题</h3>
+							[#if professionVo.hotQuestionList?exists && professionVo.hotQuestionList?size !=0]
+								[#list professionVo.hotQuestionList as lists]
+									<dl class="hotQuestionList wordBreak">
+										<dt class="put">提问</dt>
+										<dd class="questions"><a href="${base}/questionCenter/questiondetail/${(lists.quesID)!'0'}/" title="">${(lists.quesContent)!''}</a></dd>
+										<dt class="answer">回答</dt>
+										[#if lists.answerVo?exists && lists.answerVo.answID!=0]
+										<dd class="answerCon">[@html_unescape_cut s="${(lists.answerVo.answContent)!}" len="120" append="..."/]
+<!--							   						<div><span class="people">回答者：<a href="${base}/qacenter/teacherdetail/${(lists.answerVo.teacherId)!'0'}/"  title="${(lists.answerVo.userName)!''}">[@html_unescape_cut s="${(lists.answerVo.userName)!}" len="9" append=".."/]</a></span><a href="javascript:void(0);" onclick="updateAttentionQuestion(${(lists.quesID)!''})" class="attention"><span id="attentionSign${(lists.quesID)!''}">${(lists.attentionSign)!''}</span></a><span class="praise"><a href="javascript:void(0);" onclick="updateAnswPraiseCount('${(lists.answerVo.answID)!''}')"><span id="praiseSign${(lists.answerVo.answID)!''}">${(lists.answerVo.praiseSign)!''}</span>(<span id="praiseCount${(lists.answerVo.answID)!''}">${(lists.answerVo.answPraiseCount)!'0'}</span>)</a></span></div>-->
+					  	 					<div><span class="people">回答者：<a href="${base}/qacenter/teacherdetail/${(lists.answerVo.teacherId)!'0'}/"  title="${(lists.answerVo.userName)!''}">[@html_unescape_cut s="${(lists.answerVo.userName)!}" len="9" append=".."/]</a></span><a href="javascript:void(0);" onclick="updateAttentionQuestion(${(lists.quesID)!''})" class="attention"><span id="attentionSign${(lists.quesID)!''}">${(lists.attentionSign)!''}</span>(<span id="attentionCount${(lists.quesID)!''}">${(lists.quesAttentionCount)!'0'}</span>)</a><span class="praise"><span id="praiseSign${(lists.answerVo.answID)!''}">回答数</span>(<span id="praiseCount${(lists.answerVo.answID)!''}">${(lists.quesAnswerCount)!'0'}</span>)</span></div>
+					  	 				</dd>
+					  	 				[#else]
+					  	 					<dd class="answerCon">该问题还没有回答。
+						   						<div>
+						   						<a href="javascript:void(0);" onclick="updateAttentionQuestion(${(lists.quesID)!''})" class="attention"><span id="attentionSign${(lists.quesID)!''}">${(lists.attentionSign)!''}</span>(<span id="attentionCount${(lists.quesID)!''}">${(lists.quesAttentionCount)!'0'}</span>)</a><span class="praise"><span id="praiseSign${(lists.answerVo.answID)!''}">回答数</span>(<span id="praiseCount${(lists.answerVo.answID)!''}">${(lists.quesAnswerCount)!'0'}</span>)</span></div>
+						  	 				</dd>
+					  	 				[/#if]
+									</dl>
+								[/#list]
+							[/#if]
+						</div>
+					</div>
+
+				[/#if]
+			

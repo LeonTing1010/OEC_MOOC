@@ -1,0 +1,77 @@
+@charset "utf-8";
+/* CSS Document */
+.main{padding:24px 20px 10px;}
+.student-title{
+	height:40px;
+	line-height:40px;
+	font-size:18px;
+	border-bottom:2px solid #6e8ed1;
+	position:relative;
+}
+.student-title h3{
+	position:absolute;
+	display:inline;
+	border-bottom:2px solid #33518f;
+	bottom:-2px;
+	font-weight:normal;
+	height:40px;
+	line-height:40px;
+}
+
+
+.table-default{
+	margin:10px 0 0 0;
+	}
+.table-default th {
+	border:1px solid #7282a3;
+	height:40px;
+	line-height:40px;
+	background:#8b9abb;
+	text-align:center;
+	color:#fff;
+	font-size:14px;
+}
+.table-default td{
+	border:1px solid #d7d7d7;
+	padding:5px;
+	text-align:center;
+	}
+.table-default .classBox{
+	width:250px;
+	height:80px;
+	text-align:left;
+	}
+.table-default .classBox span{
+	display:block;
+	margin-bottom:10px;}
+.table-default .classBox span a{ color:#555;}
+.table-default .classBox img{
+	float:left;
+	margin-right:5px;
+	}
+.table-default td p{
+	margin:0;
+	padding:0;sx}
+.table-default td a{
+	display:block;
+	margin:5px 0 ;
+	}
+.table-default td a:hover{
+	text-decoration:underline;
+	}
+.orange{
+	color:#fb7d29;
+}
+.shrink-arrow{
+	float:right;
+	margin:16px 16px 0 0;
+	width:11px;
+	height:4px;
+	background:url(../../images/studentCenter/shrink-arrow.png) no-repeat;
+	display:inline;
+	cursor:pointer;
+	overflow:hidden;
+}
+.shrink-arrow-up{
+	background-position: left -8px;
+}

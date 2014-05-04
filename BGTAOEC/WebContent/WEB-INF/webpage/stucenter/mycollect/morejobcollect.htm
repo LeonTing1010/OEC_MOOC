@@ -1,0 +1,75 @@
+<link href="${base}/css/studentCenter/studentPost.css" rel="stylesheet" type="text/css">
+<script src="${base}/js/jquery-1.10.2.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+$(function(){
+	  $(".shrink").click(
+
+		  function(){	
+		  	var dd = $(this).parent().next("dd");
+			if(dd.is(':hidden')){
+				$(this).addClass('shrink-click');
+			}
+			else{
+				$(this).removeClass('shrink-click');
+			}
+			dd.toggle();		
+			
+		  }
+	  );
+	    
+	});
+
+function  cancelJobSelect(jobID){
+		$.ajax({
+			url:base+"/studentCenter/cancelJobSelect/",
+			type:"post",
+			data:{jobID:jobID},
+			dataType:"json",
+		    error:function(){
+		    },
+		    success:function(data){
+		    	if (data.result) {
+		    		$("#"+data.jobID).hide();
+		    		jobcollect()
+				}
+		    }
+		});
+}
+</script>
+ <div class="student-title"><h3>职位收藏</h3></div>
+<div class="post-body">
+	[#if jobList??]
+		[#if (jobList.list?size>0)]
+			[#list jobList.list as info]
+				<dl class="post-course" id="${info.jobID}">
+		            	<dt>
+		            	<span class="shrink shrink-click"></span><a href="${base}/job/positiondetails/${info.jobID}/" target="_blank">${info.jobName!}</a><span>/包含课程</span>
+		            	<span class="delet" title="取消岗位收藏" onclick="cancelJobSelect(${info.jobID})"></span> 
+		            	</dt>
+		                <dd>
+		                [#if info.courlist?? && info.courlist?size>0]
+			                [#list info.courlist as t]
+			                	<a spry:when="#" href="${base}/course/info/${t.courseId}/" title="${t.courseName!}" target="_Blank">${t.courseName!}</a>				
+			               	[/#list]
+			            [#else]
+			            	<p style="color:gray">该岗位暂无相关课程!</p>
+			            [/#if]
+		                </dd>
+		           </dl>
+	        [/#list]
+	        [@p.tab value=jobList][#rt/][/@p.tab]
+		[#else]
+			暂无职位收藏！
+		[/#if]
+	[/#if]
+</div>
+	
+	    
+		<script type="text/javascript">
+			function _gotoPage(pageNo){
+				$('.main').load(base+"/studentCenter/jobcollect/?pageNo="+pageNo);
+			}
+		</script>
+	
+
+

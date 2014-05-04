@@ -1,0 +1,46 @@
+<link href="${base}/css/course/curriculum.css" rel="stylesheet" type="text/css">
+<div class="m0a curDetailCon">
+	<h3>课件详情</h3>
+	[#if course.list??] [#list course.list as section]
+	<div class="clearfix">
+		<h4>第[@num s='${section_index+1}'/]章[@text_cut s='${section.name!}' len='20' append='..'][/@text_cut]</h4>
+		<!--curDetailList start-->
+		[#if section.list??]
+		<ul class="curDetailList">
+		   [#assign size = section.list?size/] 	 
+			[#list section.list as sect]
+			<li>
+			    [#if sect.learn??]
+				<div class="statusA viewed">
+					[#if sect_index < (size-1)]<span></span>[/#if]
+				</div> 
+				[#else]
+				<div class="statusA">
+					[#if sect_index < (size-1)]<span></span>[/#if]
+				</div>
+				 [/#if]
+				<div class="title" >
+				   [#if sect.resourceCount gt 0] 
+				   [#setting url_escaping_charset='utf-8'] 
+					<a href="${base}/course/resource/?courseId=${section.courseId!}&sectionId=${sect.id!}&courseName=${course.courseName!?url}" target="blank">
+					<span class="text" title="辅助资料"></span>
+					</a>
+				    [/#if]	
+					[#if sect.noteCount gt 0] <a href="${base}/studentCenter/index/?tab=2" target="_blank"><span class="edit" title="课堂笔记"></span></a>[/#if]
+                   <label>		
+                    [#if sect.secUrl??]
+			        <a target="_blank" href="${base}/course/learn/?courseId=${section.courseId!}&sectionId=${sect.id!}" title="">第[@num s='${sect_index+1}'/]节.&nbsp;[@text_cut s='${sect.name!}' len='20' append='..'][/@text_cut]</a>
+				    [#else]
+				            第[@num s='${sect_index+1}'/]节.&nbsp;[@text_cut s='${sect.name!}' len='20' append='..'][/@text_cut]
+				    [/#if]
+				  </label>
+					
+				</div>
+			</li> [/#list]
+		</ul>
+		[/#if]
+	</div>
+
+	[/#list] [/#if]
+	<!--curDetailBody end-->
+</div>

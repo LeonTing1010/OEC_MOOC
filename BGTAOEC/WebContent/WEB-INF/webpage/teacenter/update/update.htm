@@ -1,0 +1,25 @@
+<link href="${base}/css/teacherCenter/classDetail.css" rel="stylesheet" type="text/css"/>
+<script src="${base}/js/teachercenter/update/update.js?code=${code!}" type="text/javascript"></script>
+<input type="hidden" name="courseId" value="${courseId!}"/>
+	<div class="topBox">
+		<div class="menuBtn" style="cursor:auto"></div>
+		<div class="crumbs">
+			你所在的位置：<a href="javascript:void(0)"></a> > <span>课程修改</span>
+		</div>
+	</div>
+	<div class="main">
+		<div class="main-title">
+			<h3>[#if course??]${course.courseName!}[/#if]</h3>
+		</div>
+		<div class="tab mt20">
+			<ul style="" id="quickNav">
+				<li data-id="page1" onclick="updatePage(this)" class="current"><a href="javascript:void(0);" class="jobInfo">课程信息</a></li>
+				<li data-id="page2" onclick="updatePage(this)" class=""><a href="javascript:void(0);" class="course">课程大纲</a></li>
+				<li data-id="page3" onclick="updatePage(this)" class=""><a href="javascript:void(0);" class="course">课件资源</a></li>
+			</ul>
+		</div>
+		<div class="form-bodybox">
+	
+		</div>
+	</div>
+	<div class="clear"></div>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gta.oec.cms.dao.message.MessageDao">
+<resultMap type="com.gta.oec.cms.vo.message.Message" id="messageMap">
+	<result column="message_id" property="messageId"/>
+	<result column="create_Date" property="messageCreateDate"/>
+	<result column="user_read" property="readFlag"/>
+	<result column="adminUserEmail" property="adminUserEmail"/>
+	
+	<!-- message model 信息 -->
+	<result column="message_model_id" property="messageModelid"/>
+	<result column="mess_title" property="title"/>
+	<result column="mess_content" property="content"/>
+	<result column="mess_type" property="type"/>
+	<result column="mess_state" property="state"/>
+	<result column="mess_remark" property="remark"/>
+	<result column="mess_createDate" property="createDate"/>
+	<result column="mess_updateDate" property="updateDate"/>
+	<result column="mess_send_object" property="sendObject"/>
+	
+	<!-- user vo 信息 -->
+	<association property="userVo" column="user_id"
+			javaType="com.gta.oec.cms.vo.user.User">
+			<id property="userId" column="user_id" />
+			<result property="userEmail" column="User_Email" />
+		</association>
+	
+</resultMap>
+ 
+	<insert id="saveMessage" parameterType="message">
+        		insert u_message(user_id,message_model_id,create_Date,user_read,user_admin_id)
+        		values(
+        						#{message.userId},
+        						#{message.messageModelid},
+        						(select now()),
+        						 1,
+        					 	#{message.adminUserId}
+        				)
+
+	</insert>
+	<select id="findMessagePageQuery" parameterType="page" resultMap="messageMap">
+	
+			select  
+				umm.message_model_id,
+				umm.mess_title,
+				umm.mess_content,
+				umm.mess_type,
+				umm.mess_state,
+				umm.mess_remark,
+				umm.mess_send_object,
+				um.create_Date,
+				um.user_read,
+				um.message_id,
+				uu.user_id,
+				uu.User_Email,
+				adminUser.User_Email as adminUserEmail
+			from u_message  um
+			inner join u_message_model umm on umm.message_model_id=um.message_model_id
+			inner join u_user uu on uu.User_ID=um.user_id
+			inner join u_user adminUser on adminUser.user_id=um.user_admin_id
+			
+			where 1=1
+			
+			<if test="parameters.userType !=null and parameters.userType!=0">
+					and uu.User_Type=#{parameters.userType}
+			</if>	
+			
+			<if test="parameters.title !=null and parameters.title!='' ">
+					and umm.mess_title like concat('%', #{parameters.title},'%')
+			</if>	
+			
+			<if test="parameters.createDate !=null and parameters.createDate!='' ">
+					and um.create_Date >= #{parameters.createDate}
+			</if>	
+			
+			<if test="parameters.endDate !=null and parameters.endDate!='' ">
+					and um.create_Date &lt;= #{parameters.endDate}
+			</if>	
+			<if test="parameters.userEmail !=null and parameters.userEmail!='' ">
+					
+					and	uu.User_Email like concat('%', #{parameters.userEmail},'%')
+			</if>	
+		order by  create_Date desc
+	</select>
+
+
+	 
+</mapper>

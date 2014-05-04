@@ -1,0 +1,107 @@
+<link href="${base}/css/teacherCenter/teacherIndex.css" rel="stylesheet" type="text/css">
+<div class="topBox">
+	<div class="menuBtn" style="cursor:auto"></div>
+	<div class="crumbs">
+		你所在的位置：<span>个人中心</span>
+	</div>
+</div>
+<div class="main index">
+	<div class="grid grid-12 box">
+		<div class="title">
+			<button class="btn btn-small btn-primary fr" onclick="releaseTestIndex(3)">发布作业</button>
+			作业批阅
+		</div>
+		<div class="con">
+			<div class="table">
+				<table cellpadding="0" cellspacing="0" width="100%">
+					<thead>
+						<tr>
+							<th>课程名称</th>
+							<th>作业名称</th>
+							<th>未批阅</th>
+							<th>已批阅</th>
+							<th>报名人数</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody>
+					[#if optionList?? && optionList?size>0]
+						[#list optionList as list]
+						<tr>
+							<td class="tal"><a href="${base!}/course/info/${list.courId!}/">${list.courseName!}</a></td>
+							<td class="tal">${list.examName!}</td>
+							<td class="tac">${list.noCorrect!}</td>
+							<td class="tac">${list.hasCorrect!}</td>
+							<td class="tac">${list.learnCount!}</td>
+							<td class="tac"><a href=javascript:void(0)" onclick="correct(${list.examId},${list.examType!})">批阅</a></td>
+						</tr>
+						[/#list]
+					[#else]
+						 <tr><td class="tal" colspan="6">无未批阅作业!</td>
+					[/#if]
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class="grid grid-12 box">
+		<div class="title">
+			<button class="btn btn-small btn-primary fr" onclick="releaseTestIndex(1)">发布试题</button>
+			考试批阅
+		</div>
+		<div class="con">
+			<div class="table">
+				<table cellpadding="0" cellspacing="0" width="100%">
+					<thead>
+						<tr>
+							<th>课程名称</th>
+							<th>未批阅</th>
+							<th>已批阅</th>
+							<th>报名人数</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody>
+					[#if examList?? && examList?size>0]
+						[#list examList as list]
+						<tr>
+							<td class="tal"><a href="${base!}/course/info/${list.courId!}/">${list.courseName!}</a></td>
+							<td class="tac">${list.noCorrect!}</td>
+							<td class="tac">${list.hasCorrect!}</td>
+							<td class="tac">${list.learnCount!}</td>
+							<td class="tac"><a href="javascript:void(0)" onclick="correct(${list.examId},${list.examType!})">批阅</a></td>
+						</tr>
+						[/#list]
+					[#else]
+						 <tr><td class="tal" colspan="5">无未批阅考试!</td>
+					[/#if]
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class="grid grid-12 box">
+		<div class="title">
+			<button class="btn btn-small btn-primary fr" onclick="switchLoad('8')">解答问题</button>
+			最新提问
+		</div>
+		<div class="con questionList">
+			<ul class="clearfix">
+			[#if questionList?? && questionList?size>0]
+				[#list questionList as list]
+				<li>
+					<div class="fl grid-6">
+						<a href="${base}/questionCenter/questiondetail/${(list.quesID)!'0'}/">${list.quesContent!}</a>
+					</div> <span class="fl grid-3">${list.quesCtime?string("yyyy-MM-dd")!}</span> <span class="fl grid-2"><a
+						href="javascript:void(0);" onclick="answer(${list.quesID!})">解答</a></span>
+				</li>
+				[/#list]
+			[#else]
+				暂无相关提问！
+			[/#if]
+			</ul>
+		</div>
+	</div>
+	<div class="clear"></div>
+</div>
+<div class="clear"></div>

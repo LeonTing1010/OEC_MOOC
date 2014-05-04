@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gta.oec.vo.exam.ExamAnswerDetailVo">
+	<resultMap type="com.gta.oec.vo.exam.ExamAnswerDetailVo" id="ExamAnswerDetailMap">
+		<result column="Exam_Answer_ID" property="examAnswerId"/>
+		<result column="Exam_Stu_ID" property="examStuId" />
+		<result column="Exam_Ques_ID" property="examQuesId" />
+		<result column="Exam_Answer" property="examAnswer" />
+		<result column="Exam_Answer_Score" property="examAnswerScore"/>
+		<result column="Exam_Answer_Ctime"  property="examAnswerCtime"/>
+		<result column="Exam_Answer_Utime" property="examAnswerUtime" />
+	</resultMap>
+
+	    <!-- 插入学生的答题  by zhangjin -->
+	    <insert id="insert" parameterType="com.gta.oec.vo.exam.ExamAnswerDetailVo" keyProperty="examAnswerId" useGeneratedKeys="true">
+				INSERT INTO e_exam_answer_detail (Exam_Stu_ID, Exam_Ques_ID, Exam_Answer, Exam_Answer_Score, Exam_Answer_Ctime, Exam_Answer_Utime)
+                      VALUES
+	                   (#{examStuId}, #{examQuesId},#{examAnswer},#{examAnswerScore},#{examAnswerCtime},#{examAnswerUtime});
+	    </insert>
+	    
+	    <!-- 查询学生考试作答集合 -->
+	   	<select id="selectExamAnswerList" parameterType="com.gta.oec.vo.exam.ExamAnswerDetailVo" resultMap="ExamAnswerDetailMap">
+	   		SELECT *
+			FROM e_exam_answer_detail
+			<where>
+				<if test="examStuId!=0">
+					exam_stu_id=#{examStuId}
+				</if>
+				<if test="examQuesId!=0">
+					AND exam_ques_id=#{examQuesId}
+				</if>
+			</where>
+	   	</select>
+	   	
+	   	<!-- 得到学生考试分数 -->
+	   	<select id="selectSumCorrect" parameterType="com.gta.oec.vo.exam.ExamAnswerDetailVo" resultType="double">
+	   		SELECT SUM(Exam_Answer_Score) FROM e_exam_answer_detail 
+	   		<where>
+	   			<if test="examStuId!=0">
+	   				exam_Stu_Id=#{examStuId}
+	   			</if>
+	   			<if test="examQuesId!=0">	
+	   				Exam_Ques_ID=#{examQuesId}
+	   			</if>
+	   			<if test="examAnswerId!=0">
+	   				Exam_Answer_ID=#{examAnswerId}
+	   			</if>
+	   		</where>
+	   	</select>
+	   	
+	   	
+	   	<!-- 保存每条作答明细批阅分数 -->
+	   	<update id="updateStuExamScore" parameterType="java.util.Map">
+	   		UPDATE e_exam_answer_detail SET exam_answer_score=#{score} WHERE exam_answer_id=#{examAnsId}
+	   	</update>
+</mapper>    

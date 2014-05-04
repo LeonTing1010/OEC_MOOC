@@ -1,0 +1,60 @@
+<ul>
+	[#if pageModel??] [#if pageModel.list?? && pageModel.list?size gt 0] [#list pageModel.list as ques]
+	<li>
+		<div class="question clearfix">
+			<button class="showBtn btn btn-mini btn-primary fr">展开问题</button>
+			<a href="${base}/questionCenter/questiondetail/${ques.quesID!}/">${ques.quesContent!}</a>
+		</div>
+		<div class="con hide">
+		<input type="hidden" name="quesId" value="${ques.quesID!}"/>
+			<div class="explain">${ques.quesDescription!}</div>
+			<div class="reply">
+				<span class="reply-ico">答</span>
+                <div class="reply-con"></div>
+				<div class="reply-time"></div>
+			</div>
+		</div>
+		<div class="question-ft gray font12">
+			<span class="fr">提问时间：${ques.quesCtime?string("yyyy-MM-dd
+				HH:mm")}</span> <span>提问人：${ques.userName!}</span> [#if type==1] [#if
+			ques.sectionVO??] <span> <a href="#">${ques.sectionVO.name!}&nbsp;${ques.sectionVO.name!}</a>
+			</span> [/#if] [/#if]
+
+		</div>
+	</li> [/#list][@p.tab value=pageModel][#rt/][/@p.tab]
+	 [#else] <p>暂无相关问题!</p>[/#if] [/#if]
+</ul>
+
+<script type="text/javascript">
+	$(function() {
+
+		$(".showBtn").click(function() {
+			var div=$(this).parents("li").children(".con");
+			$(div).toggle();
+				var quesId=$(div).children("input[name=quesId]").val();	
+				
+				if($(div).is(":visible")){
+					$.ajax({
+						url:base+ "/teacherCenter/answered/asyncGetAnswer/",
+						data:{"quesId":quesId},
+						success:function(data){
+							//$(".reply-con").html(data.answContent);
+							$(div).children(".reply").children(".reply-con").html(data.answContent);
+							$(div).children(".reply").children(".reply-time").html("回答时间："+data.answCtime);
+						},
+						error:function(){
+						}
+					});
+					
+				}
+		});
+	});
+	function _gotoPage(pageNo) {
+		remandPageIndex = pageNo;
+		$(".answerlist:visible")
+				.load(
+						base
+								+ "/teacherCenter/answered/getPageOfQuestion/${type!'2'}/?pageNo="
+								+ pageNo+"&code="+Math.random());
+	}
+</script>

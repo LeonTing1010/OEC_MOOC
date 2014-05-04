@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gta.oec.cms.dao.user.UserDao">
+	<resultMap type="com.gta.oec.cms.vo.user.User" id="userResultMap">
+		<result column="User_ID" property="userId"/>
+		<result column="RoleID" property="roleID"/>
+		<result column="User_Name" property="userName"/>
+		<result column="User_Mobile" property="userMobile"/>
+		<result column="User_Email" property="userEmail"/>
+		<result column="User_Password" property="password"/>
+		<result column="User_Type" property="userType"/>
+		<result column="User_HeadPic" property="userHeadPic"/>
+		<result column="User_LoginInfo" property="userLoginInfo"/>
+		<result column="User_ResetPwdCode" property="userResetPwdCode"/>
+		<!-- add by xiecan  -->
+		<result column="Education" property="education"/>
+		<result column="Sch_Name" property="schName"/>
+		<result column="Sch_ID" property="schId"/>
+		<result column="create_date" property="createDate" />
+		<result column="User_state" property="userState"/>
+		<result column="IsRecommended" property="isRecommended"/>
+		<result column="TeacherLevel" property="teacherLevel"/>
+		<result column="Major" property="major"/>
+		<result column="Introduce" property="usIntroduce"/>
+		<!-- end -->
+	</resultMap>
+	
+<!-- 	<select id="getAllUser" resultType="list" resultMap="userResultMap">
+		select * from u_user limit 20
+	</select>
+	
+	<select id="getUserById" parameterType="int" resultMap="userResultMap">
+		select * from u_user where 1 = 1
+		<if test="userId!=0">
+			 AND User_ID=#{userId}
+		</if>
+	</select>
+	
+	<select id="getUserByName" parameterType="java.lang.String" resultMap="userResultMap">
+		select * from u_user where 1 = 1
+		<if test="userName!=null">
+			 AND User_Name=#{userName}
+		</if>
+	</select>
+	
+	<insert id="addUser" parameterType="user"> 
+        insert into u_user(RoleID,User_Name,User_Mobile,User_Email,User_Password,User_Type,User_HeadPic,User_LoginInfo,User_ResetPwdCode) values (#{user.roleID},#{user.userName},#{user.userMobile},#{user.userEmail},#{user.password},#{user.userType},#{user.userHeadPic},#{user.userLoginInfo},#{user.userResetPwdCode})
+    </insert>
+    
+    <update id="editUser" parameterType="user">
+        update u_user set RoleID = #{user.roleID}, User_Name = #{user.userName}, User_Mobile = #{user.userMobile}, User_Email = #{user.userEmail}, User_Password = #{user.password}, User_Type = #{user.userType}, User_HeadPic = #{user.userHeadPic}, User_LoginInfo = #{user.userLoginInfo}, User_ResetPwdCode = #{user.userResetPwdCode}  where User_ID=#{user.userId}
+    </update>
+    
+    <delete id="removeUser" parameterType="int">
+        delete from u_user where User_ID=#{userId}
+    </delete>
+	
+	<select id="allUserPageQuery" resultType="list" resultMap="userResultMap">
+		select * from u_user 
+	</select>
+	
+	<select id="allUserPageQueryCtx" resultType="list" resultMap="userResultMap" parameterType="page">
+		select * from u_user where 1=1 
+		<if test="parameters.User_Password != null">
+			AND User_Password = #{parameters.User_Password}
+		</if>
+		<if test="parameters.User_Type != null">
+			AND User_Type = #{parameters.User_Type}
+		</if>
+	</select> -->
+	
+<!-- add by xiecan -->
+	<select id="findUserPageQuery" parameterType="page" resultMap="userResultMap">
+			
+			select   t.* from ( 
+				(
+					select uut.User_ID,uut.User_Type,uut.user_name,''as Education,ss.Sch_Name,ss.sch_id as sch_id,uut.User_Email,uut.User_Mobile,uut.create_date,uut.User_state ,ut.IsRecommended  
+					from u_user uut  
+					inner JOIN u_teacher ut on ut.User_ID=uut.User_ID
+					left join s_school ss on ss.Sch_ID=ut.Sch_id
+				)
+				union 
+				(
+					select uus.User_ID,uus.User_Type,uus.user_name, us.Education ,'' as Sch_Name ,'' as sch_id ,uus.User_Email,uus.User_Mobile, uus.create_date,uus.User_state,'' as IsRecommended
+					from u_user uus 
+					inner join u_student us on uus.User_ID=us.UserID
+				
+				)  
+			)t
+			 where 1=1
+			<if test="parameters.userName != null and parameters.userName!='' ">
+				 AND t.User_Name like concat('%',#{parameters.userName},'%')
+			</if>
+			<if test="parameters.userType!=null and parameters.userType!=0">
+				 AND t.User_Type  =#{parameters.userType}
+			</if>
+			<if test="parameters.userState!=null ">
+				 AND  IFNULL(t.User_state,0)=#{parameters.userState}
+			</if>
+			<if test="parameters.isRecommended !=null and parameters.isRecommended !='' ">
+				 AND t.IsRecommended=#{parameters.isRecommended}
+			</if>
+			<if test="parameters.education !=null and parameters.education!= ''">
+				 AND t.Education=#{parameters.education}
+			</if>
+			
+			<if test="parameters.schId !=null and parameters.schId!=0">
+				 AND t.sch_id=#{parameters.schId}
+			</if>
+			<if test="parameters.createDate !=null and parameters.createDate !=''">
+				 AND t.create_date >Date(#{parameters.createDate})
+			</if>
+			
+			<if test="parameters.endDate !=null and parameters.endDate !=''">
+				 AND t.create_date &lt; concat( #{parameters.endDate} ,' 23:59:59')
+			</if>
+			Order by create_date desc
+	</select>
+	
+	<insert id="insertUser"  parameterType="user" useGeneratedKeys="true" keyProperty="user.userId">
+	
+			insert into 
+				u_user(User_Name,User_Email,User_Password,User_Mobile,Create_Date,User_Type,User_state,RoleID,User_HeadPic) 
+			values(
+				#{user.userName},
+				#{user.userEmail},
+				#{user.password},
+				#{user.userMobile},
+				#{user.createDate},
+				#{user.userType},
+				#{user.userState},
+				1,
+				#{user.userImgUrl}
+				
+			)
+	</insert>
+		<insert id="insertUserByTeacher"  parameterType="user"  >
+				
+				insert into u_teacher(User_ID,TeacherLevel,Major,Sch_id,IsRecommended,Introduce)
+			values(
+				#{user.userId},
+				#{user.teacherLevel},
+				#{user.major},
+				#{user.schId},
+				#{user.isRecommended},
+				#{user.usIntroduce}
+			)
+	</insert>
+	 
+	<select id="getSchoolAll" resultMap="userResultMap"  resultType="list" >
+		select t.Sch_ID,t.Sch_Name from s_school t order by Sch_ID
+	</select>
+	<update id="updateUserStateById" parameterType="map">
+		  update u_user u set
+		   		u.User_state=#{in.state} 
+		   where u.User_ID=#{in.userId}
+	
+	</update>
+		<update id="updateTeacherIsRec" parameterType="map">
+		  update u_teacher t set t.IsRecommended=#{in.isRec}  where t.User_ID=#{in.userId}
+	</update>
+	<select id="findUserCount" parameterType="map" resultType="Integer">
+		select count(0) from u_user u 
+		WHERE 1=1
+		
+			<if test="params.userEmail !=null and params.userEmail !='' ">
+				  AND u.User_Email=#{params.userEmail}
+			</if>
+			<if test="params.userName!=null and params.userName !='' ">
+				  AND binary u.User_Name =#{params.userName}
+			</if>
+			<if test="params.userId!=null">
+				  AND u.User_ID != #{params.userId}
+			</if>
+	
+	</select>
+	
+	<select id="findUserByparams" parameterType="map" resultMap="userResultMap" >
+			select 
+				u.User_ID,
+				u.User_Name,
+				u.User_Email,
+				u.User_Type 
+			from u_user u 
+			 where 1=1
+		 
+		 	<if test="params.userId !=null  and params.userId!=0" >
+				AND	 u.User_ID = #{params.userId}
+			</if>
+		  	<if test="params.userType !=null and params.userType!=0">
+				AND	 u.User_Type = #{params.userType}
+			</if>
+		 	<if test="params.userEmail !=null and params.userEmail !='' ">
+				AND	 u.User_Email = #{params.userEmail}
+			</if>
+	</select>
+	<select id="findUserTearchObj" parameterType="Map" resultType="com.gta.oec.cms.vo.user.User" resultMap="userResultMap">
+		select 	
+				uut.User_ID,
+				uut.User_Type,
+				uut.user_name,
+				uut.User_Email,
+				uut.User_Mobile,
+				uut.create_date,
+				uut.User_state,
+				uut.User_HeadPic,
+				ut.IsRecommended,
+				ut.TeacherLevel,
+				ut.major,
+				ss.Sch_Name,
+				ss.sch_id,
+				ut.Introduce
+				
+					from u_user uut  
+					inner JOIN u_teacher ut on ut.User_ID=uut.User_ID
+					inner join s_school ss on ss.Sch_ID=ut.Sch_id
+			where 1=1
+			 <if test="params.userId !=null and params.userId !=0 ">
+				AND	 uut.User_ID = #{params.userId}
+			</if>	
+			 <if test="params.userEmail !=null and params.userEmail !='' ">
+				AND	 uut.User_Email = #{params.userEmail}
+			</if>	
+	</select>
+	<update id="upTeahcerByUser" parameterType="user">
+			update u_user u 
+			<set> 
+				 <if test="user.userName !=null and user.userName !='' ">
+							u.User_Name = #{user.userName},
+				</if>	
+				 <if test="user.userMobile!=null and user.userMobile !='' ">
+							u.User_Mobile = #{user.userMobile},
+				</if>	
+				 <if test="user.userImgUrl !=null and user.userImgUrl !='' ">
+							u.User_HeadPic = #{user.userImgUrl}
+				</if>	
+				 <if test="user.password !=null and user.password !='' ">
+							u.User_Password = #{user.password}
+				</if>	
+			</set>
+			where u.User_ID=#{user.userId}
+	</update>
+	<update id="upTeahcer" parameterType="user">
+	 
+			update u_teacher t  
+		<set>
+	 		<if test="user.teacherLevel !=null and user.teacherLevel !='' ">
+						t.TeacherLevel = #{user.teacherLevel},
+			</if>	
+			<if test="user.major !=null and user.major !='' ">
+						t.Major = #{user.major},
+			</if>	
+			<if test="user.schId !=null and user.schId !='' ">
+						t.Sch_id = #{user.schId},
+			</if>	
+			<if test="user.isRecommended !=null">
+						t.IsRecommended = #{user.isRecommended},
+			</if>	
+			<if test="user.usIntroduce !=null and user.usIntroduce !='' ">
+						t.Introduce = #{user.usIntroduce}
+			</if>	
+			
+		</set>
+			where t.User_ID=#{user.userId}
+	</update>
+	
+	<select id="getTeacherByIsrc" parameterType="map" resultType="Integer">
+			 select  count(0)
+					from u_user uut  
+					inner JOIN u_teacher ut on ut.User_ID=uut.User_ID 
+						<if test="params.isRecommended !=null">
+									AND ut.IsRecommended =#{params.isRecommended}
+					</if>
+	</select>
+
+	
+	
+	
+</mapper>

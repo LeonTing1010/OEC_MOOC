@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gta.oec.cms.dao.feedback.IFeedbackDao">
+<resultMap type="com.gta.oec.cms.vo.feedback.Feedback" id="feedbackMap">
+	<result column="Feedback_ID" property="fID"/>
+	<result column="Feedback_Title" property="fTitle"/>
+	<result column="Feedback_Content" property="fContent"/>
+	<result column="Feedback_Email" property="fEmail"/>
+	<result column="Feedback_Ctime" property="fCtime"/>
+	<result column="Feedback_Source" property="fSource"/>
+</resultMap>
+	<!-- 多条件查询意见反馈信息 -->
+	<select id="findFeedbackPageQuery" parameterType="page" resultMap="feedbackMap">
+		select * from f_Feedback where 1=1
+		<if test="parameters.fTitle!=null and parameters.fTitle!=''">
+			AND Feedback_Title like concat('%',#{parameters.fTitle},'%')
+		</if>
+		<if test="parameters.aTime!=null and parameters.aTime!=''">
+			AND Feedback_Ctime > #{parameters.aTime}
+		</if>
+		<if test="parameters.oTime!=null and parameters.oTime!=''">
+			AND Feedback_Ctime &lt; #{parameters.oTime}
+		</if>
+		<if test="parameters.fSource!=null and parameters.fSource!=''">
+			AND Feedback_Source = #{parameters.fSource}
+		</if>
+	</select>	
+	
+	<!-- 查询意见反馈来源 -->
+	<select id="findSource" resultType="list" resultMap="feedbackMap">
+		select Feedback_ID,Feedback_Source from f_Feedback
+	</select>
+	
+	<!-- 删除意见反馈信息 -->
+	<delete id="delFeedbackByID" parameterType="Integer" >
+		delete from f_Feedback where Feedback_ID= #{fID}
+	</delete>
+</mapper>

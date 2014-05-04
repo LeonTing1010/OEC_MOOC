@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gta.oec.vo.school.SchoolVo">
+	<resultMap type="com.gta.oec.vo.school.SchoolVo" id="schoolMap">
+		<result column="sch_ID" property="schId" />
+		<result column="sch_Name" property="schName" />
+		<result column="sch_Description" property="schDescription" />
+		<result column="sch_Address" property="schAddress" />
+		<result column="sch_Www" property="schWww" />
+		<result column="sch_Logo" property="schLogo" />
+		<result column="sch_Ctime" property="schCtime" />
+	</resultMap>
+    
+    <!-- select-->
+	<select id="getSchoolByUserId" parameterType="int" resultMap="schoolMap">
+		 SELECT * FROM s_school AS s,u_teacher AS u WHERE u.sch_id = s.sch_id AND u.user_id = #{userId}
+	</select>
+</mapper>    

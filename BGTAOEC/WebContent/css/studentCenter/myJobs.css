@@ -1,0 +1,90 @@
+@charset "utf-8";
+/* CSS Document */
+.main{padding:24px 20px 10px;}
+.student-title{
+	height:40px;
+	line-height:40px;
+	font-size:18px;
+	border-bottom:2px solid #6e8ed1;
+	position:relative;
+}
+.student-title h3{
+	position:absolute;
+	display:inline;
+	border-bottom:2px solid #33518f;
+	bottom:-2px;
+	font-weight:normal;
+	height:40px;
+	line-height:40px;
+}
+
+.test-body{padding:15px 0 0 0;}
+.test-tab-th td{
+	border-right:1px solid #7282a3;
+	height:40px;
+	line-height:40px;
+	background:#8b9abb;
+	text-align:center;
+	color:#fff;
+	font-size:14px;
+}
+.td-w1{width:370px;}
+.td-w2{width:60px;}
+.td-w5{width:60px}
+.td-w3{ width:120px;}
+.td-w4,.test-tab-th .td-w4{width:195px; border:none;}
+.test-course{margin-bottom:9px;}
+.test-course dt{
+	height:34px;
+	line-height:34px;
+	background:#ededed;
+	color:#4a4a4a;
+	font-size:14px;
+	padding-left:32px;
+	border:1px solid #E3E4E5;
+	border-bottom:none;
+}
+.test-course-body{
+	height:34px;
+	line-height:34px;
+	border:1px solid #e3e4e5;
+	text-align:center;	
+}
+.test-course-body td{
+	border:1px solid #e3e4e5;
+	color:#4a4a4a;
+}
+.name,.view{
+	color:#6e8ed1;
+}
+.test-course-body td a:hover{color:#236FD4;}
+
+.test-course-body .orange{
+	color:#fb7d29;
+}
+.shrink-arrow{
+	float:right;
+	margin:16px 16px 0 0;
+	width:11px;
+	height:4px;
+	background:url(../../images/studentCenter/shrink-arrow.png) no-repeat;
+	display:inline;
+	cursor:pointer;
+	overflow:hidden;
+}
+.shrink-arrow-up{
+	background-position: left -8px;
+}
+
+.intoCurriculum{
+	width:84px;
+	float:right;
+	height:24px;
+	line-height:24px;
+	background:#6e8ed1;
+	color:#fff;
+	font-size:12px;
+	border-radius:3px;
+	text-align:center;
+	margin-top:4px;
+}

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gta.oec.cms.dao.qacenter.QuestionAddDao">
+	<resultMap type="com.gta.oec.cms.vo.qacenter.QuestionAddVo"
+		id="questionAddMap">
+		<id column="Ques_AddID" property="questionAddId" />
+		<result column="User_ID" property="userId" />
+		<result column="Ques_Content" property="questionContent" />
+		<result column="Ques_Status" property="questionStatus" />
+		<result column="Ques_LookLimit" property="questionLookLimit" />
+		<result column="Ques_Price" property="questionPrice" />
+		<result column="Ques_Ctime" property="createTime" />
+		<result column="Ques_Utime" property="updateTime" />
+		<collection ofType="com.gta.oec.cms.vo.qacenter.AnswerVo"
+			column="Answ_ID" property="answerListOfQuestionAdd" javaType="arraylist"
+			resultMap="answerResultMap" />
+	</resultMap>
+
+	<resultMap type="com.gta.oec.cms.vo.qacenter.AnswerVo" id="answerResultMap">
+		<id column="Answ_ID" property="answerId" />
+		<result column="Ques_ID" property="questionId" />
+		<result column="Ques_AddID" property="questionAddId" />
+		<result column="User_ID" property="userId" />
+		<result column="Answ_Content" property="answerContent" />
+		<result column="Answ_PraiseCount" property="answerPraiseCount" />
+		<result column="Answ_LookLimit" property="answerLookLimit" />
+		<result column="Answ_IsRead" property="answerIsRead" />
+		<result column="Answ_Ctime" property="createTime" />
+		<result column="Answ_Utime" property="updateTime" />
+		<association property="teacherUserOfAnswer" column="Teacher_ID_Alias"
+			javaType="com.gta.oec.cms.vo.teacher.TeacherVo" resultMap="teacherUserOfAnswerResultMap" />
+	</resultMap>
+
+	<resultMap type="com.gta.oec.cms.vo.teacher.TeacherVo" id="teacherUserOfAnswerResultMap">
+		<id property="idOfTeacher" column="Teacher_ID_Alias" />
+		<result column="SchoolId_Alias" property="schoolIdOfTeacher" />
+		<result column="Major_Alias" property="majorOfTeacher" />
+		<result column="Introduce_Alias" property="introduceOfTeacher" />
+		<result column="TeacherLevel" property="levelOfTeacher" />
+		<result column="IsRecommended_Alias" property="isRecommendedTeacher" />
+		<result property="userId" column="User_ID_Alias" />
+		<result property="userName" column="User_Name_Alias" />
+		<result property="userType" column="User_Type_Alias" />
+		<result property="userHeadPic" column="User_HeadPic_Alias" />
+		<result property="userState" column="User_state_Alias" />
+	</resultMap>
+
+	<select id="getQuestionAddListByAnswerId" resultMap="questionAddMap"
+		parameterType="_int">
+		SELECT Q.*,
+		A.Answ_ID,A.Ques_ID,A.Ques_AddID,A.User_ID,A.Answ_Content,
+		Answ_PraiseCount,A.Answ_LookLimit,A.Answ_IsRead,A.Answ_Ctime,A.Answ_Utime,
+		T.ID AS Teacher_ID_Alias, T.User_ID AS User_ID_Alias,T.Sch_id AS
+		SchoolId_Alias,T.Major AS Major_Alias,T.TeacherLevel AS
+		schoolId_Alias,
+		T.Introduce AS Introduce_Alias, T.IsRecommended AS
+		IsRecommended_Alias,
+		U.User_Name AS User_Name_Alias,U.User_Type AS
+		User_Type_Alias,
+		U.User_HeadPic AS User_HeadPic_Alias,U.User_state AS
+		User_state_Alias
+		FROM q_question_add AS Q LEFT JOIN q_answer AS A ON
+		Q.Ques_AddID=A.Ques_AddID LEFT JOIN u_user AS U
+		ON
+		A.User_ID=U.User_ID
+		LEFT JOIN u_teacher AS T
+		ON
+		U.User_ID=T.User_ID, re_answer_questionadd
+		AS RE
+		WHERE RE.Ques_AddID=Q.Ques_AddID
+		<if test="answerId &gt; 0">
+			AND RE.Answ_ID = #{answerId}
+		</if>
+	</select>
+	<select id="getQuestionAddSimplyListByAnswerId" resultMap="questionAddMap"
+		parameterType="_int">
+		SELECT Q.*
+		FROM q_question_add AS Q , re_answer_questionadd AS RE
+		WHERE
+		RE.Ques_AddID=Q.Ques_AddID
+		<if test="answerId &gt; 0">
+			AND RE.Answ_ID = #{answerId}
+		</if>
+	</select>
+	
+	
+	<delete id="deleteQuestionAddByQuestionAddId" parameterType="_int">
+		DELETE FROM q_question_add WHERE Ques_AddID=#{questionAddId}
+	</delete>
+	<delete id="deleteQuestionAddTotallyByAnswerId" parameterType="_int">
+		DELETE Q,RE
+		FROM q_question_add AS Q , re_answer_questionadd AS RE
+		WHERE
+		RE.Ques_AddID=Q.Ques_AddID
+		AND RE.Answ_ID = #{answerId}
+
+	</delete>
+
+
+</mapper>    

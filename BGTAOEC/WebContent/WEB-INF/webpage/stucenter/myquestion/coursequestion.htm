@@ -1,0 +1,62 @@
+<link href="${base}/css/studentCenter/questionList.css" rel="stylesheet" type="text/css">
+<style >
+<!--
+span.normal{padding: 0 5px;background-color: #d8615d;border-radius: 7px;font-family: Tahoma;font-size: 11px;color: white;line-height: 1.1;font-weight: bold;}
+-->
+</style>
+<script type="text/javascript">
+$(document).ready(function(){
+ var $li = $(".tab li"),
+			$content = $(".tabCon"),
+			$index;
+
+		$li.click(function(){
+			$(this).addClass("current").siblings().removeClass('current');
+			$index = $li.index($(this));
+			$content.eq($index).show().siblings().hide();
+		});
+});
+
+var pageNo=2;
+var quesId;
+/**-获取更多课程提问-**/
+function getMoreCourseQuestion(tagFlag) {
+	$.ajax({
+		url:base+"/studentCenter/getMoreCourserQuestion.ajax",
+		data:{pageNo:pageNo,tagFlag:tagFlag},
+	    error:function(){
+	    	
+	    },
+	    success:function(data){
+	    	if (data!="") {
+	    		pageNo = pageNo+1;
+	    		var liList = $(".tabCon ul").html()+data;
+	    		$(".tabCon ul").html(liList);
+			}else{
+			   // document.getElementById("quesInfo").innerHTML = "暂无更多提问";
+			}
+	    }
+	});
+}  
+</script>
+
+ 
+    <div class="student-title"><h3>课程提问</h3></div>
+          <div class="tab mt20">
+			<ul >
+			  <li [#if type=='1']class="current"[/#if]><a href="javascript:;" class="jobInfo" id="c2" onclick="switchLoad('7')">所有提问</a></li>
+			  <li [#if type=='2']class="current"[/#if]><a class="jobInfo" onclick="switchLoad('11')">最新动态
+			      [#if answerQuesAcount!=0]<span class="normal" id="asa">${answerQuesAcount!'0'}</span>[/#if]</a>
+			  </li>
+			</ul>
+		  </div>
+          <div>
+              <div class="tabCon">
+                <ul class="atQuestion">
+                     [#include "/webpage/stucenter/myquestion/coursequestionPage.htm"]
+                </ul>
+                	<input type="hidden" id="tagFlag" value="1"/>
+                  <div class="loading"><span style="color: gray;">暂无更多问题</span></div>
+
+              </div>
+          </div>

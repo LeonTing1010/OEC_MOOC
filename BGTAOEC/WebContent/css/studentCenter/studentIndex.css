@@ -1,0 +1,153 @@
+@charset "utf-8";
+/* CSS Document */
+.main{padding:24px 20px 10px;}
+.student-title{
+	height:40px;
+	line-height:40px;
+}
+/*-----------------------*/
+.intoCurriculum{
+	width:84px;
+	float:right;
+	height:24px;
+	line-height:24px;
+	background:#6e8ed1;
+	color:#fff;
+	font-size:12px;
+	border-radius:3px;
+	text-align:center;
+	margin-top:4px;
+}
+.mycurItem{
+	width:193px;
+	height:240px;
+	border:1px solid #dce2eb;
+	float:left;
+	margin-right:9px;
+	background:#f5f8fd;
+	display:inline;
+}
+.mycurItem:hover{
+	border:1px solid #6e8ed1;
+}
+.mycurItem dt{
+	background:url(../../images/studentCenter/post-course-dt-bg.png) left center no-repeat;
+	height:56px;
+	line-height:56px;
+	color:#6e8ed1;
+	font-size:18px;
+	padding-left:15px;
+}
+.mycurItem dd{
+	padding:10px 15px;
+}
+.stuClass li a{
+	padding:4px 0;
+	display:block;
+	height:42px;
+	line-height:20px;
+	border-bottom:1px dotted  #dddfe3;
+	background:url(../../images/studentCenter/stuclass-a-bg2.png) right center no-repeat;
+}
+.stuClass li a:hover{
+	background:url(../../images/studentCenter/stuclass-a-bg.png) right center no-repeat;
+}
+.name{color:#595757;}
+.stuClass li a:hover .name{color:#6e8ed1;}
+.stuClass span{
+	display:block;
+	width:140px;
+	}
+.mycurItem dd h4{
+	color:#6e8ed1;
+	font-weight:normal;
+	line-height:26px;
+	margin-bottom:5px;
+}
+.mycurItem dd h4.news{color:#595757;}
+.mycurItem dd .testTxt{
+	height:38px;
+	background:#dee6f9;
+	padding:8px 12px;
+	font-size:12px;
+	color:#595757;
+	margin-bottom:10px;
+}
+.mycurItem dd .newsTxt{
+	color:#595757;
+	font-size:12px;
+	margin-bottom:10px;
+}
+.mycurItem dd .gray{
+	font-size:12px;
+}
+.btnTest,.btnSubJobs{
+	margin-top:15px;
+	float:none;
+	margin:15px auto 0 auto;
+	width:84px;
+	display:block;
+}
+.btnSubJobs{background:#f97b26;}
+.indexTitle{
+	background:url(../../images/studentCenter/post-course-dt-bg.png) left center no-repeat;
+	padding-left:15px;
+	color:#6e8ed1;
+	font-size:18px;
+	line-height:54px;
+	height:54px;
+}
+.collection{
+	margin-top:20px;
+	overflow:hidden;
+	zoom:1;
+	border:1px solid #d9dde4;
+}
+.collection h4{
+	display:block;
+	width:130px;
+	-o-text-overflow: ellipsis; text-overflow: ellipsis;white-space:nowrap; overflow:hidden;
+	}
+.collection h4 a{ 	
+	font-size:16px;
+	color:#6e8ed1;
+}
+.collection ul{ margin-left:24px;}
+.collection li{
+	width:129px;
+	height:77px;
+	padding:20px;
+	float:left;
+	margin: 0 24px 24px 0;
+	display:inline;
+	background:#f5f8fd;
+	border:1px solid #d9dde4;
+}
+.collection li p{
+	font-size:12px;
+	color:#595757;
+}
+.noes li{
+	width:139px;
+	padding:20px 15px;
+}
+
+/*我的笔记*/
+.test li{
+	text-align:center;
+	height:98px;
+}
+.test li .number{
+	color:#fc802d;
+	font-size:43px;
+}
+.test li .scroe{
+	font-size:12px;
+}
+.score span{
+	color:#fc802d;
+}
+.test li p{
+	margin:0;
+	padding:0;
+}

@@ -1,0 +1,13 @@
+<!--请为每个checkbox生成一个id，让label的for属性能够指向匹配的复选框，带来更好用户体验-->
+<#if jobList??> <#list jobList as job>
+<dl class="clearfix">
+	<dt>${job.jobName!}</dt>
+	<#if job.list??> <#list job.list as object>
+	<dd class="item">
+		<input type="checkbox" class="input-checkBox" value="${object.jobID!}"
+			name="job" id="${object.jobID!}"><label
+			for="${object.jobID!}">${object.jobName!}</label>
+	</dd>
+	</#list> </#if>
+</dl>
+</#list> </#if>

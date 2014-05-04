@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gta.oec.vo.mycollect.MyCollectVo">
+	<resultMap type="com.gta.oec.vo.mycollect.MyCollectVo" id="myCollectMap">
+		<result column="Collect_ID" property="collectId"/>
+		<result column="Ref_ID" property="refId" />
+		<result column="Collect_Type" property="collectType" />
+		<result column="User_ID" property="userId"/>
+	</resultMap>
+	<select id="getMyCollectList" parameterType="java.util.Map" resultType="int" >
+		SELECT ref_id FROM m_my_collect 
+			<where>
+				<if test="userId!=null and userId!=0">
+					 User_ID = #{userId}
+				</if>
+				<if test="collectType!=null and collectType!=0">
+					AND Collect_Type = #{collectType}
+				</if>
+			</where>
+	</select>
+	
+	<select id="getCollectVoByUserId" parameterType="java.util.Map" resultMap="myCollectMap">
+		SELECT * FROM m_my_collect where User_ID = #{userId} and Collect_Type = #{collectType}
+		 <if test="refId!=0">
+		 and Ref_ID=#{refId}
+		 </if>
+	</select>
+	
+	
+	
+	<!-- insert -->
+	<insert id="saveMyCollect" parameterType="com.gta.oec.vo.mycollect.MyCollectVo" keyProperty="collectId" useGeneratedKeys="true">
+		INSERT INTO
+		m_my_collect(Collect_ID,Ref_ID,Collect_Type,User_ID)
+		VALUES(#{collectId},#{refId},#{collectType},#{userId});
+	</insert>
+	
+	<select id="jobHasColl" parameterType="java.util.Map" resultType="int">
+		select count(*) from m_my_collect 
+		<where>
+			<if test="userId!=0">
+				User_ID = #{userId}
+			</if>
+			<if test="jobId!=0">
+				and Ref_ID = #{jobId}
+			</if>
+			<if test="collType!=0">
+				and Collect_Type = #{collType}
+			</if>
+		</where>
+	</select>
+	
+	<insert id="collectJob" parameterType="java.util.Map" keyProperty="collectId" useGeneratedKeys="true">
+		insert into m_my_collect(Ref_ID,Collect_Type,User_ID) values
+		(#{jobId},#{collType},#{userId})
+	</insert>
+	
+	<delete id="courDels" parameterType="java.util.Map">
+		DELETE FROM m_my_collect
+		<where>
+			<if test="userId!=0">
+				User_ID = #{userId}
+			</if>
+			<if test="courId!=0">
+				and Ref_ID = #{courId}
+			</if>
+			<if test="collType!=0">
+				and Collect_Type = #{collType }
+			</if>
+		</where>
+	</delete>
+</mapper>    

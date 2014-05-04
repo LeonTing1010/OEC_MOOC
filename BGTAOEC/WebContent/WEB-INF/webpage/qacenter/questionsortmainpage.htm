@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>问题分类-国泰安网络教育</title>
+<meta name="description" content="插入网站全局描述变量" />
+<meta name="Keywords" content="插入网站全局关键字变量" />
+[#include "/webpage/common/common.htm"/]
+<link href="${base}/css/answerCenter/questionList.css" rel="stylesheet"
+	type="text/css">
+<script type="text/javascript" src="${base}/js/qcenter/qsort.js"></script>
+<script type="text/javascript" src="${base}/js/qcenter/question.js"></script>
+<style type="text/css">
+	.wordBreak {
+		word-break:break-all;word-wrap:break-word;
+	}
+</style>
+</head>
+
+<body onload="morequestion(${proId!'0'},${flag!'0'})"  id="backtop">
+	<div class="wrapper">
+		<!-- 答疑中心引入头部 -start-->
+		[#include "/webpage/common/questionhead.htm"/]
+		<!-- 答疑中心引入头部 -end-->
+		<div class="container">
+			<div class="content clearfix pt10">
+				<div class="grid mr10">
+					<div class="grid leftMenu">
+						<div class="menu-head">
+							<div class="title">问题分类</div>
+
+						</div>
+						<ul class="menu-body">
+							[#if professionList?exists && professionList?size !=0] [#list
+							professionList as profession]
+							<li class="item"><a href="javascript:void(0)"
+								class="className" value="${profession.proID!}"
+								id="item${profession.proID!}">${profession.proName!}</a>
+								<div class="subMenu">
+									[#if profession.jobGroupList??] [#list profession.jobGroupList
+									as jobGroup]
+									<dl>
+										<dt id="subMenu${jobGroup.jobID!}" value="${jobGroup.jobID!}">
+											<a href="javascript:void(0)">${jobGroup.jobName!}</a>
+										</dt>
+										<!--<dd  class="clearfix">
+                    <a href="#">仓储部经理/主管</a><a href="#">仓储现场调度</a><a href="#">物料管理员</a><a href="#">库存控制专员</a><a href="#">理货员</a><a href="#">叉车驾驶员</a><a href="#">物流文员</a>
+                  </dd>-->
+									</dl>
+									[/#list] [/#if]
+								</div></li> [/#list] [/#if]
+						</ul>
+					</div>
+				</div>
+				<div class="grid rightCon">
+					<div class="subCrumbs">
+						<a href="/qacenter/qsort/">全部</a> <a href="javascript:void(0)"
+							id="titleItem" itemId=""></a><span
+							id="titleSubMenu"></span>
+					</div>
+					<div class="questionList">
+						<input type="hidden" id="typeInput" value="0"/>
+						<input type="hidden" id="idInput" value="0"/>
+						<input type="hidden" id="pageSizeInput" value="5"/>
+						<input type="hidden" id="pageNoInput" value="2"/>
+						<ul id="questionUl">
+							[#include "/webpage/qacenter/questionsortlist.htm"/]
+						</ul>
+					</div>
+					<div class="pageMore" style="display: none;">
+						<input type="hidden" id="flag" value="${flag!'0'}"/>
+						<span class="btn-small btn radius hide">- 查看更多 -</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		  <div class="footerFixer"></div>
+</div>
+[#include "/webpage/common/footer.htm"/]
+</body>
+</html>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gta.oec.vo.message.MessageVo">
+	<resultMap type="com.gta.oec.vo.message.MessageVo" id="messageMap">
+		<result column="Ms_ID" property="msID" />
+		<result column="Ms_Type" property="msType" />
+		<result column="Ms_Title" property="msTitle" />
+		<result column="Ms_Content" property="msContent" />
+		<result column="Ms_Ctime" property="msCtime" />
+	</resultMap>
+	<!-- select -->
+	    <!-- 根据消息id查询消息-->
+		<select id="getMessageById" parameterType="int" resultMap="messageMap">
+		      select * from Message where Ms_ID = #{id}
+		</select>
+		
+		<!-- 查询消息列表 -->
+		<select id="getMessageList" parameterType="int" resultMap="messageMap">
+		      select  * from message_user u,message m where u.ms_ID = m.ms_ID and u.user_ID = #{id}
+		</select>
+		
+	<!-- insert -->
+	<!-- update -->
+</mapper>    

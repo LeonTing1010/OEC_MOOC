@@ -1,0 +1,44 @@
+<script src="${base}/js/teachercenter/correct.js" type="text/javascript"></script>
+<link href="${base}/css/teacherCenter/correct.css" rel="stylesheet" type="text/css">
+<script type="text/javascript">
+$(function($){
+	loadAnswer(examId,examStuId,1);
+});
+</script>
+
+<div class="topBox">
+	<div class="menuBtn" style="cursor:auto"></div>
+	<div class="crumbs">
+		你所在的位置：<a href="#" onclick="switchLoad('4')">作业管理</a> > <span>查看已批阅作业</span>
+	</div>
+</div>
+<div class="main">
+	<div class="teacher-title">
+		<h3>已批阅作业</h3>
+	</div>
+	<div class="classTitle mt10">
+	[#if examVo??]
+		<h3 class="darkGray">${examVo.courseName!}</h3>
+		<p class="gray"> 作业名称:&nbsp${examVo.examName!}</p>
+		<p class="gray">说明:&nbsp${examVo.examInstruction!}</p>
+		<input type="hidden" name="examId" value="${examVo.examId!}"/>
+	[/#if]
+	</div>
+	<div class="student">
+		[#if examStudentList?? && examStudentList?size>0]
+			[#list examStudentList as examStuList]
+				<span class="name fl">学生姓名：${examStuList.studentName!} </span>
+				<input type="hidden" name="examStuId" value="${examStuList.id!}"/>
+			[/#list]
+		[#else]
+			<input type="hidden" name="stuExamId" value="0"/>
+		[/#if]
+		<button class="btn btn-small btn-primary fr ml10" id="next" onclick="nextOne(1)">下一位</button>
+		<button class="btn btn-small btn-primary fr" id="previous" onclick="preOne(1)">上一位</button>
+	</div>
+	
+	<div class="examAnswer">
+		
+	</div>
+</div>
+<div class="clear"></div>

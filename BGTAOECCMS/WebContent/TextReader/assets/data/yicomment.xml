@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <page index="1" userId="001">  
+	<comment> 
+		<id>90E9C728-7206-6E5D-8EB8-78B255687B45</id>
+		<x>300</x>
+		<y>100</y>
+		<startIndex>100</startIndex> 
+		<endIndex>180</endIndex>
+		<content>批注内容</content>
+		<showType>0</showType>
+		<updateTime>2013-10-24 10:00:00</updateTime>
+	</comment>
+	<comment> 
+		<id>BC6910FF-61DA-7CDC-CB91-DD9E691B02C9</id>
+		<x>80</x>
+		<y>421.55</y>
+		<startIndex>280</startIndex> 
+		<endIndex>300</endIndex>
+		<content>批注内容</content>
+		<showType>1</showType>
+		<updateTime>2013-10-24 10:00:00</updateTime>
+	</comment>
+  </page>
+  <page index="3" userId="001"> 
+	<comment> 
+		<id>03CF62C4-39C7-ADAE-2E0A-BEA1DE068BFB</id>
+		<x>300</x>
+		<y>100</y>
+		<startIndex>100</startIndex> 
+		<endIndex>180</endIndex>
+		<content>批注内容</content>
+		<showType>0</showType>
+		<updateTime>2013-10-24 10:00:00</updateTime>
+	</comment>
+	<comment> 
+		<id>A5890957-FB60-156B-80A9-7AA08DBEB18B</id>
+		<x>80</x>
+		<y>421.55</y>
+		<startIndex>280</startIndex> 
+		<endIndex>300</endIndex>
+		<content>批注内容</content>
+		<showType>1</showType>
+		<updateTime>2013-10-24 10:00:00</updateTime>
+	</comment>
+  </page>
+  <page index="5" userId="001">    
+	<comment> 
+		<id>5BB47C66-2D6E-45B9-12E0-3DE3583B76C0</id>
+		<x>300</x>
+		<y>100</y>
+		<startIndex>100</startIndex> 
+		<endIndex>180</endIndex>
+		<content>批注内容</content>
+		<showType>0</showType>
+		<updateTime>2013-10-24 10:00:00</updateTime>
+	</comment>
+	<comment> 
+		<id>B91CBCE8-F630-F64B-4123-5150DD74FB30</id>
+		<x>80</x>
+		<y>421.55</y>
+		<startIndex>280</startIndex> 
+		<endIndex>300</endIndex>
+		<content>批注内容</content>
+		<showType>1</showType>
+		<updateTime>2013-10-24 10:00:00</updateTime>
+	</comment>
+  </page>
+  <page index="8" userId="001"> 
+	<comment> 
+		<id>0ECD64C3-6B90-D241-DBDD-9242ECEA88D5</id>
+		<x>300</x>
+		<y>100</y>
+		<startIndex>100</startIndex> 
+		<endIndex>180</endIndex>
+		<content>批注内容</content>
+		<showType>0</showType>
+		<updateTime>2013-10-24 10:00:00</updateTime>
+	</comment>
+	<comment> 
+		<id>864FE63F-FCFC-3DFF-75DA-B8CA1F22CF6D</id>
+		<x>80</x>
+		<y>421.55</y>
+		<startIndex>280</startIndex> 
+		<endIndex>300</endIndex>
+		<content>批注内容</content>
+		<showType>1</showType>
+		<updateTime>2013-10-24 10:00:00</updateTime>
+	</comment>
+  </page>
+</root>

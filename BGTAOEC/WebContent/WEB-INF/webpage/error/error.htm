@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>错误提示-国泰安网络教育</title>
+</head>
+<style>
+body{
+	background:#f3f3f3;
+	font-size:12px;
+	
+	}
+.errorbody{
+	width:700px;
+	height:400px;
+	margin:100px auto 0 auto;
+	background:#FFF;
+	box-shadow:2px 2px 2px #ddd;
+	}
+.logoBox{
+	padding:30px;}
+.logo{
+	height:24px;
+	width:120px;
+	display:block;
+	background:url(${base!}/images/error/logo_bg.png) no-repeat;
+	}
+.error-content{
+	width:640px;
+	margin:40px 80px 0 80px;
+	
+	}
+.error-content .leftBox{
+	float:left;
+	height:154px;
+	width:220px;
+	background:url(${base!}/images/error/error_bg.png) no-repeat;
+	margin:0 20px 0 0;
+	}
+.error-content .rightBox{
+	float:left;
+	width:380px;
+	}
+.error-content .rightBox p{
+	line-height:24px;
+	color:#7a7a7a;
+	}
+.error-content .rightBox .home,.error-content .rightBox .back{
+	float:left;
+	display:block;
+	width:100px;
+	height:25px;
+	padding-left:20px;
+	line-height:25px;
+	color:#7a7a7a;
+	}
+.error-content .rightBox a{
+	text-decoration:none;
+	color:#c44a4a
+	}
+.error-content .rightBox a:hover{
+	color:#c44a4a
+	}
+.error-content .rightBox .home{
+	background:url(${base!}/images/error/home_icon_bg.png) center left no-repeat;
+	}
+.error-content .rightBox .back{
+	background:url(${base!}/images/error/back_icon_bg.png) center left no-repeat;
+	}
+.clear{
+	clear:both;}
+</style>
+
+<div class="errorbody">
+   <div class="logoBox">
+     <a class="logo"></a>
+   </div>
+   <div class="error-content">
+     <div class="leftBox">
+     </div>
+     <div class="rightBox">
+       <p class="first">亲爱的用户，[#if errorMsg??]${errorMsg!}[#else]你所浏览的页面出错了！！！[/#if]</p>
+       <p>请点击链接[#if errorMsg??]<a href= "${base}/user/logout/">跳转登录</a>[#else]<a href= "${base}/index/">跳转到首页</a>[/#if]。快点击下面链接离开吧。</p>
+       <div class="link">
+         [#if errorMsg??]
+          <a href="${base!}/user/logout/" class="home">返回登录</a>
+         [#else]
+         <a href="${base!}/index/?headTab=1" class="home">返回首页</a>
+         [/#if]
+         [#if errorTag??]
+           <script type="text/javascript">
+              window.location.href=base+"/index/error/?errorMsg=${errorMsg!}";
+           </script>
+         [/#if]
+       </div>
+     </div>
+     <div class="clear"></div>
+   </div>
+</div>
+
+</html>

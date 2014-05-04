@@ -1,0 +1,137 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>问题搜索-国泰安网络教育</title>
+<meta name="description" content="插入网站全局描述变量" />
+<meta name="Keywords" content="插入网站全局关键字变量" />
+[#include "/webpage/common/common.htm"/]
+
+<link href="${base}/css/answerCenter/searchList.css" rel="stylesheet" type="text/css">
+
+<style type="text/css">
+	.wordBreak {
+		word-break:break-all;word-wrap:break-word;
+	}
+</style>
+<script type="text/javascript" src="${base}/js/qcenter/question.js"></script>
+<script language="JavaScript" type="text/javascript">
+	$(function($) {
+		var $dd = $(".clearfix dd"),
+			$index;
+
+		$dd.click(function(){
+			$(this).addClass("current").siblings().removeClass('current');
+			$index = $dd.index($(this));
+			$(".gridinfo").html($(this).html());
+		});
+	
+	
+		$(".pageMore").click(function() {
+			getMoreQuestion();
+		});
+	});
+	
+	function searchByProId(proId){
+		if(proId==0){
+			$("#typeInput").val(0);
+			$("#idInput").val(0);
+			$(".search_button").click();//点击全部，提交搜索
+		}else{
+			$("#typeInput").val(1);
+			$("#idInput").val(proId);
+			$("#pageNoInput").val(0);
+			$("#questionUl").html("");
+			getMoreQuestion();
+		}
+	    
+	}
+	
+	function getMoreQuestion() {
+		var url = base + "/questionCenter/moreSearch/";
+		var type = $("#typeInput").val();
+		var id = $("#idInput").val();
+		var pageSize = $("#pageSizeInput").val();
+		var pageNo = $("#pageNoInput").val();
+		var searchtext = $("#searchtext").val();
+		
+		pageNo = Number($.trim(pageNo)) + 1;   //加载更多 页数加1
+		$.ajax({
+			url : url,
+			data : {
+				"type" : type,
+				"proId" : id,
+				"pageSize" : pageSize,
+				"pageNo" : pageNo,
+				"searchtext" : searchtext
+	
+			},
+			error : function(data) {
+				alert("错误");
+			},
+			success : function(data) {
+				if (data != "") {
+					$("#questionUl").append(data);
+					$("#pageNoInput").val(pageNo);
+				} else {
+					//$(".pageMore span").text("没有更多的数据");
+				}
+			}
+		});
+	}
+	
+	function expandContent(span){
+		var n=$(span).parent("p").siblings("label").html();
+		$(span).parent("p").empty().html(n);
+		
+	}
+</script>
+</head>
+
+<body  id="backtop">
+<div class="wrapper">
+   <!-- 答疑中心引入头部 -start-->
+	[#include "/webpage/common/questionhead.htm"/]
+	<!-- 答疑中心引入头部 -end-->
+	
+  <div class="container">
+  	<div class="content clearfix pt10">
+      <div class="grid grid-12 crumbs">
+        <div class="pl20">
+          <a href="#" class="gridinfo">全部</a>
+          <span>搜索结果</span>
+        </div>
+      </div>
+      <div class="grid grid-12 ">
+        <div class="category">
+          <dl class="clearfix">
+            <dt>问题分类：</dt>
+            <dd class="current" onclick="searchByProId(0)">全部</dd>
+            [#if professionList?exists && professionList?size !=0]
+				[#list professionList as lists]
+					<dd onclick="searchByProId(${(lists.proID)!'0'})">${(lists.proName)!''}</dd>
+				[/#list]
+			[/#if]
+          </dl>
+        </div>
+        <div class="questionList">
+          <ul id="questionUl">
+            [#include "/webpage/qacenter/searchListPage.htm"/]
+          </ul>
+        </div>
+        <input type="hidden" id="typeInput" value="${(typeInput)!'0'}"/>
+		<input type="hidden" id="idInput" value="${(idInput)!'0'}"/>
+		<input type="hidden" id="pageNoInput" value="${(pageNoInput)!'1'}"/>
+		<input type="hidden" id="pageSizeInput" value="${(pageSizeInput)!'5'}"/>
+		
+        <div class="pageMore" style="display: none;">
+			<span class="btn-small btn radius">- 查看更多 -</span>
+		</div>
+      </div>
+  	</div>
+  </div>
+ <div class="footerFixer"></div>
+</div>
+ [#include "/webpage/common/footer.htm"/]
+</body>
+</html>

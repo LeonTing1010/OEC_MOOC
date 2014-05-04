@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gta.oec.vo.usercourse.UserCourseVo">
+	<resultMap type="com.gta.oec.vo.usercourse.UserCourseVo" id="userCourseMap">
+		<id column="ID" property="id" />
+		<result column="User_ID" property="userId"/>
+		<result column="Cour_ID" property="courID"/>
+		<result column="UserCour_Ctime" property="ctime" />
+		<result column="UserCour_Utime" property="utime" />
+		<result column="Progress" property="progress"/>
+	</resultMap>
+	
+	
+	<!-- 根据课程id用户id查询课程-->
+	<select id="getUserCourseList" parameterType="java.util.Map" resultMap="userCourseMap">
+		      SELECT * FROM u_user_course u,c_course c WHERE u.Cour_ID = c.Cour_ID 
+		      <if test="userId!=0">
+			     and u.user_ID=#{userId}
+		      </if> 
+		      <if test="m!=0">
+			      limit #{n},#{m} 
+		      </if>
+	</select>
+	
+	<!-- 根据课程id查询用户集合-->
+	<select id="getUserIdsList" parameterType="int" resultType="int">
+		      select user_ID from u_user_course where cour_ID = #{cour_ID}
+	</select>
+	
+	<!-- 根据用户id和考试类型id查询带有考试的课程id集合-->
+	<select id="getCourseIdsListByUserIdAndExamType" parameterType="java.util.Map" resultType="int">
+               SELECT distinct u.cour_ID FROM e_exam e,u_user_course u WHERE e.Cour_ID = u.Cour_ID 
+                AND u.User_ID = #{userId}
+               <if test="examType!=0">
+                AND e.exam_Type = #{examType}
+               </if>
+               <if test="m!=0">
+                  limit #{n},#{m}
+               </if>
+	</select>
+	
+	<!-- 根据用户id查询带有笔记的课程id集合-->
+	<select id="getHasNoteCourseIdsListByUserId" parameterType="java.util.Map" resultType="int">
+               SELECT distinct u.cour_ID FROM m_my_note n,u_user_course u WHERE n.Cour_ID = u.Cour_ID 
+                AND u.User_ID = #{userId}  AND n.user_id=#{userId}
+               <if test="m!=0">
+                  limit #{n},#{m}
+               </if>
+	</select>
+	
+	
+	<!-- 根据用户id查询课程数-->
+	<select id="getCourseListCountByUserId" parameterType="int" resultType="int">   	
+		SELECT COUNT(*) FROM  u_user_course  WHERE user_ID = #{userId}
+	</select>	
+	
+	<!-- 查询用户所学课程 -->
+	<select id="selectUserCourList" parameterType="com.gta.oec.vo.usercourse.UserCourseVo" resultMap="userCourseMap">
+		SELECT uu.*
+		FROM u_student u ,u_user_course uu
+		WHERE u.UserID=uu.user_id 
+		<if test="userId!=0">
+			u.UserID=#{userId}
+		</if> 
+	</select>
+	
+	<select id="getUserCourse" parameterType="com.gta.oec.vo.usercourse.UserCourseVo" resultMap="userCourseMap">
+		SELECT uu.*
+		FROM u_student u ,u_user_course uu
+		WHERE u.UserID=uu.user_id 
+		<if test="userId!=0">
+			u.UserID=#{userId}
+		</if> 
+	</select>
+	
+	<!-- 根据用户的id查询考试数-->
+	<select id="getCourseExamCount" parameterType="java.util.Map" resultType="int">
+            SELECT COUNT(*) FROM e_exam e,u_user_course u WHERE e.Cour_ID = u.Cour_ID 
+           <if test="examType!=0">
+			  and e.Exam_Type=#{examType}
+		   </if> 
+			  and u.User_ID =#{userId}
+	</select>
+</mapper>    

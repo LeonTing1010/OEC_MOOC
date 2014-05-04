@@ -1,0 +1,80 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>教师中心-国泰安网络教育</title>
+<meta name="description" content="插入网站全局描述变量" />
+<meta name="Keywords" content="插入网站全局关键字变量" />
+[#include "/webpage/common/common.htm"/]
+<link href="${base}/css/teacherCenter/layout.css" rel="stylesheet" type="text/css">
+<script src="${base}/js/teachercenter/main.js" type="text/javascript"></script>
+<script type="text/javascript">
+var tab = '${tab!}';
+</script>
+<style type="text/css">
+	.wordBreak {
+		word-break:break-all;word-wrap:break-word;
+	}
+</style>
+</head>
+
+<body>  
+<div class="wrapper">
+  <div class="headBar">
+         [#include "/webpage/common/personalcentertop.htm"/]
+  </div>
+  <div class="container-teacher">
+    <div class="teacher-header">
+      <div class="teacher-headImg"><img width="162" height="162" src="[#if _user.userHeadPic??]${cache!}${_user.userHeadPic!}[#else]${cache!}/images/base/default_pic_temp_user.jpg[/#if]"
+      		></div>
+      <div class="teacher-header-Info">
+        <div class="teacher-name">
+        	${_user.userName!}
+        	<span>/ 老师 <a href="#" onclick="switchLoad('7')"   style="cursor:hand;"><i></i></a>
+        	</span>
+        </div>
+        <div class="positionalTitle">${teacher.major!}&nbsp;&nbsp; ${teacher.teacherLevel!}</div>
+        <div class="mt10">
+         <!-- 
+          <span class="btn btn-small fr">充值</span>
+          <span class="money fl"><b>2526</b> 学币</span>
+           -->
+        </div>
+      </div>
+      <div class="header-new-count">
+        <ul>
+          <li onclick="switchLoad('8')">
+            <b class="unsolvedQuesNum" onclick="switchLoad('8')" style="cursor: pointer;">${unsolvedQuesNum!'0'}</b>
+            <span>未解答问题</span>
+          </li>
+          <li>
+            <b onclick="switchLoad('4')" style="cursor: pointer;">${unCorrectOpNum!}</b>
+            <span>待评作业</span>
+          </li>
+          <li style="border-right:1px solid #4b69a7">
+            <b onclick="switchLoad('5')" style="cursor: pointer;">${unCorrectExamNum!}</b>
+            <span>待阅试卷</span>
+          </li>
+        </ul>
+      </div>
+      <div class="quickButtons">
+        <span class="btn btn-large btn-tangerine radius" onclick="switchLoad('3')">创建课程</span>
+        <div class="btn btn-large btn-green mt10 radius" onclick="ak34()">创建讲座</div>
+      </div>
+    </div>
+    <div class="teacher-body">
+       <!-- left -->
+       		[#include "/webpage/teacenter/left.htm"/]
+       <!-- left -->
+    <div class="rightCon wordBreak">
+		<!-- right -->
+		<!-- right -->
+    </div>
+      <div class="clear"></div>
+    </div>
+  </div>
+  <div class="footerFixer"></div>
+</div>
+[#include "/webpage/common/footer.htm"/]
+</body>
+</html>

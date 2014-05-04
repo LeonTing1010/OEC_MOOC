@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gta.oec.cms.dao.qacenter.AnswerDao">
+	<resultMap type="com.gta.oec.cms.vo.qacenter.AnswerVo" id="answerResultMap">
+		<id column="Answ_ID" property="answerId" />
+		<result column="Ques_ID" property="questionId" />
+		<result column="Ques_AddID" property="questionAddId" />
+		<result column="User_ID" property="userId" />
+		<result column="Answ_Content" property="answerContent" />
+		<result column="Answ_PraiseCount" property="answerPraiseCount" />
+		<result column="Answ_LookLimit" property="answerLookLimit" />
+		<result column="Answ_IsRead" property="answerIsRead" />
+		<result column="Answ_Ctime" property="createTime" />
+		<result column="Answ_Utime" property="updateTime" />
+
+		<association property="teacherUserOfAnswer" column="Teacher_ID_Alias"
+			javaType="com.gta.oec.cms.vo.teacher.TeacherVo" resultMap="teacherUserOfAnswerResultMap" />
+	</resultMap>
+	<resultMap type="com.gta.oec.cms.vo.teacher.TeacherVo" id="teacherUserOfAnswerResultMap">
+		<id property="idOfTeacher" column="Teacher_ID_Alias" />
+		<result column="SchoolId_Alias" property="schoolIdOfTeacher" />
+		<result column="Major_Alias" property="majorOfTeacher" />
+		<result column="Introduce_Alias" property="introduceOfTeacher" />
+		<result column="TeacherLevel" property="levelOfTeacher" />
+		<result column="IsRecommended_Alias" property="isRecommendedTeacher" />
+		<result property="userId" column="User_ID_Alias" />
+		<result property="userName" column="User_Name_Alias" />
+		<result property="userType" column="User_Type_Alias" />
+		<result property="userHeadPic" column="User_HeadPic_Alias" />
+		<result property="userState" column="User_state_Alias" />
+	</resultMap>
+	<select id="getAnswerByAnswerId" resultMap="answerResultMap"
+		parameterType="_int">
+		SELECT A.Answ_ID,A.Ques_ID,A.Ques_AddID,A.User_ID,A.Answ_Content,
+		Answ_PraiseCount,A.Answ_LookLimit,A.Answ_IsRead,A.Answ_Ctime,A.Answ_Utime,
+		T.ID AS Teacher_ID_Alias, T.User_ID AS User_ID_Alias,T.Sch_id AS
+		SchoolId_Alias,T.Major AS Major_Alias,T.TeacherLevel AS
+		schoolId_Alias,
+		T.Introduce AS Introduce_Alias, T.IsRecommended AS
+		IsRecommended_Alias,
+		U.User_Name AS User_Name_Alias,U.User_Type AS
+		User_Type_Alias,
+		U.User_HeadPic AS User_HeadPic_Alias,U.User_state AS
+		User_state_Alias
+		FROM q_answer AS A
+		LEFT JOIN u_user AS U
+		ON
+		A.User_ID=U.User_ID
+		LEFT JOIN u_teacher AS T
+		ON
+		U.User_ID=T.User_ID
+		WHERE
+		1=1
+		<if test="answerId &gt; 0">
+			AND A.Answ_ID = #{answerId}
+		</if>
+	</select>
+
+	<select id="getAnswerListByQuestionId" resultMap="answerResultMap"
+		parameterType="_int">
+		SELECT A.Answ_ID,A.Ques_ID,A.Ques_AddID,A.User_ID,A.Answ_Content,
+		Answ_PraiseCount,A.Answ_LookLimit,A.Answ_IsRead,A.Answ_Ctime,A.Answ_Utime,
+		T.ID AS Teacher_ID_Alias, T.User_ID AS User_ID_Alias,T.Sch_id AS
+		SchoolId_Alias,T.Major AS Major_Alias,T.TeacherLevel AS
+		schoolId_Alias,
+		T.Introduce AS Introduce_Alias, T.IsRecommended AS
+		IsRecommended_Alias,
+		U.User_Name AS User_Name_Alias,U.User_Type AS
+		User_Type_Alias,
+		U.User_HeadPic AS User_HeadPic_Alias,U.User_state AS
+		User_state_Alias
+		FROM q_answer AS A
+		LEFT JOIN u_user AS U
+		ON
+		A.User_ID=U.User_ID
+		LEFT JOIN u_teacher AS T
+		ON
+		U.User_ID=T.User_ID
+		WHERE
+		1=1
+		<if test="questionId &gt; 0">
+			AND A.Ques_ID = #{questionId}
+		</if>
+	</select>
+	<select id="getAnswersSimplyByQuestionId" resultMap="answerResultMap"
+		parameterType="_int">
+		SELECT
+		A.Answ_ID,A.Ques_ID,A.Ques_AddID,A.User_ID,A.Answ_Content,
+		A.Answ_PraiseCount,A.Answ_LookLimit,A.Answ_IsRead,A.Answ_Ctime,A.Answ_Utime
+		FROM q_answer AS A
+		WHERE A.Ques_ID = #{questionId} AND A.Ques_AddID =0
+	</select>
+	<select id="getAnswersSimplyByQuestionAddId" resultMap="answerResultMap"
+		parameterType="_int">
+		SELECT
+		A.Answ_ID,A.Ques_ID,A.Ques_AddID,A.User_ID,A.Answ_Content,
+		A.Answ_PraiseCount,A.Answ_LookLimit,A.Answ_IsRead,A.Answ_Ctime,A.Answ_Utime
+		FROM q_answer AS A
+		WHERE A.Ques_ID =0 AND A.Ques_AddID =
+		#{questionAddId}
+	</select>
+
+
+
+
+
+
+	<delete id="deleteAnswerByAnswerId" parameterType="_int">
+		DELETE FROM
+		q_answer WHERE Answ_ID=#{answerId}
+	</delete>
+	<delete id="deleteAnswersByQuestionId" parameterType="_int">
+		DELETE FROM
+		q_answer WHERE Ques_ID = #{questionId}
+	</delete>
+	<delete id="deleteAnswersByQuestionAddId" parameterType="_int">
+		DELETE
+		FROM
+		q_answer WHERE Ques_AddID = #{questionAddId}
+	</delete>
+	<!-- <delete id="deleteAnswersTotallyByQuestionId" parameterType="_int"> 
+		DELETE A,T,P FROM q_answer AS A LEFT JOIN q_attention_answer AS T ON A.Answ_ID=T.AnswerID 
+		LEFT JOIN p_praisedetail AS P ON A.Answ_ID=P.Answ_ID WHERE A.Ques_ID = #{questionId} 
+		AND A.Ques_AddID =0 </delete> <delete id="deleteAnswersTotallyByQuestionAddId" 
+		parameterType="_int"> DELETE A,T,P FROM q_answer AS A LEFT JOIN q_attention_answer 
+		AS T ON A.Answ_ID=T.AnswerID LEFT JOIN p_praisedetail AS P ON A.Answ_ID=P.Answ_ID 
+		WHERE A.Ques_ID =0 AND A.Ques_AddID = #{questionAddId} </delete> -->
+
+</mapper>

@@ -1,0 +1,161 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>答疑中心-国泰安网络教育</title>
+<meta name="description" content="插入网站全局描述变量" />
+<meta name="Keywords" content="插入网站全局关键字变量" />
+[#include "/webpage/common/common.htm"/]
+
+<link href="${base}/css/answerCenter/question.css" rel="stylesheet" type="text/css">
+<script src="${base}/js/qcenter/question.js" type="text/javascript" ></script>
+<script  type="text/javascript" >
+	var  cont='${(ques.answerVo.answContent)!}';
+</script>
+<style type="text/css">
+	.wordBreak {
+		word-break:break-all;word-wrap:break-word;
+	}
+</style>
+</head>
+
+<body  id="backtop">
+<div class="wrapper">
+    <!-- 答疑中心引入头部 -start-->
+	[#include "/webpage/common/questionhead.htm"/]
+	<!-- 答疑中心引入头部 -end-->
+  <div class="container">
+  	<div class="content clearfix pt10">
+	
+  		<div class="grid grid-12 crumbs">
+          <div class="pl20"><a href="${base}/index/">国泰安网络教育</a><a href="${base}/questionCenter/">答疑中心首页</a></div>
+  		</div>
+		
+		<div class="grid grid-12 questionBanner">
+			<table class="teachenTop" cellpadding="0" cellspacing="0">
+				<tr>
+					<th width="111">&nbsp;</th>
+					<th>&nbsp;</th>
+				</tr>
+				
+				[#if teacherAnswerActiveList?exists && teacherAnswerActiveList?size !=0]
+					[#list teacherAnswerActiveList as lists]
+						<tr>
+							<td>[@html_unescape_cut s="${(lists.userName)!}" len="9" append=".."/]</td>
+							<td>${(lists.num)!'0'}</td>
+						</tr>
+					[/#list]
+				[/#if]
+			</table>
+			<div class="questionTop">
+				[#if chosenQuestionList?exists && chosenQuestionList?size !=0]
+					[#list chosenQuestionList as ques]
+						<dl>
+							<dt><img src="${cache!}/res/img/jingxuan/${(ques.jobID)!'0'}.jpg" width="174" height="69"><span class="left"></span><span class="right"></span><span class="bottom"></span></dt>
+		                    <dd class="q"><label><a href="${base}/questionCenter/questiondetail/${(ques.quesID)!'0'}/" style="color:white;">问：${(ques.quesContent)!''}</a></label></dd>
+							[#if ques.answerVo?exists]
+							<dd class="a wordBreak"><label>[@html_unescape_cut s="答：${(ques.answerVo.answContent)!}" len="65" append="..."/]</label></dd>	
+							[#else]
+							<dd class="a"><label>答：暂无解答.</label></dd>	
+							[/#if]
+						</dl>
+					[/#list]
+				[/#if]
+			</div>
+		</div>
+		<div class="grid grid-12 questionBox clearfix" >
+		
+	 	<!--questionSide start-->
+          <div class="grid-4 questionSide">
+		  	<div class="liminatingTeacher">
+		  		<h3 class="teacherTitle">名师解疑</h3>
+		  		
+		  		[#if teacherList?exists && teacherList?size !=0]
+					[#list teacherList as lists]
+						<dl class="liminatingList">
+							<dt><a href="${base}/qacenter/teacherdetail/${(lists.id)!'0'}/" title="${(lists.userName)!''}个人资料"><img src="[#if lists.userHeadPic??]${cache!}${lists.userHeadPic!}[#else]${cache!}/images/base/default_pic_temp_user.jpg[/#if]"  width="82" height="82"></a></dt>
+							<dd class="p-name"><a href="${base}/qacenter/teacherdetail/${(lists.id)!'0'}/" title="${(lists.userName)!''}个人资料">${(lists.userName)!''}</a></dd>
+							<dd class="degree">${(lists.major)!''}<br/>${(lists.teacherLevel)!''}</dd>
+							[#if userVo?? && userVo.userType !=2]
+							<dd><input type="button" onclick="createLogin('${base}/questionCenter/helpme/${(lists.userId)!'0'}/');" class="helpBtn" value="+&nbsp; 求助"><!-- <a href="${base}/questionCenter/helpme/${(lists.userId)!'0'}/"><input class="helpBtn" type="button" value="+&nbsp; 求助"/></a> --></dd>
+							[/#if]
+						</dl>
+					[/#list]
+				
+				[/#if]
+			</div>
+		  </div>
+		  <!--questionSide end-->
+		  
+		  <!--questionCon start-->
+		  <div class="grid-8 questionCon clearfix">
+		  
+			<div class="curTab">
+                <ul id="quickNav">
+                	[#if professionList?exists && professionList?size !=0]
+						[#list professionList as lists]
+							[#if lists_index==0]
+								<li class="current" style="border-left:none; left:0">
+									<input type="hidden" class="proIDHidden" value="${(lists.proID)!}"/>
+								<a href="javascript:void(0);">${(lists.proName)!''}</a></li>
+							[#else]
+								<li>
+									<input type="hidden" class="proIDHidden" value="${(lists.proID)!}"/>
+								<a href="javascript:void(0);">${(lists.proName)!''}</a></li>
+							[/#if]
+						[/#list]
+					[/#if]
+					
+                </ul>
+                <a href="${base}/qacenter/qsort/?headTab=7" class="more">更多分类</a>
+            </div>
+            <div class="tabContent">
+				 [#include "/webpage/qacenter/question_content.htm"/]
+			</div>
+		  </div>
+		  <!--questionCon end-->
+	</div>
+  	</div>
+	
+	
+  </div>
+  <div class="footerFixer"></div>
+</div>
+[#include "/webpage/common/footer.htm"/]
+</body>
+<script language="JavaScript" type="text/javascript">
+<!--
+	$(function(){
+		var $li = $(".curTab li"),
+			//$content = $(".questionTabCon"),
+			$index;
+
+		$li.click(function(){
+			$(this).addClass("current").siblings().removeClass('current');
+			$index = $li.index($(this));
+			
+			var proId = $(this).children(".proIDHidden").val();
+			//$content.eq($index).show().siblings().hide();
+			if(proId !=""){
+				$.ajax({
+					url:base+"/qacenter/getProVo.ajax",
+					data:{"proId":proId},
+				    success:function(data){
+				    	$(".tabContent").html(data);
+				    }
+				});
+				
+			}
+			
+		});
+	})
+	
+	 function createLogin(url){
+    	oec.login.isLogin(function(){
+    		window.location.href = url;
+    		
+    	});
+    }
+//-->
+</script>
+</html>

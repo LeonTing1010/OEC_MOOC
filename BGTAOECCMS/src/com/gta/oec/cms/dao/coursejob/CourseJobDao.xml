@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gta.oec.cms.dao.coursejob.CourseJobDao">
+	<resultMap type="com.gta.oec.cms.vo.course.CourseJob" id="courseJobResultMap">
+		<result column="ID" property="id" />
+		<result column="Course_ID" property="courseID" />
+		<result column="Pro_ID" property="proId" />
+		<result column="Job_ID" property="jobID" />
+		<result column="Cour_job_Recommend" property="courseJobRecommend" />
+		<result column="isIndex" property="isIndex" />
+	</resultMap>
+	
+	<!-- 岗位推荐课程 -->
+	<update id="courseRecommend" parameterType="coursejob">
+		update re_course_job set Cour_job_Recommend = #{coursejob.courseJobRecommend} where Course_ID = #{coursejob.courseID}
+	</update>
+	
+	<!-- 根据课程id查询岗位信息 -->
+	<select id="jobInfoByCid" parameterType="coursejob" resultMap="courseJobResultMap">
+		select re.*,c.cour_id from re_course_job as re,c_course as c where re.course_id = c.cour_id
+       <if test="coursejob.jobID!=0">
+        	and job_id = #{coursejob.jobID}
+       </if>
+       <if test="coursejob.courseID!=0">
+       		and course_id = #{coursejob.courseID}
+       </if>
+	</select>
+	
+	<!-- 删除与课程绑定的岗位 -->
+	<delete id="deleteCourseJob" parameterType="com.gta.oec.cms.vo.course.CourseJob">
+	   delete from re_course_job where Course_ID =#{courseID}
+	   <if test="jobID!=0">
+	     and JOB_ID = #{jobID}
+	   </if>
+	</delete>
+	
+	<!-- 增加课程岗位关联 -->
+	<insert id="insertCourseJobRe" parameterType="com.gta.oec.cms.vo.course.CourseJob" keyProperty="id" useGeneratedKeys="true">
+			INSERT INTO re_course_job(Course_ID,Pro_ID,Job_ID,Cour_job_Recommend)
+			VALUES(#{courseID},#{proId},#{jobID},#{courseJobRecommend})
+	</insert>
+</mapper>

@@ -1,0 +1,106 @@
+<script src="${base}/js/teachercenter/tc-validator.js" type="text/javascript"></script>
+<script src="${base}/js/teachercenter/step2.js" type="text/javascript"></script>
+<link href="${base}/css/teacherCenter/upload.css" rel="stylesheet" type="text/css"></link>
+        <div class="topBox">
+          <div class="menuBtn" style="cursor:auto"></div>
+          <div class="crumbs">你所在的位置：<span>创建课程</span></div>
+        </div>
+        <input type="hidden" name="courseId" id="courseId" value="${courseId!}"/>
+        <div class="main" >
+        <div class="student-title"><h3>创建课程</h3></div>
+<div class="form-hd">
+			<ul class="bwizard-steps" style="display: block;">
+				<li class="step1"><a data-toggle="tab" href="javascript:void(0)" style="cursor: default">第一步:填写课程信息</a></li>
+				<li class="step2 active"><a data-toggle="tab" href="javascript:void(0)" style="cursor: default">第二步：创建课程大纲</a></li>
+				<li class="step3"><a data-toggle="tab" href="javascript:void(0)" style="cursor: default">第三步：上传课件资源</a></li>
+				<li class="step4"><a data-toggle="tab" href="javascript:void(0)" style="cursor: default">第四步：发布课程</a></li>
+			</ul>
+</div>
+
+<div class="form-body pad20" id="secondGrid">
+      <dl class="creatList mb10 hide" >
+			<dt>
+				<label></label>				 
+				<div class="input">
+					<input type="text" placeholder="请输入章标题" class="large" onchange="sectionChange(this)"/>
+					<input type="hidden" name="section" value=""/>
+					<div class="addBtn" onclick="addSection()">+</div>
+				</div>
+			</dt>			
+			<dd data-id="1">
+				<ol>
+					<li><label>第一节：</label> 
+					    <input type="text" class="large" placeholder="请输入节标题" onchange="partChange(this)">
+					    <input type="hidden" name="part" value=""/>	
+					    <div class="addBtn" onclick="addPart(this)">+</div>					
+				</ol>
+			</dd>			
+		</dl>
+  <!--
+	<div class="form-row">
+		<div class="label">
+			<label>上课时间：</label>
+		</div>
+		<div class="input">
+			<select>
+				<option>星期一</option>
+				<option>星期二</option>
+				<option>星期三</option>
+				<option>星期四</option>
+				<option>星期五</option>
+				<option>星期六</option>
+				<option>星期日</option>
+			</select> <input class="small mr10" value="" type="time" placeholder="">
+			<div class="addBtn">+</div>
+		</div>
+		<div class="input mt10">
+			<select>
+				<option>星期一</option>
+				<option>星期二</option>
+				<option>星期三</option>
+				<option>星期四</option>
+				<option>星期五</option>
+				<option>星期六</option>
+				<option>星期日</option>
+			</select> <input class="small mr10" value="" type="time" placeholder="">
+			<div class="addBtn">+</div>
+			<div class="reduceBtn">-</div>
+		</div>
+	</div>
+	  -->
+<form action="${base}/teacherCenter/upload/saveStep2/" method="post"  target="step2Iframe" id="step2Form">
+	<div class="classList">
+		<dl class="creatList mb10" data-id='1'>
+			<dt>
+				<label>第一章：</label>
+				
+				<div class="input">
+					<input type="text"  placeholder="请输入章标题" class="large" onchange="sectionChange(this)">
+					<input type="hidden" name="section" value=""/>
+					<div class="addBtn" onclick="addSection()">+</div>
+				</div>
+			</dt>
+			<dd data-id="1">
+				<ol>
+					<li><label>第一节：</label> 
+					    <input type="text" class="large" placeholder="请输入节标题" onchange="partChange(this)">
+					    <input type="hidden" name="part" value=""/>
+						<div class="addBtn" onclick="addPart(this)">+</div>
+					</li>
+				</ol>
+			</dd>
+		</dl>
+
+	</div>
+	<div class="form-button-bar">
+		<button class="btn btn-default btn-small firstStep" type="button" onclick="step2Pre()">上一步</button>
+		<button class="btn btn-primary btn-small thirdStep" type="button" onclick="step2Sub()">下一步</button>
+		<!--  <span class="validation"><i class="error-icon"></i><span
+			class="error"></span></span>
+			-->
+	</div>
+<iframe id="step2Iframe" name="step2Iframe" style="display: none;"></iframe>
+</form>
+</div>
+      </div>
+        <div class="clear"></div>

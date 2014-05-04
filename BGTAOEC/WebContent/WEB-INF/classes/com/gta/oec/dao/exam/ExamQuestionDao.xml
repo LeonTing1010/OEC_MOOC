@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gta.oec.vo.exam.ExamQuestionVo">
+	<resultMap type="com.gta.oec.vo.exam.ExamQuestionVo" id="examQuestionMap">
+		<result column="Exam_Ques_ID" property="examQuesId" />
+		<result column="Paper_ID" property="paperId" />
+		<result column="Exam_Ques_Content" property="examQuesContent" />
+		<result column="Exam_Ques_Type" property="examQuesType" />
+		<result column="Exam_Ques_Answer" property="examQuesAnswer" />
+		<result column="Exam_Ques_Score" property="examQuesScore" />
+		<result column="Exam_Ques_Ctime" property="examQuesCtime" />
+		<result column="Exam_Ques_Utime" property="examQuesUtime" />
+	</resultMap>
+
+    <!-- 插入试题   by zhangjin -->
+    <insert id="insert" parameterType="com.gta.oec.vo.exam.ExamQuestionVo" keyProperty="examQuesId" useGeneratedKeys="true">
+			INSERT INTO e_exam_question(Paper_ID,Exam_Ques_Content,Exam_Ques_Type,Exam_Ques_Answer,Exam_Ques_Score,Exam_Ques_Ctime,Exam_Ques_Utime)
+			VALUES(#{paperId},#{examQuesContent},#{examQuesType},#{examQuesAnswer},#{examQuesScore},#{examQuesCtime},#{examQuesUtime})
+    </insert>
+    
+     <!-- 修改试题   by zhangjin -->
+    <update id="update" parameterType="com.gta.oec.vo.exam.ExamQuestionVo">
+			UPDATE e_exam_question SET Paper_ID = #{paperId} , Exam_Ques_Content = #{examQuesContent} , Exam_Ques_Type = #{examQuesType} , 
+			Exam_Ques_Answer = #{examQuesAnswer} , Exam_Ques_Score = #{examQuesScore} , Exam_Ques_Ctime = #{examQuesCtime} , Exam_Ques_Utime = #{examQuesUtime}
+		    WHERE
+			Exam_Ques_ID = #{examQuesId} ;
+    </update>
+    
+    <!-- 查询试题   by zhangjin -->
+    <select id="selectExamQuestionById" parameterType="int" resultMap="examQuestionMap">
+             SELECT * FROM e_exam_question WHERE Exam_Ques_ID = #{examQuesId} ;
+    </select>
+    
+    <!-- 查询试题  by huangbiyun -->
+	<select id="selectExamQuestionList" parameterType="com.gta.oec.vo.exam.ExamQuestionVo" resultMap="examQuestionMap">
+		SELECT eq.*
+		FROM e_exam_question eq
+		<where>
+			<if test="paperId!=0">
+				eq.paper_id=#{paperId}
+			</if>
+			<if test="examQuesType!=0">
+				AND eq.Exam_Ques_Type=#{examQuesType}
+			</if>
+		</where> 
+	</select>
+	<!-- 查询计算试题分数 -->
+	<select id="selectExamQuesScore" parameterType="com.gta.oec.vo.exam.ExamQuestionVo" resultType="int">
+		SELECT SUM(exam_Ques_Score) FROM e_exam_question 
+		<where>
+			<if test="paperId!=0">
+				paper_id=#{paperId}
+			</if>
+			<if test="examQuesType!=0">
+				AND Exam_Ques_Type=#{examQuesType}
+			</if>
+		</where> 
+	</select>
+		
+</mapper>    

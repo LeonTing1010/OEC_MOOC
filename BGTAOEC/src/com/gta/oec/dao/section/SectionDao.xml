@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gta.oec.vo.course.SectionVO">
+	<resultMap type="com.gta.oec.vo.course.SectionVO" id="sectionMap">
+		<result column="Sec_ID" property="id" />
+		<result column="Cour_ID" property="courseId" />
+		<result column="Sec_Name" property="name" />
+		<result column="Sec_Title" property="title" />
+		<result column="Sec_Introduction" property="introduction" />
+		<result column="Sec_Start_Time" property="startTime" />
+		<result column="Sec_Time" property="time" />
+		<result column="Sec_Type" property="type" />
+		<result column="Sec_Url" property="secUrl" />
+		<result column="Sec_Num" property="num" />
+		<result column="Sec_PID" property="pid" />
+		<result column="learn_state" property="learnState" />
+		<result column="Sec_Sequence" property="sequence" />
+		<result column="Sec_Price" property="price" />
+		<result column="Sec_Ctime" property="cTime" />
+		<result column="Sec_Utime" property="uTime" />
+		<result column="Sec_CoreKnowledge" property="coreKnowledge" />
+	</resultMap>
+	<!-- select -->
+    <select id="getSectionList" parameterType="com.gta.oec.vo.course.SectionVO" resultMap="sectionMap">
+	    SELECT * FROM c_course_detail AS c where  1=1
+	    <if test="courseId!=0">
+	    	AND c.Cour_ID = #{courseId}
+	    </if>
+	    <if test="pid!=0">
+	    	AND c.Sec_PID =#{pid}
+	    </if>
+	    <if test="id!=0 ">
+	      	AND c.Sec_ID=#{id}
+	    </if>
+   </select>
+   <select id="getSectionById" parameterType="com.gta.oec.vo.course.SectionVO" resultMap="sectionMap">
+   SELECT * FROM c_course_detail AS c where  c.Sec_ID=#{id}
+   </select>
+   <select id="getUserSectionList" parameterType="java.util.Map" resultMap="sectionMap">
+       SELECT cc.*  FROM c_course_detail AS cc ,u_user_course AS uu
+       WHERE cc.cour_id = uu.cour_id 
+     <if test="sectionVO.courseId!=0">
+       and  cc.Cour_ID = #{sectionVO.courseId} and cc.Sec_PID != #{sectionVO.courseId}
+     </if>
+     <if test="sectionVO.id!=0">
+       AND cc.Sec_PID = #{sectionVO.id}
+     </if>
+     AND uu.user_id =#{userId}  
+      ORDER BY cc.sec_id ASC
+   </select>
+     <!-- 获取未编辑核心知识点或未上传视频的节的数量 -->
+	<select id="getSectionNotCompleteCount" parameterType="int" resultType="int">
+		SELECT COUNT(*) FROM c_course_detail WHERE cour_id=#{id} AND sec_pid!=#{id} AND Sec_CoreKnowledge IS NULL
+	</select>
+	<!-- insert -->
+	<insert id="insert" parameterType="com.gta.oec.vo.course.SectionVO" keyProperty="id" useGeneratedKeys="true">
+     insert into c_course_detail(Cour_ID,Sec_Name,Sec_Title,Sec_Introduction,Sec_Start_Time,Sec_Time,Sec_Type,Sec_Url,Sec_Num,Sec_PID,Sec_Sequence,Sec_Price,Sec_Ctime,Sec_Utime)
+	 values(#{courseId},#{name},#{title},#{introduction},#{startTime},#{time},#{type},#{secUrl},#{num},#{pid},#{sequence},#{price},#{cTime},#{uTime})
+	</insert>	
+	<!-- update -->
+	<update id="update" parameterType="com.gta.oec.vo.course.SectionVO">
+		UPDATE c_course_detail
+		<set>
+			<if test="name!=null and name!=''">
+				Sec_Name=#{name},
+			</if>
+			<if test="secUrl!=null and secUrl!=''">
+				Sec_Url=#{secUrl},
+			</if>
+			<if test="coreKnowledge!=null and coreKnowledge!=''">
+				Sec_CoreKnowledge=#{coreKnowledge},
+			</if>
+			<if test="uTime!=null">
+			   Sec_Utime=#{uTime}
+			</if>
+		</set>
+		where Sec_ID=#{id}
+	</update>
+	<update id="updateSecUrlNull" parameterType="Map">
+    	UPDATE c_course_detail SET sec_url =NULL WHERE sec_url=#{secUrl}
+	</update>
+	<update id="updateSectionTypeByCourseId" parameterType="com.gta.oec.vo.course.SectionVO">
+		UPDATE c_course_detail
+		<set>
+			<if test="type!=null and type!=''">
+				Sec_Type=#{type},
+			</if>
+		</set>
+		where Cour_ID=#{courseId}
+	</update>
+	
+	<delete id="delete" parameterType="int">
+	 delete from  c_course_detail where sec_id = #{id} or sec_pid = #{id}
+	</delete>
+</mapper>    

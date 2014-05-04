@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gta.oec.vo.qacenter.ReAnswerQuestionAddVo">
+	<resultMap type="com.gta.oec.vo.qacenter.ReAnswerQuestionAddVo" id="answerquestionAddMap">
+		<result column="ID" property="id" />
+		<result column="Answ_ID" property="answerId" />
+		<result column="Ques_AddID" property="quesAddId" />
+		<result column="Ctime" property="ctime" />
+		<result column="Utime" property="utime" />
+	</resultMap>
+
+	<insert id="saveReAnswerQuestionAdd" parameterType="com.gta.oec.vo.qacenter.ReAnswerQuestionAddVo" keyProperty="id" useGeneratedKeys="true">
+		insert into re_answer_questionadd(ID,Answ_ID,Ques_AddID,Ctime,Utime) 
+		values(#{id},#{answerId},#{quesAddId},#{ctime},#{utime})
+	</insert>
+	
+</mapper>    

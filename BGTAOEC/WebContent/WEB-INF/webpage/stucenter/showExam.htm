@@ -1,0 +1,83 @@
+<script src="${base}/js/stucenter/exam.js" type="text/javascript" charset=utf-8 ></script>
+<link href="${base}/css/studentCenter/myExam.css" rel="stylesheet" type="text/css">
+
+          <div class="student-title"><h3>课程考试</h3></div>
+          <div class="collection-body">		  	
+			<div class="newsCon">
+				<!-- 单项选择题 -->
+				[#if examQuesSelectList??]
+				<h4 class="examTitle">选择题：</h4>
+				[#list examQuesSelectList as ques]
+				<dl class="examTopic">
+					<dt>${ques_index?if_exists+1}. ${ques.examQuesContent!}<span>（${ques.examQuesScore!}分）</span></dt>
+					[#if ques.examOptionlist?? && ques.examOptionlist?size>0]
+					<dd>
+						<ul>
+						[#list ques.examOptionlist as option]
+							[#assign index=ques_index+1/]
+							<li><input type="radio" id="topic1${index}" disabled="disabled" [#if ques.examAnswerDetailVo??][#if '${ques.examAnswerDetailVo.examAnswer!}' = '${option.optNum!}']checked="checked"[/#if][/#if] name="topic${index}"/>
+								<label for="topic1${index}">${option.optNum!}.${option.optContent!}</label>
+							</li>
+						[/#list]
+						</ul>						
+						<!--错误：.error 正确：.orderly-->
+						[#if ques.examAnswerDetailVo?? && ques.examAnswerDetailVo.examAnswer??]
+							[#if '${ques.examAnswerDetailVo.examAnswer!}' == '${ques.examQuesAnswer!}']
+							<div class="score orderly">
+								<span class="answer">答案: <span>${ques.examQuesAnswer!}</span></span><br>
+								<span>得分：${ques.examQuesScore!}分</span>
+							</div>
+							[#else]
+							<div class="score error">
+								<span class="answer">答案: <span>${ques.examQuesAnswer!}</span></span><br>
+								<span>得分：0分</span>
+							</div>
+							[/#if]
+						[#else]
+							<div class="score error">
+								<span class="answer">答案: <span>${ques.examQuesAnswer!}</span></span><br>
+								<span class="answer">您没有作答</span><br>
+								<span>得分：0分</span>
+							</div>
+						[/#if]
+					</dd>
+					[/#if]
+				</dl>
+				[/#list]
+				[/#if]
+				<!--问答题 start-->
+				[#if examQuesShortAnsList??]
+				<h4 class="examTitle">问答题：</h4>
+				[#list examQuesShortAnsList as ques]
+				<dl class="examTopic">
+					<dt>${ques_index?if_exists+1}. ${ques.examQuesContent!}<span>（${ques.examQuesScore!}分）</span></dt>
+					<dd>
+						<div class="qaCon">
+						[#if ques.examAnswerDetailVo??]
+							<p>${ques.examAnswerDetailVo.examAnswer!}</p>
+							<p><a href="javascript:void(0);" class="view" onclick="showStanAnswer(this)">查看参考答案</a></p>
+							<div class="tip" style="display:none;"><div class="tipTop"></div>${ques.examQuesAnswer!}</div>
+						[#else]
+							<p style="color:red">您没有作答本题!</p>
+						[/#if]
+						</div>
+	  
+						<!--错误：.error 正确：.orderly-->
+						[#if status??]
+							[#if status=='1']   <!-- 已批阅 -->
+							<div class="score orderly">
+								<span>得分：<span class="subject ">${ques.examAnswerDetailVo.examAnswerScore!}分</span></span>
+							</div>
+							[#else]
+							<div class="score">
+								<span>得分：<span class="subject ">待评分</span></span>
+							</div>
+							[/#if]
+						[/#if]
+					</dd>
+				</dl>
+				[/#list]
+				[/#if]
+				
+			</div>
+          </div>

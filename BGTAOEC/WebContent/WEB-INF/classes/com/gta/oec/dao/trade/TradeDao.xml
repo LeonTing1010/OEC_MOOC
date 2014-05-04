@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gta.oec.vo.trade.TradeVo">
+	<resultMap type="com.gta.oec.vo.trade.TradeVo" id="tradeMap">
+		<result column="Pro_ID" property="proId" />
+		<result column="Pro_Name" property="name" />
+		<result column="Rro_Description" property="description" />
+		<result column="Pro_Ctime" property="cTime" />
+		<result column="Pro_Utime" property="uTime" />
+		<result column="Pro_Recommend" property="recommend" />
+	</resultMap>
+    <select id="getTradeInfo" parameterType="java.util.Map" resultMap="tradeMap">
+      SELECT * FROM  p_profession where 1=1 
+     
+      	<if test="tradeVo!=null and tradeVo.proId!=0">
+      	 and p.Pro_ID=#{tradeVo.proId}
+      	</if>
+      	<if test="tradeVo!=null and tradeVo.name!=null">
+      		AND p.Pro_Name=#{tradeVo.name}
+      	</if>
+      	<if test="tradeVo!=null and tradeVo.description!=null">
+      		AND p.Rro_Description=#{tradeVo.description}
+      	</if>
+      	<if test="tradeVo!=null and tradeVo.cTime!=null">
+      		AND p.Pro_Ctime=#{tradeVo.cTime}
+      	</if>
+      	<if test="tradeVo!=null and tradeVo.uTime!=null">
+      		AND p.Pro_Utime=#{tradeVo.uTime}
+      	</if>
+      	<if test="tradeVo!=null and tradeVo.recommend !=0">
+      		AND Pro_Recommend=#{tradeVo.recommend}
+      	</if>
+        <if test="m!=0">
+          limit #{n},#{m}
+        </if>
+    </select>
+</mapper>    

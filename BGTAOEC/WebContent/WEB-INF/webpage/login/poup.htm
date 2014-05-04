@@ -1,0 +1,40 @@
+<div id="loginPoupWin" style="position:absolute; top:0px; height:100%; width:100%;z-index:10000;">
+    <div class="popbg" onclick="oec.login.removeLoginPoup();"></div>
+    <div class="popWindow" style=" width:438px; height:306px; left:50%; margin-left:-219px; top:50%; margin-top:-150px;">
+        <div class="title"><span onclick="oec.login.removeLoginPoup();" class="close"></span>用户登录</div>
+        <div class="popContent popWindow-login">
+        	<div class="login-tips">
+              <div class="con error hide">
+                <i class="error-icon"></i><span></span>           
+              </div>
+        	</div>
+        	<div class="login-from">
+        	    <form action="" id="loginPoupForm" name="loginPoup">     	   
+	                <div class="login_email">
+	                	<input type="text" class="uinArea" name="account" id="account"/>
+	               </div>
+	               <div class="login_password">
+	               	 <input class="pwdArea" type="password" name="passWord" id="passWord"/>
+	               </div>
+                </form>
+                <input class="login-btn btn btn-medium btn-success" onclick="oec.login.loginPoupSubmit()" value="登 录" />
+               <a href="${base}/user/loadreg/"><input class="regist-btn btn btn-medium btn-default"  value="注 册" /></a> 
+            </div>
+            <div class="log-bd-nav">
+            	<a href="${base}/user/forgetpassword/">忘记密码</a>
+                <span>|</span>
+                <a href="${base}/feedback/">意见反馈</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+	//点击enter键可以登陆
+	$(function(){
+		$("#loginPoupWin").keypress(function(e) {		  
+	        if(e.keyCode==13){
+	        	 oec.login.loginPoupSubmit();
+		       }
+	     });
+	});
+</script>

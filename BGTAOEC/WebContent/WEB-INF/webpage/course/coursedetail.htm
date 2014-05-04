@@ -1,0 +1,285 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>  [#if course??]${course.courseName!}-[/#if]课程介绍-国泰安网络教育</title>
+<meta name="description" content="课程介绍" />
+<meta name="Keywords" content="课程介绍" />
+<link href="${base}/css/course/classDetail.css" rel="stylesheet" type="text/css">
+[#include "/webpage/common/common.htm"/]
+<script src="${base}/js/coursedetail.js" type="text/javascript"></script>
+<script src="${base}/player/ckplayer.js" type="text/javascript"></script>
+<script src="${base}/js/swfobject.js" type="text/javascript"></script>
+<script type="text/javascript">
+	var img = '${cache!}[#if course??]${course.titlePage!}[/#if]';
+	var vodServer = '${vodServer!}';
+	var videoProtocol ='${videoProtocol!}';
+</script>
+<style type="text/css">
+	.wordBreak {
+		word-break:break-all;word-wrap:break-word;
+	}
+</style>
+</head>
+
+
+<body id="backtop">
+<div class="wrapper">
+<!-- 引入头部 -start-->
+[#include "/webpage/common/head.htm"/]
+<!-- 引入头部 -end-->
+
+  <div class="container wordBreak">
+  [#if course??]
+  	<div class="content clearfix pt10">
+  	  <div class="subCrumbs grid grid-12">
+          <a href="${base}/course/courselist/">课程</a>
+          <a href="${base}/course/courselist/">课程介绍</a>
+          <span>${course.courseName!}</span>
+      </div>
+      <div class="grid grid-12 class-head">
+      [#if courseJobList??]
+        <span onclick="collectcourse(${course.courseId!})">
+        	[#if flag??&&flag]
+        		<div class="collectBtn current" id="coursecollimg${course.courseId!}" title="取消收藏"></div>
+        	[#else]
+        		<div class="collectBtn" id="coursecollimg${course.courseId!}" title="收藏本课程"></div>
+        	[/#if]
+        	
+        </span>
+       [/#if]
+        <div class="moive" style="z-index: 0;">
+          <div id="video" style="width:500px;height: 260px;" data-src="[@video_type dataUrl='${course.previewUrl!}' videoProtocol='${videoProtocol!}'][/@video_type]"></div>
+        </div>
+        <div class="rightBox">
+          <h1>${course.courseName!}</h1>
+          <div class="status">
+           <!--  <span class="playing">正在直播</span> -->
+          </div>                                
+          <ul>
+            <li class="item"><span>开课时间：</span>[#if course.courStartTime??] ${course.courStartTime?string("yyyy-MM-dd HH:mm:ss")}[/#if]</li>
+            <li class="item"><span>课时：</span>${course.courWeek!}课时</li>
+            <li class="item"><span>学分：</span>${course.credit!}</li>
+            <li class="item"><span>课程分类：</span>${proName!}</li>
+            <li class="item"><span>所属学校：[#if school??]</span>${school.schName!}[/#if]</li>
+          </ul>
+<!--           <div class="schoolLogo">[#if school??]<img  src="[#if school.schLogo??]${cache!}${school.schLogo!}[#else]${cache!}/images/base/default_pic_temp_school.jpg[/#if]" width="120" height="120">[/#if]</div> -->
+        </div>
+        <div class="clear"></div>
+        <div class="bottomBox">
+          <div class="pice">课程价格：<span class="red">${course.price!}</span> 学币<span class="gray pl20 font14">已学习${userCourseCount!0}人</span></div>
+         
+ 
+          <div class="btn btn-large nowlearning mt10 fl" style="cursor: pointer;" onclick="toCourse('${course.courseId!}')">
+            [#if isBuy??][#if isBuy==0] 加入课程[/#if][#if isBuy==1] 查看课程[/#if] [#else] 加入课程[/#if]
+          </div>
+          
+          <div class="bottomBox-rightCon">
+          [#if courseCount??]
+          	[#if courseId??]
+            <span class="like mb10" style="cursor: auto;" id="collcourseCount">${courseCount!}人已收藏</span>
+            [/#if]
+          [/#if]
+        <!-- <span class="share">分享课程</span> -->
+        <div class="bdsharebuttonbox" data-tag="share_1">
+		<a class="bds_qzone" data-cmd="qzone" href="#"></a>
+		<a class="bds_tsina" data-cmd="tsina"></a>
+		<a class="bds_renren" data-cmd="renren"></a>
+		<a class="bds_more" data-cmd="more">更多</a>
+		</div>
+
+<script>
+	window._bd_share_config = {
+		common : {
+			'bdText' : '课程名：${course.courseName}，任课老师：${teacher.userName! }',	
+			'bdDesc' : '${course.courseName}',	
+			'bdUrl'  : '${cache!}/course/info/${course.courseId!}/', 	
+		    'bdPic'  : '[#if course.titlePage??]${cache!}${course.titlePage!}[/#if]'
+		},
+		share : [{
+			"bdSize" : 16
+		}],
+		slide : [{	   
+			bdImg : 0,
+			bdPos : "right",
+			bdTop : 100
+		}],
+		image : [{
+			viewType : 'list',
+			viewPos : 'top',
+			viewColor : 'black',
+			viewSize : '32',
+			viewList : ['qzone','tsina','huaban','tqq','renren']
+		}],
+		selectShare : [{
+			"bdselectMiniList" : ['qzone','tqq','kaixin001','bdxc','tqf']
+		}]
+	}
+	with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+          </div>
+        </div>
+      </div>
+      <div class="class-body grid mr10">
+        <div class="grid-box mb10">
+          <div class="title"><h2>课程简介</h2></div>
+          <div class="con">
+            <p class="darkGray wordBreak">${course.introduction!}</p>
+          </div>
+        </div>
+        <div class="grid-box mb10">
+          <div class="title" style="border-bottom:1px solid #d7d7d7;"><h2>目录</h2></div>
+          <div class="con">
+            <dl class="directory">
+            [#if course.list??]
+              [#list course.list as section]
+              <dt><span>第[@num s='${section_index+1}'/]章</span>&nbsp;[@text_cut s='${section.name!}' len='20' append='..'][/@text_cut]</dt>
+               [#if section.list??]
+                 [#list section.list as sect]
+                  <dd><span>第[@num s='${sect_index+1}'/]节.</span> [@text_cut s='${sect.name!}' len='20' append='..'][/@text_cut]</dd>               
+                  [/#list]
+               [/#if]
+              [/#list]
+             [/#if]
+            </dl>
+          </div>
+        </div>
+       
+       <!--v1.0 之前的版本 -->
+        <!-- <div class="grid-box join">
+          <div class="title" style="border-bottom:1px solid #d7d7d7;"><h2>听课学员</h2></div>
+           <ul class=" clearfix">
+           [#if userList??]
+             [#list userList as users]
+             <li><img alt="用户名" title="${users.userName! }"  src="[#if users.userHeadPic??]${cache!}${users.userHeadPic!}[#else]${cache!}/images/base/default_pic_temp_user.jpg[/#if]" width="50" height="50">
+             	<span title="${users.userName! }" style="width:100px">[@text_cut s='${users.userName! }' len='3' append='..'][/@text_cut]</span>
+             </li>
+             [/#list]
+           [/#if]
+          </ul>
+        </div>  --> 
+        <!-- 课程点评页面 -->
+        <div class="grid-box mb10" id="courseCommentDiv">
+        	[#include "courseCommentPage.htm"/]
+        </div>
+        
+         <div class="grid-box mb10">
+          <div class="title mb10" style="border-bottom:1px solid #d7d7d7;">
+          	<h2>已参加课程会员[#if userList??&&(userList?size) gt 0]（ ${userList?size}）[/#if]</h2>
+          </div>
+          <div class="studystudent">
+          [#if userList??]
+             [#list userList as users]
+            	<a href="#" title="">
+<!--             		<img src="../images/course/headpic.png"> -->
+						<img alt="用户名" title="${users.userName! }"  src="[#if users.userHeadPic??]${cache!}${users.userHeadPic!}[#else]${cache!}/images/base/default_pic_temp_user.jpg[/#if]" width="50" height="50">
+	             		<span title="${users.userName! }" style="width:100px">[@text_cut s='${users.userName! }' len='3' append='..'][/@text_cut]</span>
+	            </a>
+            [/#list]
+            [#else]
+            	暂无听课学员，赶快加入课程吧！
+           [/#if]
+          </div>
+        </div>
+         
+      </div>
+      
+      <div class="class-side grid">
+        <div class="grid-box mb10">
+        [#if teacher??]
+          <div class="lecturer">
+            <img  src="[#if teacher.userHeadPic??]${cache!}${teacher.userHeadPic!}[#else]${cache!}/images/base/default_pic_temp_user.jpg[/#if]" width="140" height="140">
+          </div>
+          <div class="lecturer-name tac">任课老师：<a href="${base}/qacenter/teacherdetail/${teacher.id! }/">${teacher.userName! }</a></div>
+	          <div class="lecturer-job gray tac ">${teacher.teacherLevel!}</div>
+	          <p class="darkGray pad10 lecturer-info mt10">${teacher.introduce! }</p>
+          [/#if]
+        </div>
+        
+        <div class="grid-box faq">
+          <div class="recommendtitle"><h2>相关推荐课程<a href="${base}/course/courselist/?headTab=2">更多</a></h2></div>
+          <div class="recommendul" id="recommendul">
+          	<ul>
+          		 [#if courseJobList??&&(courseJobList?size) gt 0]
+            		[#list courseJobList as courseJobs]
+	            	<li>
+	               	  <h4><a href="${base}/course/info/${courseJobs.courseID! }/">${courseJobs.courseName!}</a></h4>
+	                	<div class="rec_left">
+								<a href="${base}/course/info/${courseJobs.courseID! }/" target="_blank">
+	                        		<img alt="" title="${courseJobs.courseName! }"  src="[#if courseJobs.courseTitlePage??]${cache!}/${courseJobs.courseTitlePage!}[#else]${cache!}/images/base/default_pic_temp_course.jpg[/#if]" width="180" height="100">
+	                        	</a>
+	                    </div>
+	                    <div class="rec_right">
+	                    	<strong>主讲：${courseJobs.userName!}</strong> 
+	                        <em>浏览次数：${courseAttention}</em>
+	                    </div>
+	                </li>
+                 [/#list]
+               [#else]
+               	  暂无相关课程
+               [/#if]
+            </ul>
+          </div>
+        </div>
+        <!-- 相关课程推荐v1.1 修改之前 -->
+         <!-- <div class="grid-box mb10">
+          <div class="title" style="border-bottom:1px solid #d7d7d7;"><h2>相关推荐课程</h2></div>
+          <div class=" pt20 pb10">
+            <div id="featurecontainer ">
+              <div id="feature">
+                <div id="block">
+                  <div id="botton-scroll">
+                    <ul class="featureul">
+                     [#if courseJobList??&&(courseJobList?size) gt 0]
+                     <script type="text/javascript" src="${base}/js/lrscroll.js"></script>
+                      [#list courseJobList as courseJobs]
+                     <li class="featurebox">
+                        <div class="box">
+                        <a href="${base}/course/info/${courseJobs.courseID! }/" target="_blank">
+                        <img alt="" title="${courseJobs.courseName! }"  src="[#if courseJobs.courseTitlePage??]${cache!}/${courseJobs.courseTitlePage!}[#else]${cache!}/images/base/default_pic_temp_course.jpg[/#if]" width="180" height="100">
+                        </a>
+                        </div>
+                      </li>
+                     [/#list]
+                   [/#if]
+                    </ul>
+                  </div>
+                  /botton-scroll
+                </div>
+                <span class="prev">previous</span><span class="next">next</span>
+              </div>
+            </div>
+          </div>
+        </div> -->
+        <!-- <div class="grid-box faq">
+          <div class="title"></div>
+          <div class="faq-con">
+            <ul>
+             [#if queslist??]
+             [#list queslist as questions]
+             <li>
+                <div class="user">
+                [#if questions.answerVo??]
+                  <img  src="[#if questions.answerVo.userHeadPic??]${cache!}${questions.answerVo.userHeadPic!}[#else]${cache!}/images/base/default_pic_temp_user.jpg[/#if]" class="fl mr10" width="30" height="30">
+                  <div class="name">${questions.answerVo.userName! }</div>
+                [/#if]
+                  <div class="time gray">${questions.quesCtime?string("yyyy-MM-dd HH:mm:ss")! }</div>
+                </div>
+                <div class="question">问：${questions.quesContent! }</div>
+                <div class="answer">答：[#if questions.answerVo??][@html_unescape_cut s="${questions.answerVo.answContent!}" len=" " append=""/][#else]暂无解答[/#if]</div>
+              </li>
+             [/#list]
+           [/#if]
+            </ul>
+          </div>
+        </div>
+        -->
+      </div>
+  	</div>
+  	[/#if]
+  </div>
+  <div class="footerFixer"></div>
+</div>
+[#include "/webpage/common/footer.htm"/]
+</body>
+</html>

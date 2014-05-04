@@ -1,0 +1,58 @@
+[#if type==2]
+	<ul class="askList mar10">
+	    [#if pageModel??]
+		[#if pageModel.list??]
+		[#list pageModel.list as ques]
+			<li class="ask">
+		      <div class="ask-hd">
+		        <span>${ques.userName!}</span>在 “<a href="${base}/questionCenter/questiondetail/${ques.quesID!}/" title="[@text_cut s='${(ques.questionVo.quesContent)!}' len='30' append='...'][/@text_cut]">[@text_cut s="${(ques.questionVo.quesContent)!}" len="30" append="..."][/@text_cut]</a>” 中追问：
+		      </div>
+		      <div class="ask-bd">${ques.quesContent!}</div>
+		      <div class="ask-ft tar">
+		       <span class="grayb fl">${ques.quesUtime?string("yyyy-MM-dd HH:mm:ss")}</span>
+		       <a class="btn btn-small btn-primary" href="javascript:void(0);" onclick="answerAdd(${ques.quesAddID!'0'});">回答问题</a>
+		      </div>
+		    </li>
+		[/#list]
+		[/#if]	
+		[/#if]	
+	</ul>
+[#else]
+	<ul class="questionList mt20">
+	[#if pageModel??]
+	[#if pageModel.list?? && pageModel.list?size gt 0]
+	[#list pageModel.list as ques]
+		<li>
+			<div class="title mb10 ">
+				<a href="javascript:void(0);" onclick="answer(${ques.quesID!});">${ques.quesContent!}</a>
+			</div>
+			<div class=" darkGray mb10">${ques.quesDescription!}</div>
+			<div class="question-ft gray">
+				<span class="fr">${ques.quesCtime?string("yyyy-MM-dd")}</span> <span class="mr10">提问人：${ques.userName!}</span> 
+				[#if type==0]			
+				<span>回答：${ques.quesAnswerCount!}</span>
+				[/#if]
+				[#if type==1]
+				[#if ques.sectionVO??]
+				<span>
+				<a href="#">${ques.sectionVO.name!}&nbsp;${ques.sectionVO.name!}</a>
+				</span>
+				[/#if]
+				[/#if]
+			</div>
+		</li>
+	[/#list]
+		[@p.tab value=pageModel][#rt/][/@p.tab]
+	[#else] 
+		<p>暂无相关问题!</p>
+	[/#if]	
+	[/#if]	
+	</ul>
+[/#if]
+
+<script type="text/javascript">
+function _gotoPage(pageNo){
+	remandPageIndex=pageNo;
+	$(".tabCon:visible").load(base+"/teacherCenter/unanswered/getPageOfQuestion/${type!'3'}/?pageNo="+pageNo+"&code="+Math.random());
+}
+</script>

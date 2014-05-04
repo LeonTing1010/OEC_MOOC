@@ -1,0 +1,106 @@
+@charset "utf-8";
+/* CSS Document */
+.main{padding:24px 20px 10px;}
+.student-title{
+	height:40px;
+	line-height:40px;
+	font-size:18px;
+	border-bottom:2px solid #6e8ed1;
+	position:relative;
+}
+.student-title h3{
+	position:absolute;
+	display:inline;
+	border-bottom:2px solid #33518f;
+	bottom:-2px;
+	font-weight:normal;
+	height:40px;
+	line-height:40px;
+}
+
+.test-body{padding:15px 0 0 0;}
+
+.test-course{
+	margin-bottom:9px;
+	border:1px solid #E3E4E5;
+}
+.test-course dt{
+	height:34px;
+	line-height:34px;
+	background:#ededed;
+	color:#4a4a4a;
+	font-size:14px;
+	padding-left:32px;
+}
+.test-course dd{
+	border-bottom:1px dotted #e3e4e5;
+	padding:10px 0;
+	margin:0 30px;
+	overflow:hidden;
+	zoom:1;
+}
+.test-course dd.last{border:none;}
+.test-course dd h4,.test-course dd p{
+	color:#4a4a4a;
+	line-height:22px;
+}
+.test-course dd .time{
+	font-weight:normal;
+	padding-left:15px;
+	font-size:12px;
+	color:#999;
+	float:right;
+}
+.test-course dd p{
+	font-size:12px;
+	margin:0 0 0 20px;	
+}
+.shrink-arrow{
+	float:right;
+	margin:16px 16px 0 0;
+	width:11px;
+	height:4px;
+	background:url(../../images/studentCenter/shrink-arrow.png) no-repeat;
+	display:inline;
+	cursor:pointer;
+	overflow:hidden;
+}
+.shrink-arrow-up{
+	background-position: left -8px;
+}
+
+.edit{
+	background:url(../../images/studentCenter/edit-bg.png) no-repeat;
+	width:15px;
+	height:13px;
+	display:inline-block;
+	cursor:pointer;
+	margin:0 0 0 15px;
+	display:none;
+}
+
+.reply{	
+	height:15px;
+	line-height:15px;
+	width:15px;
+	background:#FB7D29;
+	float:left;
+	font-size:12px;
+	text-align:center;
+	color:#fff;
+	position:relative;
+	top:10px;
+}
+.view{
+	height:28px;
+	line-height:28px;
+	background:#6e8ed1;
+	color:#fff;
+	font-size:12px;
+	border-radius:3px;
+	text-align:center;
+	padding:0 10px;
+	display:inline-block;
+	float:right;
+	margin-top:10px;
+}

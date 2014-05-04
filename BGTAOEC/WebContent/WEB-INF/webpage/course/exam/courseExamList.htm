@@ -1,0 +1,38 @@
+<link href="${base}/css/course/homework.css" rel="stylesheet" type="text/css">
+<script type="text/javascript">
+    //进入试卷题目
+	function courseExamPage(examId,type)
+	{
+		$('#courseMain').load(base+"/course/courseExamPage/?examId="+examId+"&type="+type+"&code="+Math.random());
+	}
+    //查看答案
+	function showExamResult(examId,type){
+		$('#courseMain').load(base+"/course/showExamResult/?examId="+examId+"&code="+Math.random()); 
+	}
+</script>
+
+<div class="m0a curDetailCon">
+	<h3>课后作业</h3>
+	<!--curDetailBody end-->
+	<ul class="homeworkList">
+	  [#if examlist??&&examlist?size>0]  
+		[#list examlist as exams]
+		<li>
+			<div class="introductions">作业名称：${exams.examName!}</div>
+			<!-- <div class="time gray">截止时间：[#if exams.examLastTime??]${exams.examLastTime?string("yyyy-MM-dd")}[/#if]</div> -->
+			<div class="button mt10">
+				[#if exams.paperState==1]
+				      <button class="btn btn-darkBlue btn-small" onclick="showExamResult(${exams.examId!},3)">查看解答</button>
+				   [#elseif exams.paperState==0]
+				   	  <button class="btn btn-darkBlue btn-small mr10" onclick="courseExamPage(${exams.examId!},3)">进入作业题目</button>
+				[/#if]
+			</div>
+		</li>
+		[/#list]
+		  [#else]
+		        <p style="color:gray">
+		                                          该课程暂无作业
+		        </p>
+	  [/#if]
+	</ul>
+</div>

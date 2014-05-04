@@ -1,0 +1,36 @@
+ [#if pageModel??]
+ [#if pageModel.list?exists && (pageModel.list?size gt 0)]
+	[#list pageModel.list as lists]
+	
+	 <li>
+		 <a href="${base!}/course/info/${lists.courseId!}/"><img  src="[#if lists.titlePage??]${cache!}${lists.titlePage!}[#else]${base!}images/base/default_pic_temp_course.jpg[/#if]" width="328" height="170" ></a>
+		 <h2><a href="${base}/course/info/${lists.courseId!}/"><span title="${lists.courseName!}">${lists.courseName!}</span></a></h2>
+		 <h2 style="font-size: 14px;">${lists.schoolName!}</h2>
+		 <div class="info gray">开课时间：[#if lists.courStartTime??]${lists.courStartTime?string("yyyy-MM-dd")!} [/#if]   ${lists.courWeek!}课时     主讲：${lists.teacherName!}</div>
+		 <p class="darkGray wordBreak">[@text_cut s='${lists.introduction!}' len='120' append='...'][/@text_cut]</p>
+		 <div class="clear"></div>
+	 </li>
+	[/#list]
+	[#if pageModel.toPage gte pageModel.totalPage]
+
+	<script type="text/javascript">
+	$(function($){
+		$(".pageMore").hide();
+	})
+	</script>
+	[#else]
+	<script type="text/javascript">
+	$(function($){
+		$(".pageMore").show();
+	})
+	</script>	
+	[/#if]
+[#else]
+	<span style="margin-left: 40%;">暂无课程信息，敬请期待</span>
+	<script type="text/javascript">
+		$(function($){
+			$(".pageMore").hide();
+		})
+	</script>
+[/#if]
+[/#if]

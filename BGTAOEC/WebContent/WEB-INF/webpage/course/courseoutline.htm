@@ -1,0 +1,28 @@
+<link href="${base}/css/course/outline.css" rel="stylesheet" type="text/css">
+[#if course.list??]
+<div class="m0a curDetailCon">
+	<h3>课程大纲</h3>
+	[#if course.list??]
+	 [#list course.list as section]
+	  <dl class="outline">
+		<dt>
+			<h4 style="color: black;">
+				<span>第[@num s='${section_index+1}'/]章</span> 
+				 [@text_cut s='${section.name!}' len='20' append='..'][/@text_cut]
+			</h4>
+			<p>${section.introduction!}</p>
+		</dt>
+		<dd>
+		   [#if section.list??]
+		      [#list section.list as sect]
+			  <h5>
+				<span>第[@num s='${sect_index+1}'/]节</span>[@text_cut s='${sect.name!}' len='20' append='..'][/@text_cut]
+			  </h5>
+			   [/#list]
+			[/#if]
+		</dd>
+	  </dl>
+	 [/#list]
+    [/#if]
+</div>
+[/#if]

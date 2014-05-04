@@ -1,0 +1,36 @@
+/*表单验证*/
+.validation{
+	display:inline-block;
+	height:20px;
+	line-height:30px;
+	padding:0 0 0 20px;
+	position:relative;
+	margin:0 0 0 10px;
+	}
+.validation .ok{
+	color:#8dce1a;
+	}
+.validation .error{
+	color:#e34636
+	}
+.validation .warning{
+	color:#fcc84c;
+	}
+.validation .help{
+	color:#37aece;
+	}
+.validation .tip{
+	color:#73a3d4}
+	
+.validation i{
+	width:16px;
+	height:16px;
+	position:absolute;
+	left:0;
+	top:7px;
+	}
+.ok-icon{ background: url(../../images/base/ico_warn.png) 0 0 no-repeat}
+.error-icon{ background:url(../../images/base/ico_warn.png) 0 -50px no-repeat}
+.warning-icon{ background:url(../../images/base/ico_warn.png) 0 -100px no-repeat}
+.help-icon{ background:url(../../images/base/ico_warn.png) 0 -150px no-repeat}
+.tip-icon{ background:url(../../images/base/ico_warn.png) 0 -200px no-repeat}

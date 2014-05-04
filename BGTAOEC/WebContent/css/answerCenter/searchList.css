@@ -1,0 +1,126 @@
+@charset "utf-8";
+
+/* CSS Document */
+.content .grid{
+	background:#fff;
+	}
+.subCrumbs{
+	height:29px;
+	line-height:29px;
+	border-bottom:1px solid #d7d7d7;
+	}
+.subCrumbs a{ 
+	float:left; 
+	background:url(../../images/course/subCrumbsBg.png) no-repeat right;
+	padding:0 20px 0 10px;
+	color:#999;
+	}
+.subCrumbs a:hover{ color:#236fd4}
+.subCrumbs span{ padding:0 0 0 10px}
+
+.rightCon{
+	width:810px;
+	background:#fff;
+	}
+.questionList{margin:20px ;}
+.questionList li{
+	padding:0 0 20px 0;
+	border-bottom:1px dotted #d7d7d7;
+	margin-bottom:20px;
+	}
+.questionList h2{position:relative;}
+.questionList h2 a{ display:block; width:890px; overflow:hidden; font-size:15px; line-height:24px; color:#666; font-weight:normal;}
+.questionList h2 a:hover{ color:#39F}
+.attention{
+	font-size:12px;
+	color:#39F;
+	cursor:pointer;
+	position:absolute;
+	right:0px;
+	top:0;
+	font-weight:normal;
+	}
+.answer{
+	margin:10px 0 0 0;
+	width:880px;
+
+	}
+.an-img{border:1px solid #d7d7d7;	float:left;	}
+.anConbg{ background:url(../../images/answerCenter/anser_bg_01.jpg) no-repeat; width:7px; height:17px; float:left; margin:0 0 0 16px;}
+.answerCon{
+	width:800px;
+	background:#f2f2f2;
+	margin:0 0 0 55px;
+	_margin:0;
+	padding: 15px 15px;
+	_float:left;
+	}
+
+.answer .img{
+	width:170px;
+	height:128px;
+	overflow:hidden;
+	}
+.answer .user{
+	width: 800px;
+	color: #999999;
+	}
+.answer .user span{
+	color:#F60}
+
+.answer p{
+	line-height:20px;
+	
+	width:780px;
+	overflow:hidden;
+	font-size:14px;}
+.answer p a{color:#666;}
+.answerCon-foot{
+	line-height:18px;
+	height:18px;
+	margin:10px 0 0 0;
+	width:800px;
+	}
+.answerCon-foot span{
+	color:#666;
+	cursor:pointer;
+	font-size:12px;
+	float:left;
+	}
+.answerCon img{
+	border:1px solid #d7d7d7;
+	padding:4px;
+	background:#FFF}
+.answerCon-foot span:hover{
+	color:#69F;
+	}
+.an-date{
+	font-size: 12px;
+	color: #CCCCCC;
+	float: right;
+}
+.pageMore{ text-align:center;padding:0 0 20px 0;}
+.pageMore .btn{ background:#3a96af;}
+.category{
+	margin:10px;
+	padding:10px;
+	border-bottom:1px dashed #d7d7d7;
+	}
+.category dt{
+	float:left;
+	line-height:30px;
+	color:#999;
+	width:80px;
+	}
+.category dd{
+	float:left;
+	line-height:30px;
+	color:#333;
+	margin-right:10px;
+	padding:0 10px;
+	cursor:pointer
+	}
+.category .current{
+	background:#69F;
+	color:#FFF
+	}

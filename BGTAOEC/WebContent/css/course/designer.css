@@ -1,0 +1,242 @@
+@charset "utf-8";
+/* CSS Document */
+	
+.subCrumbs {
+	background: #fff;
+	height: 29px;
+	line-height: 29px;
+}
+.subCrumbs a {
+	float: left;
+	background: url(../../images/course/subCrumbsBg.png) no-repeat right;
+	padding: 0 20px 0 10px;
+	color: #999;
+}
+.subCrumbs a:hover {
+	color: #236fd4
+}
+.subCrumbs span {
+	padding: 0 0 0 10px
+}
+.courseBox{ margin-top:0px;}
+.courseIntro{
+	padding:10px;
+	background:#fff;
+	margin-top:0;
+	display:inline;
+}
+.introCon{
+	float:right;
+	width:634px;
+	padding:0 68px 0 18px;
+	display:inline;
+}
+.introCon h3{
+ 	font-size:24px;
+	margin-bottom:24px;
+	font-weight:normal;
+}
+.introCon label ,.introCon p{
+	font-size:14px;
+	color:#555;
+	float:left;
+	line-height:24px;
+}
+.introCon label{
+	color:#999;
+}
+.introCon p{
+	width:564px;
+	margin:0;
+	padding:0;
+	overflow: hidden;
+}
+.collectCon{
+	margin:30px 0 0 0;
+	line-height:46px;
+}
+.collectBtn{
+	background:#ff9b19;
+	
+	border-bottom:2px solid #c76403;
+}
+.collectCon span{
+	color:#999;
+}
+
+.courseCon{
+	width:700px;
+	float:left;
+	background:#fff;
+
+}
+.curSide{
+	float:right;
+	width:290px;
+}
+.curTitle{
+	font-size:18px;
+	border-bottom:1px solid #d7d7d7;
+	height:40px;
+	padding:0 0 0 10px;
+	line-height:40px;
+	font-weight:normal;
+}
+
+.legalizeList{
+	padding:10px;
+}
+.legalizeList a{
+	color:#3a96af;
+	line-height:30px;
+}
+.curTab{
+	position:relative;
+	height:47px;
+	width:700px;
+}
+.curTab ul{width:700px; position:absolute;height:46px; background:#fff;border-bottom:1px solid #ddd; top:0}
+.curTab li{
+	z-index:1;
+	float:left;
+	display:inline;
+	padding:0 12px;
+	margin:14px 0;
+	border-right:1px solid #dfdfdf;
+	cursor:pointer;
+}
+.curTab li.current{
+	margin:0;
+	z-index:2;
+	border-top:3px solid #3a96af;
+	border-right:1px solid #ddd;
+	border-left:1px solid #ddd;
+	height:44px;
+	line-height:44px;
+	background:#fff;
+	padding:0 12px;
+	position:relative;
+	left:-1px;
+}
+
+.curTabCon {
+	padding:15px 10px 0;
+}
+.commentaryCon{
+	}
+.commentaryCon h3{
+	background:#85b0bc;
+	color:#fff;
+	height:46px;
+	line-height:46px;
+	font-size:14px;
+	padding-left:10px;
+}
+.commentaryCon{
+	color:#434343;
+}
+.detail{
+	margin:0;
+	line-height:24px;
+}
+.commentaryConList{
+	padding:16px 5px;
+	overflow:hidden;
+	zoom:1;
+}
+.commentaryConList li{
+	float:left;
+	width:170px;	
+	margin-right:20px;
+	display:inline;
+	text-align:center;
+}
+.commentaryConList li img{
+	border:1px solid #d9d9d9;
+}
+.commentaryConList li a{
+	line-height:28px;
+	color:#555;
+	font-size:12px;
+}
+
+.subjectList{
+	margin:0 10px ;
+	padding:12px 0 20px 0; 
+	overflow:hidden;
+	zoom:1;
+	border-bottom:1px dotted #999;
+}
+.subjectList.last{
+	border:none;
+}
+.subjectList dd{
+	margin-bottom:10px;
+	padding-bottom:10px;
+	border-bottom:1px dashed #d7d7d7;
+	height:100px;}
+.subjectList dt{
+	font-size:15px;
+	color:#555;
+	padding-bottom:8px;
+	min-
+}
+.modCon{
+	margin:0 0 0 15px;
+	float:left;
+	width:130px;
+}
+.postItem{
+	margin:0 0 0 15px;
+	float:left;
+	width:130px;
+	}
+.postItem li{
+	margin-bottom:10px;
+	}
+.modCon li{
+	line-height:20px;
+	font-size:12px;
+	color:#999;
+}
+.curSideBox{
+	margin-bottom:10px;
+	background:#fff;
+}
+.courseCon-item .ico1{
+	background:url(../../images/course/designer-ico.png) left no-repeat;}
+	
+.courseCon-item .ico2{
+	background:url(../../images/course/designer-ico2.png) left no-repeat;}
+.courseCon-item .ico3{
+	background:url(../../images/course/designer-ico3.png) left no-repeat;}
+.courseCon-item .ico4{
+	background:url(../../images/course/designer-ico4.png) left no-repeat;}
+.courseCon-item .ico5{
+	background:url(../../images/course/designer-ico5.png) left no-repeat;}
+.courseCon-item .title{
+	margin:20px 0 20px 0;
+	height:42px;
+	padding-left:54px;
+	font-size:18px;
+	line-height:42px;
+	}
+.courseCon-item .con{
+	padding:0 20px 10px 0;
+	margin:0 0 0 54px;
+	border-bottom:1px dashed #d7d7d7;}
+.courseCon-item ol li{
+	margin-bottom:10px;
+	line-height:24px;
+	}
+.courseCon-item .con i{
+	display:inline-block;
+	width:24px;
+	height:24px;
+	border-radius:12px;
+	background:#69F;
+	margin-right:10px;
+	line-height:24px;
+	text-align:center;
+	color:#fff;
+	}

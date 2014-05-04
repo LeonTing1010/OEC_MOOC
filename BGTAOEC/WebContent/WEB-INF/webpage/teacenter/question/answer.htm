@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>教师中心-国泰安网络教育</title>
+<meta name="description" content="插入网站全局描述变量" />
+<meta name="Keywords" content="插入网站全局关键字变量" />
+[#include "/webpage/common/common.htm"/]
+
+<link href="${base}/css/teacherCenter/answer.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="${base}/kindeditor/kindeditor-all.js"></script>
+<script type="text/javascript" src="${base}/kindeditor/lang/zh_CN.js"></script>
+<script type="text/javascript" src="${base}/js/teachercenter/question/answer.js"></script>
+</head>
+<body>
+<div class="topBox">
+  <div class="menuBtn" style="cursor:auto"></div>
+  <div class="crumbs">你所在的位置：<a href="javascript:void(0);" onclick="switchLoad('8')">未解答</a> &gt; <span>解答</span></div>
+</div>
+<div class="main" >
+  <div class="teacher-title"><h3>解答</h3></div>
+  [#if question??]
+  <div class="question mt20 pad10">
+    <div class="question-tit"><a href="#">${question.quesContent!}</a></div>
+    <div class="question-con">${question.quesDescription!}</div>
+    <div class="question-ft">
+      <span class="mr10">${askUser.userName!}</span>
+      <span class="mr10">${question.quesCtime?string("yyyy-MM-dd")}</span>
+      <span class="mr10">已支付学币：100</span>
+      
+    </div>
+  </div>
+ 
+  <div class="answer mt20 pad10">
+    <input type="hidden" id="allTextNum" class="allTextNum"/>
+   	<input type="hidden" id="quesID" name="quesID" value="${(question.quesID)!'0'}"/>
+   	<input type="hidden" id="quesAddID" name="quesAddID" value="${(question.quesAddID)!'0'}"/>
+    <div class="con">
+    	<textarea class="textarea" id="answtextarea" name="answContent" style="width:500px;height:200px;overflow:hidden"></textarea>
+    </div>
+    <button class="btn btn-success btn-small mt20 mr10" onclick="return submitAnswer();">提交解答</button><span class="validation"></span>
+  </div>
+ 
+  [/#if] 
+</div>
+<div class="clear"></div>
+</body>
+</html>

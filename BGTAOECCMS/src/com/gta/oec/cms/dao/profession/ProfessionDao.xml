@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gta.oec.cms.dao.profession.IProfessionDao">
+<resultMap type="com.gta.oec.cms.vo.profession.Profession" id="professionMap">
+	<result column="Pro_ID" property="proID"/>
+	<result column="Pro_Name" property="proName"/>
+	<result column="Pro_Description" property="proDescription"/>
+	<result column="Pro_Ctime" property="proCtime"/>
+	<result column="Pro_Utime" property="proUtime"/>
+	<result column="Pro_Recommend" property="proRecommend"/>
+	<result column="Pro_Image" property="proImage"/>
+</resultMap>
+
+<resultMap type="com.gta.oec.cms.vo.job.Job" id="jobMap">
+	<result column="Job_ID" property="jobID"/>
+		<result column="Pro_ID" property="proID"/>
+	<result column="Job_Name" property="jobName"/> 
+</resultMap>
+
+	<!-- 查询所有职业信息 -->
+	<!-- <select id="getAllProfession" resultType="list" resultMap="professionMap">
+		select * from p_profession 
+	</select> -->
+	
+	
+	<!-- 多条件查询职业信息 -->
+	<select id="findProfessionsPageQuery" parameterType="page" resultMap="professionMap">
+		select * from p_profession where 1=1
+		<if test="parameters.proName!=null and parameters.proName!=''">
+			and Pro_Name = #{parameters.proName}
+		</if>
+		<if test="parameters.proDescription!=null and parameters.proDescription!=''">
+			AND Pro_Description like concat('%',#{parameters.proDescription},'%')
+		</if> 
+		<if test="parameters.proRecommend!=null and parameters.proRecommend!=''">
+			and Pro_Recommend = #{parameters.proRecommend}
+		</if>
+	</select>	
+	<select id="getAllProfession"  resultMap="professionMap">
+		select  
+			t.Pro_ID,
+			t.Pro_Name,
+			t.Pro_Description,
+			t.Pro_Ctime,
+			t.Pro_Utime,
+			t.Pro_Recommend
+		from p_profession t                  <!-- limit 20 限制查询数量 -->
+	</select>
+	
+	<!-- add by can.xie 2014.4.9 -->
+	<select id="getJobByParams"   resultMap="jobMap" parameterType="map" >
+			select  pj.Job_ID,pj.Pro_ID,pj.Job_Name from p_job pj 
+			where 1=1
+			
+				<if test="params.userId !=null and  params.userId != '' and params.userId !=0 ">
+				AND	EXISTS 
+				(select  u.jobid from u_teacher_shine u where  
+						  u.jobid=pj.Job_ID AND u.userid=#{params.userId}
+				)
+				</if>
+				 
+			and pj.Job_PID is null
+			ORDER BY pj.Job_ID
+	</select>
+	
+	<select id="getProfessionByParams"  resultMap="professionMap" parameterType="map">
+	SELECT 
+		p.Pro_ID,
+		p.Pro_Name 
+	from p_profession p 
+	where 
+		1=1
+		 <if test="params.userId !=null and  params.userId != '' and params.userId !=0">
+			AND  EXISTS
+				 (select  u.proid from u_teacher_shine u where u.proid=p.Pro_ID 
+								 and u.userid=${params.userId}
+				)
+		</if>
+	
+		order by p.Pro_ID
+	</select>
+	
+	<!--  add by can.xie end -->
+	
+	
+	
+	<!-- 修改职业图片 -->
+	<update id="updateProfessions" parameterType="profession" >
+		update p_profession 
+		<set>
+				Pro_Image = #{proImage},
+				Pro_Utime = #{proUtime}
+		</set>
+		where Pro_ID=#{proID}
+	</update>
+</mapper>

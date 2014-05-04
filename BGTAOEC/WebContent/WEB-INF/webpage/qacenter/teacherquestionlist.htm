@@ -1,0 +1,36 @@
+	[#if pageModel??]
+	[#if pageModel.list??]
+	[#list pageModel.list as item]
+	<li>
+		<h2 class="clearfix">
+			<a href="/questionCenter/questiondetail/${item.quesID!}/">${item.quesContent!}</a><span>${item.answerVo.answCtime?string("yyyy-MM-dd HH:mm:ss")!}</span>
+		</h2>
+		<div class="clearfix mt10">
+			<a href="#"><img src="[#if item.answerVo.userHeadPic??]${cache!}${item.answerVo.userHeadPic!}[#else]${cache!}/images/base/default_pic_temp_user.jpg[/#if]" 
+				title="" /></a>
+			<div class="curTabCon-info">
+				<p class="curTabCon-faq">
+					<span>${item.answerVo.userName!}</span> 回答了问题
+				</p>
+				<p class="curTabCon-faqs">${item.answerVo.answContent!}</p>
+			</div>
+		</div>
+	</li>
+	[/#list]
+		[#if pageModel.toPage gte pageModel.totalPage]
+	<script type="text/javascript">
+		$("#questionBtn").hide();
+	</script>
+	[#else]
+	<script type="text/javascript">
+		$("#questionBtn").show();
+	</script>	
+	[/#if]
+
+[#else]	
+	<script type="text/javascript">
+		$("#questionBtn").hide();
+	</script>	
+	[/#if]
+	[/#if]
+

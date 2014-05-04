@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gta.oec.vo.exam.ExamOptionVo">
+	<resultMap type="com.gta.oec.vo.exam.ExamOptionVo" id="examOptionMap">
+		<result column="Exam_Opt_ID" property="optId" />
+		<result column="Exam_Ques_ID" property="quesId" />
+		<result column="Exam_Opt_Num" property="optNum" />
+		<result column="Exam_Opt_Content" property="optContent" />
+		<result column="Exam_Opt_Ctime" property="optCtime" />
+		<result column="Exam_Opt_Utime" property="optUtime" />
+	</resultMap>
+
+    <!-- 插入试题项  by zhangjin -->
+    <insert id="insert" parameterType="com.gta.oec.vo.exam.ExamOptionVo" keyProperty="examQuesId" useGeneratedKeys="true">
+			INSERT INTO e_exam_option(Exam_Ques_ID,Exam_Opt_Num,Exam_Opt_Content,Exam_Opt_Ctime,Exam_Opt_Utime)
+			VALUES(#{quesId},#{optNum},#{optContent},#{optCtime},#{optUtime})
+    </insert>
+    
+    <!-- 根据试题id查询试题项  by zhangjin-->
+	<select id="getExamOptionByQuesId" parameterType="int" resultMap="examOptionMap">
+		SELECT * FROM e_exam_option WHERE exam_Ques_ID=#{quesId} 
+	</select>
+</mapper>    

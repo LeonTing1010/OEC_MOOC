@@ -1,0 +1,34 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>消息-国泰安网络教育</title>
+[#include "/webpage/common/common.htm"/]
+<script type="text/javascript">
+function checkMail(id){
+  alert(isNull(undefined));
+}
+$(function($){	
+	$("#captcha").click(function(){
+		$("#captcha").css("background-image","url('/index/captcha/?code="+Math.random()+"')");
+	});
+})
+</script>
+</head>
+<body>
+
+<span><input type="text" name="msTitle"/></span>
+<span><input onclick="checkMail()" type="button" value="查询" /> </span>
+       
+       <table border="1">
+           [#list messages as mess]
+             <tr>
+                <td><input type="checkbox" value="checkbox">
+                <td>${mess.msTitle }</td>
+                <td>${mess.msCtime?datetime("yyyy-MM-dd HH:mm:ss") }</td>
+             </tr>
+            [/#list]
+       </table>
+       
+</body>
+</html>

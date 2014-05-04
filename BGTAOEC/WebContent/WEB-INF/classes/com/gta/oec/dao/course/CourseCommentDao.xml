@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gta.oec.vo.course.CourseCommentVo" >
+  <resultMap id="courseCommentMap" type="com.gta.oec.vo.course.CourseCommentVo" >
+    <id column="Com_ID" property="comId" jdbcType="INTEGER" />
+    <result column="Com_User_ID" property="comUserId" jdbcType="INTEGER" />
+    <result column="Com_Course_ID" property="comCourseId" jdbcType="INTEGER" />
+    <result column="Com_Cri_Time" property="comCriTime" jdbcType="TIMESTAMP" />
+    <result column="Com_Content" property="comContent" jdbcType="VARCHAR" />
+    <result column="Com_Source" property="comSource" jdbcType="VARCHAR" />
+    <result column="Com_Del" property="comDel" jdbcType="TINYINT" />
+    
+   <!--  <association property="user" javaType="com.gta.oec.vo.user.UserVo">
+    	<result column="User_Name" property="userName" jdbcType="VARCHAR" />
+    </association> -->
+    
+    <result column="User_Name" property="userName" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <!-- 发表评论时新增 默认为可见 -->
+  <insert id="saveCourseComment" parameterType="com.gta.oec.vo.course.CourseCommentVo" keyProperty="Com_ID" useGeneratedKeys="true">
+	INSERT INTO c_course_comment
+            (
+             Com_User_ID,
+             Com_Course_ID,
+             Com_Cri_Time,
+             Com_Content,
+             Com_Source,
+             Com_Del
+             )
+	VALUES (
+	        #{comUserId},
+	        #{comCourseId},
+	        #{comCriTime},
+	        #{comContent},
+	        #{comSource},
+	        1
+	        );
+ </insert>  
+  <!-- 根据commentId查找 -->
+  <select id="findCourseCommentById" resultMap="courseCommentMap" parameterType="java.lang.Integer" >
+    SELECT
+	comment.Com_ID,
+	comment.Com_User_ID,
+	comment.Com_Course_ID,
+	comment.Com_Cri_Time,
+	comment.Com_Content,
+	comment.Com_Source,
+	comment.Com_Del
+	FROM
+	c_course_comment AS comment
+	WHERE
+	comment.Com_Del = 1 
+	AND 
+	comment.Com_ID = #{comID}
+  </select>
+  <!-- 课程点评信息分页列表 -->
+   <select id="findCourseCommentCourseListBySize" resultMap="courseCommentMap" parameterType="java.util.Map" >
+ 	SELECT
+		comment.Com_ID,
+		comment.Com_User_ID,
+		comment.Com_Course_ID,
+		comment.Com_Cri_Time,
+		comment.Com_Content,
+		comment.Com_Source,
+		comment.Com_Del,
+		user.User_Name
+	FROM
+		c_course_comment AS comment
+	LEFT JOIN 
+		u_user
+	 AS user 
+	 ON 
+	 	comment.Com_User_ID = user.User_ID
+	WHERE
+	  comment.Com_Del = 1
+	AND 
+		comment.Com_Course_ID = #{courseID}
+	ORDER BY
+		comment.Com_Cri_Time DESC
+	<if test="m!=0">
+       limit #{n},#{m}
+    </if>
+  </select>
+  <!-- 根据课程ID查出该课程下的评论总数 -->
+  <select id="findCourseCommentCountByCourseId" resultType="int" parameterType="java.util.Map" >
+  	SELECT
+	COUNT(*)
+	FROM
+	c_course_comment comment
+	WHERE 
+	comment.Com_Del = 1
+	AND
+	comment.Com_Course_ID = #{courseID}
+ </select>
+</mapper>

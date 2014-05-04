@@ -1,0 +1,8 @@
+[#if askList??]
+[#list askList as ask]
+<li>
+	<div class="pb10 wordBreak">${ask.quesContent!}</div>
+	<div class="time">创建时间&nbsp;[#if ask.quesCtime??]${ask.quesCtime?string("yyyy-MM-dd HH:mm:ss")}[/#if]</div>
+</li>
+[/#list]
+[/#if]

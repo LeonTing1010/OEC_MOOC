@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gta.oec.cms.dao.school.SchoolDao">
+	<resultMap type="com.gta.oec.cms.vo.school.School" id="schoolMap">
+		<result column="sch_ID" property="schId" />
+		<result column="sch_Name" property="schName" />
+		<result column="sch_Description" property="schDescription" />
+		<result column="sch_Address" property="schAddress" />
+		<result column="sch_Www" property="schWww" />
+		<result column="sch_Logo" property="schLogo" />
+		<result column="sch_Ctime" property="schCtime" />
+	</resultMap>
+    
+	<select id="allSchoolPageQuery" resultType="list" resultMap="schoolMap">
+		 select * from s_school 
+	</select>
+	
+	<select id="schoolPageQuery" parameterType="page" resultMap="schoolMap" >
+		select * from s_school where 1=1
+		<if test="parameters.schName!=null and parameters.schName!=''">
+			and sch_Name like concat('%',#{parameters.schName},'%')
+		</if>
+		<if test="parameters.schAddress!=null and parameters.schAddress!=''">
+			and sch_Address like concat('%',#{parameters.schAddress},'%')
+		</if>
+	</select>
+	
+	<insert id="addSchool" parameterType="school">
+		insert into s_school(sch_Name,sch_Description,sch_Address,sch_Www,sch_Logo,sch_Ctime) values
+		(#{school.schName},#{school.schDescription},#{school.schAddress},#{school.schWww},#{school.schLogo},#{school.schCtime})
+	</insert>
+	
+	<update id="updateSchool" parameterType="school">
+		update s_school
+		<set>
+			<if test="school.schName!=null and school.schName!=''">
+				sch_Name = #{school.schName},
+			</if>
+			<if test="school.schDescription!=null and school.schDescription!=''">
+				sch_Description = #{school.schDescription},
+			</if>
+			<if test="school.schAddress!=null and school.schAddress!=''">
+				sch_Address = #{school.schAddress},
+			</if>
+			<if test="school.schWww!=null and school.schWww!=''">
+				sch_Www = #{school.schWww},
+			</if>
+			<if test="school.schLogo!=null and school.schLogo!=''">
+				sch_Logo = #{school.schLogo},
+			</if>
+			<if test="school.schCtime!=null and school.schCtime!=''">
+				sch_Ctime = #{school.schCtime}
+			</if>
+		</set>
+		where sch_ID = #{school.schId}
+	</update>
+	
+	<delete id="delSchool" parameterType="String">
+		delete from s_school where sch_ID = #{schoolId}
+	</delete>
+	
+</mapper>    

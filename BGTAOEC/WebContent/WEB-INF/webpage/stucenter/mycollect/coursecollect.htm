@@ -1,0 +1,66 @@
+<link href="${base}/css/studentCenter/studentCourseCollection.css" rel="stylesheet" type="text/css">
+       
+       <div class="student-title"><h3>课程收藏</h3></div>
+          <div class="table-default">
+          	<table class="" width="100%" cellpadding="0" cellspacing="0">
+              <thead>
+				<tr>
+					<th>课程名称</th>
+					<th width="80">授课老师</th>
+					<th width="100">所属学校</th>
+					<th width="80"> 学时</th>
+					<th width="60">学分</th>
+					<!-- 
+                    <th width="80">学习状态</th>
+                     -->
+					<th width="80">操作</th>
+				</tr>
+              </thead>
+              <tbody>
+              [#if courseList??]
+              [#if courseList.list??]
+					[#list courseList.list as course]
+				<tr class="odd" id="${course.courseId!}">
+					<td><a href="${base}/course/info/${course.courseId!}/" class="view" target="_Blank">${course.courseName!}</a></td>
+					<td>${course.teacherName!}</td>
+					<td>${course.schoolName!}</td>
+					<td class=" orange">${course.courWeek!}</td>
+					<td class=" orange">${course.credit!}</td>
+					<!-- 
+					[#if "${course.progress!}"=="0"]
+                    	<td>未开始</td>
+                    [/#if]
+                    
+                    [#if "${course.progress!}"!="0" && "${course.progress}"!="100"]
+                    	<td>开始中</td>
+                    [/#if]
+                    
+                    [#if "${course.progress!}"=="100"]
+                    	<td>已结束</td>
+                    [/#if]
+                     -->
+					<td>
+						<a href="javascript:void(0)" class="view">
+							<span onclick="delCourseInfo(${course.courseId!})">取消收藏</span>
+						</a>
+					</td>
+				</tr>
+				[/#list]
+				[/#if]
+		      </tbody>		
+			</table>			
+          </div>
+        [#if (courseList.list?size>0) ]
+        [@p.tab value=courseList][#rt/]
+		[/@p.tab]
+		<script type="text/javascript">
+		function _gotoPage(pageNo){
+		$('.main').load(base+"/studentCenter/coursecollect/?pageNo="+pageNo);
+		}
+		</script>
+		[#else]
+			暂无课程收藏！
+		[/#if]
+	[/#if]
+
+      

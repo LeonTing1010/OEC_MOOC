@@ -1,0 +1,138 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>[#if teacherVo??]${teacherVo.teacherName!}[/#if]-国泰安网络教育</title>
+<meta name="description" content="插入网站全局描述变量" />
+<meta name="Keywords" content="插入网站全局关键字变量" />
+[#include "/webpage/common/common.htm"/]
+
+<link href="${base}/css/answerCenter/teacherdetails.css"
+	rel="stylesheet" type="text/css">
+
+<script src="${base}/js/qcenter/teacherdetails.js"
+	type="text/javascript"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$(".select").click(function() {
+			$(".select-list").toggle();
+		});
+		$(".select").mouseleave(function() {
+			$(".select-list").hide();
+		});
+		$(".select li").click(function() {
+			var str = $(this).text();
+			$(".select span").text(str);
+		});
+
+	});
+</script>
+<style type="text/css">
+	.wordBreak {
+		word-break:break-all;word-wrap:break-word;
+	}
+</style>
+</head>
+
+<body  id="backtop">
+
+	<div class="wrapper">
+		<!-- 答疑中心引入头部 -start-->
+		[#include "/webpage/common/questionhead.htm"/]
+		<!-- 答疑中心引入头部 -end-->
+		<div class="container">
+			<div class="content clearfix pt10">
+				<div class="grid rightCon">
+					[#if teacherVo??]
+					[#-- <div class="subCrumbs">
+						<a href="${base!}/qacenter/teacherlist/">全部</a><a
+							href="${base!}/qacenter/teacherlist/?jumpProId=[#if teacherVo.professionVo??]${teacherVo.professionVo.proID!}[/#if]">[#if teacherVo.professionVo??]${teacherVo.professionVo.proName!}[/#if]</a><a
+							href="${base!}/qacenter/teacherlist/?jumpJobId=${teacherVo.jobGroupId!}">${teacherVo.jobGroupName!}</a><span>名师详情</span>
+					</div> --]
+					<div class="teacherContent">
+						<div class="clearfix">
+							<div class="teacherContent-img">
+								<img  width="100%" height="100%"
+									src="[#if teacherVo.userHeadPic??]${cache!}${teacherVo.userHeadPic!}[#else]${cache}/images/base/default_pic_temp_user.jpg[/#if]" 
+									 />
+							</div>
+							<div class="teacherContent-info">
+								<h2 class="name clearfix">
+									<span>${teacherVo.teacherName!}</span>
+								</h2>
+								<span class="teacherContent-info-st">${teacherVo.school!}</span>
+								<span class="teacherContent-info-st">${teacherVo.major!}&nbsp;&nbsp;&nbsp;${teacherVo.teacherLevel!}</span>
+								<span class="teacherContent-info-sp">${teacherVo.introduce!}</span>
+								<span class="teacherContent-info-sp">主讲课程：
+									${teacherVo.course!}</span> 
+									
+								[#if userVo??]
+									[#if userVo.userType !=2]
+									<a href="javascript:void(0);" 
+									onclick="createLogin('${base}/questionCenter/helpme/${teacherVo.userId!}/');" class="teacherContent-info-btn radius">求助</a>
+									[/#if] 
+								[#else]
+									<a href="javascript:void(0);" 
+									onclick="createLogin('${base}/questionCenter/helpme/${teacherVo.userId!}/');"
+									class="teacherContent-info-btn radius">求助</a>
+								[/#if] 
+							</div>
+						</div>
+						<div class="curTab">
+							<ul id="quickNav" style="">
+								<li class="current" id="courseTab"><a class="jobInfo"
+									href="javascript:void(0);">课程</a></li>
+								<li class="" id="questionTab"><a class="course"
+									href="javascript:void(0);">解疑</a></li>
+							</ul>
+						</div>
+						<div class="curTabCons">
+							<input type="hidden" id="teacherId" value="${teacherVo.id!}"/>
+							<div class="curTabCon" style="display:none;">
+								<input type="hidden" id="courseToPage" value="1"/>
+								<ul class="curTabCon-list clearfix" id="courseUl">
+									<!-- 此处引用teachercourselist -->
+								</ul>
+								<a href="javascript:void(0)" class="curTabCon-down"
+								style="display:none;"	id="courseBtn"><span class="i-icon1">加载更多课程</span></a>
+							</div>
+							<div class="curTabCon" style="display:none;">
+								<input type="hidden" id="questionToPage" value="1"/>
+								<ul class="curTabCon-ul" id="questionUl">
+									<!-- 此处引用teacherquestionlist -->
+								</ul>
+								<a href="javascript:void(0)" class="curTabCon-down"
+								 style="display:none;"	id="questionBtn"><span class="i-icon1">加载更多解疑</span></a>
+							</div>
+						</div>
+					</div>
+					[/#if]
+				</div>
+			</div>
+
+
+		</div>
+		  <div class="footerFixer"></div>
+</div>
+[#include "/webpage/common/footer.htm"/]
+	<script language="JavaScript" type="text/javascript">
+		$(function() {		
+			var $li = $(".curTab li"), $content = $(".curTabCon"), $index;
+
+			$li.click(function() {
+				$(this).addClass("current").siblings().removeClass('current');
+				$index = $li.index($(this));
+				$content.eq($index).show().siblings().hide();
+			});
+			$(".curTab li").first().click();
+		});
+
+		 function createLogin(url){
+		    	oec.login.isLogin(function(){
+		    		window.location.href = url;
+		    		
+		    	});
+		    }
+	</script>
+</body>
+</html>

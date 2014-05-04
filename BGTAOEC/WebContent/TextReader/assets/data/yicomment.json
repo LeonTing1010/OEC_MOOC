@@ -1,0 +1,34 @@
+{ "root": [
+	{ "page": "1", "content": [
+							{ "tag": "comment", "guid": "101", "cx": "100", "cy": "100", "content": "批注1[{]}\nabc&quot;&quot;", "showType": "0" , "updateTime" : "2013-11-08 12:00:00" },
+                            { "tag": "comment", "guid": "102", "cx": "300", "cy": "400", "content": "批注2", "showType": "1" , "updateTime" : "2013-11-08 12:00:00"}]
+                        },
+	{ "page": "5", "content": [
+							{ "tag": "comment", "guid": "103", "cx": "100", "cy": "100", "content": "批注3", "showType": "1" , "updateTime" : "2013-11-08 12:00:00" },
+                            { "tag": "comment", "guid": "104", "cx": "300", "cy": "400", "content": "批注4", "showType": "0" , "updateTime" : "2013-11-08 12:00:00" }]
+                        },
+    { "page": "6", "content": [
+							{ "tag": "comment", "guid": "105", "cx": "100", "cy": "100", "content": "批注5", "showType": "0" , "updateTime" : "2013-11-08 12:00:00" },
+                            { "tag": "comment", "guid": "106", "cx": "300", "cy": "400", "content": "批注6", "showType": "1" , "updateTime" : "2013-11-08 12:00:00"}]
+                        },
+	{ "page": "15", "content": [
+							{ "tag": "comment", "guid": "107", "cx": "100", "cy": "100", "content": "批注7", "showType": "1" , "updateTime" : "2013-11-08 12:00:00" },
+                            { "tag": "comment", "guid": "108", "cx": "300", "cy": "400", "content": "批注8", "showType": "0" , "updateTime" : "2013-11-08 12:00:00" }]
+                        },
+    { "page": "16", "content": [
+							{ "tag": "comment", "guid": "109", "cx": "100", "cy": "100", "content": "批注9", "showType": "0" , "updateTime" : "2013-11-08 12:00:00" },
+                            { "tag": "comment", "guid": "110", "cx": "300", "cy": "400", "content": "批注10", "showType": "1" , "updateTime" : "2013-11-08 12:00:00"}]
+                        },
+	{ "page": "17", "content": [
+							{ "tag": "comment", "guid": "111", "cx": "100", "cy": "100", "content": "批注11", "showType": "1" , "updateTime" : "2013-11-08 12:00:00" },
+                            { "tag": "comment", "guid": "112", "cx": "300", "cy": "400", "content": "批注12", "showType": "0" , "updateTime" : "2013-11-08 12:00:00" }]
+                        },
+	{ "page": "18", "content": [
+							{ "tag": "comment", "guid": "113", "cx": "100", "cy": "100", "content": "批注13", "showType": "0" , "updateTime" : "2013-11-08 12:00:00" },
+                            { "tag": "comment", "guid": "114", "cx": "300", "cy": "400", "content": "批注14", "showType": "1" , "updateTime" : "2013-11-08 12:00:00"}]
+                        },
+	{ "page": "19", "content": [
+							{ "tag": "comment", "guid": "115", "cx": "100", "cy": "100", "content": "批注15", "showType": "1" , "updateTime" : "2013-11-08 12:00:00" },
+                            { "tag": "comment", "guid": "120", "cx": "300", "cy": "400", "content": "批注16", "showType": "0" , "updateTime" : "2013-11-08 12:00:00" }]
+                        }                        
+]}

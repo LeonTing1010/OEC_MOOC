@@ -1,0 +1,58 @@
+@charset "utf-8";
+
+/* CSS Document */
+
+/*-------问题推荐菜单-------*/
+.questionSide{
+	float:right;
+	width:290px;
+}
+.liminatingTeacher{background:#fff;}
+.teacherTitle{
+	font-size:14px;
+	padding-left:20px;
+	border-bottom:1px solid #d7d7d7;
+	height:40px;
+	line-height:40px;
+}
+.liminatingList{
+	border-bottom:1px dashed #d7d7d7;
+	padding:15px 0;
+	margin:0 24px 0 20px;
+	overflow:hidden;
+	zoom:1;
+}
+.liminatingList dt{
+	float:left;
+	width:90px;
+}
+.liminatingList dd{
+	margin-left:108px;
+}
+.p-name{
+	font-size:16px;
+	color:#1f82b5;
+	line-height:24px;
+}
+.degree{
+	font-size:12px;
+	color:#696969;
+	line-height:22px;
+}
+.helpBtn{
+	background:#608140;
+	border:none;
+	text-align:center;
+	color:#fff;
+	width:56px;
+	height:20px;
+	line-height:20px;
+	cursor:pointer;
+	}
+.liminatingList dt a img {
+	padding:4px;
+	border:1px solid #d7d7d7;
+}
+
+/*----去掉最后一个列表的下边框---*/
+.last{border-bottom:none;}

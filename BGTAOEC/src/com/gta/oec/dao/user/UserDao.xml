@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gta.oec.vo.user.UserVo">
+	<resultMap type="com.gta.oec.vo.user.UserVo" id="userMap">
+		<id column="User_ID" property="userId" />
+		<result column="RoleID" property="roleID"/>
+		<result column="User_Name" property="userName"/>
+		<result column="User_Mobile" property="userMobile"/>
+		<result column="User_Email" property="userEmail" />
+		<result column="User_Password" property="password" />
+		<result column="User_Type" property="userType"/>
+		<result column="User_HeadPic" property="userHeadPic"/>
+		<result column="User_LoginInfo" property="userLoginInfo"/>	
+		<result column="User_ResetPwdCode" property="userResetPwdCode"/>			
+		<result column="ID" property="id"/>
+		<result column="Major" property="major"/>
+		<result column="TeacherLevel" property="teacherLevel"/>
+		<result column="IsRecommended" property="isRecommended"/>
+		<!-- 用户状态，登陆时判断是否已在后台禁用 0是禁用 1是启用 -->
+		<result column="User_state" property="userState"/>
+		<result column="create_date" property="createDate" />
+	</resultMap>
+	
+	<!-- 插入用户-->
+	<insert id="insertUser" parameterType="com.gta.oec.vo.user.UserVo" keyProperty="userId" useGeneratedKeys="true">
+		insert into u_user(User_Name,User_Email,User_Password,RoleID,User_LoginInfo,User_Type,Create_Date,User_state) values(#{userName},#{userEmail},#{password},#{roleID},#{userLoginInfo},#{userType}, #{createDate},#{userState})
+	</insert>
+	
+	<!-- 更新用户 add BY:缪佳 2014-01-16-->
+	<insert id="updateUserPwdCode" parameterType="java.util.Map" keyProperty="userId" useGeneratedKeys="true" >
+		 update u_user set User_ResetPwdCode=#{code}  where User_Email=#{email}
+	</insert>	
+	<!-- 更新用户密码 add BY:缪佳 2014-01-16-->
+	<insert id="updateUserPwd" parameterType="java.util.Map" keyProperty="userId" useGeneratedKeys="true" >
+		 update u_user set User_Password=#{pwd}  where User_Email=#{email}
+	</insert>	
+	
+		<!-- 更新用户密码 add BY:缪佳 2014-01-16-->
+	<insert id="updateUser_HeadPic" parameterType="java.util.Map" keyProperty="userId" useGeneratedKeys="true" >
+		 update u_user set User_HeadPic=#{userHeadPic}  where User_ID=#{userId}
+	</insert>	
+	<!-- 根据用户id查询用户-->
+	<select id="getUserById" parameterType="int" resultMap="userMap">
+		      select * from u_user where user_ID = #{userId} 
+	</select>
+	
+	<!-- 根据多个用户id查询用户-->
+	<select id="getUserListByIds" parameterType="list" resultMap="userMap">
+		      select * from u_user where user_ID in 
+		      <foreach collection="list" item="ids"  open="(" separator="," close=")">  
+                #{ids} 
+              </foreach>
+	</select>
+	
+	<!-- 修改用户-->
+	<update id="updateUser" parameterType="com.gta.oec.vo.user.UserVo" flushCache="true">
+		     update u_user 
+		     <set>
+		     	<if test="userName !=null">
+		     		user_Name = #{userName}
+		     	</if>
+		     	<if test="userEmail !=null">
+		     		,user_Email = #{userEmail}
+		     	</if>
+		     	<if test="password !=null">
+		     		,User_Password = #{password}
+		     	</if>
+		     	<if test="userMobile !=null">
+		     		,User_Mobile = #{userMobile}
+		     	</if>
+		     </set>
+		      where user_ID = #{userId}
+	</update>
+	<!-- function：检查登录信息   Add By:缪佳  2014-01-09 -->
+	<select id="getUserInfo" parameterType="com.gta.oec.vo.user.UserVo" resultMap="userMap">
+	     select * from u_user where User_Email = #{userEmail} and User_Password=#{password}
+	</select>
+	
+	<!-- function：根据用户名称获取用户信息   Add By:缪佳  2014-01-09 -->
+	<select id="getUserlistByName" parameterType="String" resultMap="userMap">
+	     select * from u_user where user_Name = #{userName} 
+	</select>
+	
+		<!-- function：根据用户名称获取对象获取用户信息   Add By:缪佳  2014-01-09 -->
+	<select id="getUserlistByUserVo" parameterType="com.gta.oec.vo.user.UserVo" resultMap="userMap">
+	     select * from u_user where 1=1 and User_Email = #{uservo.userEmail}
+	</select>
+	
+	<!-- 取得推荐老师列表信息-刘祚家start -->
+	<select id="getRecommendTeacherList" parameterType="int" resultMap="userMap">
+	     select * from (select a.User_ID,a.User_Name,a.User_Type,a.User_HeadPic,b.ID,b.Major,b.TeacherLevel,b.IsRecommended from u_user a,u_teacher b where
+	     a.User_ID=b.User_ID and a.User_Type='2' and b.IsRecommended='1') c limit #{limitNum}
+	</select>
+	<!-- 取得推荐老师列表信息-刘祚家end -->
+	<!-- 根据岗位群ID取得推荐老师列表信息-刘祚家start -->
+	<select id="getRecommendTeacherListByJobId" parameterType="java.util.Map" resultMap="userMap">
+	     select * from (select a.User_ID,a.User_Name,a.User_Type,a.User_HeadPic,b.ID,b.Major,b.TeacherLevel,b.IsRecommended from u_user a,u_teacher b where
+	     a.User_ID=b.User_ID and b.Job_GroupID=#{jobGroupId} and a.User_Type='2' and b.IsRecommended='1') c order by rand() limit #{limitNum}
+	</select>
+	<!-- 根据岗位群ID取得推荐老师列表信息-刘祚家end -->
+	
+	<!-- 取得回答活跃老师列表信息-刘祚家start -->
+	<select id="getTeacherAnswerActiveList" resultMap="userMap">
+		select * from 
+		(select e.User_ID,e.User_Name,e.User_Type,d.num from
+	     (select c.User_ID,count(*) as num from u_user a,q_answer c where a.User_Type='2' and a.User_ID=c.User_ID  group by c.User_id) d, u_user e 
+	     where d.User_ID=e.User_ID order by d.num desc) f limit 5
+	</select>
+	<!-- 取得回答活跃老师列表信息-刘祚家end -->
+	
+	<!-- 姓名关键字搜索老师用户的列表信息 -->
+	<select id="getUserOfTeacherListByKeyword" parameterType="java.util.Map" resultMap="userMap">
+	     select u.*
+	     from u_user u ,u_teacher t
+	     where u.User_ID=t.User_ID and  u.User_Name like CONCAT('%',#{search},'%') and u.User_Type='2'
+	     limit #{limit}
+	</select>
+	
+	<select id="getCourseUser" parameterType="java.util.Map" resultMap="userMap">
+	   SELECT u.*,uu.cour_id,uu.progress FROM u_user AS u,u_user_course AS uu WHERE u.User_ID = uu.User_ID AND uu.Cour_ID = #{courseId} limit #{n},#{m}
+	</select>
+	
+</mapper>    

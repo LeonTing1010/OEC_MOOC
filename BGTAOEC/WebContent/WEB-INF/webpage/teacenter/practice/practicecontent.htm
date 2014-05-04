@@ -1,0 +1,87 @@
+
+	[#if pageModel??]
+	<div class="table-default">
+		<div class="test-body">
+		[#if pageModel.list?? && pageModel.list?size >0]
+			[#list pageModel.list as course]
+			[#assign flag="false"/]
+			[#if course??]
+			<dl class="test-course">
+				<!--向上的箭头：shrink-arrow  向下的箭头追加：shrink-arrow-up 类样式-->
+				<dt>
+					<span class="shrink-arrow shrink-arrow-up"></span>课程[@num s='${course_index+1}'/] ${course.courseName!}
+				</dt>
+				<dd style="display: block;">
+					[#if course.list??]
+					<ul class="test-course-ul clearfix">
+						[#list course.list as section]
+							[#if section.list??]
+								[#list section.list as subsection]
+										[#if subsection.examList??]
+											[#assign flag="true"/]
+											[#list subsection.examList as exam]
+											<li>
+												<h4>第[@num s='${section_index+1}'/]章  第[@num s='${subsection_index+1}'/]节</h4>
+												<p class="title">
+													<span>${exam.examName!}</span>
+												</p>
+												<p>提交：${exam.examCount!}\${exam.learnCount!}</p>
+						 
+												<p>
+													<!-- <a href="#" class="btn btn-primary btn-small>成绩</a> -->
+												</p>
+											</li>	
+											[/#list]
+										[/#if]
+								[/#list]
+							[/#if]
+						[/#list]
+					</ul>
+					[/#if]
+					[#if flag=="false"]
+						<p>暂无学生提交练习!</p>
+					[/#if]
+				</dd>
+			</dl>
+			[/#if]
+			[/#list]
+			[@p.tab value=pageModel][#rt/] [/@p.tab]
+		[#else]
+			<p align="left">暂无课程练习!</p>
+		[/#if]
+		</div>
+	</div>
+	[/#if]
+
+<script type="text/javascript">
+	function _gotoPage(pageNo){
+	$('.rightCon').load(base+"/teacherCenter/practiceManagement/?pageNo="+pageNo);
+	}
+	
+	$(document).ready(function(){
+	  $(".shrink-arrow").click(
+	  
+		  function(){	
+		  	var dd = $(this).parent().nextAll("dd");
+			if(dd.is(':hidden')){
+				$(this).addClass('shrink-arrow-up');
+			}
+			else{
+				$(this).removeClass('shrink-arrow-up');
+			}
+			dd.toggle();				
+		  }
+	  );
+
+	  var $li = $(".curTab li"),
+			$content = $(".test-body"),
+			$index;
+
+		$li.click(function(){
+			$(this).addClass("current").siblings().removeClass('current');
+			$index = $li.index($(this));
+			$content.eq($index).show().siblings().hide();
+		});
+	   
+	});
+</script>

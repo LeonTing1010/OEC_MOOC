@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gta.oec.cms.dao.faq.IFAQDao">
+<resultMap type="com.gta.oec.cms.vo.faq.FAQ" id="faqMap">
+	<result column="FAQ_ID" property="faqID"/>
+	<result column="FAQ_Title" property="faqTitle"/>
+	<result column="FAQ_Content" property="faqContent"/>
+	<result column="FAQ_CTime" property="faqCTime"/>
+	<result column="FAQ_UTime" property="faqUTime"/>
+	<result column="FAQ_PID" property="faqPID"/>
+</resultMap>
+
+
+	<!-- 查询所有faq信息 -->
+	<select id="findFAQPageQuery" resultType="list" resultMap="faqMap">
+		select FAQ_ID,FAQ_Title,FAQ_Content,FAQ_CTime from f_faq where 1=1
+		<if test="parameters.faqTitle!=null and parameters.faqTitle!=''">
+			and FAQ_Title like concat('%',#{parameters.faqTitle},'%')
+		</if>
+	</select>
+	
+	<!-- 查询faq的标题信息 -->
+	<select id="findTitle" resultType="list" resultMap="faqMap">
+		select FAQ_ID,FAQ_Title,FAQ_PID from f_faq
+	</select>
+	
+	<!-- 根据ID查询标题 -->
+	<select id="findTitleByID" parameterType="Integer" resultType="faq" resultMap="faqMap">
+		select FAQ_ID,FAQ_Title,FAQ_PID,FAQ_Content from f_faq where FAQ_ID= #{id}
+	</select>
+	
+	<!-- 根据ID查询是否有子 -->
+	<select id="findPIDByID" parameterType="Integer" resultType="list" resultMap="faqMap">
+		select FAQ_ID,FAQ_Title,FAQ_PID from f_faq where FAQ_PID= #{id}
+	</select>
+	
+	
+	<!--修改faq信息  -->
+	<update id="updateFAQ" parameterType="faq">
+		update f_faq
+		<set>
+			<!-- FAQ_Title=#{faq.faqTitle},  不需要修改标题-->
+			FAQ_Title=#{faq.faqTitle},
+			FAQ_Content=#{faq.faqContent},
+			FAQ_UTime=#{faq.faqUTime},
+			FAQ_PID=#{faq.faqPID}
+		</set>
+		where FAQ_ID=#{faq.faqID}
+	</update>
+	
+	<!--增加faq信息  -->
+	<insert id="addFAQ" parameterType="faq" >
+		insert into f_faq(FAQ_Title,FAQ_Content,FAQ_CTime,FAQ_PID)
+		values
+		(#{faq.faqTitle},#{faq.faqContent},#{faq.faqCTime},#{faq.faqPID})
+	</insert>
+	<!--删除faq信息  -->
+	<delete id="delFAQ" parameterType="Integer">
+		delete from f_faq where FAQ_ID=#{faqID}
+	</delete>
+</mapper>

@@ -1,0 +1,111 @@
+<script src="${base}/js/teachercenter/tc-validator.js" type="text/javascript"></script>
+<script src="${base}/js/teachercenter/update/page2.js" type="text/javascript"></script>
+<link href="${base}/css/teacherCenter/upload.css" rel="stylesheet" type="text/css"></link>
+<div class="form-body pad20 form-bodyTab">
+	<form action="" id="page2from" name="page2from">
+	<input type="hidden" name="updateCourseId" value="${course.courseId!}"/>
+	</form>
+	
+	<div class="classList classList-box">
+	  [#if course??]
+	    [#if course.list??&&((course.list?size)>0)]
+	     [#list course.list as section]
+		<dl class="creatList mb10">
+			<dt data-id="${section.id!}">
+				<label>第[@num s='${section_index+1}'/]章：</label>
+				<div class="input showButton">
+					<span class="text">
+					<input data-id="${section.id!}" onchange="sectionChangeValue(this)" type="text" class="large" placeholder="请输入章标题" value="${section.name!}"/></span>
+					<input type="hidden" name="changeSection" id="section${section.id!}"></input>
+					<div class="inputButton">
+						<!--  <a href="#">发布作业</a>-->
+						<div class="edit"></div>
+						<div class="addBtn" onclick="addSection(this)">+</div>
+						<div class="reduceBtn" onclick="deleteSection(this)">-</div>
+					</div>
+				</div>
+			</dt>
+			<dd>
+				<ol> 
+				   [#if section.list??&&((section.list?size)>0)]
+				     [#list section.list as part]
+					<li class="showButton" data-id="${part.id!}"><label>第[@num s='${part_index+1}'/]节：</label>
+					 <span class="text">
+					   <input data-id="${part.id!}" type="text" onchange="partChangeValue(this)" class="large" placeholder="请输入节标题" value="${part.name!}"/></span>
+					   	<input type="hidden" name="changePart" id="part${part.id!}"></input>
+						<div class="inputButton">
+						<!-- 	<a href="#">发布作业</a> -->
+							<div class="edit"></div>
+							<div class="addBtn" onclick="addPart(this)">+</div>
+							<div class="reduceBtn" onclick="deletePart(this)">-</div>
+						</div>
+					</li>
+				    [/#list]
+				 [#else]
+				   <li class="showButton" data-pid="${section.id!}"><label>第一节：</label>
+					 <span class="text">  
+					 <input type="text" value="" placeholder="请输入节标题" class="large" onchange="addPartValue(this)">
+					  <input type="hidden" name="addPart">
+					 </span>
+						<div class="inputButton">
+						<!-- 	<a href="#">发布作业</a> -->
+							<div class="edit"></div>
+							<div onclick="addPart(this)" class="addBtn">+</div>
+							<div onclick="deletePart(this)" class="reduceBtn">-</div>
+						</div>
+					</li>
+					[/#if]
+					
+				</ol>
+			</dd>
+		</dl>
+		[/#list]
+		
+		[#else]
+          
+		[/#if]
+      [/#if]
+		<p class="creatList-all">总课时： ${course.courWeek!}</p>
+	</div>
+	
+
+	
+	<div id="fourthGrid" class="form-body pad20">
+		<div class="form-button-bar">
+			<button type="button" class="btn btn-success btn-small secondStep" onclick="savePage2()">&nbsp;&nbsp;保存&nbsp;&nbsp;</button>
+		</div>
+	</div>
+		<dl class="creatList mb10" style="display: none;" >
+			<dt>
+				<label>增加章</label>
+				<div class="input showButton">
+					<span class="text">
+					<input type="text" class="large" placeholder="请输入章标题" value="" name="addSection"/>
+					</span>
+					
+					<div class="inputButton">
+						<!--  <a href="#">发布作业</a>-->
+						<div class="edit"></div>
+						<div class="addBtn" onclick="addSection(this)">+</div>
+						<div class="reduceBtn" onclick="deleteSection(this)">-</div>
+					</div>
+				</div>
+			</dt>
+			<dd>
+				<ol> 
+					<li class="showButton" data-id="1"><label>第一节：</label>
+					 <span class="text">  
+					 <input type="text" onchange="addNewPartValue(this)" class="large" placeholder="请输入节标题" value=""/>
+					  <input type="hidden" name="addNewPart"/>
+					 </span>
+						<div class="inputButton">
+						<!-- 	<a href="#">发布作业</a> -->
+							<div class="edit"></div>
+							<div class="addBtn" onclick="addPart(this)">+</div>
+							<div class="reduceBtn" onclick="deletePart(this)">-</div>
+						</div>
+					</li>
+				</ol>
+			</dd>
+		</dl>
+</div>

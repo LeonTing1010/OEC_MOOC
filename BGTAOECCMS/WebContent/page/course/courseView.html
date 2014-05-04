@@ -1,0 +1,185 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<style type="text/css">
+#fm {
+	margin: 0;
+	padding: 10px 30px;
+}
+
+.ftitle {
+	font-size: 14px;
+	font-weight: bold;
+	padding: 5px 0;
+	margin-bottom: 10px;
+	border-bottom: 1px solid #ccc;
+}
+
+.fitem {
+	margin-bottom: 5px;
+}
+
+.fitem label {
+	display: inline-block;
+	width: 130px;
+}
+
+.fitem input {
+	width: 190px;
+}
+
+</style>
+
+	<div id="courseDetailTab" class="easyui-tabs">
+		<div title="课程简介" style="margin-top:5px">
+			<table id="coursedetail_data" border="1" style="width:980px;height:500px;align:center;font-size:14px;background:#ddd">
+				<tr>
+				<#if courseIntroduction??>
+					<td width="18%">课程类型：</td>
+					<td width="82%">
+						<#list courseIntroduction as cour>
+							<#if "${cour.liveType!}"=="1">
+								直播
+							<#else>
+								点播
+							</#if>
+							<input type="hidden" value="${cour.courseId!}" id="cid">
+						</#list>
+					</td>
+				</#if>
+				</tr>
+				<tr>
+				<#if courseIntroduction??>
+					<td width="18%">课程所属行业</td>
+					<#list courseIntroduction as cour>
+						<td width="82%">${cour.proName!}</td>
+					</#list>
+				</#if>
+				</tr>
+				<tr>
+				<#if courseIntroduction??>
+					<td width="18%">课程所属岗位</td>
+					<#list courseIntroduction as cour>
+						<td width="82%">${cour.jobName!}</td>
+					</#list>
+				</#if>
+				</tr>
+				<tr>
+				<#if courseIntroduction??>
+					<td width="18%">课程名称</td>
+					<#list courseIntroduction as cour>
+						<td width="82%">${cour.courseName!}</td>
+					</#list>
+				</#if>
+				</tr>
+				<tr>
+				<#if courseIntroduction??>
+					<td width="18%">课程图片</td>
+					<#list courseIntroduction as cour>
+						<td width="82%" style="height:75px"><img alt="" src="${projectUrl}/${cour.titlePage!}" style="width:100px;height:70px"></td>
+					</#list>
+				</#if>
+				</tr>
+				<tr>
+				<#if courseIntroduction??>
+					<td width="18%">课程简介</td>
+					<#list courseIntroduction as cour>
+						<td width="82%">${cour.introduction!}</td>
+					</#list>
+				</#if>
+				</tr>
+				<tr>
+				<#if courseIntroduction??>
+					<td width="18%">评分方法</td>
+					<#list courseIntroduction as cour>
+						<td width="82%">${cour.scoreMethod!}</td>
+					</#list>
+				</#if>
+				</tr>
+				<tr>
+				<#if courseIntroduction??>
+					<td width="18%">课程学分</td>
+					<#list courseIntroduction as cour>
+						<td width="82%">${cour.credit!}</td>
+					</#list>
+				</#if>
+				</tr>
+				<tr>
+				<#if courseIntroduction??>
+					<td width="18%">课程价格</td>
+					<#list courseIntroduction as cour>
+						<td width="82%">${cour.price!}</td>
+					</#list>
+				</#if>
+				</tr>
+				<tr>
+				<#if courseIntroduction??>
+					<td width="18%">课程周期</td>
+					<#list courseIntroduction as cour>
+						<td width="82%">${cour.courWeek!}</td>
+					</#list>
+				</#if>
+				</tr>
+			</table>
+		</div>
+		<div title="课程视频"
+			style="margin-top:5px">
+			<table id="courseVideo" style="border-collapse:collapse;border-spacing: 0;font-size:12px;width:980px;margin-left:5px;margin-right:5px"></table>
+		</div>
+	</div>
+	<input type="hidden" id="courseId" value="${courseId!}">
+<div id="videoPopupWindow" style="display: none;"></div>
+<script type="text/javascript">
+var courseId=$("#cid").val();
+$(document).ready(function(){
+	$('#courseDetailTab').tabs({ 
+		border:false, 
+		onSelect:function(title){ 
+			if(title=="课程简介"){
+			
+			}else if(title=="课程视频") {
+				$("#courseVideo").load('course/paragraphicInfo?courseId='+courseId);
+			}
+		} 
+		}); 
+});
+function videoPopupWindow(courseId,sectionId) {
+	$("#videoPopupWindow").css("display", "block");
+	var  url="course/video/?courseId="+courseId+"&sectionId="+sectionId;
+ 	$("#videoPopupWindow").window({  
+ 		title:"查看视频",
+	    width:600,    
+	    height:400,    
+	    modal:true,
+	    collapsible:false,
+	    minimizable:false,
+	    maximizable:false,
+	    draggable:false,
+	    resizable:false,
+	    href:url,
+	});   
+}
+function ReaderPopupWindow(courseId,sectionId) {
+	$("#videoPopupWindow").css("display", "block");
+	var  url="course/reader/?courseId="+courseId+"&sectionId="+sectionId;
+ 	$("#videoPopupWindow").window({  
+ 		title:"查看辅助资料",
+ 		loadingMessage : "BUFF全开!!努力加载ing...",
+	    width:1200,    
+	    height:700,    
+	    modal:true,
+	    collapsible:false,
+	    minimizable:false,
+	    maximizable:false,
+	    draggable:false,
+	    resizable:false,
+	    href:url,
+	});   
+}
+</script>
+</body>
+</html>

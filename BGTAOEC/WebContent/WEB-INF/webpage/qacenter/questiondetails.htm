@@ -1,0 +1,434 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>${(questionVo.quesContent)!''}-国泰安网络教育</title>
+<meta name="description" content="插入网站全局描述变量" />
+<meta name="Keywords" content="插入网站全局关键字变量" />
+[#include "/webpage/common/common.htm"/]
+<link href="${base}/css/answerCenter/questiondetails.css" rel="stylesheet" type="text/css">
+<script src="${base}/js/qcenter/questiondetails.js" type="text/javascript" ></script>
+<script type="text/javascript" src="${base}/kindeditor/kindeditor-all.js"></script>
+<script type="text/javascript" src="${base}/kindeditor/lang/zh_CN.js"></script>
+<link href="${base}/css/jquery-ui.min.css" rel="stylesheet"	type="text/css">
+<script type="text/javascript" src="${base}/js/jquery-ui.min.js"></script>
+<script type="text/javascript" charset="UTF-8">
+	//统计文本域内容字符数
+	var ad_count = 0;    //描述长度
+	//kindeditor加载配置
+	KindEditor.ready(function(K) {
+		var editor = K.create('#answContent', {
+			themeType : 'qq',
+			width : '658px',
+			height : '80px',
+			resizeType:0,
+			afterCreate : function() {
+				this.sync();
+				$('#allTextNum').val(this.count('text'));
+			},
+			afterBlur : function() {
+				this.sync();
+				$('#allTextNum').val(this.count('text'));
+			},
+			afterChange : function() {
+				$('#allTextNum').val(this.count('text'));
+			},
+			items : [ 'bold', 'italic', 'underline']
+			
+		});
+		//editor.toolbar.remove();
+		//editor.statusbar.remove();
+		
+		//prettyPrint();
+		
+	});
+	
+	KindEditor.ready(function(K) {
+		var editor = K.create('#quesDescription', {
+			themeType : 'qq',
+			width : '658px',
+			height : '80px',
+			resizeType:0,
+			afterCreate : function() {
+				this.sync();
+				$('#quesDescriptionNum').val(this.count('text'));
+			},
+			afterBlur : function() {
+				this.sync();
+				$('#quesDescriptionNum').val(this.count('text'));
+			},
+			afterChange : function() {
+				$('#quesDescriptionNum').val(this.count('text'));
+			},
+			items : [ 'bold', 'italic', 'underline']
+			
+		});
+		//editor.toolbar.remove();
+		//editor.statusbar.remove();
+	});
+	
+	
+	//提交我来回答
+	function submitAnswer(){
+		var allTextNum=$('#allTextNum').val();
+		if(parseInt(allTextNum)==0){
+			return false;
+		}else{
+			return true;
+		}
+	}
+	
+	//邀请回答-------部分
+	$(function() {
+		var cache = {};
+		$("#searchTeacher-input").autocomplete({
+			minLength :1,
+			autoFocus: true,
+			source :function(request, response) {
+				var term = request.term;
+				if (term in cache) {
+					response(cache[term]);
+					return;
+				}
+
+				 $.getJSON(base+"/questionCenter/searchTeacher/autocomplete.ajax", request, function(data, status, xhr) {
+					cache[term] = data.arrString;
+					response(data.arrString);
+				});
+			},
+			 select: function(event,ui) {
+
+					var choicedDiv=document.getElementById("choicedTeacher");
+					var str="<span id=\""+ui.item.id+"-X\">"+ui.item.value+"<i class=\"closeX\" onclick=\"deleteChoiceTeacherX(\'"+ui.item.id+"-X\')\">X</i><input type=\"hidden\" name=\"teacherIdList\" value=\""+ui.item.id+"\"/></span>";
+					var allstr=choicedDiv.innerHTML;
+					var str2=ui.item.id+"-X";
+					
+					if(allstr.indexOf(str2) <= 0 ){//不存在
+						choicedDiv.innerHTML=choicedDiv.innerHTML+str;
+					}
+			      }
+			
+		});
+		
+		/* var teacherArray=${teacherArray!};
+		$('#searchTeacher-input').autocomplete(teacherArray, {
+			minChars : 0,
+			width:210,
+			max : 20,
+			autoFill : true,
+			mustMatch : false,
+			matchContains : false,
+			scrollHeight : 150,
+			formatItem : function(data, i, total) {
+				return data.teacherName;
+			},
+			formatMatch : function(row, i, max) {
+				return row.teacherName;
+			},
+			formatResult : function(row) {
+				return row.teacherName;
+			}
+		}).result(function(event, data, formatted) {
+		
+			var choicedDiv=document.getElementById("choicedTeacher");
+			var str="<span id=\""+data.teacherId+"-X\">"+data.teacherName+"<i class=\"closeX\" onclick=\"deleteChoiceTeacherX(\'"+data.teacherId+"-X\')\">X</i><input type=\"hidden\" name=\"teacherIdList\" value=\""+data.teacherId+"\"/></span>";
+			var allstr=choicedDiv.innerHTML;
+			var str2=data.teacherId+"-X";
+			
+			if(allstr.indexOf(str2) <= 0 ){//不存在
+				choicedDiv.innerHTML=choicedDiv.innerHTML+str;
+			}
+			
+        });
+         */
+        var teacheredArray=${teacheredArray!};
+        for(var i=0;i<teacheredArray.length;i++){
+        	//选择已邀请老师
+	    	choiceTeacher(teacheredArray[i].teacherId,teacheredArray[i].teacherName);
+        };
+	   
+    }); 
+		
+		
+	function createTeacherList(jobGroupId){
+		if(jobGroupId=='00'){
+			jobGroupId=$('#secondGroupId').val();
+		}
+		$.ajax({
+			url:base+"/questionCenter/createQuestion/getRecommendTeacherData.ajax",
+			data:{"jobGroupId":jobGroupId},
+		    success:function(data){
+		    	if(data.teacherList!=null){
+		    		$('#secondGroupId').val(jobGroupId);
+		    		var select2=document.getElementById("recommendTeacher-bd");
+		    		select2.innerHTML="";
+		    		for(var i=0;i<data.teacherList.length;i++){
+		    			select2.innerHTML=select2.innerHTML+"<li><a href=\"javascript:void(0);\" onclick=\"choiceTeacher(\'"+data.teacherList[i].userId+"\',\'"+data.teacherList[i].userName+"\')\"><img src=\""+data.teacherList[i].userHeadPic+"\" width=\"100\" height=\"100\"><span>"+data.teacherList[i].userName+"</span></a></li>";
+		    			
+		    		}
+	    		}
+		    }
+		});
+	};
+		
+	function choiceTeacher(teacherId,teacherName){
+		var choicedDiv=document.getElementById("choicedTeacher");
+		var str="<span id=\""+teacherId+"-X\">"+teacherName+"<i class=\"closeX\" onclick=\"deleteChoiceTeacherX(\'"+teacherId+"-X\')\">X</i><input type=\"hidden\" name=\"teacherIdList\" value=\""+teacherId+"\"/></span>";
+		var allstr=choicedDiv.innerHTML;
+		var str2=teacherId+"-X";
+		if(allstr.indexOf(str2) <= 0 ){//不存在
+			choicedDiv.innerHTML=choicedDiv.innerHTML+str;
+		}
+	}
+		
+	function deleteChoiceTeacherX(teacherIdX){
+		var choicedDiv=document.getElementById("choicedTeacher");
+		//var allstr=choicedDiv.innerHTML;
+		//var choicedX=document.getElementById(teacherIdX);//需要去除部分
+		//var deletestr =choicedX.innerHTML;//需要去除部分
+		
+		//if(/msie/.test(navigator.userAgent.toLowerCase())) { 
+		//	deletestr = "<SPAN id="+teacherIdX+">"+deletestr+"</SPAN>";   //需要去除部分  
+		//} else{
+		//	deletestr = "<span id=\""+teacherIdX+"\">"+deletestr+"</span>";   //需要去除部分  
+		//}
+		//allstr = allstr.replace(deletestr,"");     
+		//choicedDiv.innerHTML=allstr;
+		var allstr =$(choicedDiv).children();
+		$(allstr).remove("#"+teacherIdX);
+	}
+	
+	//提交邀请回答
+	function onsubmitData(){
+		var teacherIdList=document.getElementsByName("teacherIdList");
+		if(teacherIdList.length=='0'){
+			alert("请选择推荐老师！");
+			return false;
+		}else{
+			return true;
+		}
+	}
+	
+	//提交添加说明
+	function onsubmitQuesDescription(){
+		var quesDescriptionNum=$('#quesDescriptionNum').val();
+		if(parseInt(quesDescriptionNum)==0){
+			return false;
+		}else{
+			return true;
+		}
+	}
+	
+	//保存追加问题
+	function submitQuesAdd(answID){
+		var quesContent=$.trim($('#quesContent'+answID).val());
+
+		if(quesContent.length<=0){
+			return false;
+		}else{
+			return true;
+		}
+	}
+	
+	//保存追加问题的回答
+	function submitQuesAddAnswer(quesAddID){
+		var quesAddAnswContent=$.trim($('#quesAddAnswContent'+quesAddID).val());
+		if(quesAddAnswContent.length<=0){
+			return false;
+		}else{
+			return true;
+		}
+	}
+	
+</script>
+<style type="text/css">
+	.wordBreak {
+		word-break:break-all;word-wrap:break-word;
+	}
+</style>
+</head>
+
+<body  id="backtop">
+<div class="wrapper">
+   <!-- 答疑中心引入头部 -start-->
+	[#include "/webpage/common/questionhead.htm"/]
+	<!-- 答疑中心引入头部 -end-->
+  <div class="container wordBreak">
+  	<div class="content clearfix pt10">
+	
+  		<div class="grid grid-12 crumbs">
+          <div class="pl20"><a href="${base}/index/">国泰安网络教育</a><a href="${base}/questionCenter/">答疑中心</a><span>问题详情</span></div>
+  		</div>
+		
+		<div class="grid grid-12 questionBox clearfix" >
+		
+	 	<!--questionSide start-->
+          <div class="grid-4 questionSide">
+		  	<div class="liminatingTeacher">
+		  		<h3 class="teacherTitle">相关问题</h3>
+				<ul class="teacherTitle-ul">
+					[#if questionList?exists && questionList?size !=0]
+						[#list questionList as lists]
+							<li><a href="${base}/questionCenter/questiondetail/${(lists.quesID)!'0'}/">${(lists.quesContent)!''}</a><p>${(lists.quesAnswerCount)!'0'} 个回答</p></li>
+						[/#list]
+					[/#if]
+				</ul>
+			</div>
+		  </div>
+		  <!--questionSide end-->
+		  
+		  <!--questionCon start-->
+		  <div class="grid-8 questionCon clearfix">
+			<div class="questionTabCon">
+				<div class="detailedQuestions">
+					<h2><a href="#">${(questionVo.quesContent)!''}</a></h2>
+					<p>${(questionVo.quesDescription)!''}</p>
+					
+					<div class="quesDescriptiondiv mt10 hide">
+						<form id="form" name="form" action="${base}/questionCenter/saveQuesDescription/" method="POST">
+					      	<input type="hidden" id="quesDescriptionNum" class="quesDescriptionNum"/>
+	                    	<input type="hidden" id="quesID" name="quesID" value="${(questionVo.quesID)!'0'}"/>
+	                    	<textarea class="textarea" id="quesDescription" name="quesDescription"></textarea>
+					      	<button class="btn btn-small btn-darkBlue mt10 mr10"  onclick="return onsubmitQuesDescription();">提交</button><button class="btn btn-small btn-gary mt10" id="btn-quesDescription"  onclick="return false;">取消</button>
+					    </form>
+				    </div>
+				    
+					<div class="detailedQuestions-btn clearfix">
+						<a href="javascript:void(0);" onclick="updateAttentionQuestion(${(questionVo.quesID)!''})" class="detailedQuestions-btn-a"><span id="attentionSign${(questionVo.quesID)!''}">${(questionVo.attentionSign)!''}</span>(<span id="attentionCount${(questionVo.quesID)!''}">${(questionVo.quesAttentionCount)!'0'}</span>)</a>
+<!--						<a href="#" class="detailedQuestions-btn-b">修改</a>-->
+					[#if loginUserVo??]
+					[#if questionVo.userID==loginUserVo.userId]
+						[#if questionVo.quesDescription?? && questionVo.quesDescription!='']
+							<a href="#" class="detailedQuestions-btn-b hide">添加说明</a><!--当该问题没有问题说明时才显示该按钮-->	
+							[#else]
+							<a href="#" class="detailedQuestions-btn-b">添加说明</a><!--当该问题没有问题说明时才显示该按钮-->	
+						[/#if]
+						[#if questionVo.courseID==0]
+							<a href="#" class="a-b radius" id="myInvite">邀请回答</a>
+						[/#if]
+					[#else]
+					[#if loginUserVo.userType==2]
+						<a href="#" class="a-a radius" id="myAnswer">我来回答</a>
+					[/#if]
+					[/#if]
+					[/#if]
+					</div>
+					
+					<div class="answer hide"><!--我来回答-->
+						<form id="form" name="form" action="${base}/questionCenter/saveAnswer/" method="POST">
+<!--		                    <div class="answerInput">-->
+		                    	<input type="hidden" id="allTextNum" class="allTextNum"/>
+		                    	<input type="hidden" id="quesID" name="quesID" value="${(questionVo.quesID)!'0'}"/>
+		                    	<textarea class="textarea" id="answContent" name="answContent"></textarea>
+<!--		                    </div>-->
+	                      	<button class="btn btn-small btn-darkBlue mt10" onclick="return submitAnswer();">提交</button><button class="btn btn-small btn-gary" id="btn-answer" onclick="return false;">取消</button>
+	                    </form>
+                    </div>
+                    
+                    <div class="invite mt20 hide"><!--邀请回答-->
+                      	<form id="questionform" action="${base}/questionCenter/saveQuestionInviteTeacher/" method="POST">
+                      		<input type="hidden" id="quesID" name="quesID" value="${(questionVo.quesID)!'0'}"/>
+	                      <div class="recommendTeacher">
+				          	<input type="hidden" id="secondGroupId"/>
+				            <div class="recommendTeacher-hd"><span class="fr"><a href="javascript:void(0);" onclick="createTeacherList('00')">换一批</a></span>推荐老师</div>
+				            <ul class="recommendTeacher-bd clearfix" id="recommendTeacher-bd">
+				            </ul>
+				          </div>
+				          <div class="selected gray" id="choicedTeacher">
+				           	 已选择：
+				          </div>
+				          <input type="hidden" id="teacherIdStr"/>
+				          
+				          <div class="searchInput mt10">
+				            <label class="fl gray">没有你想要的老师？搜索一下：</label>
+				            <input class="fl" id="searchTeacher-input" type="text" placeholder="请输入教师/讲师名称">
+				          </div>
+	                      <button class="btn btn-small btn-darkBlue mt10 mr10"  onclick="return onsubmitData();">提交</button><button class="btn btn-small btn-gary" id="btn-invite" onclick="return false;">取消</button>
+                    	</form>
+                    </div>
+				</div>
+				<div class="hotQuestionCon mt20 mb20">
+					<h3>历史回答  ( <span id="answerListNum" class="answerListNum">${(questionVo.quesAnswerCount)!'0'}</span> 条回答 )</h3>
+					<ul class="hotQuestionCon-ul">
+						[#include "/webpage/qacenter/questiondetails_moreanswer.htm"]
+					</ul>
+					<a class="curTabCon-down" href="javascript:void(0);" onclick="getMoreAnswer();" id="showMoreAnswer"><span class="i-icon1">加载更多回答</span></a>
+				</div>
+				<input type="hidden" id="page" name="page" value="${page!'1'}"/>
+				<input type="hidden" id="pageSize" name="pageSize" value="${pageSize!'1'}"/>
+				<input type="hidden" id="quesID" name="quesID" value="${(questionVo.quesID)!'0'}"/>
+			</div>
+		  </div>
+		  <!--questionCon end-->
+	</div>
+  	</div>
+	
+	
+  </div>
+  <div class="footerFixer"></div>
+</div>
+[#include "/webpage/common/footer.htm"/]
+</body>
+<script type="text/javascript">
+$(document).ready(function(){
+  [#if answerList?exists && answerList?size !=0]
+	[#list answerList as lists]
+		
+	
+	
+		$(".addQuestionCon-info-d"+${(lists.answID)!'0'}).click(function(){
+			[#if lists.totalQuesAddNum gte 3]
+				alert("同一个老师最多只能追问三次!");
+			[#else]
+			 $(".addQuestionInput"+${(lists.answID)!'0'}).removeClass("hide");
+			[/#if]
+	    });
+	    
+	    $("#btn-addQuestionInput"+${(lists.answID)!'0'}).click(function(){
+	        $(".addQuestionInput"+${(lists.answID)!'0'}).addClass("hide");
+	    });
+	    
+	    [#if lists.quesAddLists?exists && lists.quesAddLists?size !=0]
+			[#list lists.quesAddLists as quesAddList]
+				
+		
+			
+				 $(".addQuestion-tit-answer"+${(quesAddList.quesAddID)!'0'}).click(function(){//追加问题回答-显示
+				    $(".addQuestion-answer"+${(quesAddList.quesAddID)!'0'}).removeClass("hide");
+				 });
+				  
+				 $("#btn-addQuestion-answer"+${(quesAddList.quesAddID)!'0'}).click(function(){//追加问题回答-隐藏
+				    $(".addQuestion-answer"+${(quesAddList.quesAddID)!'0'}).addClass("hide");
+				 });
+			[/#list]
+		[/#if]
+	[/#list]
+  [/#if]
+  
+ 
+  
+  $("#myAnswer").click(function(){
+    $(".answer").removeClass("hide");
+  });
+  $("#btn-answer").click(function(){
+    $(".answer").addClass("hide");
+  })
+  $("#myInvite").click(function(){
+ 	//生成老师列表
+    createTeacherList(${(questionVo.jobID)!'0'});
+    $(".invite").removeClass("hide");
+  })
+  $("#btn-invite").click(function(){
+    $(".invite").addClass("hide");
+  });
+  
+  $("#btn-quesDescription").click(function(){//取消
+    $(".quesDescriptiondiv").addClass("hide");
+  });
+  $(".detailedQuestions-btn-b").click(function(){//点击添加说明
+    $(".quesDescriptiondiv").removeClass("hide");
+  });
+  
+  });
+</script>
+</html>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gta.oec.vo.student.StudentVO">
+	<resultMap type="com.gta.oec.vo.student.StudentVO" id="studentMap">
+		<result column="ID" property="ID" />
+		<result column="userID" property="userID" />
+		<result column="studyGoal" property="studyGoal" />
+		<result column="education" property="education" />
+		<result column="studyCredit" property="studyCredit" />
+	</resultMap>
+    <!-- insert -->
+	<insert id="insert" parameterType="com.gta.oec.vo.student.StudentVO"  >
+      insert into u_student(userID,studyGoal,education,studyCredit)
+      values(#{userID},#{studyGoal},#{education},#{studyCredit})
+	</insert>
+	
+	<select id="getStuByUserId" parameterType="int" resultMap="studentMap">
+		select * from u_student s where s.userID = #{userID}
+	</select>
+	<update id="updateStuInfo" parameterType="java.util.Map" flushCache="true">
+		update u_student
+		<set>
+			<if test="education !=0">
+				education = #{education}
+			</if>
+			<if test="studyGoal !=null and previewUrl!=''">
+				,studyGoal = #{studyGoal}
+			</if>
+			<if test="userID !=0">
+				where userID = #{userID}
+			</if>
+		</set>
+	</update>
+</mapper>    

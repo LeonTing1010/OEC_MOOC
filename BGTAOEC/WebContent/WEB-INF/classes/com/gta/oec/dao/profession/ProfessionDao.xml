@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gta.oec.vo.profession.ProfessionVo">
+	<resultMap type="com.gta.oec.vo.profession.ProfessionVo" id="professionMap">
+		<result column="Pro_ID" property="proID" />
+		<result column="Pro_Name" property="proName" />
+		<result column="Pro_Description" property="proDescription" />
+		<result column="Pro_Recommend" property="proRecommend" />
+		<result column="Pro_Ctime" property="proCtime" />
+		<result column="Pro_Utime" property="proUtime" />
+	</resultMap>
+	
+	<!-- select -->
+		<select id="getAllProfessions" resultMap="professionMap">
+			SELECT p.* FROM p_profession AS p ORDER BY p.Pro_ID
+		</select>
+		
+		<select id="getTopProfessionList" parameterType="int"  resultMap="professionMap">
+			SELECT p.* FROM p_profession AS p ORDER BY p.Pro_ID LIMIT #{n}
+		</select>
+		<select id="getProTopName" parameterType="int" resultMap="professionMap">
+		      select * from p_profession p 
+		      if(#{id}){
+		      	where p.pro_recommend = 1
+		      }
+		</select>
+		
+		<select id="getProfessionByProId" parameterType="int" resultMap="professionMap">
+			SELECT p.* FROM p_profession AS p where p.Pro_ID=#{proId}
+		</select>
+	<!-- select -->
+</mapper>    

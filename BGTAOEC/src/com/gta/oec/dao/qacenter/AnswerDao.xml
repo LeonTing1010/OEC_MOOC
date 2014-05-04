@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gta.oec.vo.qacenter.AnswerVo">
+	<resultMap type="com.gta.oec.vo.qacenter.AnswerVo" id="answerMap">
+
+		<result column="Ques_ID" property="quesID" />
+		<result column="Answ_ID" property="answID" />
+		<result column="Answ_Content" property="answContent" />
+		<result column="Answ_PraiseCount" property="answPraiseCount" />
+		<result column="Answ_Ctime" property="answCtime" />
+
+		<result column="User_ID" property="userID" />
+		<result column="Answ_LookLimit" property="answLookLimit" />
+		<result column="Answ_Ctime" property="answCtime" />
+		<result column="Answ_Utime" property="answUtime" />
+		<result column="Ques_AddID" property="quesAddID" />
+		<result column="Answ_IsRead" property="answIsRead" />
+
+
+		<result column="User_Name" property="userName" />
+		<result column="TeacherLevel" property="teacherLevel" />
+		<result column="User_HeadPic" property="userHeadPic" />
+		<result column="ID" property="teacherId" />
+	</resultMap>
+
+	<!-- select -->
+	<!-- 取得一个问题的所有回答.按时间降序,赞数升序排列. -->
+	<select id="getAllAnswer" parameterType="int" resultMap="answerMap">
+		SELECT
+		a.Ques_ID,a.Answ_ID,a.Answ_Content,a.Answ_PraiseCount,u.User_ID,u.User_Name,u.User_HeadPic,t.TeacherLevel
+		FROM q_answer AS a, u_user AS u,u_teacher t WHERE a.Ques_ID=#{quesId}
+		and a.User_ID=u.User_ID and u.User_ID=t.User_ID
+		order by a.Answ_Utime
+		desc,a.Answ_PraiseCount
+	</select>
+	
+	<!-- 取得一个问题的所有回答-带分页 -->
+	<select id="getAllAnswerByPage" parameterType="java.util.Map" resultMap="answerMap">
+		select * from 
+		(SELECT
+		a.Ques_ID,a.Answ_ID,a.Answ_Content,a.Answ_PraiseCount,u.User_ID,u.User_Name,u.User_HeadPic,t.TeacherLevel,t.ID
+		,a.Answ_Utime FROM q_answer AS a, u_user AS u,u_teacher t WHERE a.Ques_ID=#{quesId}
+		and a.User_ID=u.User_ID and u.User_ID=t.User_ID
+		) AS b LEFT JOIN 
+		(SELECT Teacher_ID FROM q_question_user WHERE Ques_ID=#{quesId}  GROUP BY Teacher_ID) 
+		 AS c on b.User_ID=c.Teacher_ID ORDER BY c.Teacher_ID DESC,b.Answ_Utime DESC
+		<if test="m!=0">
+         limit #{n},#{m}
+        </if>
+	</select>
+	
+	<select id="getHotQuestionAnswer" parameterType="int" resultMap="answerMap">
+		SELECT
+		b.Ques_ID,b.Answ_ID,b.Answ_Content,b.Answ_PraiseCount,b.Answ_Ctime,b.User_ID,c.User_Name,d.TeacherLevel,c.User_HeadPic,d.ID
+		FROM q_answer b, u_user c,u_teacher d WHERE
+		b.User_ID=c.User_ID and
+		c.User_Type='2' and c.User_ID=d.User_ID and b.Ques_ID=#{quesId}
+		order
+		by b.Answ_PraiseCount desc limit 1
+	</select>
+
+	<!-- 根据问答id查询答案集合 by zhangjin -->
+	<select id="getAnswerListByQuesId" parameterType="int"
+		resultMap="answerMap">
+		select * from q_answer where ques_ID = #{quesID} order
+		by Answ_Utime desc
+	</select>
+	
+	<!-- 根据问答id查询未读答案的个数 by zhangjin -->
+	<select id="getNotReadAnswerCountByQuesId" parameterType="int"
+		resultType="int">
+		select count(*) from q_answer where ques_ID = #{quesID} and Answ_IsRead = 0
+	</select>	
+	
+	<!-- 根据追问问题id查询答案集合 by 刘祚家 -->
+	<select id="getAllAnswersByQuesAddId" parameterType="int" resultMap="answerMap">
+		select b.*,c.User_Name from q_answer b, u_user c where b.User_ID=c.User_ID and c.User_Type='2' and b.Ques_AddID = #{quesAddId}
+	</select>
+	
+	
+	<!-- 获取所有追加提问所有的回答 by 刘祚家 -->
+	<select id="getAllAnswersByQuesAddList" parameterType="list" resultMap="answerMap">
+		select b.*,c.User_Name from q_answer b, u_user c where b.User_ID=c.User_ID and c.User_Type='2' 
+		
+		<if test="list!=null and list.size > 0">
+		   and  b.Ques_AddID in  
+      	  <foreach collection="list" item="ls"  open="(" separator="," close=")">  
+               #{ls.quesAddID} 
+          </foreach>
+        </if>
+		 order by b.Answ_Ctime desc
+		 
+	</select>
+	
+	
+	
+	<select id="getAllAnswersCount" parameterType="int" resultType="int">
+		 SELECT COUNT(b.answ_id)  from q_answer b, u_user c where b.User_ID=c.User_ID and c.User_Type='2' and b.Ques_AddID = #{quesAddId}
+	</select>
+		
+    <!-- 根据问题ID，更新答案为已读状态  by zhangjin-->
+	<update id="updateAnswIsReadByquesId" parameterType="list">
+		update
+		q_answer set Answ_IsRead=1 where 1=1
+		<if test="list!=null and list.size > 0">
+		 	and Ques_ID IN 
+			<foreach collection="list" item="id"  open="(" separator="," close=")">  
+	            #{id}  
+	        </foreach>
+          </if>
+	</update>
+	
+	<!-- 根据回答List，更新答案为已读状态  by 刘祚家-->
+	<update id="updateAnswIsReadByAnswerList" parameterType="list">
+		update
+		q_answer set Answ_IsRead=1 where 1=1
+		<if test="list!=null and list.size > 0">
+		 	and Answ_ID IN 
+			<foreach collection="list" item="ls"  open="(" separator="," close=")">  
+	            #{ls.answID}  
+	        </foreach>
+          </if>
+	</update>
+	
+	
+	
+	<!-- 根据回答ID，更新赞数量 -->
+	<update id="updateAnswPraiseCountByAnswId" parameterType="java.util.Map">
+		update
+		q_answer set Answ_PraiseCount=Answ_PraiseCount+1 where
+		Answ_ID=#{answId}
+	</update>
+	
+	<!-- 根据回答ID，更新赞数量 -->
+	<update id="deleteAnswPraiseCountByAnswId" parameterType="java.util.Map">
+		update
+		q_answer set Answ_PraiseCount=Answ_PraiseCount-1 where
+		Answ_ID=#{answId}
+	</update>
+
+	<select id="getAnswerVoByAnswId" parameterType="int" resultMap="answerMap">
+		select q.*,c.User_ID,c.User_Name from q_answer q ,u_user c where q.User_ID=c.User_ID and  q.Answ_ID =  #{answId}
+	</select>
+
+	<select id="getAnswerVoByQuesIdUserId" parameterType="java.util.Map" resultMap="answerMap">
+		select q.*,u.* 
+		from q_answer as q left outer join u_user as u on q.User_ID=u.User_ID
+		where q.Ques_ID = #{quesId} and q.User_ID=#{userId}
+		order by Answ_Ctime desc
+		limit #{limit}
+	</select>
+
+	<!-- insert -->
+	<insert id="saveAnswer" parameterType="com.gta.oec.vo.qacenter.AnswerVo" keyProperty="answID" useGeneratedKeys="true">
+		INSERT INTO
+		q_answer(Answ_ID,Ques_ID,Answ_Content,Answ_praiseCount,User_ID,Answ_LookLimit,Answ_Ctime,Answ_Utime,Ques_AddID,Answ_IsRead)
+		VALUES(#{answID},#{quesID},#{answContent},#{answPraiseCount},#{userID},#{answLookLimit},#{answCtime},#{answUtime},#{quesAddID},#{answIsRead});
+	</insert>
+
+    <!-- 根据问题id集合查询答案的条数  by zhangjin -->
+	<select id="getHasAnswerQuestionCount" parameterType="java.util.Map" resultType="int">
+		SELECT count(*) FROM q_answer WHERE 1=1
+		<if test="list!=null and list.size > 0">
+		 	and Ques_ID IN 
+			<foreach collection="list" item="id"  open="(" separator="," close=")">  
+	            #{id}  
+	        </foreach>
+          </if>
+          <if test="answIsRead!=-1">
+          	and Answ_IsRead = #{answIsRead}
+          </if>
+	</select>
+	
+	<!-- 根据问题id集合查询有答案的问题id by zhangjin -->
+	<select id="getHasAnswerQuestionIdsList" parameterType="list" resultType="int">
+		SELECT DISTINCT(ques_ID) FROM q_answer WHERE 1=1 
+		<if test="list!=null and list.size > 0">
+		   and Ques_ID in  
+      	  <foreach collection="list" item="id"  open="(" separator="," close=")">  
+               #{id} 
+          </foreach>
+         </if>
+	</select>
+	
+	<!-- 根据问题id集合查询关注的有答案的问题id by 刘祚家 -->
+	<select id="getAttentionHasAnswerQuestionIdsList" parameterType="java.util.Map" resultType="int">
+		SELECT DISTINCT(a.ques_ID) FROM q_answer as a,q_attention_answer as b WHERE 1=1  and a.Answ_ID=b.AnswerID and b.Answ_IsRead = 0
+		and b.UserID =#{userId}
+		<if test="list!=null and list.size > 0">
+		   and a.Ques_ID in  
+      	  <foreach collection="list" item="id"  open="(" separator="," close=")">  
+               #{id} 
+          </foreach>
+         </if>
+	</select>
+	
+	
+	<!-- 根据问题id集合查询关注的有答案的问题条数 by 刘祚家 -->
+	<select id="getAttentionHasAnswerQuestionIdsCount" parameterType="java.util.Map" resultType="int">
+		SELECT count(*) FROM q_answer as a,q_attention_answer as b WHERE 1=1  and a.Answ_ID=b.AnswerID and b.UserID=#{userId}
+		<if test="list!=null and list.size > 0">
+		   and a.Ques_ID in  
+      	  <foreach collection="list" item="id"  open="(" separator="," close=")">  
+               #{id} 
+          </foreach>
+        </if>
+        <if test="answIsRead!=-1">
+          	and b.Answ_IsRead = #{answIsRead}
+        </if>
+	</select>
+	
+	
+	<!-- 获得最新的答案（按照时间倒叙排列）by zhangjin -->
+	<select id="getNewReceiveQuestionAnswer" parameterType="int" resultMap="answerMap">
+		select * from (SELECT
+		b.Ques_ID,b.Answ_ID,b.Answ_Content,b.Answ_PraiseCount,b.Answ_Ctime,b.User_ID,c.User_Name,d.TeacherLevel,c.User_HeadPic
+		FROM q_answer b, u_user c,u_teacher d WHERE
+		b.User_ID=c.User_ID and
+		c.User_Type='2' and c.User_ID=d.User_ID and b.Ques_ID=#{quesId}
+		order
+		by b.Answ_Ctime desc ) d limit 1
+	</select>
+</mapper>    

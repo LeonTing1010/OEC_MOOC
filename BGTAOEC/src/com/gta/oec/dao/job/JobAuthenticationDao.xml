@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gta.oec.vo.job.JobAuthenticationVo">
+	<resultMap type="com.gta.oec.vo.job.JobAuthenticationVo" id="jobAuthenticationMap">
+		
+	
+	
+		<result column="JOB_ID" property="jobID" />
+		<result column="Auth_ID" property="authenticationID" />
+		<result column="Auth_Name" property="authenticationName" />
+		<result column="Image_ID" property="imageID" />
+		<result column="Image_Url" property="imageUrl" />
+		<result column="JobAuth_Recommend" property="jobAuthRecommend" />
+		
+	</resultMap>
+
+
+	<!-- select -->
+	<select id="getJobAuthenticationList" parameterType="int" resultMap="jobAuthenticationMap">
+		select * from (
+		SELECT b.JOB_ID,a.Auth_ID,a.Auth_Name,c.Image_ID,c.Image_Url FROM a_authentication a , re_job_authentication  b  ,a_authentication_image c   WHERE 
+		a.Auth_ID=b.Auth_ID and a.Auth_ID=c.Auth_ID
+		and b.JOB_ID = #{jobId} order by a.Auth_ID desc) d limit 3
+	</select>
+	
+	<select id="getJobAuthRecommendList" parameterType="int" resultMap="jobAuthenticationMap">
+		SELECT b.JOB_ID,a.Auth_ID,a.Auth_Name FROM a_authentication a , re_job_authentication  b    WHERE 
+		a.Auth_ID=b.Auth_ID and b.JobAuth_Recommend!=''
+		and b.JOB_ID = #{jobId} order by b.JobAuth_Recommend desc
+	</select>
+</mapper>    

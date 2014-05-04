@@ -1,0 +1,22 @@
+
+<div class="subMenu">
+   [#if jobList??]
+	   [#list jobList as jobGrop]
+		<dl>
+			<dt>
+				 <span id="jobG${jobGrop.jobID!}" onclick="jobGroupClick(${jobGrop.jobID},'${jobGrop.proID}','${proName!}','${jobGrop.jobName}')">${jobGrop.jobName}</span>
+			</dt>
+			<dd class="clearfix">
+			    [#if jobGrop.list??]
+				    [#list jobGrop.list as job]
+						<span onclick="jobClick('${job.proID}','${job.jobPID}',${job.jobID},'${proName}','${jobGrop.jobName}','${job.jobName}')" 
+							 class="job">${job.jobName!}</span>&nbsp&nbsp
+					[/#list]
+				[/#if]
+			</dd>
+		</dl>
+		[/#list]
+	[/#if]
+</div>
+
+

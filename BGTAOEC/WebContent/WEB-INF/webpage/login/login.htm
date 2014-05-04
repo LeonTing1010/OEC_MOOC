@@ -1,0 +1,143 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>用户登录-国泰安网络教育</title>
+<!--[if lt IE 9]><script src="${base}/js/plugins/html5shiv.js"></script><![endif]--> 
+<meta name="description" content="用户登录" />
+<meta name="Keywords" content="用户登录" />
+<link href="${base}/css/general.css" rel="stylesheet" type="text/css">
+<link href="${base}/css/popWindows.css" rel="stylesheet" type="text/css">
+<link href="${base}/css/login/login.css" rel="stylesheet" type="text/css" media="all">
+<script type="text/javascript" src="${base}/js/base.js"></script>
+<script type="text/javascript" src="${base}/js/jquery-1.10.2.min.js"></script>
+<script type="text/javascript">
+var base = '${base!}';
+</script>
+<script src="${base}/js/plugins/jquery.placeholder.gta.js" type="text/javascript" ></script>
+<script src="${base}/js/verifyForm.js" type="text/javascript" ></script>
+<title>登录</title>
+<script type="text/javascript">
+var errorMsg  = '${errorMsg!}';
+		function refresh(obj) {
+		    obj.src = base + "/user/CheckCode/?code="+Math.random();
+		}
+	  $(document).ready(function(){
+            if(!isNull(errorMsg)){
+                 eoc.error('提示',errorMsg);
+                }		  
+		    $(".background").css("height",$(window).height());
+			$(".background").css("width",$(window).width());
+			
+			var wdwidth=$(window).width();
+			if(wdwidth>1293 || wdheight>800){
+				$(".backgroundImg").css("width",wdwidth);
+				var imgHeight=(wdwidth*1080)/1920;
+				$(".backgroundImg").css("height",imgHeight);
+				}
+			else{
+				$(".backgroundImg").css("width",'1293px');
+				$(".backgroundImg").css("height",'800px');
+				}
+			var wdheight=$(window).height();
+				if(wdheight < 820){
+				var change_top = 100 - (820 - wdheight),
+				change_top = change_top > 0?change_top:0;
+				login_div_top = change_top + "px";
+				}else{
+				login_div_top = "100px";
+				} 
+				$(".loginCon").css("top",login_div_top)
+			
+ 
+			$(window).resize(function() {
+				
+			$(".background").css("height",$(window).height());
+			$(".background").css("width",$(window).width());
+			var wdwidth=$(window).width();
+			var wdheight=$(window).height();
+			var imgHeight=(wdwidth*1080)/1920;
+				
+				if(wdheight<imgHeight){
+					$(".backgroundImg").css("width",wdwidth);
+					
+					$(".backgroundImg").css("height",imgHeight);
+					}
+				
+				var wdheight=$(window).height();
+				if(wdheight < 820){
+				var change_top = 100 - (820 - wdheight),
+				change_top = change_top > 0?change_top:0;
+				login_div_top = change_top + "px";
+				}else{
+				login_div_top = "100px";
+				} 
+				$(".loginCon").css("top",login_div_top)
+				
+		  		}); /*根据窗口高度宽度变化*/
+			
+		});
+	</script>
+</head>
+
+<body>
+  <div class="wrapper">
+    <div class="container" style="background:none;">
+      <div class="inner">
+      	<a  class="logo" href="${base}/index/?headTab=1">
+          <h1><i class="offScreen">慧泊优行</i></h1>
+      	</a>
+        <div class="loginCon">
+          <div class="login-hd ">
+            <h2><span>用户登录</span><a href="${base}/user/loadreg/" class="reg-btn">注 册</a></h2>
+          </div>
+          <div class="login-bd" style="padding: 26px 0 0 0;">
+          	<span id="loginErrorMsg" style="color:red;margin-left:70px;"></span>
+          	<div style="margin-top: 10px;"></div>
+            <div class="login-from">
+              <form action="${base}/user/login/"  method="post" id="loginForm">
+               <input type="hidden" name="returnUri" value="[#if returnUri??]${returnUri!}[/#if]"/>
+                <div class="uinArea mb10">
+                  <!-- <label for="account">邮箱</label> -->
+                  <input type="text" id="account" autocomplete="off" placeholder="邮箱" name="userEmail" type="text">
+                </div>
+                <div class="pwdArea mb10">
+                  <!-- <label for="password">密码</label> -->
+                  <input id="password" type="password" autocomplete="off"  placeholder="密码" name="password" type="password" >
+                </div>
+                <div class="submit"> 
+                  <input class="login-btn" type="button"name="login" value="登录"></input>
+                </div>
+              </form>
+            </div>
+            <div class="login-bd-nav">
+              <a href="${base}/user/forgetpassword/">忘记密码</a><span>|</span><a href="${base}/feedback/">意见反馈</a>
+            </div>
+          </div>
+        </div>
+        <div class="loginImg"></div>
+        <div class="clear"></div>
+      </div>
+      
+    </div>
+    <div class="footer">
+      <div class="footerCon">
+        <div class="copyright">
+          <p class="copyright_link">
+            <a href="${base}/index/?headTab=1">网站首页</a><!--  | <a href="">车位查询</a> | <a href="">资讯中心</a>	 -->	
+		  </p>
+          <p class="copyright">
+           copyright © 2010 国泰安信息技术有限公司 粤ICP备 05065871号
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="background">
+      <img class="backgroundImg" src="${base!}/images/login/background1.jpg">
+    </div>
+  </div>
+</body>
+<script type="text/javascript" >
+eoc.user.applyPlaceholder(); 
+</script>
+</html>

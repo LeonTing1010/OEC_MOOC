@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd"
+	default-lazy-init="true">
+	<!-- freemarker 配置 ，整合到springMvc中 -->
+	<!-- freemarker视图解析器 -->
+    <bean id="freemarkerViewResolver" class="com.gta.oec.common.web.springmvc.RichFreeMarkerViewResolver">
+		<property name="contentType" value="text/html; charset=UTF-8"/>
+		<property name="prefix" value="/webpage/"/>
+		<property name="exposeRequestAttributes" value="false"/>
+		<property name="exposeSessionAttributes" value="false"/>
+		<property name="exposeSpringMacroHelpers" value="true"/>
+	</bean>
+	<!-- freemarker配置 -->
+	<bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+		<property name="templateLoaderPath" value="/WEB-INF"/>
+		<property name="freemarkerVariables">
+			<map>			  
+			  <entry key="num" value-ref="numDirective"/>
+			  <entry key="text_cut" value-ref="textCutDirective"/>
+			  <entry key="html_unescape_cut" value-ref="htmlUnesacapeCutDirective"/>
+			  <entry key="trade" value-ref="tradeDirective"/>
+			  <entry key="job" value-ref="jobDirective"/>
+			  <entry key="trade_course" value-ref="tradeCourse"/>
+			  <entry key="top_job" value-ref="topJob"/>
+			  <entry key="trade_top_ques" value-ref="tradeTopQues"/>
+			  <entry key="trade_top_teacher" value-ref="tradeTopTeacher"/>
+			  <entry key="video_type" value-ref="videoType"/>
+			  <entry key="path_name" value-ref="pathName"/>
+			</map>
+		</property>
+		<property name="freemarkerSettings">
+			<props>
+				<prop key="tag_syntax">auto_detect</prop>
+				<prop key="template_update_delay">5</prop>
+				<prop key="defaultEncoding">UTF-8</prop>
+				<prop key="output_encoding">UTF-8</prop>
+				<prop key="url_escaping_charset">UTF-8</prop>
+				<prop key="locale">zh_CN</prop>
+				<prop key="boolean_format">true,false</prop>
+				<prop key="datetime_format">yyyy-MM-dd HH:mm:ss</prop>
+				<prop key="date_format">yyyy-MM-dd</prop>
+				<prop key="time_format">HH:mm:ss</prop>
+				<prop key="number_format">0.######</prop>
+				<prop key="whitespace_stripping">true</prop>
+				<!--空值处理<prop key="classic_compatible">true</prop>-->
+				<prop key="auto_import">/ftl/pony/index.ftl as p,/ftl/spring.ftl as s</prop>
+			</props>
+		</property>
+	</bean>
+	<!-- 标签bean配制 -->
+    <bean id="numDirective" class="com.gta.oec.controller.directive.NumDirective" />
+    <bean id="textCutDirective" class="com.gta.oec.controller.directive.TextCutDirective" />
+    <bean id="htmlUnesacapeCutDirective" class="com.gta.oec.controller.directive.HtmlUnesacapeCutDirective" />
+    <!-- 行业标签 -->
+    <bean id="tradeDirective" class="com.gta.oec.controller.directive.TradeDirective" />
+     <!-- 岗位标签 -->
+    <bean id="jobDirective" class="com.gta.oec.controller.directive.JobDirective" />
+     <!-- 行业下课程 -->
+    <bean id="tradeCourse" class="com.gta.oec.controller.directive.TradeTopDirective" />
+      <!-- 热门岗位推荐标签 -->
+    <bean id="topJob" class="com.gta.oec.controller.directive.TopJobDirective" />
+      <!--行业热门问题标签 -->
+    <bean id="tradeTopQues" class="com.gta.oec.controller.directive.TradeTopQuesDirective" />
+    <!-- 行业名师标签 -->
+    <bean id="tradeTopTeacher" class="com.gta.oec.controller.directive.TradeTopTeacherDirective" />
+        <!-- 视频协议标签 -->
+    <bean id="videoType" class="com.gta.oec.controller.directive.VideoTypeDirective" />
+    <!-- 文件路径获取文件名标签 -->
+    <bean id="pathName" class="com.gta.oec.controller.directive.PathNameDirective" />
+</beans>

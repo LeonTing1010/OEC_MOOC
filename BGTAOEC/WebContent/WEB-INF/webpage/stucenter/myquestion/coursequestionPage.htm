@@ -1,0 +1,53 @@
+[#if courseQuesList??] [#list courseQuesList as questions]
+<li class="wordBreak">
+	<h4>
+		<a href="${base}/questionCenter/questiondetail/${(questions.quesID)!'0'}/" target="_block">${(questions.quesContent)!''}</a>
+	</h4>
+	<div class="answer">
+		[#if questions.answerVo?exists && questions.answerVo.answID!=0]
+		<!-- 回答的老师头像 -->
+		<img src="[#if questions.answerVo.userHeadPic??]${cache!}${(questions.answerVo.userHeadPic)!''}[#else]${cache!}images/base/default_pic_temp_user.jpg[/#if]" width="26" height="26">
+		
+		<div class="answer-bd">
+			<div class="name">
+				 ${(questions.answerVo.userName)!''}
+			</div>
+			<p>${(questions.answerVo.answContent)!''}</p>
+		</div>
+		<div class="answer-ft clear">
+			<span class="time fr">${(questions.quesCtime)?string("yyyy-MM-dd HH:mm:ss")}</span><span class="praise">
+				 [#if questions.quesAnswerCount>0] 
+				    <!-- 回答条数 -->
+				    <span>${(questions.quesAnswerCount)!''}回答</span>
+				 [/#if]
+			</span>
+		</div>
+		[#else]
+		<div class="answer-bd">
+			<div style="color: gray;">暂无回答</div>
+			<p></p>
+		</div>
+		<div class="answer-ft clear">
+			<span class="time fr">${(questions.quesCtime)?string("yyyy-MM-dd HH:mm:ss")}</span><span><a href="#"></a></span>
+		</div>
+		[/#if]
+	</div>
+</li>
+[/#list] [/#if]
+
+
+<script type="text/javascript">
+var hasNext='${hasNext!}';
+var count=parseInt('${courseQuesList?size!}');
+
+if(count<5 && count>0){
+	$(".loading").remove();	
+}else if(count>=5){
+	if(hasNext=='false'){
+		$(".loading").remove();	
+	}else{
+		var tagFlag = $("#tagFlag").val();	
+		$(".loading").html('<span id="quesInfo" onclick="getMoreCourseQuestion('+tagFlag+')" style="color: gray;cursor:pointer">更多问题..</span>')
+	}
+}
+</script>

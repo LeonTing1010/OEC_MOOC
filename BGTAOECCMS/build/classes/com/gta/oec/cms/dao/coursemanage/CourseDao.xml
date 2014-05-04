@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gta.oec.cms.dao.coursemanage.CourseDao">
+	<resultMap type="com.gta.oec.cms.vo.course.Course" id="courseResultMap">
+		<result column="Cour_ID" property="courseId"/>
+		<result column="Cour_Name" property="courseName"/>
+		<result column="Cour_Num" property="courNum"/>
+		<result column="Cour_Introduction" property="introduction"/>
+		<result column="User_ID" property="userId"/>
+		<result column="Cour_Tag" property="tag"/>
+		<result column="Cour_Title_Page" property="titlePage"/>
+		<result column="Cour_IsPublic" property="isPublic"/>
+		<result column="Cour_Level" property="courLevel"/>
+		<result column="Cour_Password" property="password"/>
+		<result column="Cour_LiveType" property="liveType"/>
+		<result column="Cour_IsDibbling" property="isDibbling"/>
+		<result column="Cour_Stime" property="courStartTime"/>
+		<result column="Cour_Etime" property="courEndTime"/>
+		<result column="Cour_Week" property="courWeek"/>
+		<result column="Cour_CheckStatus" property="status"/>
+		<result column="Cour_ScoreMethod" property="scoreMethod"/>
+		<result column="Cour_Class" property="courseClass"/>
+		<result column="Cour_Credit" property="credit"/>
+		<result column="Cour_BuyCount" property="buyCount"/>
+		<result column="Cour_Week" property="courWeek"/>
+		<result column="Cour_Attention" property="attention"/>
+		<result column="Cour_Price" property="price"/>
+		<result column="Cour_PreviewUrl" property="previewUrl"/>
+		<result column="Cour_Ctime" property="cTime"/>
+		<result column="Cour_Utime" property="uTime"/>
+		<result column="School_ID" property="schoolId"/>
+		<result column="Sch_Name" property="schoolName"/>
+		<result column="User_Name" property="userName"/>
+		<result column="Job_ID" property="jobId"/>
+		<result column="Job_Name" property="jobName"/>
+		<result column="Pro_ID" property="proId"/>
+		<result column="Pro_Name" property="proName"/>
+		<result column="Job_PID" property="jobPid"/>
+		<result column="Cour_job_Recommend" property="jobCourRecommend"/>
+		
+	</resultMap>
+	
+	<select id="allCourseCtxPageQuery" resultType="page" resultMap="courseResultMap">
+		select c.cour_id,u.user_name,c.cour_name,s.sch_name,c.cour_livetype,p.job_name,p.Job_ID,c.cour_checkstatus,c.cour_ctime,rc.cour_job_recommend
+		from c_course c left join re_course_job rc on rc.course_id=c.cour_id 
+		left join p_job p on rc.job_id=p.job_id left join u_user u on u.user_id=c.user_id
+		left join s_school s on s.sch_id=c.school_id where p.job_name is not null and p.job_pid!=p.job_id
+		and c.Cour_CheckStatus!=1 
+		<if test="parameters.userName != null and parameters.userName!='' ">
+			and u.User_Name like concat('%',#{parameters.userName},'%') 
+		</if>
+		<if test="parameters.proId != null and parameters.proId!=0 ">
+			and p.Pro_ID = #{parameters.proId}
+		</if>
+		<if test="parameters.jobPid != null and parameters.jobPid!=0 ">
+			and p.Job_PID = #{parameters.jobPid}
+		</if>
+		<if test="parameters.jobId != null and parameters.jobId!=0 ">
+			and p.Job_ID = #{parameters.jobId}
+		</if>
+		<if test="parameters.status != null and parameters.status!=0 ">
+			and c.Cour_CheckStatus = #{parameters.status}
+		</if>
+		<if test="parameters.schoolName != null and parameters.schoolName!='' ">
+			and s.Sch_Name like concat('%',#{parameters.schoolName},'%')  
+		</if>
+		<if test="parameters.courseName != null and parameters.courseName!='' ">
+			and c.Cour_Name like concat('%',#{parameters.courseName},'%')
+		</if>
+		<if test="parameters.liveType != null and parameters.liveType!=0 ">
+			and c.Cour_LiveType = #{parameters.liveType} 
+		</if>
+		<if test="parameters.cTime != null and parameters.cTime!='' ">
+			and Date(c.Cour_Ctime) >= #{parameters.cTime}
+		</if>
+		<if test="parameters.uTime != null and parameters.uTime!='' ">
+			and #{parameters.uTime} >= Date(c.Cour_Ctime)  
+		</if>
+		order by FIELD(`Cour_CheckStatus`,3,2,4,5),c.Cour_Ctime desc
+	</select>
+	
+	<!-- 查询所有职业信息 -->
+	<select id="getAllTrade" resultType="list" resultMap="courseResultMap">
+		select Pro_ID,Pro_Name from p_profession
+	</select>
+	
+	<!-- 查询所有岗位群信息 -->
+	<select id="getAllPjob" parameterType="int" resultMap="courseResultMap">
+		select Job_ID,Job_Name from p_job where Job_PID is null
+		<if test="proId!=0">
+			and pro_id = #{proId}
+		</if>
+	</select>
+	
+	<!-- 查询所有岗位信息 -->
+	<select id="getAllJob" parameterType="int" resultMap="courseResultMap">
+		select Job_ID,Job_Name from p_job where Job_PID is not null
+		<if test="pjobId!=0">
+			and job_pid = #{pjobId}
+		</if>
+	</select>
+	
+	<!-- 根据父岗位id查询岗位信息 -->
+	<select id="getJobByPid" parameterType="course" resultMap="courseResultMap">
+		select Job_ID,Job_Name from p_job where job_pid is not null
+		<if test="course.proId!=0">
+			and  pro_id = #{course.proId} 
+		</if>
+		<if test="course.jobPid!=0">
+			and Job_PID = #{course.jobPid}
+		</if>
+	</select>
+	
+	<!-- 查看简介 -->
+	<select id="getCourseIntroduction" parameterType="int" resultMap="courseResultMap">
+		select c.cour_id,c.cour_name,c.Cour_ScoreMethod,p.job_name,c.Cour_LiveType,pr.pro_name,c.Cour_Title_Page,c.Cour_Introduction,c.Cour_Credit,c.Cour_Price,c.Cour_Week
+		from c_course c left join re_course_job rc on rc.course_id=c.cour_id 
+		left join p_job p on rc.job_id=p.job_id left join p_profession pr on p.pro_id = pr.pro_id
+		 where c.cour_id = #{cid} and p.job_id = #{jobId}
+	</select>
+	
+	<!-- 查看视频，查询章节信息 -->
+	<select id="getCourseById" parameterType="int" resultMap="courseResultMap">
+		select Cour_ID,Cour_Name,Cour_Introduction,Cour_LiveType from c_course where cour_id = #{cid}
+	</select>
+	
+	<!-- 修改，课程信息 -->
+	<select id="courseAmend" parameterType="int" resultMap="courseResultMap">
+		SELECT c.*,s.Sch_Name,c.School_ID FROM c_course AS c,s_school AS s 
+		WHERE c.School_ID=s.sch_id AND c.Cour_ID = #{cid}
+	</select>
+	
+	<!-- 根据课程对象获取课程基本信息 -->
+	<select id="courseInfo" parameterType="course" resultMap="courseResultMap">
+		select * from c_course where 1=1
+		<if test="course.courseName!= null">
+			and Cour_Name = #{course.courseName}
+		</if>
+		<if test="course.courseId &gt; 0">
+			and Cour_ID=#{course.courseId}
+		</if>
+	</select>
+	
+	<!-- 允许发布课程,课程下架 -->
+	<update id="checkCourse" parameterType="course">
+		update c_course set Cour_CheckStatus = #{course.status} where Cour_ID = #{course.courseId}
+	</update>
+	
+	<!-- 批量审核课程信息，课程下架 -->
+	<update id="passAudit" parameterType="String">
+		update c_course set Cour_CheckStatus = #{status} where Cour_ID in
+	    <foreach collection="volumnCid" item="item" index="index" open="(" separator="," close=")" >  
+	        #{item}  
+	    </foreach>   
+	</update>
+	
+	<!-- 更新 -->
+	<update id="updateCourse" parameterType="course" >
+	 update c_course as c
+  	 <set>
+	   <if test="course.courseName!=null and course.courseName!=''">
+	      c.Cour_Name = #{course.courseName},
+	   </if>
+	   <if test="course.previewUrl!=null and course.previewUrl!=''">
+	      c.Cour_PreviewUrl = #{course.previewUrl},
+	   </if>
+	   <if test="course.liveType!=0">
+	     c.Cour_LiveType = #{course.liveType},
+	   </if>
+	   <if test="course.titlePage!=null and course.titlePage!=''">
+	     c.Cour_Title_Page = #{course.titlePage},
+	   </if>
+	   <if test="course.isPublic!=null and course.isPublic!=''">
+	     c.Cour_IsPublic = #{course.isPublic},
+	   </if>
+	   <if test="course.introduction!=null and course.introduction!=''">
+	     c.Cour_Introduction = #{course.introduction},
+	   </if>
+	   <if test="course.scoreMethod!=null and course.scoreMethod!=''">
+	     c.Cour_ScoreMethod = #{course.scoreMethod},
+	   </if>
+	   <if test="course.schoolId!=0">
+	      c.School_ID = #{course.schoolId},
+	   </if>
+	   <if test="course.credit!=0">
+	      c.Cour_Credit = #{course.credit},
+	   </if>
+	   <if test="course.price>=0">
+	      c.Cour_Price = #{course.price},
+	   </if>   
+	   <if test="course.uTime!=null and course.uTime!=''">
+	      c.Cour_Utime = #{course.uTime},
+	   </if>
+	   <if test="course.status!=0">
+	     c.Cour_CheckStatus = #{course.status},
+	   </if>
+	   <if test="course.courWeek!=0">
+	     c.Cour_Week = #{course.courWeek},
+	   </if>
+	 </set>
+	 where c.Cour_ID = #{course.courseId}
+	</update>
+	
+	<!-- 插入 -->
+	<insert id="insertCourse" parameterType="course" keyProperty="courseId" useGeneratedKeys="true">
+		insert into
+		c_course(Cour_Name,Cour_Num,Cour_Introduction,Cour_Tag,Cour_Title_Page,Cour_IsPublic,Cour_Password,Cour_LiveType,Cour_Class,Cour_Credit,
+		Cour_BuyCount,Cour_Attention,Cour_Price,Cour_Ctime,Cour_Utime,Cour_PreviewUrl,User_ID,Cour_ScoreMethod,School_ID,Cour_Stime,Cour_CheckStatus) values
+		(#{course.courseName},#{course.courseNum},#{course.introduction},#{course.tag},#{course.titlePage},#{course.isPublic},#{course.password},#{course.liveType},#{course.courseClass},#{course.credit},#{course.buyCount},#{course.attention},
+		 #{course.price}, #{course.cTime}, #{course.uTime},#{course.previewUrl},#{course.userId},#{course.scoreMethod},#{course.schoolID},#{course.courStartTime},#{course.status})
+	</insert>
+	<!--  根据生活状态统计课程数量  by:dongs-->
+	<select id="countCourseByCheckStatus" resultType="_int" parameterType="_int">
+		SELECT COUNT(c.Cour_ID)
+		FROM c_course AS c
+		WHERE c.Cour_CheckStatus=#{checkStatus}
+	
+	</select>
+	
+	
+</mapper>

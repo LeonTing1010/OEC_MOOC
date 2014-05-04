@@ -1,0 +1,281 @@
+<link href="${base}/css/studentCenter/studentInfo.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="${base}/js/jquery-1.10.2.min.js"></script>
+<script src="${base}/js/stucenter/pwdverify.js" type="text/javascript"></script>
+<div class="main-title">
+	<h3>个人资料</h3>
+</div>
+<div class="tab mt20">
+	<ul style="" id="quickNav">
+		<li class="current"><a href="javascript:void(0);" class="jobInfo">个人资料</a></li>
+		<li><a href="javascript:void(0);" class="jobInfo">修改头像</a></li>
+		<li><a href="javascript:void(0);" class="course">密码修改</a></li>
+	</ul>
+</div>
+
+<!-- 修改个人资料 -->
+<div class="form-bodybox">
+	<div class="form-body pad20 form-bodyTab">
+		<form action="" method="post" name="studentInfor" id="studentInfor">
+			[#if user??]
+			<div class="form-row">
+					<div class="label">
+						<label>邮箱：</label>
+					</div>
+					<div class="input">
+<!--						<input type="text" placeholder="" class="medium" name="countId" disabled="disabled" value="${user.userEmail!}" />-->
+						<input type="hidden" placeholder="" class="medium" name="countId" value="${user.userEmail!}" />
+						<input type="hidden" placeholder="" class="medium" id="emailID" name="userEmail" value="${user.userEmail!}" />
+						<input type="email" placeholder="请填写邮箱" value="${user.userEmail!}" class="medium" disabled="disabled" tag="*,email,CheckExistEmail"> <span style="color:red" class="flag">*</span>
+					</div>
+				</div>
+			
+			<div class="form-row">
+				<div class="label">
+					<label>用户名：</label>
+				</div>
+				<div class="input" name="userName">
+					<input type="hidden" name="userId" value="${user.userId!}">
+					<input type="text" name="userName" id="userName" placeholder=""
+						value="${user.userName!}" tag="*,nameCheck,CheckExistUser" class="small" maxlength='14'> <span style="color:red" class="flag">*</span>
+				</div>
+			</div>
+
+			<div class="form-row">
+				<div class="label">
+					<label>电话：</label>
+				</div>
+				<div class="input">
+					<span class="text"><input type="text" tag="telormob" placeholder="请填写电话号码" id="userMobile"
+						name="userMobile" value="${user.userMobile!}" class=" medium"></span>
+				</div>
+			</div>
+<!--			<div class="form-row">-->
+<!--				<div class="label">-->
+<!--					<label>邮件：</label>-->
+<!--				</div>-->
+<!--				<div class="input">-->
+<!--					<input type="email" placeholder="请填写邮箱" id="emailID" name="userEmail"-->
+<!--						value="${user.userEmail!}" class="medium" tag="*,email,CheckExistEmail"> <span style="color:red" class="flag">*</span>-->
+<!--				</div>-->
+<!--			</div>-->
+
+			<div class="form-row">
+				<div class="label">
+					<label>学习目标：</label>
+				</div>
+				<div class="input">
+				[#if student??]
+					<input type="text" placeholder="请填写学习目标" name="studyGoal"
+						value="${student.studyGoal!}" class="large">
+				[#else]
+					<input type="text" placeholder="请填写学习目标" name="studyGoal"
+						value="" class="large">	
+				[/#if]
+				</div>
+			</div>
+			
+			<div class="form-row">
+				<div class="label">
+					<label>教育程度：</label>
+				</div>
+				
+				<div class="input">
+				
+				<input type="hidden" name="educationvalue" id="educationvalue"
+						value="[#if student??]${student.education!}[/#if]" />
+					[#if student??]
+						 <select name="education" id="education">
+						  [#if "${student.education!}"=="1"]
+							<option value="1" selected="selected">本科</option>
+							[#else]
+								<option value="1">本科</option>
+							[/#if]
+						
+						 [#if "${student.education!}"=="2"]
+							<option value="2" selected="selected">博士</option>
+							[#else]
+								<option value="2">博士</option>
+						 [/#if]
+							
+						 [#if "${student.education!}"=="3"]
+							<option value="3" selected="selected">硕士</option>
+							[#else]
+								<option value="3">硕士</option>
+						 [/#if]
+							
+						
+							
+						[#if "${student.education!}"=="4"]
+							<option value="4" selected="selected">大专</option>
+							[#else]
+								<option value="4">大专</option>
+						[/#if]
+						
+						 [#if "${student.education!}"=="5"]
+							<option value="5" selected="selected">其他</option>
+							[#else]
+								<option value="5">其他</option>
+						 [/#if]
+					</select>
+					[#else]
+						<select name="education" id="education">
+							<option value="1">本科</option>
+							<option value="2">博士</option>
+							<option value="3">硕士</option>
+							<option value="4">大专</option>
+							<option value="5">其他</option>
+						</select>
+					[/#if]
+				</div>
+			</div>
+			
+			<div id="fourthGrid" class="form-body pad20">
+				<div class="form-button-bar">
+					<button type="button" id="combutton" name="combutton" class="btn btn-success btn-small secondStep"
+						onclick="updateinfo()">&nbsp;&nbsp;保存&nbsp;&nbsp;</button>
+				</div>
+			</div>
+			[/#if]
+		</form>
+	</div>
+
+<!-- 修改头像 -->
+	<div class="form-body pad20 form-bodyTab" style="display: none;">
+			<div class="form-row">
+				<div class="label">
+					<label>个人头像：</label>
+				</div>
+				<div class="input">
+					<span class="text-img">
+						<img style="border: 1px solid #d7d7d7; padding: 2px;"
+						src="[#if user.userHeadPic??]${cache!}${user.userHeadPic!}[#else]${cache!}/images/base/default_pic_temp_user.jpg[/#if]" 
+						alt="" title="" id="img1"/>
+						<input type="hidden" name="imgpre" id="preImage" value="" />
+					</span> 
+					<span class="btn btn-small btn-default btn-file"> 
+						<span class="fileupload-new">上传文件</span>
+						<form action="${base}/studentCenter/uploadImg/" method="post" encType="multipart/form-data" target="imgIframe" id="imgForm" name="imgForm">
+							<input type="file" name="imagefile" class="margin-none btn-file-input" onchange="uploadImage(this);"/>
+						</form>
+					</span>
+					<div class="defaultHead mt10 clear">
+						<div class="title">可直接选择头像</div>
+						<ul>
+							<li class="current"><img
+								src="${cache!}/images/studentCenter/head/1.jpg" width="60px"
+								height="60px"></li>
+							<li><img src="${cache!}/images/studentCenter/head/2.jpg"
+								width="60px" height="60px"></li>
+							<li><img src="${cache!}/images/studentCenter/head/3.jpg"
+								width="60px" height="60px"></li>
+							<li><img src="${cache!}/images/studentCenter/head/4.jpg"
+								width="60px" height="60px"></li>
+							<li><img src="${cache!}/images/studentCenter/head/5.jpg"
+								width="60px" height="60px"></li>
+							<li><img src="${cache!}/images/studentCenter/head/6.jpg"
+								width="60px" height="60px"></li>
+							<li><img src="${cache!}/images/studentCenter/head/7.jpg"
+								width="60px" height="60px"></li>
+							<li><img src="${cache!}/images/studentCenter/head/8.jpg"
+								width="60px" height="60px"></li>
+							<li><img src="${cache!}/images/studentCenter/head/9.jpg"
+								width="60px" height="60px"></li>
+							<li><img src="${cache!}/images/studentCenter/head/10.jpg"
+								width="60px" height="60px"></li>
+							<li><img src="${cache!}/images/studentCenter/head/11.jpg"
+								width="60px" height="60px"></li>
+							<li><img src="${cache!}/images/studentCenter/head/12.jpg"
+								width="60px" height="60px"></li>
+						</ul>
+						<input type="hidden" name="hidDefaultImg" id="hidDefaultImg"/>
+					</div>
+				</div>
+			</div>
+			<div id="fourthGrid" class="form-body ">
+				<div class="form-button-bar">
+					<button type="button"  onclick="imgSub()" class="btn btn-success btn-small secondStep">&nbsp;&nbsp;保存&nbsp;&nbsp;</button>
+					<span class='validation' id="resultInfo"></span>
+				</div>
+			</div>
+	<iframe id="imgIframe" name="imgIframe" style="display: none;"></iframe>
+	</div>
+
+<!-- 修改密码 -->
+	<div class="form-body pad20 form-bodyTab" style="display: none;">
+			<form name="pwdupdate" id="pwdupdate" method="post">
+			<div class="form-row">
+				<div class="label">
+					<label>原密码：</label>
+				</div>
+				<div class="input">
+					<input type="password" autocomplete="off" tag="*" name="oldpwd" id="oldpwd" placeholder="请填写密码" value=""
+						class="medium"  oncopy="return false;" oncut="return false;" onpaste="return false;"> 
+				</div>
+			</div>
+			<div class="form-row">
+				<div class="label">
+					<label>新密码：</label>
+				</div>
+				<div class="input">
+					<input type="password" name="newpwd" tag="*,6-12,isSame" id="pwd" autocomplete="off"
+						placeholder="请填写新密码" value="" class="medium" oncopy="return false;" oncut="return false;" onpaste="return false;">
+				</div>
+			</div>
+			<div class="form-row">
+				<div class="label">
+					<label>确认密码：</label>
+				</div>
+				<div class="input">
+					<input type="password" name="submitpwd" tag="*,6-12,ptp" id="pwd2" oncopy="return false;" oncut="return false;" onpaste="return false;"
+						placeholder="请重新填写新密码" value="" class="medium">
+				</div>
+			</div>
+			<div id="fourthGrid" class="form-body pad20">
+				<div class="form-button-bar">
+					<button type="button" onclick="pwdverify(this)"
+						class="btn btn-success btn-small secondStep" id="passButton">
+						&nbsp;&nbsp;保存&nbsp;&nbsp;</button>
+				</div>
+			</div>
+			</form>
+	</div>
+
+</div>
+
+<script language="JavaScript" type="text/javascript">
+
+$(function(){
+	var $li = $(".tab li"),
+		$content = $(".form-bodyTab"),
+		$index;
+
+	$li.click(function(){
+		$(this).addClass("current").siblings().removeClass('current');
+		$index = $li.index($(this));
+		$content.eq($index).show().siblings().hide();
+		getStudentImage();
+		$('#resultInfo').html("");
+		if($index==0){
+			switchLoad('9');
+		}
+	});
+});
+
+$(function(){
+	var $li = $(".clear li"),
+		$index;
+
+	$li.click(function(){
+		$(this).addClass("current").siblings().removeClass('current');
+		//获取图片的路径保存到一个隐藏域中(hidDefaultImg)
+		$('#preImage').val($(this).find("img").attr("src").replace(cache,''));
+		$('#img1').attr('src',$(this).find("img").attr("src"));
+	});
+});
+	
+$(function(){
+SelectItemByValue(document.getElementById("education"),$("#educationvalue").val()); 
+});
+
+</script>
+

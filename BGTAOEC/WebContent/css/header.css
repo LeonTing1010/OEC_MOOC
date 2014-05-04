@@ -1,0 +1,283 @@
+.headBar{
+	height:40px;
+	background:#323436;
+	position:relative;
+	z-index:3
+	}
+.content{
+	width:1000px;
+	margin:0 auto;
+	}
+.headBar-nav{
+	line-height:40px;
+	float:left;
+	}
+.headBar-student{
+	width:500px;}
+.headBar .menuBox{
+	float:right;
+	height:40px;
+	width:40px;
+	line-height:40px;
+	position:relative;
+	cursor:pointer;
+	margin-left:10px;
+	display:inline;
+	}
+.selectRole{
+	float:right;
+	height:40px;
+	width:100px;
+	line-height:40px;
+	position:relative;
+	cursor:pointer;
+	display:inline;
+	color:#fff;
+	padding:0 6px;
+	margin-right:10px;
+	}
+.selectRole ul{
+	display:none;
+	width:112px;
+	position:absolute;
+	top:40px;
+	}
+.selectRole i{
+	width:16px;
+	height:16px;
+	position:absolute;
+	top:14px;
+	right:7px;
+	}
+.selectRole:hover{
+	background:#222}
+.selectRole:hover ul{
+	display:block;
+	left:0px;
+	}
+.headBar .menuBox img{
+	width:24px;
+	height:24px;
+	position:absolute;
+	top:8px;
+	left:8px;
+	}
+.headBar .menuBox i{
+	width:26px;
+	height:26px;
+	position:absolute;
+	top:7px;
+	left:7px;
+	}
+.menuBox i.news{ background:url(../images/base/mail.png) no-repeat center center}
+.menuBox i.collect{ background:url(../images/base/star_fav_empty.png) no-repeat center center}
+.menuBox i.ask{ background: url(../images/base/spechbubble_2.png) no-repeat center center}
+.menuBox i.clound{background: url(../images/base/cloud.png) no-repeat center center}
+.menuBox i.book{background: url(../images/base/book.png) no-repeat center center}
+.selectRole .br-down{background: url(../images/base/br_down.png) no-repeat center center}
+.headBar .menuBox:hover{
+	background:#222;
+	}
+.headBar .menuBox ul{
+	display:none;
+	width:120px;
+	position:absolute;
+	top:40px;
+	}
+.headBar .user ul{
+	right:0;
+	}
+.headBar .foucs{
+	background:#C00;
+	}
+.headBar .foucs .fonts{
+	width:40px;
+	height:24px;
+	line-height:24px;
+	background:#C00;
+	color:#FFF;
+	position:absolute;
+	text-align:center;
+	top:30px;
+	font-size:12px;
+	}
+.headBar .menuBox:hover ul{
+	display:block;
+	}
+.headBar .menuBox:hover .fonts{
+	display:none;}
+.headBar .menuBox ul li,.selectRole ul li{
+	background:#222;
+	height:30px;
+	line-height:30px;
+	text-align:center;
+	border-bottom:#444 1px solid ;
+	}
+.headBar .menuBox li span{ color:#F60; margin-left:6px; font-weight:800}
+.headBar .menuBox li a,.selectRole li a{
+	display:block;
+	color:#999;
+	}
+.headBar .menuBox li a:hover,.selectRole:hover li a:hover{
+	color:#fff;
+	background:#000;
+	}
+.headBar-nav a{ color:#999}
+.headBar-box{float:right;}
+.headBar-info{margin:6px 0 0 0;}
+.headBar-info .btn{ line-height:24px; width:50px;}
+.headBar-info .login{ background:#505050;}
+.headBar-info .reg{ background:#3b9511}
+.header{
+	height: 90px;
+	background: url(../images/base/headerBg.gif);
+	position: relative;
+	z-index: 2;
+}
+.header .logo{
+	float:left;
+	width:330px;
+	height:31px;
+	margin:30px 0 0 0;
+	background:url(../images/base/logo.png) no-repeat
+	}
+.header .logo a{
+	width:279px;
+	height:31px;
+	display:block;}
+.header .askButton{
+	float:right;
+	width:100px;
+	text-align:center;
+	margin:24px 0 0 20px;
+	}
+.header .askButton a{
+	display:block;
+	color:#fff;
+	text-shadow:1px 1px 1px #915900;
+	background:#f29400;
+	height:40px;
+	line-height:40px;
+	}
+.header .askButton a:hover{
+	background:#ffa416;
+	}
+.header .search{
+	float:right;
+	height:40px;
+	width:300px;
+	position:relative;
+	margin:24px 0 0 0;
+	background:#505050 ;
+	}
+.header .search .searchButton{
+	height:40px;
+	position:absolute;
+	right:0px;
+	top:0px;
+	width:64px;
+	display:block;
+	background:url(../images/base/head_search_ico.png) 30px 0px no-repeat;
+	cursor:pointer;
+	}
+.header .search .searchButton:hover{
+	background:url(../images/base/head_search_ico.png) 30px -40px no-repeat;
+	}
+.header .search input{
+	border:none;
+	background:none;
+	width:230px;
+	height:40px;
+	padding:0 0 0 20px;
+	line-height:40px;
+	color:#fff;
+	outline:none;
+	}
+.nav{
+	height:40px;
+	z-index:999;
+	background:#417786;
+	position:relative;
+	z-index:1;
+	}
+.nav.green{
+	background:#576c43
+	}
+.nav.gGreen {
+	background: #a1ba5f
+	}
+	
+.nav.orange{
+	background: #a1ba5f
+	}
+	
+.nav .content{
+	height:40px;
+	background:#3a96af
+	}
+.nav.green .content{
+	background:#608140;
+	}
+.nav.gGreen .content{
+	background: #93ad54
+	}
+.nav.orange .content{
+	background: #93ad54
+	}
+.nav li{
+	width:100px;
+	float:left;
+	line-height:40px;
+	text-align:center
+	}
+.nav li a{ color:#fff;}
+.nav li.current{background:#e2e2e2;}
+.nav li.current a{ color:#000;}
+.nav .content{
+	position:relative;
+	}
+.quick-sideNav{
+	position:absolute;
+	top:50px;
+	right:0px;
+	width:40px;
+	background:#fff;
+	z-index:99;
+	opacity: 0.7;
+	}
+.quick-sideNav-con{
+	position:absolute;
+	top:0;
+	left:0;
+	background:#fff;
+	}
+.quick-sideNav dd{
+	width:40px;
+	height:30px;
+	overflow:hidden;
+	border-bottom:1px solid #ddd;
+	cursor:pointer;
+	 background:url(../images/base/quickNav-bg.png) no-repeat;
+	}
+.quick-sideNav .personalCenter{ background-position:top center;} 
+.quick-sideNav .myCourses{ background-position: center -30px;}
+.quick-sideNav .myQuestions{ background-position: center -60px;}
+.quick-sideNav .top{ background-position: center -90px;}
+.quick-sideNav a {
+	display:block;
+	width:30px;
+	height:30px;}
+.quick-sideNav a div{
+	display:none;
+	color: white;
+	line-height: 30px;
+	font-size: 12px;
+	text-align: center;
+	background: url(../images/base/quickNav-triangle.png) center center no-repeat;
+	width: 75px;
+	height: 30px;
+	position: absolute;
+	margin-left: -70px;
+}
+.quick-sideNav a:hover div{ display: block}
+

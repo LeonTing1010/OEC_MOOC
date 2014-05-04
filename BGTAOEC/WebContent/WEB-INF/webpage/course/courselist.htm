@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>课程分类-国泰安网络教育</title>
+<meta name="description" content="插入网站全局描述变量" />
+<meta name="Keywords" content="插入网站全局关键字变量" />
+[#include "/webpage/common/common.htm"/]
+<link href="${base}/css/course/classList.css" rel="stylesheet" type="text/css">
+<script src="${base}/js/courselist.js" type=text/javascript charset=utf-8 ></script>
+<script type="text/javascript">
+var jobId ='${jobId!}';
+var proId = '${proId!}';
+</script>
+<style type="text/css">
+	.wordBreak {
+		word-break:break-all;word-wrap:break-word;
+	}
+</style>
+</head>
+
+<body id="backtop">
+<div class="wrapper">
+[#include "/webpage/common/head.htm"/]
+  <div class="container">
+  	<div class="content clearfix pt10">
+      <div class="grid mr10">
+        <div class="grid leftMenu">
+          <div class="menu-head">
+            <div class="title">课程分类</div>
+             <!--  
+            <div class="select">
+           
+              <span>按岗位分类</span>
+              <ul class="select-list hide">
+                <li>按岗位分类</li>
+                <li>按认证分类</li>
+              </ul>
+            
+            </div>
+              -->
+          </div>
+          <ul class="menu-body">
+            [#if tradeList??]
+              [#list tradeList as object]
+               <li class="item" style="cursor: pointer">
+                  <div style="width:100%;height:100%" id="pro${object.proId!}" onclick="proClick('${object.proId!}','${object.name!}')"  onmouseover="proMouseover(${object.proId!},'${object.name!}')">
+                  		<span class="className" >${object.name!}</span>
+                  </div> 
+              	  <div id="jobList${object.proId!}"></div>
+               </li>
+              [/#list]
+            [/#if]
+          </ul>
+        </div>
+      </div>
+      
+      <div class="grid rightCon">
+        <div class="subCrumbs"> 
+          <a href="javascript:void(0)"><span style="display:none"></span></a>
+          <a href="javascript:void(0)"><span style="display:none"></span></a>
+          <span></span>
+        </div>
+        <div class="classList">
+         <ul>
+         
+         </ul>
+        </div>
+        <div class="pageMore" style="display: none;"><span class="btn-small btn radius" onclick="loadCourse()" id="showMore">- 查看更多 -</span></div>
+      </div>
+  	</div>
+  </div>
+  <div class="footerFixer"></div>
+</div>
+[#include "/webpage/common/footer.htm"/]
+</body>
+</html>

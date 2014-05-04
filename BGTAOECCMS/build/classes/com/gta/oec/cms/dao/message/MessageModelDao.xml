@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gta.oec.cms.dao.message.MessageModelDao">
+<resultMap type="com.gta.oec.cms.vo.message.MessageModel" id="message">
+	<result column="message_model_id" property="messageModelid"/>
+	<result column="mess_title" property="title"/>
+	<result column="mess_content" property="content"/>
+	<result column="mess_type" property="type"/>
+	<result column="mess_state" property="state"/>
+	<result column="mess_remark" property="remark"/>
+	<result column="mess_createDate" property="createDate"/>
+	<result column="mess_updateDate" property="updateDate"/>
+	<result column="mess_send_object" property="sendObject"/>
+</resultMap>
+ 
+<insert id="inserMessageModel" parameterType="messageModel" useGeneratedKeys="true" keyProperty="messageModel.messageModelid">
+		insert  u_message_model(
+															mess_title,
+															mess_content,
+															mess_state,
+															mess_remark,
+															mess_createDate,
+															mess_send_object
+															)
+						values(
+									#{messageModel.title},
+									#{messageModel.content},
+									1,
+									#{messageModel.remark},
+									(select now()),
+									#{messageModel.sendObject}
+						)
+
+</insert>
+
+
+	 
+</mapper>

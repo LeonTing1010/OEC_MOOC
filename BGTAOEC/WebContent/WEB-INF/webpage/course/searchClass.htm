@@ -1,0 +1,127 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+
+<title>课程搜索-国泰安网络教育</title>
+<meta name="description" content="插入网站全局描述变量" />
+<meta name="Keywords" content="插入网站全局关键字变量" />
+[#include "/webpage/common/common.htm"/]
+
+<link href="${base}/css/course/searchList.css" rel="stylesheet" type="text/css">
+<script type="text/javascript">
+	$(document).ready(function(){
+	  $(".select").click(function () {
+	    $(".select-list").toggle();
+	  });
+	  $(".select"). mouseleave(function(){
+	    $(".select-list").hide();
+	  });
+	  $(".select li").click(function(){
+	    var str = $(this).text();
+		$(".select span").text(str);
+	  });
+	
+	  
+	  var $dd = $(".clearfix dd"),
+			$index;
+	
+		$dd.click(function(){
+			$(this).addClass("current").siblings().removeClass('current');
+			$index = $dd.index($(this));
+			
+			$(".gridinfo").html($(this).html());
+			
+		});
+	});
+
+	function searchByProId(proId){
+		if(proId==0){
+			$(".search_button").click();//点击全部，提交搜索
+		}else{
+			$("#proId").val(proId);
+			$("#pageNo").val(0);
+			
+			$(".classList").html("");
+			getMoreCourse();
+		}
+	    
+	}
+	function getMoreCourse() {
+		var pageNo = $("#pageNo").val();
+		var pageSize = $("#pageSize").val();
+		var proId = $("#proId").val();
+		
+		
+		var searchtext = $("#searchtext").val();
+		
+		pageNo = Number($.trim(pageNo)) + 1;   //加载更多 页数加1
+		
+		$.ajax({
+			url:base+"/course/getSearchMoreCourse.ajax",
+			data:{
+			"pageNo" : pageNo,
+			"pageSize" : pageSize,
+			"proId" : proId,
+			"searchtext" : searchtext
+			},
+		    success:function(data){
+		    	if (data!="") {
+		    		$("#pageNo").val(pageNo);
+		    		
+		    		var liList = $(".classList").html()+data;
+		    		$(".classList").html(liList);
+				}else{
+				   $(".pageMore span").text("没有更多的数据");
+				}
+		    }
+		});
+	}
+	
+</script>
+</head>
+
+<body id="backtop">
+<div class="wrapper">
+  [#include "/webpage/common/head.htm"/]
+  <div class="container">
+  	<div class="content clearfix pt10">
+      <div class="grid grid-12 crumbs">
+          <a href="#" class="gridinfo">全部</a>
+          <span>搜索结果</span>
+        </div>
+      <div class="grid grid-12">
+        
+        <div>
+          <div class="category">
+              <dl class="clearfix">
+                <dt>课程分类：</dt>
+                <dd class="current" onclick="searchByProId(0)">全部</dd>
+	            [#if professionList?exists && professionList?size !=0]
+					[#list professionList as lists]
+						<dd onclick="searchByProId(${(lists.proID)!'0'})">${(lists.proName)!''}</dd>
+					[/#list]
+				[/#if]
+	          </dl>
+          </div>
+          <ul  class="classList">
+            [#include "/webpage/course/searchClassPage.htm"]
+          </ul>
+        </div>
+		<input type="hidden" id="pageNo" value="${(pageNo)!'1'}"/>
+		<input type="hidden" id="pageSize" value="${(pageSize)!'10'}"/>
+		<input type="hidden" id="proId" value="${(proId)!'0'}"/>
+		
+
+        <div class="pageMore"  style="display: none;">
+        	<span class="btn-small btn radius" onclick="getMoreCourse()" id="showMore">- 查看更多 -</span>
+        </div>
+      	
+      </div>
+  	</div>
+  </div>
+  <div class="footerFixer"></div>
+</div>
+[#include "/webpage/common/footer.htm"/]
+</body>
+</html>

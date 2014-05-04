@@ -1,0 +1,8 @@
+[#if noteList??]
+[#list noteList as note]
+<li>
+	<div class="pb10 wordBreak">${note.noteContent!}</div>
+	<div class="time">视频时间 &nbsp;${note.videoTime!}</div>
+</li>
+[/#list]
+[/#if]

@@ -1,0 +1,101 @@
+<link href="${base}/css/studentCenter/myJobs.css" rel="stylesheet" type="text/css">
+<script type="text/javascript">
+$(document).ready(function(){
+  $(".shrink-arrow").click(
+  
+	  function(){	
+	  	var dd = $(this).parent().next("dd");
+		if(dd.is(':hidden')){
+			$(this).addClass('shrink-arrow-up');
+		}
+		else{
+			$(this).removeClass('shrink-arrow-up');
+		}
+		dd.toggle();		
+		
+	  }
+  );
+    
+});
+</script>        
+        <div class="student-title"><a href="javascript:toMyCourse(this);"  class="intoCurriculum">进入课程表</a><h3>我的作业</h3></div>
+          <div class="test-body">
+          	<table class="test-tab-th grid-12" cellpadding="0" cellspacing="0">
+				<tr>
+					<td class="td-w1">课程名称</td>
+					<td class="td-w2">考试成绩</td>
+					<td class="td-w3">时间</td>
+                    <td class="td-w5">状态</td>
+					<td class="td-w4">操作</td>
+				</tr>
+			</table>
+			[#if pageModel??]
+			[#if pageModel.list??]
+              [#list pageModel.list as courses]
+			<dl class="test-course">
+				<dt><span class="shrink-arrow shrink-arrow-up"></span>${courses.courseName!}</dt>
+				<dd>
+					<table class="test-course-body grid-12" cellpadding="0" cellspacing="">
+					 [#if courses.examStuInfoList??]
+                         [#list courses.examStuInfoList as examStuInfos]
+						<tr>
+							<td class="td-w1">  <!-- 课程名称 -->
+							      <span>${examStuInfos.examName! }</span>
+							</td>
+							<td class="td-w2">  <!-- 考试成绩 -->           <!-- 1.已批阅 2.未批阅 3.未提交考试 4表示该课程暂无考试 -->
+							      [#if examStuInfos.examStatus==2]  
+							             --
+							      [#elseif examStuInfos.examStatus==1]  
+							                   ${examStuInfos.examScore! }
+							      [#elseif examStuInfos.examStatus==3]  
+							                 --
+							      [/#if]
+							</td>
+							<td class="td-w3 gray"> <!-- 时间 -->
+							    [#if examStuInfos.examCTime??]  
+							       ${examStuInfos.examCTime?string("yyyy-MM-dd") }
+							       [#else]
+							          -- 
+							    [/#if]
+							</td>
+							<td class="td-w5">  <!-- 状态 -->
+							    [#if examStuInfos.examStatus==1]  
+							                                                       已批阅                                 
+							    [#elseif examStuInfos.examStatus==2] 
+							                                                        未批阅
+							    [#elseif examStuInfos.examStatus==3] 
+							                                                       未提交 
+							    [/#if]
+							</td>
+							<td class="td-w4">  <!-- 操作 -->
+							      [#if examStuInfos.examStatus==3]  
+							           <a href="${base}/course/main/${courses.courseId!}/?tab=8&examId=${examStuInfos.examId!}&examType=3" target="_blank">开始答题</a>
+							      [#elseif examStuInfos.examStatus==1||examStuInfos.examStatus==2]  
+							           <a href="${base}/course/main/${courses.courseId!}/?tab=9&examId=${examStuInfos.examId!}&examType=3" target="_blanck">查看答案</a>
+							      [/#if]
+							</td>
+						</tr>
+						[/#list]
+						[#else]
+						     <font style="color: gray;">暂无作业!</font>
+                     [/#if]
+					</table>
+				</dd>
+			</dl>
+			     [/#list]
+             [/#if]
+			
+          </div>
+		[#if (pageModel.list?size>0)]
+	    [@p.tab value=pageModel][#rt/]
+		[/@p.tab]
+		<script type="text/javascript">
+		function _gotoPage(pageNo){
+		$('.main').load(base+"/studentCenter/mytask/?pageNo="+pageNo);
+		}
+		</script>
+		[#else]
+		<p>暂无作业!</p>           
+		[/#if]
+	[/#if]
+

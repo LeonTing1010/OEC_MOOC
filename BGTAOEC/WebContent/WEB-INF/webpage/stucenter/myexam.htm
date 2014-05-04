@@ -1,0 +1,75 @@
+<link href="${base}/css/studentCenter/studentTestList.css" rel="stylesheet" type="text/css"> 
+    <div class="student-title"><a href="javascript:toMyCourse(this);"  class="intoCurriculum">进入课程表</a><h3>课程考试</h3></div>
+          <div class="table-default">
+          <table  cellpadding="0" cellspacing="0" class="grid-12">
+            <thead>
+              <tr>
+                <th>课程名称</th>
+                <th>考试成绩</th>
+                <th>学分</th>
+                <th>时间</th>
+                <th>状态</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody>
+             [#if pageModel??]  
+				[#list pageModel.list as usercourse]
+				 <tr>
+	                <td>${usercourse.courseVo.courseName!}</td>   <!-- 1.已批阅 2.未批阅 3.未提交考试 4表示该课程暂无考试 -->
+	                <td class="orange"> <!-- 考试成绩 -->
+	                    [#if usercourse.status==1]
+	                           ${usercourse.examScore!}
+	                  	[#else]
+	                          --
+	                    [/#if]
+	                </td>
+	                <td class="orange"> <!-- 课程学分 -->
+	                          ${usercourse.courseVo.credit!}
+	                </td>
+	                <td>      <!-- 考试提交截止时间 -->
+	                    [#if usercourse.status!=4]
+	                               	[#if usercourse.examCtime??] ${usercourse.examCtime?string("yyyy-MM-dd")}[/#if]
+	                           [#elseif usercourse.status==3||usercourse.status==4]
+	                               --
+	                    [/#if]
+	                </td>
+	                <td>       <!-- 状态 -->
+	                    [#if usercourse.status==4]
+	                           --
+	                        [#elseif usercourse.status==3]
+	                                                                                               未提交
+	                        [#elseif usercourse.status==2]
+	                                                                                               未批阅
+	                        [#elseif usercourse.status==1]
+	                                                                                              已批阅
+	                    [/#if]
+	                </td>
+	                <td>
+	                    [#if usercourse.status==4]
+	                                                                                               暂无考试
+	                        [#elseif usercourse.status==3]
+	                           <a href="${base}/course/main/${usercourse.courseVo.courseId!}/?tab=8&examId=${usercourse.examId!}&examType=1" target="_blank">开始考试</a>
+	                          [#elseif usercourse.status==1||usercourse.status==2] <!-- 学生已经考试 -->
+	                           <a href="${base}/course/main/${usercourse.courseVo.courseId!}/?tab=9&examId=${usercourse.examId!}&examType=1" target="_blank">查看答案</a>
+	                    [/#if]
+	               
+	                </td>
+                </tr>
+				[/#list]
+            </tbody>
+          </table>
+
+          </div>
+   [#if (pageModel.list?size>0)]
+   [@p.tab value=pageModel][#rt/]
+	[/@p.tab]
+	<script type="text/javascript">
+		function _gotoPage(pageNo){
+		$('.main').load(base+"/studentCenter/myexam/?pageNo="+pageNo);
+		}
+	</script>
+	[#else]
+		<P>暂无考试!</P>
+	[/#if]
+[/#if]

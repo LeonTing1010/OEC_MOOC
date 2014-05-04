@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gta.oec.vo.exam.ExamVo">
+	<resultMap type="com.gta.oec.vo.exam.ExamVo" id="examMap">
+		<result column="Exam_ID" property="examId" />
+		<result column="Paper_ID" property="paperId" />
+		<result column="Exam_Name" property="examName" />
+		<result column="Exam_Type" property="examType" />
+		<result column="User_ID" property="teacherId" />
+		<result column="Cour_ID" property="courId" />
+		<result column="Sec_ID" property="secId" />
+		<result column="Exam_Duration" property="examDuration" />
+		<result column="Exam_Address" property="examAddress" />
+		<result column="Exam_LastTime" property="examLastTime" />
+		<result column="Exam_MarType" property="examMarType" />
+		<result column="Exam_Level" property="examLevel" />
+		<result column="Exam_Count" property="examCount" />
+		<result column="Exam_PassCount" property="examPassCount" />
+		<result column="Exam_Content" property="examContent" />
+		<result column="Exam_Price" property="examPrice" />
+		<result column="Exam_Ctime" property="examCtime" />
+		<result column="Exam_Utime" property="examUtime" />
+		<result column="Exam_Time" property="examTime" />
+		<result column="Paper_State" property="paperState" />
+		<result column="Exam_Duration" property="examDuration"/>
+		<result column="Exam_Address" property="examAddress"/>
+		<result column="Exam_LastTime" property="examLastTime"/>
+		<result column="Exam_MarType" property="examMarType"/>
+		<result column="Exam_Level" property="examLevel"/>
+		<result column="Exam_Count" property="examCount"/>
+		<result column="Exam_PassCount" property="examPassCount"/>
+		<result column="Exam_Instruction" property="examInstruction"/>
+		<result column="Exam_Price" property="examPrice"/>
+		<result column="Exam_Ctime" property="examCtime"/>
+		<result column="Exam_Utime" property="examUtime"/>
+		<result column="Exam_Time" property="examTime"/>
+		<result column="Exam_State" property="paperState"/>
+		<result column="Cour_Name"  property="courseName"/>
+	</resultMap>
+
+    <!-- 插入考试数据   by zhangjin -->
+    <insert id="insert" parameterType="com.gta.oec.vo.exam.ExamVo" keyProperty="id" useGeneratedKeys="true">
+			INSERT INTO e_exam(Paper_ID,Exam_Name,Exam_Type,Teacher_ID,Cour_ID,Sec_ID,Exam_Duration,Exam_Address,Exam_LastTime,Exam_MarType,Exam_Level,Exam_Count,Exam_PassCount,Exam_Instruction,Exam_Ctime,Exam_Utime,Exam_Time)
+			VALUES(#{paperId},#{examName},#{examType},#{teacherId},#{courId},#{secId},#{examDuration},#{examAddress},#{examLastTime},#{examMarType},#{examLevel},#{examCount},#{examPassCount},#{examInstruction},#{examCtime},#{examUtime},#{examTime})
+    </insert>
+
+    <!-- 根据id查询考试对象  by zhangjin -->
+    <select id="getExamById" parameterType="int" resultMap="examMap">
+		SELECT e.*,c.cour_name FROM e_exam e ,c_course c WHERE e.cour_id =c.Cour_id and e.exam_ID = #{exam_ID}
+	</select>
+	
+	<!-- 获取考试列表 （考试类型 1：课程考试；2：课程练习；3：课程作业；4：认证考试） by zhangjin-->
+	<select id="getExamListByCourId" parameterType="java.util.Map"
+		resultMap="examMap">
+		SELECT exam.* FROM e_exam AS exam WHERE
+		exam.cour_ID=#{courId} 
+		<if test="secId!=0">
+			AND exam.sec_ID=#{secId}
+		</if>
+		and exam.exam_Type = #{examType}
+		ORDER BY exam.exam_ctime
+	</select>
+	<select id="selectExamList" parameterType="com.gta.oec.vo.exam.ExamVo" resultMap="examMap">
+		SELECT e.*,c.cour_name
+		FROM e_exam e,c_course c
+		WHERE e.cour_id =c.Cour_id
+		<if test="examId!=0">
+			AND e.exam_ID=#{examId}
+		</if>
+	</select>
+	<!-- 获取考试列表，和批阅状态相关 -->
+	<select id="getExamList" parameterType="com.gta.oec.vo.exam.ExamVo"
+		resultMap="examMap">
+		SELECT DISTINCT exam.exam_id,exam.*  
+		FROM e_exam exam ,e_exam_student es
+		<where>
+			<if test="examType!=2">
+				exam.Exam_ID=es.Exam_ID
+			</if>
+			<if test="courId!=0">
+				AND exam.Cour_ID=#{courId}
+			</if>
+			<if test="secId!=0">
+				AND exam.Sec_ID=#{secId}
+			</if>
+			<if test="examType!=0">
+				AND exam.exam_Type=#{examType}
+			</if>
+			<if test="paperState!=0">
+				AND es.Exam_State=#{paperState}
+			</if>
+		</where>
+	</select>
+	<!-- 获取考试列表（与课程、用户相关） -->
+	<select id="getCourExamList" parameterType="java.util.Map" resultMap="examMap">
+		SELECT DISTINCT exam.Exam_ID,exam.*,c.cour_name,c.Cour_ID
+		FROM e_exam exam ,e_exam_student es,c_course C
+		WHERE exam.Exam_ID=es.Exam_ID AND c.cour_id=exam.Cour_ID
+		<if test="examVo.examType!=0">
+			AND exam.exam_Type=#{examVo.examType}
+		</if>
+		<if test="examVo.paperState!=0">
+			AND es.Exam_State=#{examVo.paperState}
+		</if>
+		<if test="courseVo.userId!=0">
+			AND c.USER_ID=#{courseVo.userId}
+		</if>
+		<if test="courseVo.status!=0">
+			AND C.Cour_CheckStatus=#{courseVo.status}
+		</if>
+		<if test="courseVo.courseId!=0">	
+			AND C.Cour_ID=#{courseVo.courseId}
+		</if>
+		ORDER BY exam.Exam_Ctime DESC
+		<if test="m!=0">
+         limit #{n},#{m}
+        </if>
+	</select>
+</mapper>    

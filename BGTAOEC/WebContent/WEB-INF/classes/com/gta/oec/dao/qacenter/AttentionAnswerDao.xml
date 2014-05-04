@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gta.oec.vo.qacenter.AttentionAnswerVo">
+	<resultMap type="com.gta.oec.vo.qacenter.AttentionAnswerVo" id="attentionAnswerMap">
+
+		<result column="id" property="id" />
+		<result column="QuestionID" property="questionID" />
+		<result column="AnswerID" property="answerID" />
+		<result column="UserID" property="userID" />
+		<result column="Answ_IsRead" property="answIsRead" />
+		<result column="Ctime" property="ctime" />
+		<result column="Utime" property="utime" />
+	</resultMap>
+	
+	<insert id="saveAttentionAnswerVoList" parameterType="com.gta.oec.vo.qacenter.AttentionAnswerVo" keyProperty="id" useGeneratedKeys="true">
+
+		insert into q_attention_answer(id,QuestionID,AnswerID,UserID,Answ_IsRead,Ctime,Utime) 
+		values(#{id},#{questionID},#{answerID},#{userID},#{answIsRead},#{ctime},#{utime})
+	</insert>
+	
+	
+	<update id="updateAttentionAnswIsReadByquesId" parameterType="java.util.Map">
+		update
+		q_attention_answer set Answ_IsRead=1 where 1=1 and UserID =#{userId}
+		<if test="list!=null and list.size > 0">
+		 	and QuestionID IN 
+			<foreach collection="list" item="id"  open="(" separator="," close=")">  
+	            #{id}  
+	        </foreach>
+          </if>
+	</update>
+</mapper>    

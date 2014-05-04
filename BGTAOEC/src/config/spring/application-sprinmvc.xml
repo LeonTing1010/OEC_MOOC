@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd"
+	default-lazy-init="true">
+	<!-- sprin注解扫描包 -->
+	<context:component-scan base-package="com.gta"/>
+	
+	<!-- 
+	<bean id="stringHttpMessageConverter2"
+		class="com.gta.common.web.springmvc.StringHttpMessageConverter2" />
+		 -->
+		<bean id="frontContextInterceptor" class="com.gta.oec.common.web.springmvc.interceptor.FrontContextInterceptor"></bean>	 
+	<bean
+		class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+	 
+		<property name="interceptors">
+			<list>
+				<ref bean="frontContextInterceptor" />
+			</list>
+		</property>
+		
+	</bean>
+	<!-- 初始化数据绑定，例如 表单中有日期格式等，需要自定义绑定-->
+	<!--  
+	<bean
+		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="webBindingInitializer">
+			<bean
+				class="com.gta.common.web.springmvc.BindingInitializer" />
+		</property>
+		<property name="messageConverters">
+			<list>
+			    <bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter"/>  
+				<ref bean="stringHttpMessageConverter2" />
+			</list>
+		</property>
+	</bean>
+    -->
+    <!-- 异常处理 -->
+    <bean name="exceptionResolver" class="com.gta.oec.common.web.handler.ExceptionHandler"></bean>
+</beans>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gta.oec.cms.dao.qacenter.AnswerAttentionDao">
+	<resultMap type="com.gta.oec.cms.vo.qacenter.AnswerAttentionVo"
+		id="answerAttentionResultMap">
+		<id column="id" property="id" />
+		<result column="UserID" property="userId" />
+		<result column="QuestionID" property="questionId" />
+		<result column="AnswerID" property="answerId" />
+		<result column="Answ_IsRead" property="isReadAnswer" />
+		<result column="Ctime" property="createTime" />
+		<result column="Utime" property="updateTime" />
+	</resultMap>
+	<select id="getAnswerAttentionById" resultMap="answerAttentionResultMap"
+		parameterType="_int">
+		SELECT *
+		FROM q_attention_answer
+		WHERE id=#{id}
+		LIMIT 1
+	</select>
+
+	<delete id="deleteAnswerAttentionById" parameterType="_int">
+		DELETE FROM
+		q_attention_answer
+		WHERE id=#{id}
+	</delete>
+	<delete id="deleteAnswerAttentionByAnswerId" parameterType="_int">
+		DELETE FROM
+		q_attention_answer
+		WHERE AnswerID=#{answerId}
+	</delete>
+</mapper>

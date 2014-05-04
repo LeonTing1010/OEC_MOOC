@@ -1,0 +1,64 @@
+<link href="${base}/css/studentCenter/myNotes.css" rel="stylesheet" type="text/css">    
+
+<script type="text/javascript">
+
+$(document).ready(function() {
+	$(".shrink-arrow").click(function() {
+		var dd = $(this).parent().nextAll("dd");
+		if (dd.is(':hidden')) {
+			$(this).addClass('shrink-arrow-up');
+		} else {
+			$(this).removeClass('shrink-arrow-up');
+		}
+		dd.toggle();
+	});
+});
+</script>
+
+   <div class="student-title"><a href="javascript:toMyCourse(this);" class="intoCurriculum">进入课程表</a><h3>我的笔记</h3></div>
+          <div class="test-body">
+
+      [#if pageModel??]  
+      	 [#if (pageModel.list?size>0)]
+			[#list pageModel.list as courses]
+			<dl class="test-course wordBreak">
+				<!--向上的箭头：shrink-arrow  向下的箭头追加：shrink-arrow-up 类样式-->
+				<dt><span class="shrink-arrow shrink-arrow-up"></span>${courses.courseName!}</dt> <!-- 课程名称 -->
+				 [#if courses.list??]
+                       [#list courses.list as sections]
+				<dd>
+					<h4>第[@num s='${sections_index+1}'/]章<span>&nbsp;${sections.name!}</span><span class="edit"></span></h4>
+						[#if sections.list??]
+							[#list sections.list as jie]
+							    【节】 ${jie.name!} <!-- 节的名称 -->
+							    [#if jie.noteList??&&jie.noteList?size>0]
+								    [#list jie.noteList as note]
+								            <p style="color:#6E8ED1">笔记${note_index+1}:<span class="gray time">${note.noteSubTime?string("yyyy-MM-dd HH:mm:ss")}</span></p> 
+								            <p>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp  ${note.noteContent!}  <!-- 笔记内容 -->	</p>		
+								    [/#list]
+								    [#else]
+						                 <p>暂无笔记</p>
+							    [/#if]
+						    [/#list]
+					    [/#if]
+				</dd>
+					[/#list]
+						
+                 [/#if]
+			</dl>
+		 	[/#list]
+		 	[@p.tab value=pageModel][#rt/][/@p.tab]
+		[#else]
+		暂无课程笔记！
+		[/#if]
+	[/#if]
+   </div>
+
+   
+	<script type="text/javascript">
+	function _gotoPage(pageNo){
+	$('.main').load(base+"/studentCenter/mynote/?pageNo="+pageNo);
+	}
+	</script>
+	
+        

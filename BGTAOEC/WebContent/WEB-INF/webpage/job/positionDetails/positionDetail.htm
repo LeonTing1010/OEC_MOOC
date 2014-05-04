@@ -1,0 +1,259 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>${(positionDetailObj.jobName)!''}-国泰安网络教育</title>
+<meta name="description" content="职位详情" />
+<meta name="Keywords" content="职位详情" />
+[#include "/webpage/common/common.htm"/]
+
+<link href="${base}/css/course/designer.css" rel="stylesheet" type="text/css">
+<script>
+jQuery.fn.anchorGoWhere = function(options){
+    var obj = jQuery(this);
+			
+    var defaults = {target:0, timer:1000};
+    var o = jQuery.extend(defaults,options);
+    obj.each(function(i){
+        jQuery(obj[i]).click(function(){
+            var _rel = jQuery(this).attr("href").substr(1);
+            switch(o.target){
+                case 1: 
+                    var _targetTop = jQuery("#"+_rel).offset().top;
+                    jQuery("html,body").animate({scrollTop:_targetTop},o.timer);
+                    break;
+                case 2:
+                    var _targetLeft = jQuery("#"+_rel).offset().left;
+                    jQuery("html,body").animate({scrollLeft:_targetLeft},o.timer);
+                    break;
+            }
+			$(this).parent().prevAll().removeClass("current");
+			$(this).parent().nextAll().removeClass("current");
+			$(this).parent().addClass("current");
+            return false;
+        });  
+		                
+    });
+	
+};
+
+$(document).ready(function(){
+	var IO=document.getElementById('quickNav'),Y=IO,H=0,IE6,L=0;
+		 IE6=window.ActiveXObject&&!window.XMLHttpRequest;
+		 while(Y){H+=Y.offsetTop;L+=Y.offsetLeft;Y=Y.offsetParent};
+		 if(IE6){
+         	IO.style.cssText="position:absolute;top:expression(this.fix?(document"+".documentElement.scrollTop-(this.javascript||"+H+")):0)";
+		 }
+		 window.onscroll=function (){
+			 var d=document,s=Math.max(d.documentElement.scrollTop,document.body.scrollTop);
+			 if(s>H&&IO.fix||s<=H&&!IO.fix)return;
+			 if(!IE6){IO.style.position=IO.fix?"":"fixed"; IO.style.left = IO.fix?"":L+"px";  }   
+			 IO.fix=!IO.fix;
+    	 };
+		 try{document.execCommand("BackgroundImageCache",false,true)}catch(e){};
+		 	$(".jobInfo").anchorGoWhere({target:1});
+			$(".course").anchorGoWhere({target:1});
+			$(".train").anchorGoWhere({target:1});
+			$(".develop").anchorGoWhere({target:1});
+			$(".ability").anchorGoWhere({target:1});
+			$(".duty").anchorGoWhere({target:1});
+			$(".salary").anchorGoWhere({target:1});
+			
+			
+	});
+	
+	/**
+	 * 
+	 * Fucntion:收藏
+	 * Add By:刘祚家
+	 * Add Date:2014-02-12
+	 */
+	function updateMyCollect(jobId){
+		if(jobId!=""){
+			$.ajax({
+				url:base+"/positiondetail/updateMyCollect.ajax",
+				data:{"jobId":jobId},
+			    success:function(data){
+					if(data.flag==0){
+						if(data.jobVo!=null){
+							eoc.success('温馨提示','收藏成功！',function(){});
+				    		$("#collectSign"+jobId).html("已收藏");
+				    		document.getElementById("collectSign"+jobId).onclick = function(){}
+				    		$("#collectCount"+jobId).html("已收藏"+data.jobVo.jobCollectCount+"人"); 		
+			    		}
+					}else if(data.flag==1){
+						 window.location.href=base+'/user/loginIndex/';
+					}else if(data.flag==2){
+						document.getElementById("collectSign"+jobId).onclick = function(){}
+					}
+			    },
+				
+			});
+		}
+	}
+</script>
+</head>
+
+<body>
+<div class="wrapper">
+    <!-- 引入头部 -start-->
+[#include "/webpage/common/head.htm"/]
+<!-- 引入头部 -end-->
+  <div class="container">
+  	<div class="content clearfix pt10">
+  		<div class="subCrumbs grid grid-12">
+  		  <a href="${base}/job/jobCenter/?jobId=0">全部行业</a>
+          <a href="${base}/job/jobCenter/?tradeId=${proId!}">${proName!}</a>
+          <a href="${base}/job/jobCenter/?jobId=${jobId!}">${jobName!}</a>
+          <span>${(positionDetailObj.jobName)!''}</span>
+      </div>
+        
+		<!--courseIntro start-->
+		  <div class="grid courseIntro clearfix">
+		  		<img src="[#if positionDetailObj.jobImage??]${positionDetailObj.jobImage!}[#else]${base!}/images/base/default_pic_temp_job.jpg[/#if]"  class="fl" alt="" width="260" height="260"/>
+			  <div class="introCon">
+					<h3>${(positionDetailObj.jobName)!''}</h3>
+					<div class="clearfix">
+						<label>职位简介：</label>
+						<p>${(positionDetailObj.jobDescription)!''}</p>
+					</div>
+					<div class="clearfix mt10">
+					<label>培训课程：</label><p>
+					[#if positionDetailObj.courseJobAllList?? && positionDetailObj.courseJobAllList?size !=0]
+						[#list positionDetailObj.courseJobAllList as lists]
+						
+							[#if lists.courseName?exists]
+								${(lists.courseName)!''}
+							[/#if]
+							[#if !lists_has_next]
+							[#else]
+								
+							[/#if]
+						 [/#list]
+					
+					[/#if]
+				
+					</p>
+					</div>
+                    <div class="collectCon">
+                    	<div class="btn btn-large collectBtn fl" onclick="updateMyCollect(${(positionDetailObj.jobID)!'0'})" id="collectSign${(positionDetailObj.jobID)!'0'}">${(positionDetailObj.collectSign)!'立即收藏'}</div><span class="pl20" id="collectCount${(positionDetailObj.jobID)!'0'}">已收藏${(positionDetailObj.jobCollectCount)!'0'}人</span>
+                    </div>
+				</div>
+		  </div>
+		    <!--courseIntro end-->		
+			
+          <div class="grid grid-12 courseBox clearfix">
+		  <!--curSide start-->
+          <div class=" curSide">	
+            
+		  	<!--推荐认证培训 start-->
+          	<!-- <div class="curSideBox">
+            	<h3 class="curTitle">推荐认证培训</h3>
+				<ul class="legalizeList">
+					
+					[#if positionDetailObj.jobAuthRecommendList?exists && positionDetailObj.jobAuthRecommendList?size !=0]
+						[#list positionDetailObj.jobAuthRecommendList as lists]
+							<li><a href="#" title="${(lists.authenticationName)!''}">${(lists.authenticationName)!''}</a></li>
+						[/#list]
+					
+					[/#if]
+					
+				</ul>
+            </div> -->
+			<!--推荐认证培训 end-->	 
+			
+			<!--推荐课程 start-->
+			<div class="curSideBox">
+            	<h3 class="curTitle">推荐课程</h3>
+            	[#if positionDetailObj.courseJobRecommendList?exists && positionDetailObj.courseJobRecommendList?size !=0]
+					[#list positionDetailObj.courseJobRecommendList as lists]
+					 	<dl class="subjectList">
+							<dt>${(lists.courseName)!''}</dt>
+							<dd>
+								<a href="${base}/course/info/${lists.courseID!}/" title="" class="fl">
+								<img src="[#if lists.courseTitlePage??]${cache!}${lists.courseTitlePage!}[#else]${base!}/images/base/default_pic_temp_course.jpg[/#if]"  width="120" height="62" alt=""></a>
+								<ul class="modCon">
+									<li>主讲：${(lists.userName)!''}</li>
+									<li>时间：${lists.courseStime?string('yyyy-MM-dd')}</li>
+									<li>浏览次数：${(lists.courseAttention)!''}</li>
+								</ul>
+							</dd>
+						</dl>
+					 [/#list]
+				
+				[/#if]
+            </div>
+			<!--推荐课程 end-->			
+          </div>
+		  <!--curSide end-->
+		  
+          	<div class="courseCon pb10">
+              <div class="curTab">
+                    <ul id="quickNav">
+                      <li class="current" style="border-left:none; left:0"><a href="#jobInfo" class="jobInfo">职位详情</a></li>
+                      <li><a href="#course" class="train">相关课程</a></li>
+                      <li><a href="#train" class="train">认证培训</a></li>
+                      <li><a href="#develop" class="develop">发展前景</a></li>
+                      <li><a href="#ability" class="ability">能力要求</a></li>
+                      <li><a href="#duty" class="duty">职责范围</a></li>
+                      <li><a href="#salary" class="salary">薪资行情</a></li>                    
+                    </ul>
+                </div>
+                <div class="curTabCon">
+                    
+					<div class="commentaryCon" id="jobInfo" >
+						<h3>职位详情</h3>
+						<div class="detail"><p>${(positionDetailObj.jobDetail)!''}</p>
+    					</div>
+					</div>
+					<div class="commentaryCon" id="course">
+						<h3>认证培训</h3>
+						<ul class="commentaryConList">
+							[#if positionDetailObj.jobAuthenticationList?exists && positionDetailObj.jobAuthenticationList?size !=0]
+								[#list positionDetailObj.jobAuthenticationList as lists]
+									<li><a href="#" title="${(lists.authenticationName)!''}">
+									<img src="[#if lists.imageUrl??]${cache!}${lists.imageUrl!}[#else]${base!}/images/base/default_pic_temp_job.jpg[/#if]"  width="170" height="126" alt="${(lists.authenticationName)!''}"><br>${lists.authenticationName}</a></li>
+								 [/#list]
+							
+							[/#if]
+						</ul>
+					</div>
+					<div class="commentaryCon" id="train">
+						<h3>相关课程</h3>
+						<ul class="commentaryConList">
+							[#if positionDetailObj.courseJobList?exists && positionDetailObj.courseJobList?size !=0]
+								[#list positionDetailObj.courseJobList as lists]
+									<li><a href="${base}/course/info/${(lists.courseID)!''}/" title="${(lists.courseName)!''}">
+									<img src="[#if lists.courseTitlePage??]${cache!}${lists.courseTitlePage!}[#else]${base!}/images/base/default_pic_temp_course.jpg[/#if]"  width="170" height="88" alt="${(lists.courseName)!''}"><br>${lists.courseName}</a></li>
+								 [/#list]
+							
+							[/#if]
+						</ul>
+					</div>
+					<div class="commentaryCon" id="develop">
+						<h3>发展前景</h3>
+						<div class="detail"><p>${(positionDetailObj.jobDevelpping)!''}</p></div>
+					</div>
+					<div class="commentaryCon"  id="ability">
+						<h3>能力要求</h3>
+						<div class="detail"><p>${(positionDetailObj.jobDemand)!''}</p></div>
+					</div>
+					<div class="commentaryCon" id="duty">
+						<h3>职责范围</h3>
+						<div class="detail"><p>${(positionDetailObj.jobDuty)!''}</p></div>
+                        
+					</div>
+                  <div class="commentaryCon" id="salary">
+						<h3>薪资行情</h3>
+						<p class="detail">${(positionDetailObj.jobWage)!''}</p>
+                  </div>
+                </div>
+            </div>            
+          </div>
+  	</div>
+  </div>
+  <div class="footerFixer"></div>
+</div>
+[#include "/webpage/common/footer.htm"/]
+</body>
+</html>

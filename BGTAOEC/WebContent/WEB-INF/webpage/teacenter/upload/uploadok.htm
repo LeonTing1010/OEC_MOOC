@@ -1,0 +1,11 @@
+
+<html>
+<head>
+<script type="text/javascript">
+function uploadResult(){
+	window.parent.upload${type!}Ok('[#if dataUrl??]${dataUrl!}[/#if]','${errorMsg!}','${resourceName!}');
+}
+</script>
+</head>
+<body onload="uploadResult();"></body>
+</html>

@@ -1,0 +1,215 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>课程修改</title>
+</head>
+<body>
+<link href="${ctx}/css/course/validataion.css" rel="stylesheet" type="text/css"/>
+<link href="${ctx}/css/course/classDetail.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript">
+var checkCount=<#if jobCount??>${jobCount!}<#else>0</#if>;
+var jobStr=<#if jobList??>${jobList!}<#else>[]</#if>;
+</script>
+<script type="text/javascript" src="js/jquery_plugins/ajaxfileupload.js"></script>
+<script src="${ctx}/js/course/step1.js" type="text/javascript"></script>
+<script src="${ctx}/js/course/upload.js" type="text/javascript"></script>
+<script src="${ctx}/js/course/page1.js" type="text/javascript"></script>
+
+<#if course??>
+<div id="courseAmendTab" class="easyui-tabs">
+	<div title="课程信息"  class="form-row">
+	<input type="hidden" name="step1CourseId" id="cid" value="${course.courseId!}" />
+			<table style="border-collapse:separate;border-spacing:10px">
+				<tr>
+					<td style="width:200px"><span style="color: red;">*&nbsp;</span>课程类型：</td>
+					<td style="width:440px">
+					<div  class="input">
+						<input <#if course.liveType==1> checked="checked" </#if> type="radio" onclick="checkType('1')" class="mr10 input-radio" name="type" value="1"><span class="mr10">直播课程</span> 
+						<input type="radio"  <#if course.liveType!=1> checked="checked" </#if> class="mr10 input-radio" value="2" onclick="checkType('2')" name="type"> <span>点播课程</span>
+					</div>
+					</td>
+				</tr>
+				
+				<tr>
+					<td><span style="color: red;">*&nbsp;</span>课程所属岗位：</td>
+					<div class="form-row seelectPlug">
+					<td>
+						<div class="input">
+							<div class="selectBox ">
+								<div class="selectTip" onclick="showJobList()"><#if jobCount??>已选择${jobCount!}个岗位<#else>请选择岗位</#if></div>
+								<div class="selectCon hide" id="selectJob">
+									<div class="selected" id="jobSelectCount">已选择:</div>
+									<div class="list"></div>
+									<div class="btnBox">
+										<button class="btn btn-primary btn-small fr ml10" type="button"
+											onclick="jobOk()">确定</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</td>
+				</tr>
+				
+				<tr>
+					<td><span style="color: red;">*&nbsp;</span>课程名称：</td>
+					<td>
+					<div class="input">
+						<input onchange="checkCourseName()" class="medium"
+						value="${course.courseName!}" type="text" placeholder="请输入课程名" name="courseName"/>
+						<input type="hidden" name="oldCourseName" value="${course.courseName!}"/>
+					</div>
+					</td>
+				</tr>
+				
+				<tr>
+					<td><span style="color: red;">*&nbsp;</span>所属学校：</td>
+					<td>
+					<div class="input">
+						<input type="hidden" name="schoolId" value="${course.schoolId!}"/>
+						<input onchange="checkSchoolName()" class="medium"
+						value="${course.schoolName!}" type="text" placeholder="请输入学校名" name="schoolName"/>
+						<input type="hidden" name="oldSchoolName" value="${course.schoolName!}"/>
+					</div>
+					</td>
+				</tr>
+				
+				<tr>
+					<td><span style="color: red;">*&nbsp;</span>课程图片：</td>
+					<td id="show">
+						<div data-provides="fileupload" class="fileupload fileupload-exists">
+							<input type="hidden" id="titlePage" name="titlePage" value="${course.titlePage!}"/>
+							<input type="hidden" id="titlePageImg" name="titlePageImg" value="${course.titlePage!}"/>
+							<#if course.titlePage??>
+								<img id="show2" style="width: 120px;height:80px" src="${ImgRoot}/${course.titlePage!}" alt="" title="" />
+							</#if>
+					
+							<span class="btn btn-small btn-default btn-file"> <span
+							class="fileupload-new">上传文件</span> 
+							<form action="${ctx}/course/uploadImg" id="imgForm" encType="multipart/form-data" target="imgIframe" method="post">	
+								<input type="file" class="margin-none btn-file-input" onchange="fileChange(this,'1')" id="titlePageFile" name="titlePageFile">
+							    <iframe id="imgIframe" name="imgIframe" style="display: none;"></iframe>
+		                    </form>
+							</span>
+						</div>
+						<span style="color: #236FD4;">图片最大500k</span>
+						<div class="hide" style="text-align: center;">				
+						   <span style="margin-left: 80px;"></span>
+						</div>
+					</td>
+				</tr>
+				
+				<tr>
+					<td><label><span style="color: red;">*&nbsp;</span>课程简介：</label></td>
+					<td>
+					<div class="input">
+							<textarea name="introduction" onchange="checkIntroduction()" onpropertychange="changeIntroduction()" oninput="changeIntroduction()"
+								style="height: 60px;" class="grid-8">${course.introduction!}</textarea>
+					</div>
+					</td>
+				</tr>
+				
+				<tr>
+					<td><label><span style="color: red;">*&nbsp;</span>介绍视频：</label></td>
+					<td>
+						<div data-provides="fileupload" class="fileupload fileupload-exists">
+							<span class="btn btn-small btn-default btn-file">
+							 <span class="fileupload-new">上传文件</span>
+							 <form action="${ctx}/course/uploadVideo" id="previewForm" encType="multipart/form-data" target="previewIframe" method="post">
+							 <input type="file" class="margin-none btn-file-input" onchange="fileChange(this,2)" id="previewFile" name="previewFile"/>
+						     <iframe id="previewIframe" name="previewIframe" style="display: none;"></iframe>
+			                 </form>
+			                 </span>
+			                 <span style="color: #236FD4;">介绍视频最多50M</span>
+						</div>
+						<div class="<#if course.previewUrl??><#else>hide</#if>" style="text-align: center;">	
+						<input type="hidden" name="introducationVideo" id="introducationVideo" value="${course.previewUrl!}"/>
+						<input type="hidden" name="recommendVideo" id="recommendVideo" value="${course.previewUrl!}"/>
+						<input type="hidden" name="previewUrl" value="${course.previewUrl!}"/>		
+						<input type="hidden" name="resourceName" value=""/>		
+						   <span style="margin-left: 80px;" id="realName"><#if course.previewUrl??><@path_name path='${course.previewUrl!}'></@path_name></#if></span>
+						</div>
+					</td>
+				</tr>
+				
+				<tr>
+					<td><label><span style="color: red;">*&nbsp;</span>课程评分标准：</label></td>
+					<td>
+					<div class="input">
+							<textarea onchange="checkScoreMethod()" name="scoreMethod" onpropertychange="changeScoreMethod()" oninput="changeScoreMethod()"
+								style="height: 60px;" class="grid-8">${course.scoreMethod!}</textarea>
+					</div>
+					</td>
+				</tr>
+				
+				<tr>
+					<td><label><span style="color: red;">*&nbsp;</span>课程学分：</label></td>
+					<td>
+					<div class="input">
+						<input class="small" onchange="checkCredit()"
+								value="<#if (course.credit>0)>${course.credit!}</#if>" name="credit"
+								type="text" placeholder="请输入数字">
+					</div>
+					</td>
+				</tr>
+				
+				<tr>
+					<td><label><span style="color: red;">*&nbsp;</span>课程价格：</label></td>
+					<td>
+					<div class="input">
+						<input class="small" onchange="checkPrice()"
+						value="${course.price!}" type="text"
+						placeholder="" name="price" maxlength="5"> <span
+						class="text ml10">学币</span>
+					</div>
+					</td>
+				</tr>
+				
+			</table>
+
+			<div class="form-button-bar">
+				<button type="button" class="btn btn-success btn-small secondStep" onclick="saveUpdate()">&nbsp;&nbsp;下一步&nbsp;&nbsp;</button>
+				<button type="button" class="btn btn-success btn-small secondStep" onclick="cancelHandle()">&nbsp;&nbsp;取消&nbsp;&nbsp;</button>
+			</div>
+		</div>
+		<div title="课程大纲" id="courseOutline"></div>
+		<div title="课件资源" id="courseResource"></div>
+</div>	
+
+<div class="clear"></div>
+<div class="popWindow" id="uWin" style="display: none;">
+	<div class="title">
+		<span>文件上传</span>
+	</div>
+	<div class="popContent pointOut">
+		<div class="uimg"></div>
+		<div class="con" style="float: left;">
+			文件上传中...<span id="progress"></span>
+		</div>
+		<div class="button"></div>
+	</div>
+</div>
+
+<form action="" method="post" id="step1Form" style="display: none;">
+</form>
+</#if>
+
+<script type="text/javascript">
+var courseId=$("#cid").val();
+	$(document).ready(function(){
+		$('#courseAmendTab').tabs({ 
+			border:false, 
+			onSelect:function(title){ 
+				if(title=="课程信息"){
+				
+				}else if(title=="课程大纲") {
+					$("#courseOutline").load("course/toUpdatePublishedCourseStep2?courseId="+courseId);
+				}else if(title=="课件资源"){
+					$("#courseResource").load('course/courseResource?courseId='+courseId);
+				}
+			} 
+			}); 
+	});
+</script>
+</body>
+</html>

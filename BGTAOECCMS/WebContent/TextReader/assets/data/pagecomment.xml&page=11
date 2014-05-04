@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <page index="16" userId="001">
+	<line id="0001" x="80" y="421.55" x1="-136.4" y1="-3.7" x2="136.4" y2="3.7" 
+		color="0xff0000" thickness="1" alpha="1" type="0"/>
+	<link id="0002" x="80" y="421.55" url="http://www.baidu.com" text="百度" 
+		type="0" remark="" />    
+	<comment> 
+		<id>CFCB1CD9-70C0-6AD1-6ADB-CB275153BE20</id>
+		<x>300</x>
+		<y>100</y>
+		<startIndex>100</startIndex> 
+		<endIndex>180</endIndex>
+		<content>批注内容</content>
+		<showType>0</showType>
+		<updateTime>2013-10-24 10:00:00</updateTime>
+	</comment>
+	<comment> 
+		<id>C865452F-0473-3C11-FCFB-8909D12FE879</id>
+		<x>80</x>
+		<y>421.55</y>
+		<startIndex>280</startIndex> 
+		<endIndex>300</endIndex>
+		<content>批注内容</content>
+		<showType>1</showType>
+		<updateTime>2013-10-24 10:00:00</updateTime>
+	</comment>
+  </page>
+</root>

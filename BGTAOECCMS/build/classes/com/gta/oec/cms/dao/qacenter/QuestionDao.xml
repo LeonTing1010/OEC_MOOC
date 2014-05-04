@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gta.oec.cms.dao.qacenter.QuestionDao">
+	<resultMap type="com.gta.oec.cms.vo.qacenter.QuestionVo" id="questionResultMap">
+		<id column="QuesID" property="questionId" />
+		<result column="Ques_Content" property="questionContent" />
+		<result column="Ques_Description" property="questionDescription" />
+		<result column="Ques_Status" property="questionStatus" />
+		<result column="Ques_Type" property="questionType" />
+		<result column="Ques_AnswerCount" property="answerCountOfQuestion" />
+		<result column="Ques_AttentionCount" property="attentionCountOfQuestion" />
+		<result column="Ques_LookLimit" property="questionLookLimit" />
+		<result column="Ques_AnswerLimit" property="questionAnswerLimit" />
+		<result column="Ques_Price" property="questionPrice" />
+		<result column="Ques_IsChoiceness" property="chosenQuestionOrNot" />
+		<result column="Ques_isVisible" property="visibleQuestionOrNot" />
+		<result column="Ques_Pic" property="questionPictrueUrl" />
+		<result column="Ques_Ctime" property="createTime" />
+		<result column="Ques_Utime" property="updateTime" />
+		<result column="Course_ID" property="courseId" />
+		<result column="Sec_ID" property="sectionId" />
+		<result column="UserID" property="userId" />
+		<result column="Job_ID" property="jobId" />
+
+		<association property="courseOfQuestion" column="Course_ID"
+			javaType="com.gta.oec.cms.vo.course.Course">
+			<id property="courseId" column="Cour_ID_Alias" />
+			<result property="courseName" column="Cour_Name_Alias" />
+		</association>
+
+		<association property="userOfAskQuestion" column="User_ID"
+			javaType="com.gta.oec.cms.vo.user.User">
+			<id property="userId" column="User_ID_Alias" />
+			<result property="userName" column="User_Name_Alias" />
+			<result property="userType" column="User_Type_Alias" />
+			<result property="userHeadPic" column="User_HeadPic_Alias" />
+			<result property="userState" column="User_state_Alias" />
+		</association>
+
+		<association property="jobGroupOfQuestion" column="Job_ID"
+			javaType="com.gta.oec.cms.vo.job.Job">
+			<id property="jobID" column="Job_ID_Alias" />
+			<result property="proID" column="Pro_ID_Alias" />
+			<result property="jobName" column="Job_Name_Alias" />
+		</association>
+
+		<association property="professionOfQuestion" column="Pro_ID_Alias"
+			javaType="com.gta.oec.cms.vo.profession.Profession">
+			<id property="proID" column="Pro_ID_Alias2" />
+			<result property="proName" column="Pro_Name_Alias" />
+		</association>
+	</resultMap>
+
+	<update id="updateQuestion" parameterType="com.gta.oec.cms.vo.qacenter.QuestionVo">
+		update q_question as q
+		<set>
+			<if test="visibleQuestionOrNot !=null">
+				q.Ques_isVisible=#{visibleQuestionOrNot},
+			</if>
+			<if test="chosenQuestionOrNot !=null">
+				q.Ques_IsChoiceness=#{chosenQuestionOrNot},
+			</if>
+		</set>
+		where q.QuesID=#{questionId}
+	</update>
+
+
+	<select id="questionsPageQuery" parameterType="page"
+		resultMap="questionResultMap">
+		SELECT
+		Q.QuesID,Q.Ques_Content,Q.Ques_Description,Q.Ques_Status,Q.Ques_Type,
+		Q.Ques_AnswerCount,Q.Ques_AttentionCount,Q.Ques_IsChoiceness,
+		Q.Ques_isVisible,Q.Ques_Pic,Q.Ques_Ctime,Q.Ques_Utime,
+		Q.Course_ID,Q.Sec_ID,Q.UserID,Q.Job_ID,
+		U.User_ID AS User_ID_Alias,U.User_Name AS User_Name_Alias,U.User_Type AS
+		User_Type_Alias,
+		U.User_HeadPic AS User_HeadPic_Alias,U.User_state AS User_state_Alias,
+		C.Cour_ID AS Cour_ID_Alias,C.Cour_Name AS Cour_Name_Alias,
+		J.Job_ID AS Job_ID_Alias,J.Pro_ID AS Pro_ID_Alias,J.Job_Name AS
+		Job_Name_Alias,
+		P.Pro_ID AS Pro_ID_Alias2,P.Pro_Name AS Pro_Name_Alias
+		FROM q_question AS Q
+		LEFT JOIN u_user AS U ON Q.UserID=U.User_ID
+		LEFT JOIN c_course AS C ON
+		Q.Course_ID=C.Cour_ID
+		LEFT JOIN p_job AS J ON Q.Job_ID=J.Job_ID
+		LEFT
+		JOIN p_profession AS P ON J.Pro_ID=P.Pro_ID
+
+		WHERE 1=1
+		<if test="parameter.userName != null and parameter.userName!=''">
+			AND U.User_Name LIKE Concat('%',#{parameter.userName},'%')
+		</if>
+		<if test="parameter.professionId != null and parameter.professionId!=''">
+			AND P.Pro_ID = #{parameter.professionId}
+		</if>
+		<if test="parameter.jobGroupId != null and parameter.jobGroupId!=''">
+			AND J.Job_ID = #{parameter.jobGroupId}
+			AND J.Job_PID IS NULL
+		</if>
+		<if
+			test="parameter.chosenQuestionOrNot  == 0  or parameter.chosenQuestionOrNot == 1">
+			AND Q.Ques_IsChoiceness = #{parameter.chosenQuestionOrNot}
+		</if>
+		<if
+			test="parameter.visibleQuestionOrNot  == 0  or parameter.visibleQuestionOrNot == 1">
+			AND Q.Ques_isVisible = #{parameter.visibleQuestionOrNot}
+		</if>
+		<if test="parameter.questionType == 0  or parameter.questionType == 1">
+			AND Q.Ques_Type = #{parameter.questionType}
+		</if>
+		<if
+			test="parameter.questionContent != null and parameter.questionContent!=''">
+			AND Q.Ques_Content LIKE Concat('%',#{parameter.questionContent},'%')
+		</if>
+		<if test="parameter.courseName != null and parameter.courseName!=''">
+			AND C.Cour_Name LIKE Concat('%',#{parameter.courseName},'%')
+		</if>
+		<if test="parameter.timeFrom != null and parameter.timeTo != null">
+			AND Date(Q.Ques_Ctime) BETWEEN Date(#{parameter.timeFrom}) AND
+			Date(#{parameter.timeTo})
+		</if>
+		<if test="parameter.timeFrom == null and parameter.timeTo != null">
+			AND Date(Q.Ques_Ctime) &lt;= Date(#{parameter.timeTo})
+		</if>
+		<if test="parameter.timeFrom != null and parameter.timeTo == null">
+			AND Date(Q.Ques_Ctime) &gt;= Date(#{parameter.timeFrom})
+		</if>
+		ORDER BY Q.Ques_isVisible, Q.Ques_Ctime DESC
+
+	</select>
+
+
+	<select id="getQuestionByQuestionId" resultMap="questionResultMap"
+		parameterType="_int">
+		SELECT *
+		FROM q_question
+		WHERE QuesID=#{questionId}
+		LIMIT 1
+	</select>
+
+	<select id="countChosenQuestions" resultType="_int">
+		SELECT
+		COUNT(QuesID)
+		FROM q_question AS q
+		WHERE q.Ques_Type=0 AND q.Ques_IsChoiceness=1 
+	</select>
+	<select id="isExistQuestion" resultType="_int">
+		SELECT
+		COUNT(QuesID)
+		FROM q_question
+		WHERE QuesID=#{questionId}
+	</select>
+	<delete id="deleteQuestion" parameterType="_int">
+		DELETE FROM q_question WHERE QuesID=#{questionId}
+	</delete>
+</mapper>

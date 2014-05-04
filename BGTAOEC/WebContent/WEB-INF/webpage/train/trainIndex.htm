@@ -1,0 +1,150 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>认证培训-国泰安网络教育</title>
+<meta name="description" content="插入网站全局描述变量" />
+<meta name="Keywords" content="插入网站全局关键字变量" />
+[#include "/webpage/common/common.htm"/]
+<link href="${base}/css/train/train.css" rel="stylesheet" type="text/css">
+<script src="${base}/js/jquery.featureList.js" type=text/javascript charset=utf-8></script>
+<script src="${base}/js/lrscroll.js" type=text/javascript charset=utf-8 ></script>
+
+<script>
+jQuery.fn.anchorGoWhere = function(options){
+    var obj = jQuery(this);
+			
+    var defaults = {target:0, timer:1000};
+    var o = jQuery.extend(defaults,options);
+    obj.each(function(i){
+        jQuery(obj[i]).click(function(){
+            var _rel = jQuery(this).attr("href").substr(1);
+            switch(o.target){
+                case 1: 
+                    var _targetTop = jQuery("#"+_rel).offset().top;
+                    jQuery("html,body").animate({scrollTop:_targetTop},o.timer);
+                    break;
+                case 2:
+                    var _targetLeft = jQuery("#"+_rel).offset().left;
+                    jQuery("html,body").animate({scrollLeft:_targetLeft},o.timer);
+                    break;
+            }
+            return false;
+        });  
+		                
+    });
+	
+};
+</script>
+<script>
+$(document).ready(function(){
+	var IO=document.getElementById('quick-sideNav'),Y=IO,H=0,IE6,L=0;
+		 IE6=window.ActiveXObject&&!window.XMLHttpRequest;
+		 while(Y){H+=Y.offsetTop;L+=Y.offsetLeft;Y=Y.offsetParent};
+		 if(IE6){
+         	IO.style.cssText="position:absolute;top:expression(this.fix?(document"+".documentElement.scrollTop-(this.javascript||"+H+")):0)";
+		 }
+		 window.onscroll=function (){
+			 var d=document,s=Math.max(d.documentElement.scrollTop,document.body.scrollTop);
+			 if(s>H&&IO.fix||s<=H&&!IO.fix)return;
+			 if(!IE6){IO.style.position=IO.fix?"":"fixed"; IO.style.left = IO.fix?"":L+"px";  }   
+			 IO.fix=!IO.fix;
+    	 };
+		 try{document.execCommand("BackgroundImageCache",false,true)}catch(e){};
+		
+	$(".backtop").anchorGoWhere({target:1});	
+		 
+	$.featureList(
+
+				$(".banner-nav li"),
+
+				$(".banner-con li"), {
+
+					start_item	:	0
+
+				}
+
+			);
+  var $li = $(".tab li"),
+		$content = $(".tabCon"),
+		$index;
+
+	$li.click(function(){
+		$(this).addClass("current").siblings().removeClass('current');
+		$index = $li.index($(this));
+		$content.eq($index).show().siblings().hide();
+	});
+   	 
+	});
+</script>
+</head>
+
+<body id="backtop">
+<div class="wrapper">
+[#include "/webpage/common/head.htm"/]
+  <div class="container">
+    <div class="conAf">
+      <div class="AfBox">
+        <h1>采购师的“进化论”</h1>
+        <h2>——作为采购，你真的专业吗？</h2>
+        <p>英国皇家采购与供应学会（CIPS）是全球最大的采购与供应管理学会组织，其认证在国际采购与供应行业具有很高的地位，得到世界120多个国家的认可和采用，也得到众多国际专业组织（联合国，世界银行，世贸组织等）的广泛认可。</p>
+        <p>可以说，CIPS证书是采购们通向更高职业生涯的一个护照，它证明你是专业的职业采购管理人员，接受过有关采购与供应管理知识体系教育，掌握最新的技术和最好的实用技能！</p>
+        <img src="${base!}/images/train/Af01.jpg">
+      </div>
+    </div>
+    <div class="conBf">
+      <div class="BfBox">
+        <img src="${base!}/images/train/Bf_bg.jpg">
+      </div>
+    </div>
+    <div class="conCf">
+      <div class="CfBox">
+        <p style="padding-top:100px">学员的总出席率须达课程之最低要求(70%)</p>
+        <p>必须于课程评估考获整体及格分数（60%）</p>
+        <p>必须分别于期末考试各部份(包括笔试/实务试)
+考获及格分数。</p>
+      </div>
+    </div>
+    <div class="conDf">
+      <div class="DfBox">
+        <h1>如何做一个职业采购师？</h1>
+        <div class="DfBox-con">
+        <div class="imgBox">
+          <img src="${base!}/images/train/Df_01.jpg" alt="">
+          <i>即将开课</i>
+          <p>采购原理</p>
+        </div>
+        <div class="imgBox">
+          <img src="${base!}/images/train/Df_02.jpg" alt="">
+          <i>即将开课</i>
+          <p>库存管理</p>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="conEf">
+      <div class="EfBox">
+        <h1>合格采购师的必备技能你知道吗？</h1>
+        <div class="imgBox">
+          <img src="${base!}/images/train/Ef_01.jpg" alt="">
+          <i>即将开课</i>
+          <p>选择合适的供应商</p>
+        </div>
+        <div class="imgBox">
+          <img src="${base!}/images/train/Ef_02.jpg" alt="">
+          <i>即将开课</i>
+          <p>有效的采购与供应谈判</p>
+        </div>
+        <div class="imgBox">
+          <img src="${base!}/images/train/Ef_03.jpg" alt="">
+          <i>即将开课</i>
+          <p>采购与供应的商业环境</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footerFixer"></div>
+</div>
+[#include "/webpage/common/footer.htm"/]
+</body>
+</html>

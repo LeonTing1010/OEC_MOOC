@@ -1,0 +1,19 @@
+<script type="text/javascript">
+	var vodServer = '${vodServer!}';
+	var videoProtocol ='${videoProtocol!}';
+</script>
+<script src="player/ckplayer.js" type="text/javascript"></script>
+<script src="js/jquery_plugins/swfobject.js" type="text/javascript"></script>
+<div id="video" style="width:600px;height: 500px;"
+	data-src="<@video_type dataUrl='${course.secUrl!}' videoProtocol='${course.videoProtocol!}'></@video_type>"></div>
+<script src="js/course/courselist.js" type="text/javascript"></script>
+<script>
+$(function() {
+	if ("rtmp" == videoProtocol) {
+		playCkplayer();
+	}
+	if ("http" == videoProtocol) {
+		playMediaPlayer();
+	}
+});
+</script>

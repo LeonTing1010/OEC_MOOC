@@ -1,0 +1,158 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>追加提问-国泰安网络教育</title>
+<meta name="description" content="插入网站全局描述变量" />
+<meta name="Keywords" content="插入网站全局关键字变量" />
+[#include "/webpage/common/common.htm"/]
+<link href="${base}/css/answerCenter/questionaddquestion.css" rel="stylesheet" type="text/css">
+
+<script type="text/javascript" src="${base}/kindeditor/kindeditor-all.js"></script>
+<script type="text/javascript" src="${base}/kindeditor/lang/zh_CN.js"></script>
+<script type="text/javascript" charset="UTF-8">
+	//统计文本域内容字符数
+	var ad_count = 0;    //描述长度
+	//kindeditor加载配置
+	KindEditor.ready(function(K) {
+		var editor = K.create('#quesContent', {
+			resizeType:1,
+			cssPath : '${base}/kindeditor/plugins/code/prettify.css',
+			uploadJson : '${base}/kindeditor/jsp/upload_json.jsp',
+			fileManagerJson : '${base}/kindeditor/jsp/file_manager_json.jsp',
+			allowFileManager : true,
+			afterCreate : function() {
+				this.sync();
+				ad_count = this.count('text');
+			},
+			afterBlur : function() {
+				this.sync();
+				ad_count = this.count('text');
+			},
+			afterChange : function() {
+				$('#allTextNum').val(this.count('text'));
+			}
+			
+		});
+		
+		
+		prettyPrint();
+		
+	});
+	
+	function submitQuestion(){
+		var allTextNum=$('#allTextNum').val();
+		if(parseInt(allTextNum)==0){
+			return false;
+		}else{
+			$('#form').submit();
+			return true;
+		}
+	}
+</script>
+</head>
+<body  id="backtop">
+<div class="wrapper">
+   <!-- 答疑中心引入头部 -start-->
+	[#include "/webpage/common/questionhead.htm"/]
+	<!-- 答疑中心引入头部 -end-->
+	
+  <div class="container">
+  	<div class="content clearfix pt10">
+	
+  		<div class="grid grid-12 crumbs">
+          <div class="pl20"><a href="${base}/index/">国泰安网络教育</a><a href="${base}/questionCenter/">答疑中心</a><span>追加问题</span></div>
+  		</div>
+		
+		<div class="grid grid-12 questionBox clearfix" >
+		
+	 	<!--questionSide start-->
+          <div class="grid-4 questionSide">
+		  	<div class="liminatingTeacher">
+		  		<h3 class="teacherTitle">名师解疑</h3>
+				[#if teacherList?exists && teacherList?size !=0]
+					[#list teacherList as lists]
+						<dl class="liminatingList">
+							<dt><a href="#" title="${(lists.userName)!''}个人资料">
+							<img src="[#if lists.userHeadPic??]${cache!}${lists.userHeadPic!}[#else]${cache!}/images/base/default_pic_temp_user.jpg[/#if]" 
+						
+							alt="${(lists.userName)!''}相片" width="82" height="82"></a></dt>
+							<dd class="p-name"><a href="#" title="${(lists.userName)!''}个人资料">${(lists.userName)!''}</a></dd>
+							<dd class="degree">${(lists.major)!''}<br/>${(lists.teacherLevel)!''}</dd>
+							<dd><a href="${base}/questionCenter/helpme/${(lists.userId)!'0'}/"><input class="helpBtn" type="button" value="+&nbsp; 求助"/></a></dd>
+						</dl>
+					[/#list]
+				[/#if]
+			</div>
+		  </div>
+		  <!--questionSide end-->
+		  
+		  <!--questionCon start-->
+		  <div class="grid-8 questionCon clearfix">
+			<div class="questionTabCon">
+				<div class="hotQuestionCon">
+					<h3>追加问题</h3>
+					<dl class="hotQuestionList">
+						<dt class="put">提问</dt>
+						<dd class="questions">
+							<a title="" href="#">${(questionVo.quesContent)!''}</a>
+							<p>${(questionVo.quesDescription)!''}</p>
+							<span class="questionsSpan"></span>
+						</dd>
+						<dt class="answer">回答</dt>
+						<dd class="answerCon">${(answerVo.answContent)!''}
+	   					<div><span class="people">回答人：<a title="${(answerVo.userName)!''}个人信息" href="#">${(answerVo.userName)!''}</a></span></div>
+						</dd>
+					</dl>
+					<dl class="hotQuestionList">
+					[#if questionAddList?exists && questionAddList?size !=0]
+						[#list questionAddList as lists]
+						<dt class="put">追问</dt>
+						<dd class="questions">
+							<a title="" href="#">${(lists.quesContent)!''}</a>
+							<span class="questionsSpan"></span>
+						</dd>
+						[#if lists.answerList?exists && lists.answerList?size !=0]
+							[#list lists.answerList as answerList]
+							<dt class="answer">回答</dt>
+							<dd class="answerCon">${(answerList.answContent)!''}
+		   						<div><span class="people">回答人：<a title="${(answerList.userName)!''}个人信息" href="#">${(answerList.userName)!''}</a></span></div>
+							</dd>
+							[/#list]
+						[#else]
+							<dt class="answer">回答</dt>
+							<dd class="answerCon">该问题还没有回答。
+		   						<div><span class="people">回答人：</span></div>
+							</dd>
+						[/#if]
+						[/#list]
+					[/#if]
+					</dl>
+					
+					
+				</div>
+			</div>
+			<form id="form" name="form" action="${base}/questionCenter/saveQuestionAdd/" method="POST">
+			
+			<input type="hidden" name="quesID" value="${(questionVo.quesID)!''}"/>
+			<input type="hidden" name="answerId" value="${(answerVo.answID)!''}"/>
+			<input type="hidden" name="quesAnswerUserID" value="${(answerVo.userID)!''}"/>
+			<input type="hidden" name="jobGroupID" value="${(questionVo.jobID)!''}"/>
+			<input type="hidden" id="allTextNum" class="allTextNum"/>
+			<ul class="questionForms">
+				<li><label>问题追加说明:</label><textarea class="textarea" id="quesContent" name="quesContent"></textarea></li>
+				<li><a href="javascript:void(0);" onclick="return submitQuestion();" style="color: white;"><span class="btn-small btn radius">提交</span></a></li>
+			</ul>
+			</form>
+		  </div>
+		  <!--questionCon end-->
+	</div>
+  	</div>
+	
+	
+  </div>
+  <div class="footerFixer"></div>
+</div>
+[#include "/webpage/common/footer.htm"/]
+</body>
+</html>

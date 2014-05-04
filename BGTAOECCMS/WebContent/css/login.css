@@ -1,0 +1,107 @@
+@charset "UTF-8";
+/**
+ * 
+ * @authors jieming.luo
+ * @date    2014-04-17 17:16:45
+ */
+*{
+    padding: 0;
+    margin:0;
+}
+body{
+    background: #252525;
+}
+.logWrapper{
+    position: absolute;
+    left: 50%;
+    top:50%;
+    margin:-135px 0 0 -178px;
+
+}
+.logo{
+    width: 275px;
+    height: 40px;
+    background: url(../images/logo_cms.png);
+}
+.log_option{
+    width: 356px;
+    height: 50px;
+    line-height: 50px;
+    position: relative;
+}
+.nameWrapper{
+    background: url(../images/username.png);
+}
+.pwdWrapper{
+    background: url(../images/password.png);
+}
+.input_option{
+    font-size:16px;
+    background: #f0eef0;
+    width: 230px;
+    height: 34px;
+    line-height: 34px;
+    position: absolute;
+    border: none;
+    outline: none;
+    left: 80px;
+    top: 8px;
+}
+.error{
+    display: none;
+    width: 356px;
+    height: 36px;
+    line-height: 36px;
+    margin-top: 10px;
+    background: url(../images/error_tip.png) no-repeat center center;
+}
+.errorTip{
+    margin-left: 35px;
+    font-size: 12px;
+    color: #9f1000;
+}
+.subWrapper{
+    position: relative;
+}
+.subBtn{
+    width: 100px;
+    height: 40px;
+    font: 14px 微软雅黑, 宋体, Arial white;
+    background: url(../images/sub_rectangle.png);
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+.subBtn:hover{
+     background: url(../images/sub_rectangle2.png);
+}
+.cookie{
+    display: inline;
+    padding: 12px;
+    line-height: 16px;
+}
+.setCookie{
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    background: url(../images/check_rectangle.png) no-repeat center center;
+    margin-left: 25px;
+    cursor: pointer;
+}
+.setCookieChecked{
+    background: url(../images/checked_rectangle.png) no-repeat center center;
+}
+.cookieTip{
+     height: 16px;
+     font-size: 12px;
+     padding: 12px;
+     position: absolute;
+     color: #666666;
+     top:-2px;
+}
+.pwdWrapper,.subWrapper{
+    margin-top: 20px;
+}
+.nameWrapper{
+    margin-top: 50px;
+}

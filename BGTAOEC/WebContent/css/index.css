@@ -1,0 +1,100 @@
+@charset "utf-8";
+/* CSS Document */
+.container{
+	padding: 0px;
+}
+.Af-banner{
+	width: 100%;
+	height: 385px;
+	background: #E2E2E2;
+}
+.AfBox{
+	width: 1000px;
+	height: 385px;
+	margin: 0 auto;
+	background: url(../images/index/Af_banner_bg.jpg);
+	position: relative;
+}
+.AfBox img{
+	position: absolute;
+	top: 251px;
+	left: 0px;
+}
+.Bf-banner{
+	width: 100%;
+	height: 390px;
+	background: #3A96AF;
+}
+.BfBox{
+	width: 1000px;
+	height: 390px;
+	margin: 0 auto;
+	background: url(../images/index/Bf_banner_bg.jpg);
+}
+.Cf-banner{
+	width: 100%;
+	height: 556px;
+	background: #60BBD4;
+}
+.CfBox{
+	width: 748px;
+	height: 556px;
+	margin: 0 auto;
+	background: url(../images/index/Cf_banner_bg.jpg);
+}
+.Df-teacher{
+	width: 100%;
+	height: 390px;
+	background: #3A96AF;
+}
+.DfBox{
+	width: 1000px;
+	height: 390px;
+	margin: 0 auto;
+}
+.DfBox img{
+	margin: 30px 0px 0px 0px;
+}
+.teaTeam li{
+	width: 286px;
+	float: left;
+	margin: 0px 70px 0px 0px;
+}
+.teaTeam a img{
+	padding: 8px 9px 8px 8px;
+	background: #fff;
+}
+.teaTeam p{
+	color: #fff;
+	font-size: 18px;
+}
+.teaTeam span{
+	color: #85BECD;
+	font-size: 14px;
+}
+.Ef-Course{
+	width: 100%;
+	height: 516px;
+	background: #60BBD4;
+	padding: 40px 0px 0px 0px;
+}
+.EfBox{
+	width: 820px;
+	height: 480px;
+	background: url(../images/index/Ef_banner_bg.jpg);
+	margin: 0px auto;
+}
+.Gf-ToLearn{
+	width: 100%;
+	height: 290px;
+	background: #3A96AF;
+}
+.GfBox{
+	width: 1000px;
+	height: 290px;
+	margin: 0 auto;
+	text-align: center;
+	line-height: 290px;
+}
+
+/*插件样式结束*/

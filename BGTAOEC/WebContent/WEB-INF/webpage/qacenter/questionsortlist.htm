@@ -1,0 +1,57 @@
+[#if pageModel??]
+[#if pageModel.list?? && (pageModel.list?size gt 0)] 
+	[#list pageModel.list as lists]
+<li class="wordBreak">
+	<h2>
+		<a href="${base}/questionCenter/questiondetail/${(lists.quesID)!''}/">${(lists.quesContent)!''}</a>
+		<span class="attention" id="attentionSign${(lists.quesID)!''}"  onclick="updateAttentionQuestion(${(lists.quesID)!''})">${(lists.attentionSign)!''}</span>
+	</h2>
+	[#if lists.answerVo?exists && lists.answerVo.answID != 0]
+	<div class="answer">
+		<img class="an-img" src="[#if lists.answerVo.userHeadPic??]${cache!}${lists.answerVo.userHeadPic!}[#else]${cache!}/images/base/default_pic_temp_user.jpg[/#if]" width="30" height="30">
+		<div class="anConbg"></div>
+		<div class="answerCon">
+			<div class="user">
+				<span>${(lists.answerVo.userName!)} </span>/ ${(lists.answerVo.teacherLevel!)} 
+			</div>
+			
+ 			<p>
+				[@html_unescape_cut s="${(lists.answerVo.answContent)!}" len="120" append="<span style='color:#3399FF;cursor:pointer' onclick='expandContent(this);'>...展开</span>"/]
+			</p>
+			<label style="display:none">${(lists.answerVo.answContent)!}</label>
+			[#if lists.quesPic??]
+			<a href="#">
+				<img src="${lists.quesPic!''}"  width="145" height="90">
+			</a>
+			[/#if]
+			<div class="answerCon-foot">
+ 				<span onclick="updateAnswPraiseCount('${(lists.answerVo.answID)!'0'}')"> <span id="praiseSign${(lists.answerVo.answID)!'0'}">赞</span><span id="praiseCount${(lists.answerVo.answID)!'0'}">(${(lists.answerVo.answPraiseCount)!'0'})</span></span>
+			<div class="an-date">${lists.answerVo.answCtime?string('yyyy-MM-dd')}</div>
+			</div>
+		</div>
+	</div>
+	[/#if]
+</li>
+	[/#list] 
+	[#if pageModel.toPage gte pageModel.totalPage]
+	<script type="text/javascript">
+	$(function($){
+		$(".pageMore").hide();
+	})
+	</script>
+	[#else]
+	<script type="text/javascript">
+		$(function($){
+			$(".pageMore").show();
+		})
+	</script>	
+	[/#if]
+[#else]
+	<p>暂无相关数据!</p>
+		<script type="text/javascript">
+		$(function($){
+			$(".pageMore").hide();
+		})
+		</script>
+[/#if]
+[/#if]

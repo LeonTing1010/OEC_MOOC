@@ -1,0 +1,91 @@
+@charset "utf-8";
+/* CSS Document */
+
+.curDetail{
+	margin:0px;
+	background:#fff;
+}
+.curDetailHead{
+	height:122px;
+}
+.curDetailHead .vidoPic{
+	float:left;
+	display:inline;
+	margin:20px 0 0 30px;
+	}
+.curDetailHead h1{font-size:24px; font-weight:normal; margin-top:16px;}
+.curDetailHead h1,.curDetailHead h2,.curDetailHead .time{ margin-left:40px; float:left; width:580px;}
+.curDetailHead h2,.curDetailHead .time{ 
+	font-size:12px;
+	font-weight:normal;
+	color:#555;
+	line-height:18px;
+}
+.curDetailBody{
+	background:#f2f2f2;
+}
+.curDetailSide{
+	width:200px;
+	float:left;
+	font-size:13px;
+}
+.curDetailSide dt{
+	height:40px;
+	line-height:40px;
+	background:#ddd;
+	border-top:1px solid #ccc;
+	color:#333;
+	font-weight:800;
+	padding:0 16px;	
+}
+.curDetailSide dd{
+	height:40px;
+	line-height:40px;
+	border-bottom:1px solid #d7d7d7;
+}
+.curDetailSide dd a{
+	color:#555;
+	display:block;
+	padding:0 16px;
+}
+.curDetailSide dd a:hover{
+	background:#3a96af;
+	color:#fff;
+}
+.curDetailSide dd a span{
+	float:right;
+	color:#555;
+	font-family:"黑体";
+}
+.curDetailSide dd a:hover span{
+	color:#fff
+}
+.main{
+	padding:10px 0  10px 0 ;
+	margin-bottom:0;
+	width:799px;
+	border-top:1px solid #d7d7d7;
+	border-left:1px solid #d7d7d7;
+}
+
+.keepLearn{
+	float:right;
+	background: #82AC4D;
+	border-bottom: 2px #516D2E solid;
+	width: 100px;
+	text-shadow: #369 1px 1px;
+	margin:34px 26px 0 0;
+	display:inline;
+	}
+.keepLearn:hover{
+	background:#8DBC54}
+	
+.curDetailCon{
+	width:720px;}
+.curDetailCon h3{
+	height:40px;
+	line-height:40px;
+	font-size:18px;
+	font-weight:normal;
+	border-bottom:2px solid #417786;
+}

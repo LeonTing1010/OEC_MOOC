@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gta.oec.cms.dao.test.ITestDao">
+	<resultMap type="com.gta.oec.cms.vo.test.TestVo" id="testVo">
+		<result column="T_ID" property="tId" />
+		<result column="T_Name" property="tName" />
+		<result column="T_Desc" property="tDesc" />
+		<result column="T_Remark" property="tRemark" />
+	</resultMap>
+	
+	<insert id="insert" useGeneratedKeys="true">
+		insert into t_test(T_ID,T_Name,T_Desc,T_Remark) values
+		(#{tId},#{tName},#{tDesc},#{tRemark})
+	</insert>
+	
+	<update id="update">
+		update t_test
+		<set>
+			<if test="tName!=null and tName!=''">
+				T_Name = #{tName},
+			</if>
+			<if test="tDesc!=null and tDesc!=''">
+				T_Desc = #{tDesc},
+			</if>
+			<if test="tRemark!=null and tRemark!=''">
+				T_Remark = #{tRemark},
+			</if>
+		</set>
+		where T_ID= #{tId}
+	</update>
+	
+	<delete id="delete">
+		delete from t_test where T_ID= #{tId}
+	</delete>
+	
+	<select id="select" resultMap="testVo">
+		select T_ID,T_Name,T_Desc,T_Remark from t_test
+	</select>
+	
+	<select id="selectByPageQuery" resultMap="testVo">
+		select T_ID,T_Name,T_Desc,T_Remark from t_test t where 1=1
+		<if test="parameters.name !=null and parameters.name !='' ">
+				 AND t.T_Name like concat('%',#{parameters.name},'%')
+		</if>
+	</select>
+	
+</mapper>

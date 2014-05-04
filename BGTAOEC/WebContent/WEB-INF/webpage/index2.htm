@@ -1,0 +1,171 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>首页-国泰安网络教育</title>
+<meta name="description" content="插入网站全局描述变量" />
+<meta name="Keywords" content="插入网站全局关键字变量" />
+[#include "/webpage/common/common.htm"/]
+<link href="${base}/css/index/index.css" rel="stylesheet" type="text/css">
+<script src="${base}/js/jquery.featureList.js" type=text/javascript charset=utf-8></script>
+<script type="text/javascript">
+$(document).ready(function(){
+  $.featureList(
+
+				$(".banner-nav li"),
+
+				$(".banner-con li"), {
+
+					start_item	:	0
+
+				}
+				
+
+			);
+  var $li = $(".tab li"),
+		$content = $(".tabCon"),
+		$index;
+
+	$li.click(function(){
+		$(this).addClass("current").siblings().removeClass('current');
+		$index = $li.index($(this));
+		$(".tabCon").load(base+"/index/indexQuex/?tradeId="+$(this).attr('data-id'));
+	});
+	$li.last().click();
+   
+});
+</script>
+
+
+</head>
+
+<body>
+<div class="wrapper">
+  [#include "/webpage/common/head.htm"/]
+  <div class="container">
+    <div class="banner pt10">
+        <ul class="banner-con">
+          <li>
+            <a href="#"><img src="${base}/images/index/banner_01.jpg" width="1000" height="486"></a>
+          </li>
+         <li>
+            <a href="#"><img src="${base}/images/index/banner_01.jpg" width="1000" height="486"></a>
+          </li>
+          <li>
+            <a href="#"><img src="${base}/images/index/banner_01.jpg" width="1000" height="486"></a>
+          </li>
+          <li>
+            <a href="#"><img src="${base}/images/index/banner_01.jpg" width="1000" height="486"></a>
+          </li>
+          <li>
+            <a href="#"><img src="${base}/images/index/banner_01.jpg" width="1000" height="486"></a>
+          </li>
+        </ul>
+        <ul class="banner-nav">
+          <li class="current"></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+        </ul>
+    </div>
+    [@trade]
+       [#assign tradeList=list]
+     [#list list as trade]
+    <div class="lineBox">
+      <div class="centerCon">
+        <div class="title">
+          <h3>${trade.name!}</h3>
+          <div class="tag">
+            [@job tradeId='${trade.proId!}']
+            [#assign len=list?size]
+            [#if len>6]
+              [#assign len=6]
+            [/#if]
+             [#list list as job]
+                 [#if (job_index) < len]
+                  <span><a href="${base}/course/courselist/?jobId=${job.jobID!}">${job.jobName!}</a></span>
+                 [/#if]
+             [/#list]
+            [/@job]   
+          </div>
+          <span class="more"><a href="${base}/course/courselist/?tradeId=${trade.proId!}">更多...</a></span>
+        </div>
+        <div class="video-list">
+          <ul class="clearfix">
+            [@trade_course tradeId='${trade.proId!}']
+              [#list list as course]
+                [#if course_index<3]
+                <li class="video-item [#if course_index==2]last[/#if]">
+                 <a href="${base}/course/info/${course.courseId!}/"><img 
+                 src="[#if course.titlePage??]${cache!}${course.titlePage!}[#else]${cache!}/images/base/default_pic_temp_course.jpg[/#if]" 
+                
+                 alt="" class="pic">  
+                 <h4>${course.courseName!}</h4>
+                 <p class="describe">[@text_cut s='${course.introduction!}' len='35' append='...' ][/@text_cut]</p></a>
+                </li>
+                [/#if]
+               [/#list]
+            [/@trade_course]
+          </ul>
+        </div>
+      </div>
+    </div>
+    [/#list]
+   
+    <div class="lineBox questionCenter">
+      <div class="centerCon">
+        <div class="question-hd">
+         <div class="tab">
+           <ul>
+             [#list tradeList as resultList]
+             <li data-id="${resultList.proId!}">${resultList.name!}</li>
+             [/#list]
+            </ul>
+          </div>
+         <div class="title">名师解疑</div>
+        </div>
+        <div class="question-bd">
+          <div class="tabCon">
+          </div>          
+        </div>
+      </div>
+    </div>
+    [/@trade]
+    <div class="lineBox">
+      <div class="centerCon">
+        <div class="title"><span class="more"><a href="${base}/job/inforPage/">更多...</a></span><h3>热门职业推荐</h3></div>
+        <div id="featurecontainer">
+          <div id="feature">
+            <div id="block">
+              <div id="botton-scroll">
+                <ul class="featureul">
+                  [@top_job]
+                    [#if list??&&((list?size)>0)]
+                    <script src="${base}/js/lrscroll.js" type=text/javascript charset=utf-8 ></script>
+                    [#list list as topJob]
+                    <li class="featurebox">
+                        <div class="box"><a href="${base}/job/positiondetail/${topJob.jobID!}/" target="_blank">
+                        <img alt="" 
+                         src="[#if topJob.jobImage??]${cache!}${topJob.jobImage!}[#else]${cache!}/images/base/default_pic_temp_job.jpg[/#if]" 
+               			 
+                		 width="212" height="114"><div class="name">${topJob.jobName!}</div></a></div>
+                    </li>   
+                    [/#list]
+                    [/#if]
+                  [/@top_job]              
+                </ul>
+              </div>
+              <!-- /botton-scroll -->
+            </div>
+            <span class="prev">previous</span><span class="next">next</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footerFixer"></div>
+</div>
+[#include "/webpage/common/footer.htm"/]
+</body>
+</html>

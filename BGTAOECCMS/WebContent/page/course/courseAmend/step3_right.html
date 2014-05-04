@@ -1,0 +1,74 @@
+			<div class="form-row">
+				<div class="label">
+					<label>当前编辑节：</label>
+				</div>
+				<div class="input">
+					<span class="text">请选择节</span>
+				</div>
+			</div>
+			<div class="form-row">
+				<div class="label">
+					<label><span style="color: red;">*</span>核心知识点：</label>
+				</div>
+				<div class="input">
+					<textarea placeholder="此处为视频播放结束后显示给学生看的本章小结" name="coreKnowledge" style="height: 60px;" class="grid-8"><#if section??>${section.coreKnowledge!}</#if></textarea>
+				</div>
+			</div>
+			
+			<#if section??>
+			<#if '${section.type!}'=='2'>
+			<div class="form-row">
+				<div class="label">
+					<label>上传视频：</label>
+				</div>		     
+			      <div data-provides="fileupload" class="fileupload fileupload-exists">
+			      <input type="hidden" name="resourceMovie" id="resourceMovie" value="${section.secUrl!}">
+			      <input type="hidden" name="movieResource" id="movieResource" value="${section.secUrl!}">
+			       <form action="${ctx}/course/upload/uploadSectionVideo" id="mainFileForm" encType="multipart/form-data" method="post" target="mainIframe">
+					<span class="btn btn-small btn-default btn-file"> <span
+					class="fileupload-new">上传文件</span><input type="file" onchange="fileChange(this,'1')" class="margin-none btn-file-input" id="mainFile" name="mainFile"></span>
+				       <iframe id="mainIframe" name="mainIframe" style="display: none;"></iframe>
+				       <input type="hidden" name="videoUrl"/>
+				       <input type="hidden" name="videoResourceName"/>
+				     </form>
+				  </div>	
+				  	
+                <div  class="hide fileMsg" style="text-align: center;width: 100%;">				
+				   <span style="margin-left: 80px;"></span>
+				</div>
+				  <#if section.secUrl??>
+				 <div id="alreadyResource"> 
+				    <div class="label">
+					<label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>					
+				    </div>	<@path_name path='${section.secUrl!}'></@path_name>
+				 </div>
+				 </#if>
+			</div>
+			</#if>
+			</#if>
+			<div class="form-row">
+				<div class="label">
+					<label>上传辅助资料：</label>
+				</div>
+		        <form action="${ctx}/course/upload/uploadAidResource" id="aidFileForm" encType="multipart/form-data" method="post" target="aidIframe">							    
+				    <div data-provides="fileupload" class="fileupload fileupload-exists">
+					 <span class="btn btn-small btn-default btn-file"> <span class="fileupload-new">上传文件</span> <input type="file" onchange=" fileChange(this,'2')" class="margin-none btn-file-input" id="aidFile" name="aidFile"></span>
+				     </div>	
+				     <iframe id="aidIframe" name="aidIframe" style="display: none;"></iframe>
+			     </form>
+				<div  class="hide fileMsg" style="text-align: center;">				
+				   <span style="margin-left: 80px;"></span>
+				</div>
+	             <#if resList??>
+	               <#list resList as list>
+	               <input type="hidden" id="resourceId" name="resourceId" value="${list.resourceId!}">
+	                <#if '${list.resourceType!}'=='2'>
+	                 <div class="input mt10"><span class="text mr10" id="reduceName" style="margin-left:180px">${list.resourceName!}</span><div onclick="reduceRe(this)" class="reduceBtn" data-id="${list.reSourceID!}">-</div></div>
+	               </#if>
+	               </#list>
+	             </#if>
+			</div>
+			<div class="form-button-bar">
+				<button class="btn btn-primary btn-small thirdStep" onclick="step3Sub()" type="button">保存</button>
+				<button class="btn btn-primary btn-small thirdStep" onclick="returnSteptwo()" type="button">上一步</button>
+			</div>

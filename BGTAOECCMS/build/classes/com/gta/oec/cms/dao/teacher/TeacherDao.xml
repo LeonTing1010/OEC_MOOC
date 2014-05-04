@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gta.oec.cms.dao.teacher.TeacherDao">
+	<resultMap type="com.gta.oec.cms.vo.teacher.TeacherVo" id="teacherResultMap">
+		<id property="idOfTeacher" column="Teacher_ID_Alias" />
+		<result property="schoolIdOfTeacher" column="SchoolId_Alias" />
+		<result property="majorOfTeacher" column="Major_Alias" />
+		<result property="introduceOfTeacher" column="Introduce_Alias" />
+		<result property="levelOfTeacher" column="TeacherLevel" />
+		<result property="isRecommendedTeacher" column="IsRecommended_Alias" />
+		<result property="userId" column="User_ID_Alias" />
+		<result property="userName" column="User_Name_Alias" />
+		<result property="userType" column="User_Type_Alias" />
+		<result property="userHeadPic" column="User_HeadPic_Alias" />
+		<result property="userState" column="User_state_Alias" />
+
+		<association property="schoolOfTeacher" column="Sch_id"
+			javaType="com.gta.oec.cms.vo.school.School">
+			<id column="Sch_ID" property="schId" />
+			<result column="Sch_Name" property="schName" />
+			<result column="Sch_Description" property="schDescription" />
+			<result column="Sch_Address" property="schAddress" />
+			<result column="Sch_Www" property="schWww" />
+			<result column="Sch_Logo" property="schLogo" />
+			<result column="Sch_Ctime" property="schCtime" />
+		</association>
+	</resultMap>
+
+	<select id="getTeacherByUserId" resultMap="teacherResultMap"
+		parameterType="_int">
+		SELECT T.ID AS Teacher_ID_Alias, T.User_ID AS User_ID_Alias,T.Sch_id
+		AS
+		SchoolId_Alias,T.Major AS Major_Alias,T.TeacherLevel AS
+		schoolId_Alias,
+		T.Introduce AS Introduce_Alias, T.IsRecommended AS
+		IsRecommended_Alias,
+		S.Sch_ID, S.Sch_Name,
+		S.Sch_Description,
+		S.Sch_Address, S.Sch_Www,
+		S.Sch_Logo,S.Sch_Ctime,
+		U.User_Name AS
+		User_Name_Alias,U.User_Type AS User_Type_Alias,
+		U.User_HeadPic AS
+		User_HeadPic_Alias,U.User_state AS User_state_Alias
+		FROM u_teacher AS T
+		LEFT JOIN s_school AS S ON
+		T.Sch_id = S. Sch_ID
+		LEFT JOIN u_user AS U
+		ON
+		T.User_ID=U.User_ID
+		<where>
+			<if test="userId &gt; 0">
+				T.user_ID=#{userId}
+			</if>
+		</where>
+
+	</select>
+
+</mapper>

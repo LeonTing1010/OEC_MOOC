@@ -1,0 +1,1 @@
+<% response.sendRedirect(request.getContextPath()+"/index/404/?headTab=1");%>

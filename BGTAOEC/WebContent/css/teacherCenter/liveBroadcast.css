@@ -1,0 +1,107 @@
+@charset "utf-8";
+/* CSS Document */
+.main{
+	padding:10px;
+	}
+.student-title{
+	height:40px;
+	line-height:40px;
+	font-size:18px;
+	border-bottom:2px solid #6e8ed1;
+	position:relative;
+}
+.student-title h3{
+	position:absolute;
+	display:inline;
+	border-bottom:2px solid #33518f;
+	bottom:-2px;
+	font-weight:normal;
+	height:40px;
+	line-height:40px;
+}
+.table-default{
+	margin:10px 0 0 0;
+	}
+.table-default th {
+	border:1px solid #7282a3;
+	height:40px;
+	line-height:40px;
+	background:#8b9abb;
+	text-align:center;
+	color:#fff;
+	font-size:14px;
+}
+.table-default td{
+	border:1px solid #d7d7d7;
+	padding:5px;
+	text-align:center;
+	}
+.table-default .classBox{
+	width:250px;
+	height:80px;
+	text-align:left;
+	}
+.table-default .classBox span{
+	display:block;
+	margin-bottom:10px;
+	height:40px;
+	overflow:hidden;
+	}
+.table-default .classBox span a{ color:#555;}
+.table-default .classBox img{
+	float:left;
+	margin-right:5px;
+	}
+.table-default td p{
+	margin:0;
+	padding:0;sx}
+.table-default td a{
+	display:block;
+	margin:5px 0 ;
+	}
+.table-default td a:hover{
+	text-decoration:underline;
+	}
+/*--系统通知的分页 --*/
+.pager{
+	width:500px;
+	text-align:center;
+	margin:20px auto 0 auto;
+	}
+.pager a { 
+	display: inline-block;
+	margin: 0 1px;
+	padding: 2px 8px;
+	border: 1px solid #cccccc;
+	border-radius: 2px 2px 2px 2px;
+	color: #333333;
+	cursor: pointer;
+	line-height: 18px;
+	background: none repeat scroll 0 0 #FFFFFF;
+	}
+
+.pager a.prev {border-left:1px solid #dbdbdb; }
+.pager a.hover{
+	background:#7282a3;
+	border:1px solid #7282a3;
+	color:#FFF;
+	text-decoration:none;
+	}
+.pager a:hover {
+	background:#7282a3;
+	border:1px solid #7282a3;
+	color:#FFF;
+	text-decoration:none;
+	}
+.pager a.nail{
+	padding:2px 0px;
+	border:1px solid #FFF;
+	cursor:default;
+	color: #333333;
+	}
+.pager a.nail:hover{
+	background:none;
+	border:1px solid #fff;
+	}
+.pager span a.next{border-right:1px solid #dbdbdb; }
+/*--系统通知的分页end --*/

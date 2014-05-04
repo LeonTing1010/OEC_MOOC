@@ -1,0 +1,80 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>职业中心-国泰安网络教育</title>
+<meta name="description" content="插入网站全局描述变量" />
+<meta name="Keywords" content="插入网站全局关键字变量" />
+[#include "/webpage/common/common.htm"/]
+<link href="${base}/css/course/professions.css" rel="stylesheet" type="text/css">
+<script src="${base}/js/tradelist.js" type=text/javascript charset=utf-8 ></script>
+<script type="text/javascript">
+var jobGroupId = '${jobGroupId!}';
+var tradeId = '${tradeId!}';
+</script>
+</head>
+
+<body id="backtop">
+<div class="wrapper">
+ [#include "/webpage/common/head.htm"/]
+
+  <div class="container">
+  	<div class="content clearfix pt10">
+      <div class="grid mr10 leftCon">
+        <div class="grid leftMenu" >
+          <div class="menu-head">
+            <div class="title" id="ShowInfor">职业中心</div>
+          </div>
+          <ul class="menu-body">
+            <li class="item" style="background:none;">
+	             <div style="width:100%;height:100%;cursor: pointer" onclick="intRequestParaAndLoad('','')" onmouseover="">  <span  class="className">全部分类</span></div>
+	             <div id="jobList"></div>
+            </li> 
+             [#if tradeList??]
+             [#list tradeList as being]
+            	<li class="item" style="cursor: pointer">
+            		<div style="width:100%;height:100%" id="pro${being.proId!}" onclick="proClick('${being.proId!}','${being.name!}')" onmouseover="proMouseover(${being.proId!},'${being.name!}')">
+		            	<span class="className" style="cursor:pointer;">${being.name!}</span> 
+		            </div>
+		            <div id="jobGroup${being.proId!}"></div>
+            	</li>
+            [/#list]
+            [/#if]
+          </ul>
+        </div>
+        <div class="grid linkList">
+          <div class="title">热门职业推荐</div>
+          <ul>
+          [#if hotJob??]
+          [#list hotJob as being]
+            <li><a href="${base}/job/positiondetails/${being.jobID}/">${being.jobName!}</a></li>
+           [/#list]
+           [/#if]
+          </ul>
+        </div>
+      </div>
+      
+      <div class="grid rightCon">
+        <div class="subCrumbs">
+          <a href="javascript:void(0)" onclick="intRequestParaAndLoad('','')"><span style="display:bolck">全部行业</span></a>
+          <a href="javascript:void(0)"><span style="display:none;"></span></a>     
+          <a href="javascript:void(0)"><span style="display:none;"></span></a>            		
+    	</div>
+    	    <div class="professions">
+	    	    <ul>
+	          </ul>
+          </div>
+        <div class="pageMore" id="jobMore" style="display: none;">
+        	<span class="btn-small btn radius" id="morejobinfo"  onclick="loadJob()">
+        	- 查看更多 -
+        </span>
+        </div>
+      </div>
+      
+  	</div>
+  </div>
+  <div class="footerFixer"></div>
+</div>
+[#include "/webpage/common/footer.htm"/]
+</body>
+</html>

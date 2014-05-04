@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gta.oec.cms.dao.comment.ICommentDao">
+<resultMap type="com.gta.oec.cms.vo.comment.Comment" id="CommentMap">
+	<result column="Com_ID" property="cID"/>
+	<result column="Com_Course_ID" property="cCourseID"/>
+	<result column="Cour_Name" property="cName"/>
+	<result column="Com_Content" property="cContent"/>
+	<result column="Com_Cri_Time" property="cTime"/>
+	<result column="Com_User_ID" property="cUserID"/>
+	<result column="User_Name" property="uName"/>
+	<result column="Com_Source" property="cSource"/>
+	<result column="Com_Del" property="cDel"/>
+</resultMap>
+	<!-- 多条件查询点评信息 -->
+	<select id="findCommentPageQuery" parameterType="page" resultMap="CommentMap">
+		select t.Com_ID,c.Cour_Name,t.Com_Content,u.User_Name,t.Com_Cri_Time,t.Com_Source,t.Com_Del 
+		from c_course_comment t,c_course c,u_user u 
+		where 1=1 
+		and t.Com_Course_ID=c.Cour_ID 
+		and t.Com_User_ID=u.User_ID 
+		and t.Com_Del =1
+		<if test="parameters.cName!=null and parameters.cName!=''">
+			AND c.Cour_Name like concat('%',#{parameters.cName},'%') 
+		</if>
+		<if test="parameters.cContent!=null and parameters.cContent!=''">
+			AND t.Com_Content like concat('%',#{parameters.cContent},'%')
+		</if> 
+		<if test="parameters.cAtime!=null and parameters.cAtime!=''">
+			AND t.c_cTimet > #{parameters.cAtime}
+		</if>
+		<if test="parameters.oAtime!=null and parameters.oAtime!=''">
+			AND t.c_cTimet &lt; #{parameters.oTimet}
+		</if>
+		<if test="parameters.cSource!=null and parameters.cSource!=''">
+			AND t.Com_Source = #{parameters.cSource}
+		</if>
+	</select>	
+	
+	<!-- 查询点评来源 -->
+	<select id="findSource" resultType="list" resultMap="CommentMap">
+		select Com_ID,Com_Source from c_course_comment
+	</select>
+	
+	<!-- 更新点评信息 -->
+	<update id="updateCommentByID" parameterType="Integer" >
+		update c_course_comment
+		<set>
+			Com_Del=0
+		</set>
+		where Com_ID=#{cID}
+	</update>
+</mapper>

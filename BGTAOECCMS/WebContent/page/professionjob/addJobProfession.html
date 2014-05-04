@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+</head>
+
+<body>
+<#include "/common/header.html">
+<script type="text/javascript" src="js/jquery_plugins/ajaxfileupload.js"></script>
+<script type="text/javascript" src="js/professionjob/jobImgUpload.js"></script>
+<div style="padding:20px;">
+<div class="ftitle">岗位信息</div>
+<form id="addSaveOrUpdateJobForm" method="post" novalidate>
+	<input type="hidden" name="jobID_op" value="<#if Job.jobID??><#if Job.jobID != 0>${Job.jobID}</#if></#if>"/><!-- 岗位ID -->
+	<input type="hidden" name="proID_op" value="<#if Job.proID??><#if Job.proID != 0>${Job.proID}</#if></#if>"/><!-- 行业ID -->
+	<input type="hidden" name="jobPID_op" value="<#if Job.jobPID??><#if Job.jobPID != 0>${Job.jobPID}</#if></#if>"/><!-- 父岗位ID -->
+	<!--<input type="hidden" name="jobImage_op" value="<#if Job.jobImage??>${Job.jobImage}</#if>"/> 岗位图片 -->
+	<input type="hidden" name="jobCtime_op" value="<#if Job.jobCtime??>${Job.jobCtime?string('yyyy-MM-dd HH:mm:ss')}</#if>"/><!-- 创建时间 -->
+	<input type="hidden" name="jobUtime_op" value="<#if Job.jobUtime??>${Job.jobUtime?string('yyyy-MM-dd HH:mm:ss')}</#if>"/><!-- 修改时间 -->
+	<input type="hidden" name="modifyFlag" value="<#if Job.jobID?? && Job.jobID != 0>true<#else>false</#if>"/><!-- 修改时间 -->
+    <div class="fitem" >
+        <label>岗位名称:</label>
+        <#if Job.jobName?? && Job.jobID != 0>
+        	<input name="jobName_op" class="easyui-validatebox" required="true" style="width:70%;" value="${Job.jobName}" data-options="validType:'length[1,10]'" />
+        <#else>
+        	<input name="jobName_op" class="easyui-validatebox" required="true" style="width:70%;" data-options="validType:'length[1,10]'" />
+        </#if>
+    </div>
+    <div class="fitem">
+        <label>岗位推荐:</label>
+        <select id="jobRecommend_AddCombox" class="easyui-combobox"  data-options="panelHeight:'auto'" name="jobRecommend_op" style="width:380px;" required="true">
+		    <option value="">---请选择---</option>
+		    <option value="1" <#if Job.jobRecommend?? && Job.jobID != 0 && Job.jobRecommend==1>selected="selected"</#if> >推荐</option>
+		    <option value="0" <#if Job.jobRecommend?? && Job.jobID != 0 && Job.jobRecommend==0>selected="selected"</#if> >不推荐</option>
+		</select>
+    </div>
+    <div class="fitem">
+    	 <label>岗位图片:</label>
+    	 <span> 
+			  <input id="jobImgFiles" type="file" name="jobImgFiles"   required="true" onchange="ajaxFileUploadJobProfession(3);">
+		</span>
+    	 
+    	 <!-- <span> 
+			<input id="jobImgFiles" type="file" name="jobImgFiles" class="margin-none btn-file-input"  required="true" onchange="ajaxFileUpload(3);">
+		</span> -->
+		<input type="hidden" id="jobImage_op" name="jobImage_op" value="${Job.jobImage!}"/>
+		<input type="hidden" id="jobimgPath" name="jobimgPath" value="${Job.jobImage!}"/>
+		<div id="showJobimg" align="center">
+		<#if Job.jobImage??>
+			 <img  src="${resourcesWebSite!}${Job.jobImage!}" height='70' width='80' />
+		<#else>
+			<img src="" height='70' width='80'/>
+		</#if>
+		</div>
+    </div>
+    <div class="fitem">
+        <label>岗位收藏数:</label>
+        <#if Job.jobCollectCount?? && Job.jobID != 0>
+        	<input name="jobCollectCount_op" data-options="min:0,max:99999999,value:0" class="easyui-numberspinner" required="true" style="width:380px;" value="${Job.jobCollectCount}"/>
+        <#else>
+        	<input name="jobCollectCount_op" data-options="min:0,max:99999999,value:0" class="easyui-numberspinner" required="true" style="width:380px;"/>
+        </#if>
+    </div>
+    <div class="fitem" >
+        <label>薪资行情:</label>
+        <#if Job.jobWage?? && Job.jobID != 0>
+        	<input name="jobWage_op" class="easyui-validatebox" required="true" style="width:70%;" value="${Job.jobWage}" maxlength="200"/>
+        <#else>
+        	<input name="jobWage_op" class="easyui-validatebox" required="true" style="width:70%;" maxlength="200"/>
+        </#if>
+    </div>
+    <!-- <div class="fitem" >
+        <label>岗位级别:</label>
+        <#if Job.jobLevel?? && Job.jobID != 0>
+        	<input name="jobLevel_op" class="easyui-validatebox easyui-numberspinner" data-options="min:0,max:99999" required="true" style="width:380px;" value="${Job.jobLevel}"/>
+        <#else>
+        	<input name="jobLevel_op" class="easyui-validatebox easyui-numberspinner" data-options="min:0,max:99999" required="true" style="width:380px;"/>
+        </#if>
+    </div> -->
+    <div class="fitem">
+        <label>岗位详情:</label>
+        <#if Job.jobDetail?? && Job.jobID != 0>
+        	<textarea rows="5" cols="60" name="jobDetail_op" class="easyui-validatebox" required="true" maxlength="500">${Job.jobDetail}</textarea>
+        <#else>
+        	<textarea rows="5" cols="60" name="jobDetail_op" class="easyui-validatebox" required="true" maxlength="500"></textarea>
+        </#if>
+    </div>
+    <!-- <div class="fitem">
+        <label>岗位发展方向:</label>
+        <#if Job.jobDevelpping?? && Job.jobID != 0>
+        	<textarea rows="5" cols="60" name="jobDevelpping_op" class="easyui-validatebox" required="true" maxlength="500">${Job.jobDevelpping}</textarea>
+        <#else>
+        	<textarea rows="5" cols="60" name="jobDevelpping_op" class="easyui-validatebox" required="true" maxlength="500"></textarea>
+        </#if>
+    </div> -->
+    <div class="fitem">
+        <label>岗位发展前景:</label>
+        <span> 
+			<input id="editjobFile" type="file" name="editjobFile"  required="true" onchange="ajaxFileUploadJobProfession(2);">
+		</span>
+		<input type="hidden" id="jobDevelpping_op" name="jobDevelpping_op" value="${Job.jobDevelpping!}"/>
+		<input type="hidden" id="jobProspectUrl" name="jobProspectUrl" value="${Job.jobDevelpping!}"/>
+		<div id="showProspectImg" align="center">
+		<#if Job.jobDevelpping??>
+			 <img  src="${resourcesWebSite!}${Job.jobDevelpping!}" height='70' width='80' />
+			 <#else>
+			<img src="" height='70' width='80'/>
+		</#if>
+		</div>
+    </div>
+    <div class="fitem">
+        <label>岗位介绍:</label>
+        <#if Job.jobDescription?? && Job.jobID != 0>
+        	<textarea rows="5" cols="60" name="jobDescription_op" class="easyui-validatebox" required="true" maxlength="255">${Job.jobDescription}</textarea>
+        <#else>
+        	<textarea rows="5" cols="60" name="jobDescription_op" class="easyui-validatebox" required="true" maxlength="255"></textarea>
+        </#if>
+    </div>
+    <div class="fitem">
+        <label>岗位职责:</label>
+        <#if Job.jobDuty?? && Job.jobID != 0>
+        	<textarea rows="5" cols="60" name="jobDuty_op" class="easyui-validatebox" required="true" maxlength="500">${Job.jobDuty}</textarea>
+        <#else>
+        	<textarea rows="5" cols="60" name="jobDuty_op" class="easyui-validatebox" required="true" maxlength="500"></textarea>
+        </#if>
+    </div>
+    <div class="fitem">
+        <label>岗位需求:</label>
+        <#if Job.jobDemand?? && Job.jobID != 0>
+        	<textarea rows="5" cols="60" name="jobDemand_op" class="easyui-validatebox" required="true" maxlength="500">${Job.jobDemand}</textarea>
+        <#else>
+        	<textarea rows="5" cols="60" name="jobDemand_op" class="easyui-validatebox" required="true" maxlength="500"></textarea>
+        </#if>
+    </div>
+</form>
+</div>
+</body>
+</html>

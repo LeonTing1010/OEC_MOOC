@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Reference Manual http://logback.qos.ch/manual/index.html -->
+
+<configuration >
+
+	<property name="LOG_HOME"
+		value="D:\\workspace\\GTA_OEC\\WebContent\\logs\\" />
+		
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+	
+		<!-- 日志输出编码 -->
+		<Encoding>UTF-8</Encoding>
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符 -->
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} -
+				%msg%n
+			</pattern>
+		</layout>
+	</appender>
+	<appender name="INFO_LOG"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<Encoding>UTF-8</Encoding>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!--日志文件输出的文件名 -->
+			<FileNamePattern>${LOG_HOME}/oec.info.%d{yyyy-MM-dd}.log
+			</FileNamePattern>
+			<MaxHistory>30</MaxHistory>
+		</rollingPolicy>
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符 -->
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} -
+				%msg%n
+			</pattern>
+		</layout>
+		<!--日志文件最大的大小 -->
+		<triggeringPolicy
+			class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<MaxFileSize>100MB</MaxFileSize>
+		</triggeringPolicy>
+	</appender>
+	<appender name="ERROR_LOG"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<Encoding>UTF-8</Encoding>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!--日志文件输出的文件名 -->
+			<FileNamePattern>${LOG_HOME}/oec.error.%d{yyyy-MM-dd}.log
+			</FileNamePattern>
+			<MaxHistory>30</MaxHistory>
+		</rollingPolicy>
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符 -->
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} -
+				%msg%n
+			</pattern>
+		</layout>
+		<!--日志文件最大的大小 -->
+		<triggeringPolicy
+			class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<MaxFileSize>100MB</MaxFileSize>
+		</triggeringPolicy>
+	</appender>
+
+<!-- 	  <logger name="log4j.logger.com.ibati" level="DEBUG" additivity="true">
+	  	<appender-ref ref="STDOUT"/>
+	  </logger> 
+	  <logger name="log4j.logger.com.ibatis.common.jdbc.SimpleDataSource" level="DEBUG" additivity="true">
+	  	<appender-ref ref="STDOUT"/>
+	  </logger> 
+	  <logger name="log4j.logger.com.ibatis.common.jdbc.ScriptRunner" level="DEBUG" additivity="true">
+	  	<appender-ref ref="STDOUT"/>
+	  </logger> 
+	  <logger name="log4j.logger.com.ibatis.sqlmap.engine.impl.SqlMapClientDelegate" level="DEBUG" additivity="true">
+	  	<appender-ref ref="STDOUT"/>
+	  </logger> 
+	  <logger name="log4j.logger.java.sql.Connection" level="DEBUG" additivity="true">
+	  	<appender-ref ref="STDOUT"/>
+	  </logger> 
+	  <logger name="log4j.logger.java.sql.Statement" level="DEBUG" additivity="true">
+	  	<appender-ref ref="STDOUT"/>
+	  </logger> 
+	  <logger name="log4j.logger.java.sql.PreparedStatement" level="DEBUG" additivity="true">
+	  	<appender-ref ref="STDOUT"/>
+	  </logger> 
+	 -->
+	 
+	<root level="info,debug,error">
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="INFO_LOG" />
+		<appender-ref ref="ERROR_LOG" />
+	</root>
+	
+</configuration>

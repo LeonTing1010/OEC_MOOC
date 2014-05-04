@@ -1,0 +1,168 @@
+<link href="${base}/css/teacherCenter/liveBroadcast.css" rel="stylesheet" type="text/css"/>
+ <div class="topBox">
+          <div class="menuBtn" style="cursor:auto"></div>
+          <div class="crumbs">你所在的位置：<span>点播课程</span></div>
+        </div>
+        <input type="hidden" name="courseId" id="courseId" value=""/>
+<div class="main" >
+<div class="student-title">
+	<h3>点播课程</h3>
+</div>
+[#if pageModel??]
+<div class="table-default">
+	[#if pageModel.list?? && pageModel.list?size >0]
+		<table cellpadding="0" cellspacing="0" class="grid-12">
+			<thead>
+			<tr>
+				<th>课程</th>
+				<th width="80">状态</th>
+				<th width="90">总课时</th>
+				<th width="120">作业</th>
+				<th width="100">课程考试</th>
+				<th width="100">操作</th>
+			</tr>
+			</thead>
+			[#list pageModel.list as list]  <!-- status为  1.未发布 2.已发布  3.审核中（待审核） 4.审核未通过 5.已结束 -->
+			<tbody>
+			<tr>
+				<td>
+					<div class="classBox">
+					[#if list.titlePage??]
+						<img src="[#if list.titlePage??]${cache!}${list.titlePage!}[#else]${cache}/images/base/default_pic_temp_course.jpg[/#if]" width="154" height="80">
+		 			[#else]
+						<img src="${cache!}/images/base/default_pic_temp_course.jpg" width="154" height="80">
+		 			[/#if]
+						<span>
+							[#if list.status==2 || list.status==5]
+							<a href="${base}/course/info/${list.courseId!}/">${list.courseName!}</a>
+							[#else]
+							<span>${list.courseName!}</span>
+							[/#if]
+						</span> 
+						[#if  list.status==1 || list.status==2  || list.status==4]
+							<a href="#" onclick="updateCourseIndex(${list.courseId!},2)">上传资源</a>
+						[/#if]
+					</div>
+				</td>
+				[#if list.status==1]
+					<td id="${list.courseId}td1">未发布</td>
+					<td>${list.courWeek!}</td>
+					<td></td>
+					<td></td>
+					<td id="${list.courseId}td5">
+						<a onclick="updateCourse(${list.courseId!})" href="javascript:void(0)">修改课程</a>
+						<a href="javascript:void(0)"><span onclick="releaseRemandCourse(${list.courseId!},3)">提交审核</span></a>
+					</td>
+				[#elseif list.status==2]
+					<td>已发布</td>
+					<td>${list.courWeek!}</td>
+					<td>
+					[#assign hasCount=0 noCount=0 total=0 examId=0 examType=0/]
+					[#if list.opList?? && list.opList?size >0]		
+						[#list list.opList as exam]
+							[#assign hasCount=hasCount+exam.hasCorrect]
+							[#assign noCount=noCount+exam.noCorrect]
+							[#if exam_index==0]
+								[#assign examId=exam.examId]
+								[#assign examType=exam.examType]
+							[/#if]
+						[/#list]
+						[#assign total=hasCount+noCount]
+						[#if total gt 0]
+						<p>未批改：${noCount!}</p>
+						<p>已批改：${hasCount!}</p>
+						<p>已提交：${total!}</p>
+							[#if noCount>0]
+							<a href="javascript:void(0)" onclick="correct(${examId},${examType})">批阅作业</a>
+							[/#if]
+						[/#if]
+					[/#if]
+						<a href="javascript:void(0)"  onclick="releaseTestIndex(3)">发布作业</a>
+					</td>
+					<td>
+					[#if list.examList?? && list.examList?size >0]
+						[#list list.examList as exam]
+							[#if exam.examCount gt 0]
+							<p>未批改：${exam.noCorrect!}</p>
+							<p>已批改：${exam.hasCorrect!}</p>
+							<p>已提交：${exam.examCount!}</p>
+								[#if exam.noCorrect>0]
+								<a href="javascript:void(0)" onclick="correct(${exam.examId},${exam.examType!})">批阅考试</a>
+								[/#if]
+							[/#if]
+						[/#list]
+					[#else]
+						<a href="javascript:void(0)"  onclick="releaseTestIndex(1)">发布考试</a>
+					[/#if]
+					</td>
+					<td>
+					</td>
+				[#elseif list.status==3]
+					<td>审核中</td>
+					<td>${list.courWeek!}</td>
+					<td></td>
+					<td></td>
+					<td></td>
+				[#elseif list.status==4]
+					<td id="${list.courseId!}td1">审核未通过</td>
+					<td>${list.courWeek!}</td>
+					<td></td>
+					<td></td>
+					<td id="${list.courseId!}td5">
+						<a onclick="updateCourse(${list.courseId!})" href="javascript:void(0)">修改课程</a>
+						<a href="javascript:void(0)"><span onclick="releaseRemandCourse(${list.courseId!},3)">提交审核</span></a>
+					</td>
+				[#elseif list.status==5]
+					<td>已结束</td>
+					<td>${list.courWeek!}</td>
+					<td>
+					[#assign hasCount=0 noCount=0 total=0 examId=0 examType=0/]
+					[#if list.opList?? && list.opList?size >0]		
+						[#list list.opList as exam]
+							[#assign hasCount=hasCount+exam.hasCorrect]
+							[#assign noCount=noCount+exam.noCorrect]
+							[#if exam_index==0]
+								[#assign examId=exam.examId]
+								[#assign examType=exam.examType]
+							[/#if]
+						[/#list]
+						[#assign total=hasCount+noCount]
+						[#if total gt 0]
+						<p>未批改：${noCount!}</p>
+						<p>已批改：${hasCount!}</p>
+						<p>已提交：${total!}</p>
+						[/#if]
+					[/#if]
+					</td>
+					<td >
+					[#if list.examList?? && list.examList?size >0]
+					[#list list.examList as exam]
+						[#if exam.examCount gt 0]
+						<p>未批改：${exam.noCorrect!}</p>
+						<p>已批改：${exam.hasCorrect!}</p>
+						<p>已提交：${exam.examCount!}</p>
+						[/#if]
+					[/#list]
+					[/#if]
+					</td>
+					<td>
+					</td>
+				[/#if]
+			</tr>
+			</tbody>
+			[/#list]
+		</table>
+			[@p.tab value=pageModel][#rt/][/@p.tab]
+		[#else]
+			<p>暂无点播课程!</p>
+		[/#if]
+</div>
+
+</div>
+<script type="text/javascript">
+function _gotoPage(pageNo){
+	remandPageIndex=pageNo;
+	$('.rightCon').load(base+"/teacherCenter/todemandbroad/?pageNo="+pageNo);
+}
+</script>
+[/#if]

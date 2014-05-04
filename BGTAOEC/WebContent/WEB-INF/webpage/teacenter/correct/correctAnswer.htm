@@ -1,0 +1,69 @@
+
+<form action=""  method="post" id="correctForm">
+	<div class="mt10 font16 gray">主观题（共[#if examQuestionList??]${examQuestionList?size}<input type="hidden" name="totalNo" value="${examQuestionList?size}"/>[/#if]题，${totleScore!}分）：</div>
+	<ul class="subjectiveItem">
+		[#if examQuestionList??]
+		[#list examQuestionList as quesList]
+		<li class="item">
+			<div class="question">${quesList_index?if_exists+1}.&nbsp&nbsp ${quesList.examQuesContent!}</div>
+			<div class="answer">
+				[#if quesList.examAnswerDetailVo.examAnswer?length gt 0]
+					答：${quesList.examAnswerDetailVo.examAnswer!}
+				[#else]
+					<p style="color:red">该学生没有作答!</p>
+				[/#if]
+				<input type="hidden" name="examAnswerId" value="${quesList.examAnswerDetailVo.examAnswerId!}"/>
+			</div>
+			<div class="score">
+				评分：<input name="score"  type="text" placeholder="请输入评分" value=""  onchange="check(this.value,${quesList.examQuesScore!})"> （${quesList.examQuesScore!}分）
+			</div>
+		</li>
+		[/#list]
+		[/#if]
+	</ul>
+	<div class="grade mt10">主观题得分：</div>
+	<div>
+		<div class="form-button-bar mar10 pt10 ">
+			<button type="button" id="input" class="btn btn-success btn-small secondStep" onclick=" inputScore()">&nbsp;&nbsp;保存&nbsp;&nbsp;</button>
+		</div>
+	</div>
+</form>
+  <div class="popWindow" id="backMsg" style="display:none;">
+    <div class="title"></span>提示成功</div>
+    <div class="popContent pointOut">
+      <div class="con"><img src="${base}/images/base/information-white.png" width="16px" height="16" /><span></span></div>
+      <div class="button">
+            <button class="btn btn-primary btn-small" onclick="nextOne(2)">确定</button> 
+      </div>
+    </div>
+  </div>
+
+
+<script type="text/javascript">
+$(document).ready(function(){
+    var doc=document,inputs=doc.getElementsByTagName('input'),supportPlaceholder='placeholder'in doc.createElement('input'),
+    placeholder=function(input){
+    	var text=input.getAttribute('placeholder'),defaultValue=input.defaultValue;
+    	input.style.color = "gray";   	
+   		 if(defaultValue==''){
+      		  input.value=text;
+      		  
+    	 }
+        input.onfocus=function(){
+            if(input.value===text){this.value='';input.style.color = "black";}
+        };
+        input.onblur=function(){
+        	if(input.value===''){this.value=text;input.style.color = "gray";}
+        }
+     };
+     if(!supportPlaceholder){
+            for(var i=0,len=inputs.length;i<len;i++)
+            {
+            	var input=inputs[i],text=input.getAttribute('placeholder');
+                if(input.type==='text'&&text){
+                	  placeholder(input);
+                }
+            }
+     }   
+});
+</script>

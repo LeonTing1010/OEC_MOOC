@@ -1,0 +1,44 @@
+
+ <#if course.sectionList??> <#list course.sectionList as section>
+
+<thead>
+	<tr>
+		<td colspan="4" style="background:#ccc;color:#666;vertical-align:middle;padding:10px">
+			<h1 style="font-size:14px; color:#666; padding:0; margin:0">
+			第<@num s='${section_index+1}'/>章&nbsp;&nbsp;<@text_cut
+				s='${section.name!}' len='20' append='..'></@text_cut>
+			</h1>
+			<div style="padding:10px">
+				简介：${section.introduction!}
+			</div>
+		</td>
+	</tr>
+</thead>
+
+<#if section.list??> <#list section.list as sect>
+<tbody>
+<tr>
+	<th style="background:#ddd;border:2px solid #fff;text-align:left;padding:10px">
+	<h2 style="font-size:14px">第<@num s='${sect_index+1}'/>节.</h2>
+		<@text_cut s='${sect.name!}' len='20'
+		append='..'></@text_cut>
+	</th>
+	<td width="130" style="border:2px solid #fff;background:#f2f2f2;vertical-align:middle;padding:10px">
+		<#if sect.secUrl??>
+		<a href="javascript:void(0);" onclick="movieView('${sect.id!}')">查看视频</a>
+		</#if>
+	</td>
+	<td width="130" style="border:2px solid #fff;background:#f2f2f2;vertical-align:middle;padding:10px">
+		<#if sect.resourceSum??>
+			<#if sect.resourceSum!=0>
+				<a href='javascript:void(0);' onclick="ReaderPopupWindow(${sect.courseId!},${sect.id!})">查看辅助资料</a>
+			</#if>
+		</#if>
+	</td> 
+	<#if course.liveType??> 
+	<#if "${course.liveType!}"=="1">
+	<td width="130" style="border:2px solid #fff;background:#f2f2f2;vertical-align:middle;padding:10px"><a href="#" onclick="setLiveChannel('${sect.courseId!}')">设置直播通道</a></td> </#if>
+	</#if>
+</tr>
+</tbody>
+</#list> </#if> </#list> </#if>

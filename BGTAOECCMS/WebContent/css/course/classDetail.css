@@ -1,0 +1,251 @@
+@charset "utf-8";
+/* CSS Document */
+
+.form-row{border-bottom:1px solid #eee;clear:both;margin-bottom:10px;overflow:hidden;padding-bottom:10px;}
+.form-row .label{float:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width:25%;line-height:30px;color:#666}
+.form-row .input{margin-left:0%;}
+.form-row .editText{   margin:0 10px;}
+.form-row .editText a{color:#69F;text-decoration:underline;}
+.form-row .input select{background-color:#F5F5F5;border-color:#CCCCCC;background-image:-moz-linear-gradient(center top,#FFFFFF,#F5F5F5);box-shadow:0 1px 2px rgba(0,0,0,0.1);padding:7px;-moz-box-sizing:border-box;border-radius:4px 4px 4px 4px;border-style:solid;border-width:1px;max-width:100%;outline:medium none;}
+.form-row .input input{outline:none;padding:8px 0px 8px 10px;border-radius:4px;border:1px solid #ccc;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;text-indent:0px;text-shadow:none;display:inline-block;text-align:start;box-shadow:0px 1px 1px rgba(0,0,0,0.1) inset;}
+.form-row .input .input-checkBox,.form-row .input .input-radio{ padding:0; border-radius:0; border:none; box-shadow:none; vertical-align:middle}
+.form-row .input textarea{padding:10px;-moz-box-sizing:border-box;border-radius:4px;max-width:100%;outline:medium none;overflow:auto;vertical-align:top;resize:none;border:1px solid #CCCCCC;box-shadow:0 1px 1px rgba(0,0,0,0.1) inset;}
+.form-row .input .text{line-height:30px;}
+.form-button-bar{margin:20px 0 0 25%;}
+.text-img{display:inline-block; padding-right:20px; vertical-align:bottom;}
+.text-img img{width:100px; height:100px; margin-right:10px;}
+.btn-file{
+	overflow: hidden;
+	display: inline-block;
+    position: relative;
+	}
+.btn-file-input{
+	cursor: pointer;
+    direction: ltr;
+    font-size: 23px;
+    margin: 0;
+    opacity: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transform: translate(-300px, 0px) scale(4);
+	height: 30px;
+    line-height: 30px;
+	filter:alpha(opacity:0);
+	}
+
+.classList{
+	border-bottom:1px solid #d7d7d7;}
+.addBtn,.reduceBtn{
+	display:inline-block;
+	height:18px;
+	width:18px;
+	border-radius:10px;
+	-moz-border-radius: 10px;
+	-khtml-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border:2px solid #b4bcc9;
+	font-size:18px;
+	font-weight:800;
+	color:#b4bcc9;
+	line-height:18px;
+	text-align:center;
+	cursor:pointer;
+	}
+.showButton{position:relative; zoom:1;}
+.inputButton{position:absolute; right:0; top:0;}
+.inputButton a, .inputButton div{margin-left:4px;}
+
+
+.creatList dt{
+	height:30px;
+	line-height:30px;
+	margin-bottom:10px;
+	}
+.creatList label{
+	width:25%;
+	float:left;
+	}
+.creatList .input{
+	margin-left:25%;
+	}
+.creatList input{
+	line-height:28px;
+	padding:0 6px;
+	}
+.creatList dt input{
+	border:1px solid #d7d7d7;
+	}
+.creatList dd input{
+	border:1px solid #669
+	}
+.creatList dd{
+	background:#eff1f6;margin-left:25%;}
+
+.creatList ol{ padding: 10px ;}
+.creatList ol li{
+	line-height:30px;
+	margin-bottom:10px;
+	}
+.creatList-all{margin-left:197px;}
+
+.minBox{
+	border:1px solid #d0d7e1;
+	height:440px;
+	position:relative;
+	}
+.leftBox{
+	width:200px;
+	position:absolute;
+	left:0;
+	top:0;
+	height:440px;
+	}
+.rightBox{
+	height:400px;
+	margin-left:200px;
+	border-left:1px solid #d0d7e1;
+	background:#f4f6fb;
+	padding:20px;
+	}
+.terchapter-title{
+	height:30px;
+	line-height:30px;
+	background:#eee;
+	padding:0 0 0 5px;
+	color:#069;
+	font-size:12px;
+	border-bottom:1px solid #d7d7d7;
+	cursor:pointer;
+	}
+.terchapter-title:hover{
+	background:#C1D9DF
+	}
+.part-title{
+	padding:0 0 0 26px;
+	font-size:12px;
+	line-height:30px;
+	height:30px;
+	border-bottom:1px solid #d7d7d7;
+	}
+.part-title:hover{
+	background:#EEE;
+	cursor:pointer;
+	}
+.terchapter-title span{
+	display:inline-block;
+	height:12px;
+	line-height:12px;
+	width:14px;
+	text-align:center;
+	font-family:Arial, Helvetica, sans-serif;
+	margin-right:5px;
+	border:1px solid #d7d7d7;
+	background:#FFF;
+	font-size:14px;
+	}
+.leftBox{
+	overflow:auto;}
+.form-foot{
+	height:40px;
+	border-bottom:1px solid #d7d7d7;
+	border-left:1px solid #d7d7d7;
+	border-right:1px solid #d7d7d7;
+	line-height:40px;
+	padding:5px;
+	text-align:center;
+	}
+
+
+
+/*第一步样式开始*/
+.selectBox{
+	height:30px;
+	line-height:30px;
+	border:1px solid #d7d7d7;
+	padding:0 5px ;
+	color:#555;
+	width:200px;
+	position:relative;
+	background:bule;
+	}
+.selectCon{
+	position:absolute;
+	top:30px;
+	left:-1px;
+	background:#fff;
+	border:1px solid #d7d7d7;
+	z-index:99;
+	width:550px;
+	}
+.selectCon .selected{
+	padding:10px 10px 0 10px;
+	line-height:26px;
+	border-bottom:1px solid #d7d7d7;
+	font-size:12px;
+	}
+.selectCon .selected span{
+	line-height:24px;
+	height:24px;
+	border:2px solid #69F;
+	padding:0 30px 0 5px;
+	display:inline-block;
+	position:relative;
+	margin:0 10px 10px 0;
+	}
+.selectCon .selected span i{
+	display:block;
+	background:#69F;
+	color:#fff;
+	text-align:center;
+	height:24px;
+	width:22px;
+	font-style:normal;
+	font-weight:800;
+	font-family:Arial, Helvetica, sans-serif;
+	position:absolute;
+	right:0;
+	top:0;
+	cursor:pointer;
+	}
+.selectCon .selected span i:hover{
+	background:#E06565}
+.seelectPlug{
+	overflow:visible
+	}
+.selectTip{
+	cursor:pointer;
+	background:url(../../images/course/select-bg.png) right center no-repeat}
+.selectCon .list{
+	height:180px;
+	overflow:auto;
+	border-bottom:1px solid #d7d7d7;}
+.selectCon .list dl{
+	padding:10px 0}
+.selectCon .list dt{
+	margin:0 10px 5px 10px;
+	padding:0 0 0 10px;
+	line-height:30px;
+	background:#DDD
+	}
+.selectCon .list .item{
+	float:left;
+	width:120px;
+	line-height:24px;
+	padding:0 0 0 10px;
+	vertical-align:middle;
+	display:inline
+}
+.selectCon .item label{
+	margin-left:10px;
+	cursor:pointer;
+	width:90px;
+	overflow:hidden;
+	display:inline-block;
+	line-height:24px;
+	height:24px;
+	}
+.btnBox{ 
+	height:30px;
+	padding:5px;
+}

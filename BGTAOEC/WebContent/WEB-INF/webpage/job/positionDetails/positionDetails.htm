@@ -1,0 +1,171 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>${(positionDetailObj.jobName)!''}-国泰安网络教育</title>
+<meta name="description" content="职位详情" />
+<meta name="Keywords" content="职位详情" />
+[#include "/webpage/common/common.htm"/]
+
+<link href="${base}/css/course/designer.css" rel="stylesheet" type="text/css">
+<script>
+
+	
+/**
+ * 
+ * Fucntion:收藏
+ * Add By:刘祚家
+ * Add Date:2014-02-12
+ */
+function updateMyCollect(jobId){
+	 oec.login.isLogin(function(){
+		 if(jobId!=""){
+				$.ajax({
+					url:base+"/positiondetail/updateMyCollect.ajax",
+					data:{"jobId":jobId},
+				    success:function(data){
+						if(data.flag==0){
+							if(data.jobVo!=null){
+								//eoc.success('温馨提示','收藏成功！',function(){});
+					    		$("#collectSign"+jobId).html("已收藏");
+					    		//document.getElementById("collectSign"+jobId).onclick = function(){}
+					    		$("#collectCount"+jobId).html("已收藏"+data.jobVo.jobCollectCount+"人"); 		
+				    		}
+						}else if(data.flag==1){
+							 window.location.href=base+'/user/loginIndex/';
+						}else if(data.flag==2){
+							if(data.jobVo!=null){
+								//eoc.success('温馨提示','收藏成功！',function(){});
+					    		$("#collectSign"+jobId).html("立即收藏");
+					    		//document.getElementById("collectSign"+jobId).onclick = function(){}
+					    		$("#collectCount"+jobId).html("已收藏"+data.jobVo.jobCollectCount+"人"); 		
+				    		}
+						}
+				    }
+					
+				});
+			}
+	 });
+		
+
+}
+</script>
+</head>
+
+<body id="backtop">
+<div class="wrapper">
+[#include "/webpage/common/head.htm"/]
+  <div class="container">
+  	<div class="content clearfix pt10">
+  	  <div class="crumbs grid grid-12">
+          <a href="${base}/job/jobCenter/?jobId=0">全部行业</a>
+          <a href="${base}/job/jobCenter/?tradeId=${proId!}">${proName!}</a>
+          <a href="${base}/job/jobCenter/?jobGroupId=${jobId!}">${jobName!}</a>
+          <span>${(positionDetailObj.jobName)!''}</span>
+      </div>
+        
+		<!--courseIntro start-->
+		  <div class="grid courseIntro clearfix">
+		  		<img src="[#if positionDetailObj.jobImage?? && positionDetailObj.jobImage?length gt 0]${cache!}${positionDetailObj.jobImage!}[#else]${base!}/images/base/default_pic_temp_job.jpg[/#if]"  class="fl" alt="" width="260" height="260"/>
+			  <div class="introCon">
+					<h3>${(positionDetailObj.jobName)!''}</h3>
+					<div class="clearfix">
+						<label>职业简介：</label>
+						<p>${(positionDetailObj.jobDescription)!''}</p>
+					</div>
+					<div class="clearfix mt10">
+						<label>培训课程：</label>
+							<p>
+								[#if positionDetailObj.courseJobAllList?? && positionDetailObj.courseJobAllList?size !=0]
+								[#list positionDetailObj.courseJobAllList as lists]
+								
+									[#if lists.courseName?exists]
+										<a href="${base}/course/info/${lists.courseID!}/">${(lists.courseName)!''}</a>
+									[/#if]
+									[#if !lists_has_next]
+									[#else]
+										
+									[/#if]
+								 [/#list]
+							
+							[/#if]
+							</p>
+					</div>
+                    <div class="collectCon">
+<!--                    	<div class="btn btn-large collectBtn fl" onclick="updateMyCollect(${(positionDetailObj.jobID)!'0'})" id="collectSign${(positionDetailObj.jobID)!'0'}">${(positionDetailObj.collectSign)!'立即收藏'}</div><span class="pl20" id="collectCount${(positionDetailObj.jobID)!'0'}">已收藏${(positionDetailObj.jobCollectCount)!'0'}人</span>-->
+                  		<a href="javascript:void(0);" class="btn btn-large collectBtn fl" onclick="updateMyCollect(${(positionDetailObj.jobID)!})" id="collectSign${(positionDetailObj.jobID)!'0'}">${(positionDetailObj.collectSign)!'立即收藏'}</a><span class="pl20" id="collectCount${(positionDetailObj.jobID)!'0'}">已收藏${(positionDetailObj.jobCollectCount)!'0'}人</span>
+                    </div>
+				</div>
+		  </div>
+		    <!--courseIntro end-->		
+			
+          <div class="grid grid-12 courseBox clearfix">
+		  <!--curSide start-->
+          <div class=" curSide">		  
+		  	<!--推荐认证培训 start--><!--推荐认证培训 end-->
+			
+			<!--相关岗位 start-->
+			<div class="curSideBox">
+            	<h3 class="curTitle">相关岗位</h3>
+				<dl class="subjectList">
+					[#if jobList?? && jobList?size>0]
+					[#list jobList as job]
+					<dd>
+						<a href="#" title="" class="fl"><img src="[#if job.jobImage?? && job.jobImage?length gt 0]${cache!}${job.jobImage!}[#else]${base!}images/base/default_pic_temp_job.jpg[/#if]" width="100" height="100" alt=""></a>
+						<ul class="postItem">
+							<li class="font16"><a href="${base}/job/positiondetails/${job.jobID!}/">${job.jobName!}</a></li>
+							<li>${proName!}</li>
+							<li><span class="btn btn-mini btn-darkBlue" onclick="updateMyCollect(${(job.jobID)!'0'})" id="collectSign${(job.jobID)!'0'}">${(job.collectSign)!'立即收藏'}</span></li>
+						</ul>
+					</dd>
+					[/#list]
+                 	[/#if]
+				</dl>
+				
+				
+            </div>
+			<!--相关岗位 end-->			
+          </div>
+		  <!--curSide end-->
+		  
+          	<div class="courseCon pb10">
+          	  <div class="courseCon-item">
+                <div class="title ico1"><p>职位详情<p></div>
+                <div class="con">
+                	${(positionDetailObj.jobDetail)!''}
+                </div>
+              </div>
+              <div class="courseCon-item">
+                <div class="title ico2">发展前景</div>
+                <div class="con">
+                  <div class="textc mt10 mb10">${(positionDetailObj.jobDevelpping)!''}</div>
+                </div>
+              </div>
+              <div class="courseCon-item">
+                <div class="title ico3">能力要求</div>
+                <div class="con">
+                 	${positionDetailObj.jobDemand!}
+                </div>
+              </div>
+              <div class="courseCon-item">
+                <div class="title ico4">职责范围</div>
+                <div class="con">
+                 	${positionDetailObj.jobDuty!}
+                </div>
+              </div>
+              
+              <div class="courseCon-item">
+                <div class="title ico5">薪资行情</div>
+                <div class="con">
+                  <p>${(positionDetailObj.jobWage)!''}</p>
+                </div>
+              </div>
+          	</div>            
+          </div>
+  	</div>
+  </div>
+  <div class="footerFixer"></div>
+</div>
+[#include "/webpage/common/footer.htm"/]
+</body>
+</html>

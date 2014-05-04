@@ -1,0 +1,97 @@
+
+			
+[#if pageModel.list?exists && pageModel.list?size !=0]
+	[#list pageModel.list as lists]
+		<li class="clearfix">
+			[#if teacherListed?exists && teacherListed?size !=0]
+			[#list teacherListed as teaLists]
+			[#if teaLists.teacherID==lists.userID]
+			<span class="tag">邀请</span>
+			[/#if]
+			[/#list]
+			[/#if]
+			<a href="${base}/qacenter/teacherdetail/${(lists.teacherId)!'0'}/?headTab=8"><img src="[#if lists.userHeadPic??]${cache!}${lists.userHeadPic!}[#else]${cache!}/images/base/default_pic_temp_user.jpg[/#if]"  alt="" title="用户头像" /></a>
+			<div class="hotQuestionCon-info">
+				<p class="hotQuestionCon-info-a"><span><a href="${base}/qacenter/teacherdetail/${(lists.teacherId)!'0'}/?headTab=8" style="color: red;">[@html_unescape_cut s="${(lists.userName)!}" len="9" append=".."/]</a></span> / ${(lists.teacherLevel)!''}</p>
+				<p class="hotQuestionCon-info-b">${(lists.answContent)!''}</p>
+			    <div class="addQuestion">
+			    [#if lists.quesAddLists?exists && lists.quesAddLists?size !=0]
+					[#list lists.quesAddLists as quesAddList]
+						 <dl>
+				        	<dt class="answered">
+				        	[#if quesAddList.answerList?size ==0]
+				        		[#if loginUserVo??]
+				        		[#if loginUserVo.userType==2]
+									<span class="addQuestion-tit-answer${(quesAddList.quesAddID)!'0'}">回答</span>
+								[/#if]
+								[/#if]
+				        	[/#if]
+				        	<div class="addQuestion-tit"><b>追问：</b>${(quesAddList.quesContent)!''}</div>
+				        	</dt>
+				        	[#if quesAddList.answerList?exists && quesAddList.answerList?size !=0]
+								[#list quesAddList.answerList as answer]
+				        			<dd>${(answer.answContent)!''}</dd>
+							    [/#list]
+							[/#if]
+				        	<dd class="addQuestion-answer${(quesAddList.quesAddID)!'0'} hide">
+				        		<form id="form${(quesAddList.quesAddID)!'0'}" action="${base}/questionCenter/saveAnswer/" method="POST">
+						      		<input type="hidden" id="quesAddAnswContentNum${(quesAddList.quesAddID)!'0'}" class="quesAddAnswContentNum${(quesAddList.quesAddID)!'0'}"/>
+						      		<input type="hidden" name="quesID" value="${(questionVo.quesID)!'0'}"/>
+						      		<input type="hidden" name="quesAddID" value="${(quesAddList.quesAddID)!'0'}"/>
+						      		
+		                    		<textarea class="textarea" id="quesAddAnswContent${(quesAddList.quesAddID)!'0'}" name="answContent" style="width:566px;height:120px;overflow:hidden"></textarea>
+						      		<button class="btn btn-small btn-darkBlue mt10 mr10" onclick="return submitQuesAddAnswer(${(quesAddList.quesAddID)!'0'});">提交</button><button class="btn btn-small btn-gary mt10" id="btn-addQuestion-answer${(quesAddList.quesAddID)!'0'}" onclick="return false;">取消</button>
+						    	</form>
+				        	</dd>
+				      	</dl>
+			    	[/#list]
+				[/#if]
+			    </div>
+
+				<a href="javascript:void(0);" onclick="updateAnswPraiseCount('${(lists.answID)!'0'}')" class="hotQuestionCon-info-c"><span id="praiseSign${(lists.answID)!'0'}">${(lists.praiseSign)!''}</span>(<span id="praiseCount${(lists.answID)!'0'}">${(lists.answPraiseCount)!'0'}</span>)</a>
+		<!--		<a href="${base}/questionCenter/questionaddquestion/$+{(questionVo.quesID)!'0'}/${(lists.answID)!'0'}/" class="hotQuestionCon-info-d">追加问题</a>-->
+		<!--		<a href="#" class="hotQuestionCon-info-c">赞12</a>-->
+				[#if loginUserVo??]
+				[#if questionVo.userID==loginUserVo.userId]
+				<span class="hotQuestionCon-info-d addQuestionCon-info-d${(lists.answID)!'0'}">追加提问</span>
+				[/#if]
+				[/#if]
+			    <div class="addQuestionInput${(lists.answID)!'0'} mt10 hide">
+			    	<form id="form${(lists.answID)!'0'}" action="${base}/questionCenter/saveQuestionAdd/" method="POST">
+			      		<input type="hidden" id="quesContentNum${(lists.answID)!'0'}" class="quesContentNum${(lists.answID)!'0'}"/>
+	                	<input type="hidden" id="answerId${(lists.answID)!'0'}" name="answerId" value="${(lists.answID)!'0'}"/>
+	                	<input type="hidden" name="quesID" value="${(questionVo.quesID)!'0'}"/>
+						<input type="hidden" name="quesAnswerUserID" value="${(lists.userID)!''}"/>
+						<input type="hidden" name="jobGroupID" value="${(questionVo.jobID)!''}"/>
+			
+			      		<textarea class="textarea" id="quesContent${(lists.answID)!'0'}" name="quesContent" style="width:586px;height:120px;overflow:hidden"></textarea>
+			      		<button class="btn btn-small btn-darkBlue mt10 mr10" onclick="return submitQuesAdd(${(lists.answID)!'0'});">提交</button><button class="btn btn-small btn-gary mt10" id="btn-addQuestionInput${(lists.answID)!'0'}" onclick="return false;">取消</button>
+			    	</form>
+			    </div>
+			</div>
+		</li>
+	[/#list]
+
+
+	[#if pageModel.toPage gte pageModel.totalPage]
+	<script type="text/javascript">
+	$(function($){
+		$("#showMoreAnswer").hide();
+	})
+	</script>
+	[#else]
+	<script type="text/javascript">
+		$(function($){
+			$("#showMoreAnswer").show();
+		})
+	</script>	
+	[/#if]
+[#else]
+	<span style="margin-left: 40%;"></span>
+		<script type="text/javascript">
+		$(function($){
+			$("#showMoreAnswer").hide();
+		})
+		</script>
+[/#if]
+					

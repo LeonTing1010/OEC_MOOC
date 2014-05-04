@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+        <typeAlias alias="page" type="com.gta.oec.cms.common.pagination.PaginationContext"/>
+        <!-- <typeAlias alias="page" type="com.gta.oec.cms.common.pagination.PageModel"/> --> 
+	</typeAliases>
+	<plugins>
+		<plugin interceptor="com.gta.oec.cms.common.pagination.PaginationPluginForMybaits">
+            <property name="dialect" value="mysql" />
+            <property name="pageSqlId" value=".*PageQuery*." />
+        </plugin>
+	</plugins>
+</configuration>

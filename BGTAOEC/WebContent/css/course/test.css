@@ -1,0 +1,68 @@
+@charset "utf-8";
+/* CSS Document */
+ #DetailSide_current{
+	background:#3a96af;
+	color:#fff;
+}
+.itemPool{
+	padding:10px;
+	}
+.itemPool dl{
+	margin:10px;
+	padding:0 0 10px 0;
+	border-bottom:#d7d7d7 1px dotted;
+	}
+.itemPool dl dt{
+	line-height:24px;
+	font-weight:800;
+	color:#333;
+	width:100%;
+	overflow:hidden;
+	}
+.itemPool dl dd{
+	line-height:24px;
+	color:#555;
+	padding:0 0 0 30px;
+	}
+.itemPool dl dd label{
+	cursor:pointer;}
+.itemPool dl dd textarea{
+	width:500px;
+	height:80px;
+	}
+.itemPool .title{
+	line-height:30px;
+	height:30px;
+	font-size:16px;
+	font-weight:800;
+	}
+.itemPool p{
+	margin:5px;
+	padding:0;
+	color:#999
+	}
+.itemPool .result{
+	color:#333}
+.itemPool .green{
+	color:#090}
+.score{
+	position:relative;
+	padding-left:30px;
+	}
+.score .ico{
+	position:absolute;
+	background:url(../../images/base/ico_warn.png) no-repeat;
+	width:16px;
+	height:16px;
+	top:8px;
+	left:0px;
+	}
+.score.error .ico{
+	background-position:-50px -50px;
+	}
+.score.right .ico{
+	background-position:-50px 0px;
+	}
+.Total{
+	line-height:40px;
+	margin:10px 0 0 0;}

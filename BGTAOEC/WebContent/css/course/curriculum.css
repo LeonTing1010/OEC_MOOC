@@ -1,0 +1,80 @@
+@charset "utf-8";
+/* CSS Document */
+ #DetailSide_current{
+	background:#3a96af;
+	color:#fff;
+}
+.curDetailCon h4{
+	margin-top:20px;
+	background:#e2e2e2;
+	color:#005a73;
+	height:40px;
+	line-height:40px;
+	padding-left:1em;
+}
+.curDetailList{
+}
+.curDetailList li{
+	height:43px;
+	width:720px;
+	display:block;
+}
+.curDetailList li .title{
+	float:right;
+	width:650px;
+	border-bottom:1px dotted #d7d7d7;}
+.curDetailList li .statusA,.curDetailList li .statusB{
+	width:23px;
+	height:23px;
+	margin:10px 0px 0 20px;
+	float:left;
+	position:relative;
+	display:block;
+	}
+.curDetailList li .statusA{
+	background:url(../../images/course/status_icons.gif) 0px -23px;
+	}
+.curDetailList li .statusB{
+	background:url(../../images/course/status_icons.gif) 0px -46px;
+	}	
+.curDetailList li .statusA.viewed{
+	background-position:0 0;
+	}
+.curDetailList li .statusB.viewed{
+	background-position:0px -69px;
+	}
+.curDetailList li .statusA span,.curDetailList li .statusB span{
+	width:2px;
+	height:20px;
+	background:#8a8a8a;
+	position:absolute;
+	bottom:-20px;
+	left:10px;
+	display:block;
+	}
+.curDetailList li .viewed span{
+	background:#3b9510;
+	}
+.curDetailList li a label{
+	color:#999;
+	padding-right:12px;
+}
+.curDetailList li a{
+	line-height:40px;
+}
+.edit,.text{
+	float:right;
+	display:inline;
+	height:16px;
+	width:16px;
+	background:url(../../images/course/cur_icon.gif) no-repeat;
+	margin:14px 8px 0;
+	padding:0;
+	cursor:pointer;
+}
+.text{background-position: 0 -20px;}
+.text:hover{
+	background-position:0 -40px;
+	}
+.edit:hover{ background-position:0 -60px;}
+

@@ -1,0 +1,108 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>名师解疑-国泰安网络教育</title>
+<meta name="description" content="插入网站全局描述变量" />
+<meta name="Keywords" content="插入网站全局关键字变量" />
+[#include "/webpage/common/common.htm"/]
+<link href="${base}/css/answerCenter/teacherList.css" rel="stylesheet"
+	type="text/css">
+<script type="text/javascript" src="${base}/js/qcenter/teacherlist.js"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$(".select").click(function() {
+			$(".select-list").toggle();
+		});
+		$(".select").mouseleave(function() {
+			$(".select-list").hide();
+		});
+		$(".select li").click(function() {
+			var str = $(this).text();
+			$(".select span").text(str);
+		});
+
+	});
+</script>
+
+<script type="text/javascript">
+var jumpProId='${jumpProId!}';
+var jumpJobId='${jumpJobId!}';
+$(function($){
+	
+if(!isNull(jumpProId)){
+	$("#item"+jumpProId).click();
+};
+
+if(!isNull(jumpJobId)){
+	$("#subMenu"+jumpJobId).click();
+};
+});
+</script>
+</head>
+
+<body id="backtop">
+	<div class="wrapper">
+		<!-- 答疑中心引入头部 -start-->
+		[#include "/webpage/common/questionhead.htm"/]
+		<!-- 答疑中心引入头部 -end-->
+		<div class="container">
+			<div class="content clearfix pt10">
+				<div class="grid mr10">
+					<div class="grid leftMenu">
+						<div class="menu-head">
+							<div class="title">名师解疑</div>
+							<!--             <div class="select">
+              <span>按行业分类</span>
+              <ul class="select-list hide">
+                <li>按行业分类</li>
+                <li>按专业分类</li>
+              </ul>
+            </div> -->
+						</div>
+
+						<ul class="menu-body">
+							[#if professionList??] [#list professionList as prof]
+							<li class="item">
+								
+								<a href="javascript:void(0)"value="${prof.proID!}" id="item${prof.proID!}" class="className">
+									<div style="width:100%;height:100%">${prof.proName!}</div>
+								</a>
+								
+								<div class="subMenu">
+									[#if prof.jobGroupList??] [#list prof.jobGroupList as jobg]
+									<dl>
+										<dt id="subMenu${jobg.jobID!}" value="${jobg.jobID!}">
+											<a href="javascript:void(0)"><div style="width:100%;height:100%">${jobg.jobName!}</div></a>
+										</dt>
+									</dl>
+									[/#list] [/#if]
+								</div>
+							</li> 
+							[/#list] [/#if]
+						</ul>
+					</div>
+				</div>
+				<div class="grid rightCon">
+					<div class="subCrumbs">
+						<a href="${base}/qacenter/teacherlist/">全部</a> <a href="javascript:void(0)"
+							id="titleItem" itemId=""></a> <span id="titleSubMenu"></span>
+					</div>
+					<div class="teacherList">
+					<ul class="clearfix" pageNo="1" id="teacherUl">
+					[#include "/webpage/qacenter/teachercontentlist.htm"/]
+					</ul>
+					</div>
+					<div class="pageMore" style="display: none;">
+						<span class="btn-small btn radius">- 查看更多 -</span>
+					</div>
+				</div>
+			</div>
+
+
+		</div>
+		  <div class="footerFixer"></div>
+</div>
+[#include "/webpage/common/footer.htm"/]
+</body>
+</html>

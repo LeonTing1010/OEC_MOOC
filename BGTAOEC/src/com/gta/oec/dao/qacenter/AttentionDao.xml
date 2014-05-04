@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gta.oec.vo.qacenter.AttentionVo">
+	<resultMap type="com.gta.oec.vo.qacenter.AttentionVo" id="attentionMap">
+
+		<result column="ID" property="id" />
+		<result column="Ques_ID" property="quesID" />
+		<result column="User_ID" property="userID" />
+		<result column="status" property="status" />
+
+	</resultMap>
+	
+	<insert id="saveAttention" parameterType="com.gta.oec.vo.qacenter.AttentionVo" keyProperty="id" useGeneratedKeys="true">
+		insert into q_attention(Ques_ID,User_ID,status) 
+		values(#{quesID},#{userID},#{status})
+	</insert>
+	
+	<delete id="deleteAttention" parameterType="com.gta.oec.vo.qacenter.AttentionVo">
+		delete from q_attention where ID=#{id}
+	</delete>
+	
+	<select id="getAttentionQuestionByUserId" parameterType="java.util.Map" resultMap="attentionMap">
+			SELECT p.* FROM q_attention AS p
+			WHERE p.User_ID=#{userID}
+			<if test="quesID!=0">
+      	        and p.Ques_ID=#{quesID}
+      	    </if>
+	</select>
+	
+	<!-- 根据用户id查询关注的问题id集合 by zhangjin-->
+	<select id="getAttentionQuesIdListByUserId" parameterType="int" resultType="int">
+			SELECT ques_ID FROM q_attention WHERE user_ID=#{userID}
+	</select>
+	
+	<select id="getAttentionUserByQuesId" parameterType="int" resultMap="attentionMap">
+			SELECT p.* FROM q_attention AS p
+			WHERE p.Ques_ID=#{quesID}
+	</select>
+	
+</mapper>    

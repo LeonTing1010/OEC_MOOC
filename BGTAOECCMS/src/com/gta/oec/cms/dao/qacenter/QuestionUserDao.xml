@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gta.oec.cms.dao.qacenter.QuestionUserDao">
+	<resultMap type="com.gta.oec.cms.vo.qacenter.QuestionUserVo"
+		id="questionUserResultMap">
+		<id column="ID" property="id" />
+		<!-- 这个表中的teacherid其实是老师的用户id.(注意) -->
+		<result column="Teacher_ID" property="userIdOfTeacher" />
+		<result column="Ques_ID" property="questionId" />
+		<result column="Status" property="status" />
+	</resultMap>
+	<select id="getQuestionUserById" resultMap="questionUserResultMap"
+		parameterType="_int">
+		SELECT *
+		FROM q_question_user
+		WHERE ID=#{id}
+		LIMIT 1
+	</select>
+	<delete id="deleteQuestionUserById" parameterType="_int">
+		DELETE FROM
+		q_question_user
+		WHERE ID=#{id}
+	</delete>
+	<delete id="deleteQuestionUserByQuestionId" parameterType="_int">
+		DELETE FROM
+		q_question_user
+		WHERE Ques_ID=#{questionId}
+	</delete>
+</mapper>

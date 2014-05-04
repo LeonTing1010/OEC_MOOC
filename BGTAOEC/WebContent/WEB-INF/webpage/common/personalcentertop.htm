@@ -1,0 +1,135 @@
+<script type="text/javascript">
+function changeUser(type){	
+            if(type=='1'){
+        	   window.location.href=base + "/studentCenter/index/?type=1"+"&code="+Math.random();
+           }
+           if(type=='2'){
+        	   window.location.href=base + "/teacherCenter/index/?"+"&code="+Math.random();
+           } 
+
+}
+
+function toLogin(){
+	oec.login.isLogin();
+}
+</script>
+
+<div class="content">
+	    <ul class="headBar-nav">
+	    	<li><a href="${base}/index/?headTab=1">国泰安网络教育</a></li>
+	    </ul>
+	    <div class="headBar-box">
+	        [#if _user??]
+	          [#if _user.userType==1]
+            <div class="headBar-student clearfix">
+              <div class="menuBox user" >
+                <img  src="[#if _user.userHeadPic??]${cache!}${_user.userHeadPic!}[#else]${base!}/images/base/default_pic_temp_user.jpg[/#if]" name="topMenuUserPic" width="24" height="24">
+                <ul>
+                  <li><a href="${base!}/studentCenter/index/?type=${type!}&" style="color:orange; font-weight:800" name="topMenuUserName">
+                    [#if _user.userName??]${_user.userName!}[#else]${_user.userEmail!}[/#if]
+                  </a></li>
+                  <li><a href="${base}/studentCenter/index/?type=${type!}&tab=2">我的笔记</a></li>
+                  <li><a href="${base}/studentCenter/index/?type=${type!}&tab=3">我的练习</a></li>
+                  <li><a href="${base}/studentCenter/index/?type=${type!}&tab=6">我的考试</a></li>
+                  <li><a href="${base}/studentCenter/index/?type=${type!}&tab=9">个人资料</a></li>
+                  <li><a href="${base}/user/logout/">退出</a></li>
+                </ul>  
+              </div>
+              <div class="menuBox">
+                <i class="clound"></i>
+                <ul>
+                  <li><a href="${base}/studentCenter/index/?type=${type!}&tab=7">课程提问</a></li>
+                  <li><a href="${base}/studentCenter/index/?type=${type!}&tab=10">答疑提问</a></li>
+                </ul>  
+              </div> 
+              <div class="menuBox">
+                <i class="collect"></i>
+                <ul >
+                  <li><a href="${base}/studentCenter/index/?type=${type!}&tab=4">职位收藏</a></li>
+                  <li><a href="${base}/studentCenter/index/?type=${type!}&tab=5">${_user.isTeacher!"fdd"}课程收藏</a></li>
+                </ul>
+              </div>
+              <div class="menuBox">
+             
+                <i class="news"></i>
+                 <!--
+                 <div class="fonts">8</div> -->
+                <ul>
+                  <li><a href="javascript:switchLoad('7')">课程提问</a></li>
+                  <li><a href="javascript:switchLoad('12')">答疑提问</a></li>
+                  <li><a href="javascript:switchLoad('1')">作业成绩</a></li>
+                  <li><a href="javascript:switchLoad('6')">考试成绩</a></li>
+                </ul>
+              </div>
+             [#if _user.isTeacher==1]
+              <div class="selectRole">
+                <span>角色：[#if _user.userType==1]学生[#else]老师[/#if]</span>
+                <i class="br-down"></i>
+                <ul>
+                  <li><a href="javascript:changeUser('1')">我是学生</a></li>
+                  <li><a href="javascript:changeUser('2')">我是老师</a></li>
+                </ul>
+              </div>
+              [/#if]
+            </div>
+	    	[/#if]
+	    	 [#if _user.userType==2]
+	    	<div class="headBar-teacher clearfix ">
+              <div class="menuBox user" >
+                <img  src="[#if _user.userHeadPic??]${cache!}${_user.userHeadPic!}[#else]${cache!}/images/base/default_pic_temp_user.jpg[/#if]" name="topMenuUserPic" width="24" height="24">
+                <ul>
+                  <li><a href="${base!}/teacherCenter/index/" style="color:orange; font-weight:800" name="topMenuUserName"> [#if _user.userName??]${_user.userName!}[#else]${_user.userEmail!}[/#if]</a></li>
+                  <li><a href="${base!}/teacherCenter/index/?tab=2">直播课程</a></li>
+                  <li><a href="${base!}/teacherCenter/index/?tab=1">点播课程</a></li>
+                  <li><a href="${base!}/teacherCenter/index/?tab=7">个人资料</a></li>
+                  <li><a href="${base!}/user/logout/">退出</a></li>
+                </ul>  
+              </div>
+              <div class="menuBox">
+                <i class="clound"></i>
+                <ul>
+                  <li><a href="javascript:void(0)" onclick="releaseTestIndex(1)">发布考试</a></li>
+                  <li><a href="javascript:void(0)" onclick="releaseTestIndex(2)">发布练习</a></li>
+                  <li><a href="javascript:void(0)" onclick="releaseTestIndex(3)">发布作业</a></li>
+                </ul>  
+              </div>
+              <div class="menuBox">
+                <i class="book"></i>
+                <ul >
+                  <li><a href="${base}/teacherCenter/index/?tab=4">作业管理</a></li>
+                  <li><a href="${base}/teacherCenter/index/?tab=5">考试管理</a></li>
+                  <li><a href="${base}/teacherCenter/index/?tab=6">练习管理</a></li>
+                </ul>
+              </div>
+              <div class="menuBox">
+             
+                <i class="news"></i>
+                 <!-- 
+                <div class="fonts"></div>
+                 -->
+                <ul>
+                  <li><a href="${base}/teacherCenter/index/?tab=8">未解答<span id="topUnsolvedQuesNum">+${unsolvedQuesNum!'0'}</span></a></li>
+                  <li><a href="${base}/teacherCenter/index/?tab=4">待评作业<span>+${unCorrectOpNum!'0'}</span></a></li>
+                  <li><a href="${base}/teacherCenter/index/?tab=5">待阅试卷<span>+${unCorrectExamNum!'0'}</span></a></li>
+                </ul>
+              </div>
+              [#if _user.isTeacher==1]
+              <div class="selectRole">
+                <span>角色：[#if _user.userType==1]学生[#else]老师[/#if]</span>
+                <i class="br-down"></i>
+                <ul>
+                  <li><a href="javascript:changeUser('1')">我是学生</a></li>
+                  <li><a href="javascript:changeUser('2')">我是老师</a></li>
+                </ul>
+              </div>
+              [/#if]
+            </div>
+            [/#if]
+	       [#else ]
+	    	<div class="headBar-info">
+		    	<a href="javascript:toLogin();"><span class="login btn">登录</span></a>
+		    	<a href="${base}/user/loadreg/"><span class="reg btn">注册</span></a>
+	    	</div>
+	    	[/#if]
+	    </div>
+	</div>

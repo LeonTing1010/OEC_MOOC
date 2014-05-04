@@ -1,0 +1,133 @@
+@charset "UTF-8";
+/**
+ * 
+ * @authors jieming.luo (jieming.luo@gtafe.com)
+ * @date    2014-04-22 14:11:29
+ * 
+ */
+.wrapper{
+}
+.bgWrapper{
+}
+.container{
+    width: 960px;
+    margin: 20px auto 0 auto;
+    padding: 20px 20px 30px 20px;
+    background: white;
+}
+.caption{
+    font-size:17px;
+    height: 33px;
+    padding: 10px 10px 0 0;
+    border-bottom: 2px solid #58a2b6;
+}
+.caption span{
+    padding: 10px;
+    border-bottom: 2px solid #075e76;
+}
+
+.goodsWrapper{
+    width:940px;
+    margin: 0 auto;
+}
+/*good table*/
+
+.goods{
+    padding: 20px 0 20px 0;
+    margin:20px 0 10px 0; 
+    font-size: 16px;
+    border-collapse: collapse;
+    position: relative;
+}
+.goods th,.goods td{
+     border: 1px solid #cecece;
+}
+.goods th{
+    text-align: center;
+    height: 30px;
+    background: #f1f0f0;
+}
+.goods>tr td{
+    padding-top: 15px;
+}
+.goods td{
+    height: 140px;
+    text-align: center;
+    width: 200px;
+    
+}
+
+.goods tr td:last-child{
+    color: red;
+    font-size: 25px;
+}
+.good{
+    position: relative;
+}
+
+#firTd{
+     border-right: none
+}
+#secTd{
+    text-align: left;
+    border-left: none;
+}
+.title{
+    display: block;
+    margin-top: 20px;
+}
+.duration{
+    font-size: 11px;
+    color:#373737;
+}
+
+/*pay confirm options*/
+
+.payOptions{
+    width:280px;
+    height: 190px;
+    font-size: 15px;
+    border: 1px solid #ec9898;
+    float: right;
+}
+.payOptionsWrapper{
+     padding:50px ;
+     text-align: right;
+     position: relative;
+}
+.needed{
+    font-weight: bold;
+}
+.needed span:first-child{
+    width: 100px;
+    text-align: left;
+}
+.needed span:last-child{
+    font-size: 25px;
+    font-weight: bold;
+    color:#ca3333;
+   }
+.remain{
+    color: #575757;
+}
+
+.remainNum{
+    color: #ca3333;
+}
+.remain a{
+    color: #0054ff;
+    margin-left: 15px;
+}
+.payConfirm{
+    width: 130px;
+    height: 40px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    margin:20px 0;
+    background: url(../../images/pay/pay_confirm.png);
+}
+
+.payConfirm:hover{
+    background: url(../../images/pay/pay_confirm2.png);
+};

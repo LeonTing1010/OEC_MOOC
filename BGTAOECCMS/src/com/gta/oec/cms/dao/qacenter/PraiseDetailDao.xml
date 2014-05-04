@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gta.oec.cms.dao.qacenter.PraiseDetailDao">
+	<resultMap type="com.gta.oec.cms.vo.qacenter.PraiseDetailVo"
+		id="PraiseDetaiResultMap">
+		<id column="prai_ID" property="praiseId" />
+		<result column="Answ_ID" property="answerId" />
+		<result column="User_ID" property="userId" />
+		<result column="prai_Ctime" property="createTime" />
+		<result column="prai_Utime" property="updateTime" />
+	</resultMap>
+	<select id="getPraisedetailByPraiseId" resultMap="PraiseDetaiResultMap"
+		parameterType="_int">
+		SELECT *
+		FROM p_praisedetail
+		WHERE prai_ID=#{praiseId}
+		LIMIT 1
+	</select>
+
+	<delete id="deleteQuestionUserById" parameterType="_int">
+		DELETE FROM
+		p_praisedetail
+		WHERE prai_ID=#{praiseId}
+	</delete>
+	
+	<delete id="deletePraiseDetailByAnswerId" parameterType="_int">
+		DELETE FROM
+		p_praisedetail
+		WHERE Answ_ID=#{answerId}
+	</delete>
+	
+	
+	
+	
+</mapper>

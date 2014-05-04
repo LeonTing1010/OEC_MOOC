@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<div style="padding:20px;">
+<div class="ftitle">行业信息</div>
+<form novalidate style="padding:20px;">
+	<input type="hidden" name="proID" value="<#if Profession.proID??>${Profession.proID}</#if>" /><!-- 行业ID -->
+	<input type="hidden" name="proImage" value="<#if Profession.proImage??>${Profession.proImage}</#if>" /><!-- 行业图片 -->
+	<input type="hidden" name="proUtime" value="<#if Profession.proUtime??>${Profession.proUtime?string('yyyy-MM-dd HH:mm:ss')}</#if>" />
+	<input type="hidden" name="proRecommend" value="<#if Profession.proRecommend??>${Profession.proRecommend}</#if>" /><!-- 热门行业推荐 -->
+	<input type="hidden" name="ModifyFlag" value="${ModifyFlag}"/>
+    <div class="fitem" >
+        <label>行业名称:</label>
+        <#if Profession.proName??>${Profession.proName}</#if>
+    </div>
+    <!-- <div class="fitem">
+        <label>热门行业推荐:</label>
+        <#if Profession.proRecommend??>
+	        <#if Profession.proRecommend == 1>
+			  推荐
+			<#elseif Profession.proRecommend == 0>
+			  不推荐
+			<#else>
+			  不推荐
+			</#if>
+        </#if>
+    </div> -->
+    <div class="fitem">
+        <label>创建时间:</label>
+        <#if Profession.proCtime??>${Profession.proCtime?string('yyyy-MM-dd HH:mm:ss')}</#if>
+    </div>
+    <!-- <div class="fitem">
+        <label>行业描述:</label>
+        <pre style="padding-left: 90px;">
+        <#if Profession.proDescription??>${Profession.proDescription}</#if>
+        </pre>
+    </div> -->
+</form>
+</div>
+</body>
+</html>

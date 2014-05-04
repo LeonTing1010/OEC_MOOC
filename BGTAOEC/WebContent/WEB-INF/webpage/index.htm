@@ -1,0 +1,89 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>首页-国泰安网络教育</title>
+<meta name="description" content="插入网站全局描述变量" />
+<meta name="Keywords" content="插入网站全局关键字变量" />
+[#include "/webpage/common/common.htm"/]
+<link href="${base}/css/index.css" rel="stylesheet" type="text/css">
+
+<script src="${base}/js/jquery.featureList.js" type=text/javascript charset=utf-8></script>
+<script>
+jQuery.fn.anchorGoWhere = function(options){
+    var obj = jQuery(this);
+    var defaults = {target:0, timer:1000};
+    var o = jQuery.extend(defaults,options);
+    obj.each(function(i){
+        jQuery(obj[i]).click(function(){
+            var _rel = jQuery(this).attr("href").substr(1);
+            switch(o.target){
+                case 1: 
+                    var _targetTop = jQuery("#"+_rel).offset().top;
+                    jQuery("html,body").animate({scrollTop:_targetTop},o.timer);
+                    break;
+                case 2:
+                    var _targetLeft = jQuery("#"+_rel).offset().left;
+                    jQuery("html,body").animate({scrollLeft:_targetLeft},o.timer);
+                    break;
+            }
+            return false;
+        });  
+		                
+    });
+	
+};
+</script>
+</head>
+
+<body id="backtop">
+<div class="wrapper">
+ [#include "/webpage/common/head.htm"/]
+  <div class="container">
+    <div class="Af-banner">
+      <div class="AfBox">
+        <a href="${base}/course/info/138/"><img alt="enterCourse" src="${base}/images/index/enterCourse.gif"></a>
+      </div>
+    </div>
+    <div class="Bf-banner">
+      <div class="BfBox"></div>
+    </div>
+    <div class="Cf-banner">
+      <div class="CfBox"></div>
+    </div>
+    <div class="Df-teacher">
+      <div class="DfBox">
+        <img src="${base}/images/index/teacher01.png">
+        <ul class="teaTeam">
+          <li>
+            <a href="${base}/qacenter/teacherdetail/16/?headTab=8"><img src="${base}/images/index/xuwuqiang.jpg" alt="" style="width: 286px;height: 196px;"></a>
+            <p>徐武强</p>
+            <span>博士，国泰安创业学院副院长</span>
+          </li>
+          <li>
+            <a href="${base}/qacenter/teacherdetail/17/?headTab=8"><img src="${base}/images/index/wangchunlei.jpg" alt="" style="width: 286px;height: 196px;"></a>
+            <p>王春雷</p>
+            <span>MBA/EMBA 国泰安执行总裁</span>
+          </li>
+          <li style="margin:0px;">
+            <a href="${base}/qacenter/teacherdetail/18/?headTab=8"><img src="${base}/images/index/lijiahua.jpg" alt="" style="width: 286px;height: 196px;"></a>
+            <p>李家华</p>
+            <span>中国青年政治学院副院长、教授</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="Ef-Course">
+      <div class="EfBox"></div>
+    </div>
+    <div class="Gf-ToLearn">
+      <div class="GfBox">
+        <a href="${base}/course/info/138/"><img src="${base}/images/index/Df_ToLearn.png"></a>
+      </div>
+    </div>
+  </div>
+  <div class="footerFixer"></div>
+</div>
+[#include "/webpage/common/footer.htm"/]
+</body>
+</html>

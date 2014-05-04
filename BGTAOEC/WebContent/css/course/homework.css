@@ -1,0 +1,16 @@
+@charset "utf-8";
+
+/* CSS Document */
+ #DetailSide_current{
+    background:#3a96af;
+    color:#fff;
+}
+.homeworkList li{
+	margin:10px 0;
+	border-bottom:#d7d7d7 1px dashed;
+	padding:0 0 10px 0;
+	}
+.introductions{
+	margin:0 0 10px 0;
+	line-height:1.5;
+	}

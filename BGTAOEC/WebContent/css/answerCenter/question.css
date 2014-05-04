@@ -1,0 +1,260 @@
+@charset "utf-8";
+/* CSS Document */
+.questionBanner{
+	background: url(../../images/answerCenter/blackboard.jpg) no-repeat;
+	height:280px;
+	margin-top:0;	
+}
+
+.questionTop{
+	width:668px;
+	margin:70px 0 0 40px ;
+}
+.questionTop dl{
+	margin-bottom:20px;
+	line-height:24px;
+}
+.questionTop dl dt{
+	color:#fff;
+	float:left;
+	margin-right:20px;
+	position:relative;
+	background:#FFF;
+	box-shadow:#333 3px 3px 1px;
+}
+.questionTop .left{
+	background:url(../../images/answerCenter/pin.png) no-repeat;
+	width:16px;
+	height:16px;
+	position:absolute;
+	display:block;
+	left:-6px;
+	top:-6px;
+	}
+.questionTop .bottom{
+	background: url(../../images/answerCenter/dog-ear.jpg) no-repeat;
+	display:block;
+	position:absolute;
+	width:18px;
+	height:17px;
+	bottom:-7px;
+	right:-7px;
+	}
+.questionTop .right{
+	background:url(../../images/answerCenter/pin.png) no-repeat;
+	width:16px;
+	height:16px;
+	position:absolute;
+	display:block;
+	right:-6px;
+	top:-6px;
+	}
+.questionTop  dd.q{
+	color:#FFF;
+	-o-text-overflow: ellipsis; text-overflow: ellipsis;white-space:nowrap; overflow:hidden;
+	width:470;
+	}
+.questionTop  dd.a{
+	color:#f9c169;
+	display:block;
+	height:50px;
+	overflow:hidden;
+}
+.questionBox{
+	margin-top:0;
+}
+.teachenTop{
+	float:right;
+	width:214px;
+	line-height:27px;
+	color:#fff;
+	margin:74px 52px 0 0;
+	text-align:left;
+	display:inline;
+}
+.teachenTop td ,.teachenTop th{
+	padding-left:16px;
+	line-height:27px;
+}
+
+/*------------选项卡----------*/
+.curTab{
+	position:relative;
+	height:47px;
+	width:700px;
+}
+.curTab .more{
+	width:60px;
+	line-height:24px;
+	position:absolute;
+	right:0px;
+	top:12px;
+	}
+.curTab .more:hover{
+	text-decoration:underline
+	}
+.curTab ul{width:700px; position:absolute;height:46px; background:#fff;border-bottom:1px solid #ddd; top:0}
+.curTab li{
+	z-index:1;
+	float:left;
+	display:inline;
+	padding:0 20px;
+	margin:14px 0;
+	border-right:1px solid #dfdfdf;
+	cursor:pointer;
+}
+.curTab li.current{
+	margin:0;
+	z-index:2;
+	border-top:3px solid #3b9510;
+	border-right:1px solid #ddd;
+	border-left:1px solid #ddd;
+	height:44px;
+	line-height:44px;
+	background:#fff;
+	padding:0 20px;
+	position:relative;
+	left:-1px;
+}
+.curTab li.current a{
+	color:#333;}
+
+/*--------问题内容页------*/
+.questionCon{
+	width:700px;
+	float:left;
+	background:#fff;
+}
+.questionTabCon {
+	padding:15px 20px 0;
+}
+.newsQuestionCon h3,.hotQuestionCon h3{
+	background:#e0e0e0;
+	color:#828282;
+	height:30px;
+	line-height:30px;
+	font-size:12px;
+	padding-left:10px;
+}
+.more{
+	float:right;
+	padding-right:22px;
+	display:inline;
+	color:#1f82b5;
+	font-weight:normal;
+}
+.newsQuestionCon ul{ padding:8px 0 26px 0}
+.newsQuestionCon  ul li{
+	height:30px;
+	line-height:30px;
+	position:relative;
+}
+.counts,.time{
+	color:#999;
+	float:right;
+	padding-right:15px;
+	display:inline;
+}
+.counts{
+	position:absolute;
+	left:520px;
+}
+.newsQuestionCon  ul li a{
+	color:#1f82b5;
+	padding-left:5px;
+	display:block;
+	float:left;
+	width:500px;
+	-o-text-overflow: ellipsis; text-overflow: ellipsis;white-space:nowrap; overflow:hidden;
+}
+
+.hotQuestionList{
+	border-bottom:1px dotted #999;
+	line-height:28px;
+	font-size:12px;
+	overflow:hidden;
+	zoom:1;
+	padding:15px 0 10px 0;
+}
+.hotQuestionList dt{
+	float:left;
+	width:30px;
+}
+.hotQuestionList dd{
+	width:610px;
+	padding:0 5px 0 12px;
+	float:left;
+}
+.questions a{color:#1f82b5;}
+.answerCon{color:#7a7a7a;}
+.put{ color:#d23d3d;}
+.answer{color:#1b9e11;}
+.people,.attention,.praise,.people a{color:#969696;}
+.people{
+	float: right;
+	display: inline;
+}
+.praise{ margin-left:22px;}
+.attention:hover,.people a:hover{color:#555;}
+
+
+
+
+/*-------问题推荐菜单-------*/
+.questionSide{
+	float:right;
+	width:290px;
+}
+.liminatingTeacher{background:#fff;}
+.teacherTitle{
+	font-size:14px;
+	padding-left:20px;
+	border-bottom:1px solid #d7d7d7;
+	height:40px;
+	line-height:40px;
+}
+.liminatingList{
+	border-bottom:1px dashed #d7d7d7;
+	padding:15px 0;
+	margin:0 24px 0 20px;
+	overflow:hidden;
+	zoom:1;
+}
+.liminatingList dt{
+	float:left;
+	width:90px;
+}
+.liminatingList dd{
+	margin-left:108px;
+}
+.p-name{
+	font-size:16px;
+	color:#1f82b5;
+	line-height:24px;
+}
+.degree{
+	font-size:12px;
+	color:#696969;
+	line-height:22px;
+}
+.degree div{
+	width:140px;
+	-o-text-overflow: ellipsis; text-overflow: ellipsis;white-space:nowrap; overflow:hidden;
+	}
+.helpBtn{
+	background:#608140;
+	border:none;
+	text-align:center;
+	color:#fff;
+	width:56px;
+	height:20px;
+	line-height:20px;
+	cursor:pointer;
+	}
+.liminatingList dt a img {
+	padding:4px;
+	border:1px solid #d7d7d7;
+}
+
+/*----去掉最后一个列表的下边框---*/
+.last{border-bottom:none;}

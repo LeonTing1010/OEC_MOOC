@@ -1,0 +1,44 @@
+<link href="${base}/css/teacherCenter/answerList.css" rel="stylesheet"
+	type="text/css">
+<div class="topBox">
+	<div class="menuBtn" style="cursor:auto"></div>
+	<div class="crumbs">
+		你所在的位置：<span>已解答</span>
+	</div>
+</div>
+<div class="main">
+	<div class="teacher-title">
+		<h3>已解答</h3>
+	</div>
+	<div class="tab mt20">
+		<ul>
+			<li class="current"><a href="javascript:;" class="jobInfo">答疑提问</a></li>
+			<li><a href="javascript:;" class="jobInfo">课程提问</a></li>
+		</ul>
+		<input id="type" type="hidden" value="${type!}">
+	</div>
+	<div class="tabContainer">
+		<div class="tabCon ">
+			<div class="answerlist">
+			[#include "/webpage/teacenter/question/solvedques.htm"/]</div>
+		</div>
+	</div>
+</div>
+<div class="clear"></div>
+
+<script type="text/javascript">
+	$(function() {
+		var $li = $(".tab li"), $content = $(".tabCon"), $index, type;
+		$li.click(function() {
+			$(this).addClass("current").siblings().removeClass('current');
+			$index = $li.index($(this));
+			$content.eq($index).show().siblings().hide();
+			$("#type").val($index);
+			type = $("#type").val();
+			$(".answerlist").load(
+					base + "/teacherCenter/answered/getPageOfQuestion/" + type
+							+ "/?code="+Math.random());
+		});
+	});
+</script>
+

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gta.oec.vo.course.TaskVo">
+	<resultMap type="com.gta.oec.vo.course.TaskVo" id="taskMap">
+		<result column="Task_ID" property="taskId"/>
+		<result column="Cour_ID" property="courId" />
+		<result column="Sec_ID" property="secId" />
+		<result column="Task_Name" property="taskName" />
+		<result column="Task_Content" property="taskContent"/>
+		<result column="User_ID"  property="userId"/>
+		<result column="Task_Evaluate" property="taskEvaluate" />
+		<result column="Task_Score" property="taskScore"/>
+		<result column="Task_SubmitTime" property="taskSubmitTime"/>
+	</resultMap>
+
+	<!-- 获取作业列表 -->
+		<select id="getTaskList" parameterType="com.gta.oec.vo.course.TaskVo" resultMap="taskMap">
+			SELECT task.* FROM m_my_task AS task WHERE  1=1
+			<if test="courId!=0">
+				AND task.cour_ID=#{courId}
+			</if>
+			<if test="userId !=0">
+				AND task.user_ID=#{userId}
+			</if>	 
+		</select> 
+	<!-- 添加作业 -->
+		<insert id="addTask" parameterType="com.gta.oec.vo.course.TaskVo">
+			INSERT INTO m_my_task(Task_ID,Cour_ID,Sec_ID,Sec_ID,Task_Name,Task_Content,User_ID,Task_Evaluate,Task_Score,Task_SubmitTime)
+			VALUES(#{taskId},#{courId},#{taskName},#{taskContent},#{userId},#{taskEvaluate},#{taskScore},#{taskSubmitTime}) 
+		</insert>
+	<!-- insert -->
+</mapper>    

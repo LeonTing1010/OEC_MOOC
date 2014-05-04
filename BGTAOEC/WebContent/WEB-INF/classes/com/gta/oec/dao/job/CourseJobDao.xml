@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gta.oec.vo.job.CourseJobVo">
+	<resultMap type="com.gta.oec.vo.job.CourseJobVo" id="courseJobMap">
+		<result column="ID" property="id" />
+		<result column="JOB_ID" property="jobID" />
+		<result column="Pro_ID" property="proId" />
+		<result column="Cour_ID" property="courseID" />
+		<result column="Cour_Name" property="courseName" />
+		<result column="Cour_Title_Page" property="courseTitlePage" />
+		<result column="Cour_job_Recommend" property="courseJobRecommend" />
+		<result column="User_ID" property="userID" />
+		<result column="User_Name" property="userName" />
+		<result column="Cour_Stime" property="courseStime" />
+		<result column="Cour_Attention" property="courseAttention" />
+		<result column="Pro_Name"  property="proName"/>
+	</resultMap>
+	<!-- select -->
+	<select id="getCourseJobList" parameterType="int" resultMap="courseJobMap">
+		select * from (SELECT b.JOB_ID,a.Cour_ID,a.Cour_Name,a.Cour_Title_Page FROM c_course a , re_course_job b  ,p_job c   WHERE 
+		a.Cour_ID=b.Course_ID and b.Job_ID=c.Job_ID
+		and b.JOB_ID = #{jobId} order by a.Cour_ID desc) d limit 3
+	</select>
+
+	<select id="getCourseJobRecommendList" parameterType="int" resultMap="courseJobMap">
+		SELECT b.JOB_ID,a.Cour_ID,a.Cour_Name,a.Cour_Title_Page, b.Cour_job_Recommend,a.User_ID,a.Cour_Stime,a.Cour_Attention,d.User_Name FROM c_course a , re_course_job b  ,p_job c ,u_user d   WHERE 
+		a.Cour_ID=b.Course_ID and b.Job_ID=c.Job_ID and a.User_ID=d.User_ID and b.Cour_job_Recommend!=''
+		and b.JOB_ID = #{jobId} order by b.Cour_job_Recommend desc
+	</select>
+	
+	
+	<select id="getCourseJobAllList" parameterType="int" resultMap="courseJobMap">
+		SELECT b.JOB_ID,a.Cour_ID,a.Cour_Name,a.Cour_Title_Page FROM c_course a , re_course_job b  ,p_job c  WHERE 
+		a.Cour_ID=b.Course_ID and b.Job_ID=c.Job_ID and a.Cour_CheckStatus=2
+		and b.JOB_ID = #{jobId} order by a.Cour_ID desc
+	</select>
+	<select id="selectCourseJobList" parameterType="com.gta.oec.vo.job.CourseJobVo" resultMap="courseJobMap">
+       select re.*,c.cour_id from re_course_job as re,c_course as c where re.course_id = c.cour_id
+       <if test="jobID!=0">
+        and JOB_ID = #{jobID}
+       </if>
+       <if test="courseID!=0">
+       and course_id = #{courseID}
+       </if>
+	</select>	
+	<!-- 根据课程ID查找课程行业岗位信息 by biyunhuang-->
+	<select id="selectCourJobInfo" parameterType="int" resultMap="courseJobMap">
+		SELECT DISTINCT p.pro_name,re.* 
+		FROM re_course_job re,p_profession p,p_job pj
+		WHERE re.job_id=pj.job_id AND pj.Pro_ID=p.Pro_ID AND re.Course_ID=#{courseId}
+		GROUP BY p.pro_name
+	</select>
+	
+	<!-- select -->
+	<!-- insert -->
+		<insert id="insertCourseJobRe" parameterType="com.gta.oec.vo.job.CourseJobVo" keyProperty="id" useGeneratedKeys="true">
+			INSERT INTO re_course_job(Course_ID,Pro_ID,Job_ID,Cour_job_Recommend)
+			VALUES(#{courseID},#{proId},#{jobID},#{courseJobRecommend})
+		</insert>
+	<!-- insert -->
+	<delete id="deleCourseJobRe" parameterType="com.gta.oec.vo.job.CourseJobVo">
+	   delete from re_course_job where Course_ID =#{courseID}
+	   <if test="jobID!=0">
+	     and JOB_ID = #{jobID}
+	   </if>
+	</delete>
+	
+	<!-- 该课程所属岗位下的  4条其他相关推荐课程  -->
+	<select id="getRelativityCourseListByJobId" parameterType="java.util.Map" resultMap="courseJobMap">
+		SELECT
+			b.JOB_ID,
+			a.Cour_ID,
+			a.Cour_Name,
+			a.Cour_Title_Page,
+			b.Cour_job_Recommend,
+			a.User_ID,
+			a.Cour_Stime,
+			a.Cour_Attention,
+			d.User_Name
+		FROM
+			c_course a,
+			re_course_job b,
+			p_job c,
+			u_user d,
+			s_school e
+		WHERE
+			a.Cour_ID = b.Course_ID
+		AND a.Cour_CheckStatus = 2 
+		AND b.Job_ID = c.Job_ID
+		AND a.User_ID = d.User_ID
+		AND a.School_ID = e.sch_id
+		AND b.Cour_job_Recommend != ''
+		AND b.JOB_ID = #{jobID}
+		AND a.Cour_ID != #{courseID}
+		ORDER BY
+			rand()
+		LIMIT 0,4
+	</select>
+	
+</mapper>    

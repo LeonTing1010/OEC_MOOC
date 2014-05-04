@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gta.oec.vo.qacenter.QuestionUserVo">
+	<resultMap type="com.gta.oec.vo.qacenter.QuestionUserVo" id="questionUserMap">
+		<result column="ID" property="id" />
+		<result column="Ques_ID" property="quesID" />
+		<result column="Teacher_ID" property="teacherID" />
+		<result column="Status" property="status" />
+		<result column="User_Name" property="userName" />
+	</resultMap>
+
+	<insert id="saveQuestionUser" parameterType="com.gta.oec.vo.qacenter.QuestionUserVo" keyProperty="id" useGeneratedKeys="true">
+		insert into q_question_user(Ques_ID,Teacher_ID,Status) 
+		values(#{quesID},#{teacherID},#{status})
+	</insert>
+	
+	<select id="getAllQuestionUserListByQuesId" parameterType="int" resultMap="questionUserMap">
+		SELECT q.*,u.User_Name FROM q_question_user AS q,u_user as u WHERE q.Teacher_ID=u.User_ID and  q.Ques_ID=#{quesId};
+	</select>
+	
+	<!-- 更改问题回答状态 -->
+	<update id="updateQuestionUserStatus" parameterType="java.util.Map">
+		update  q_question_user set Status=1 where Ques_ID=#{quesId} and Teacher_ID=#{userId}
+	</update>
+	
+	<delete id="deleteQuestionUser" parameterType="com.gta.oec.vo.qacenter.QuestionUserVo">
+		delete from q_question_user where ID=#{id}
+	</delete>
+	
+	
+</mapper>    

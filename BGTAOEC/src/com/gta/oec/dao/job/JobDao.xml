@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gta.oec.vo.job.JobVo">
+	<resultMap type="com.gta.oec.vo.job.JobVo" id="jobMap">
+		<result column="Job_ID" property="jobID" />
+		<result column="Pro_ID" property="proID" />
+		<result column="Job_Name" property="jobName" />
+		<result column="Job_Description" property="jobDescription" />
+		<result column="Job_PID" property="jobPID" />
+		<result column="Job_CollectCount" property="jobCollectCount" />
+		<result column="Job_Detail" property="jobDetail" />
+		<result column="Job_Develpping" property="jobDevelpping" />
+		<result column="Job_Duty" property="jobDuty" />
+		<result column="Job_Demand" property="jobDemand" />
+		<result column="Job_Wage" property="jobWage" />
+		<result column="Job_Ctime" property="jobCtime" />
+		<result column="Job_Utime" property="jobUtime" />
+		<result column="Job_Image" property="jobImage" />
+		<result column="Job_Recommend" property="jobRecommend"/>
+		<result column="Pro_Name" property="proName"/>
+	</resultMap>
+	<!-- select -->
+	<select id="getJobDetailById" parameterType="int" resultMap="jobMap">
+		select * from p_job where  Job_ID = #{jobID}		
+	</select>
+	
+	<select id="getJobGroup" parameterType="com.gta.oec.vo.job.JobVo" resultMap="jobMap">
+		select  pjob.*,pro.pro_name from p_job as pjob , p_profession as pro where pjob.Pro_ID = pro.Pro_ID and  (pjob.job_pid is null or pjob.job_pid=0)
+		<if test="jobPID !=null and jobPID!=0">
+		 and pro.pro_id = #{jobPID}
+		</if>
+	</select>
+	
+	<select id="getJobByJobGroupId" parameterType="int" resultMap="jobMap">
+		SELECT pjob.*,pro.Pro_Name FROM p_job pjob , p_profession pro WHERE pjob.Pro_ID =
+		pro.Pro_ID AND (pjob.job_pid IS NOT NULL or pjob.job_pid=0) AND pjob.job_pid=#{id}
+	</select>
+
+	<select id="getAllJobDetail" parameterType="java.util.Map" resultMap="jobMap">
+		select p.* from p_job p where p.Job_PID IS NOT NULL
+	      	<if test="jobVo !=null and jobVo.jobID !=0">
+	      		AND p.Job_ID = #{jobVo.jobID} 
+	      	</if>
+	      	<if  test="jobVo !=null and jobVo.jobRecommend !=0">
+	      		AND Job_Recommend = #{jobVo.jobRecommend} 
+	      	</if>
+      	<if test="m!=0">
+      	 limit #{n},#{m}
+      	</if>
+	</select>
+	
+	<select id="getJobCollect" parameterType="int" resultMap="jobMap">
+		SELECT p.* FROM p_job p,m_my_collect m,u_user u  
+		WHERE m.user_id = u.user_id AND m.ref_id = p.job_id AND m.collect_type = 1
+		<if test="userId !=null and userId !=0">
+			and u.user_id = #{userId}
+		</if>
+	</select>
+	
+	<select id="getCountJobDetail" parameterType="java.util.Map"  resultType="int">
+		select count(*) from p_job WHERE job_pid IS NOT NULL
+	</select>
+	
+	<!-- 根据用户ID,得到老师所属行业、岗位群                   刘祚家 -->
+	<select id="getTeacherProfessionAddJob" parameterType="int" resultMap="jobMap">
+		select p.* from p_job p,u_teacher u where  p.Job_ID=u.Job_GroupID and u.User_ID = #{teacherId}		
+	</select>
+	
+	<select id="getJobNameList" parameterType="java.util.Map" resultMap="jobMap">
+		SELECT Job_ID,Job_Name FROM p_job WHERE job_pid IS NOT NULL
+		<if test="joblist!=null and joblist.size > 0">
+			 AND job_id IN  
+			<foreach collection="joblist" item="t"  open="(" separator="," close=")">  
+	               #{t}  
+	        </foreach>
+        </if>
+        <if test="m!=0">
+        	limit #{n},#{m}
+        </if>
+	</select>
+	
+	<!-- 根据岗位 ID，更新收藏数量 -->
+	<update id="updateMyCollectCount" parameterType="int">
+		update  p_job set Job_CollectCount=Job_CollectCount+1 where Job_ID=#{jobId}
+	</update>
+	
+	<select id="JobNameCount" parameterType="java.util.Map"  resultType="int">
+		SELECT count(*) FROM p_job WHERE job_pid IS NOT NULL AND job_id IN  
+		<foreach collection="joblist" item="t"  open="(" separator="," close=")">  
+               #{t}  
+          </foreach>
+	</select>
+	<!-- 根据行业id获取岗位 - 分页  start -->
+	<select id="getJobByTradeId" parameterType="java.util.Map" resultMap="jobMap" >
+		SELECT p.*,pr.pro_name FROM p_job p,p_profession pr WHERE p.pro_id=pr.pro_id and job_pid IS NOT NULL 
+		<if test="proId!=0">
+			and p.pro_ID = #{tradeId}
+		</if>
+	   <if test="m!=0">
+        	limit #{n},#{m}
+        </if>
+	</select>
+	<select id="getJobCountByTradeId" parameterType="java.util.Map" resultType="int" >
+		SELECT COUNT(p.job_id) FROM p_job p,p_profession pr WHERE p.pro_id=pr.pro_id AND job_pid IS NOT NULL 
+		<if test="proId!=0">
+			and p.pro_ID = #{tradeId}
+		</if>
+	</select>	
+	
+	<!-- 根据行业id获取岗位 - 分页  end -->
+	
+	<select id="getJobGroupByProId" parameterType="int" resultMap="jobMap" >
+		SELECT j.*
+		FROM p_job AS j
+		WHERE j.Job_PID IS NULL 
+		<if test="_parameter != 0">
+			and j.Pro_ID = #{_parameter}
+		</if>
+	</select>
+	<!-- 根据岗位群id 获取岗位 - 分页 start -->
+	<select id="queryJobByJobGroupId" parameterType="java.util.Map" resultMap="jobMap">
+		SELECT pjob.*,pro.Pro_Name FROM p_job pjob , p_profession pro WHERE pjob.Pro_ID =
+		pro.Pro_ID AND (pjob.job_pid IS NOT NULL or pjob.job_pid=0)
+		<if test="jobId!=0">
+			AND pjob.job_pid = #{jobGroupId}  
+		</if>
+		<if test="m!=0">
+        	limit #{n},#{m}
+        </if>
+	</select>
+	<select id="queryJobCountByJobGroupId" parameterType="java.util.Map" resultType="int">
+		SELECT COUNT(pjob.job_id) FROM p_job pjob , p_profession pro WHERE pjob.Pro_ID =
+		pro.Pro_ID AND (pjob.job_pid IS NOT NULL OR pjob.job_pid=0)
+		<if test="jobId!=0">
+			AND pjob.job_pid = #{jobGroupId}  
+		</if>
+	</select>
+	<!-- 根据岗位群id 获取岗位 - 分页 end -->
+	
+	<!-- 查询某岗位岗位群下其他相关岗位 by biyun -->
+	<select id="selectRelateJob" parameterType="com.gta.oec.vo.job.JobVo" resultMap="jobMap">
+		SELECT * 
+		FROM p_job 
+		<where>
+			<if test="jobPID!=0">	
+				job_pid=#{jobPID}
+			</if>
+			<if test="jobID!=0">
+				AND job_id != #{jobID}
+			</if>
+		</where>
+		order by rand()  
+		LIMIT 0,5
+	</select>
+	<!-- 获取岗位列表 -分页 start -->
+	<select id="queryJobList" parameterType="java.util.Map" resultMap="jobMap">
+		select p.* from p_job p where p.Job_PID IS NOT NULL
+	      	<if test="jobVo !=null and jobVo.jobID !=0">
+	      		AND p.Job_ID = #{jobVo.jobID} 
+	      	</if>
+	      	<if  test="jobVo !=null and jobVo.jobRecommend !=0">
+	      		AND Job_Recommend = #{jobVo.jobRecommend} 
+	      	</if>
+      	<if test="m!=0">
+      	 limit #{n},#{m}
+      	</if>
+	</select>
+	<select id="queryJobListCount" parameterType="java.util.Map" resultType="int">
+		SELECT COUNT(p.job_id) FROM p_job p WHERE p.Job_PID IS NOT NULL
+	      	<if test="jobVo !=null and jobVo.jobID !=0">
+	      		AND p.Job_ID = #{jobVo.jobID} 
+	      	</if>
+	      	<if  test="jobVo !=null and jobVo.jobRecommend !=0">
+	      		AND Job_Recommend = #{jobVo.jobRecommend} 
+	      	</if>
+	</select>
+	<!-- 获取岗位列表 -分页 end -->
+</mapper>    

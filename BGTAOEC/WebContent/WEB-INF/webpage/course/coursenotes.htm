@@ -1,0 +1,54 @@
+<link href="${base}/css/course/notes.css" rel="stylesheet" type="text/css">
+<script type="text/javascript">
+$(document).ready(function(){
+	  $(".notes h5").click(function () {
+	    $(this).next("ul").toggle();
+		$(this).toggleClass("current");
+	  });
+	   $(".notes dt").click(function(){
+		  var dd = $(this).nextAll("dd");
+		  dd.toggle();
+		  $(this).toggleClass("current");
+	  });
+});
+</script>
+<div class="m0a curDetailCon wordBreak">
+	<h3>课堂笔记</h3>
+	<!--curDetailBody end-->
+	[#if course??]
+	[#if course.list?? && course.list?size>0]
+		[#list course.list as section]
+		<div class="notes">
+			<dl>
+				<dt class="current">
+					<h4 style="cursor:pointer">
+						<span>第[@num s='${section_index+1}'/]章</span> ${section.name!}
+					</h4>
+				</dt>
+				[#if section.list?? && section.list?size>0]
+					[#list section.list as subsection]
+				<dd class="hide">
+					<h5>
+						<span>第[@num s='${subsection_index+1}'/]节</span> ${subsection.name!}
+					</h5>
+					<ul class="hide">
+					[#if subsection.noteList?? && subsection.noteList?size>0]
+						[#list subsection.noteList as note]
+						<li>
+							<p class="darkGray">${note.noteContent!}</p>
+							<div class="gray textr">视频时间: ${note.videoTime!}</div>
+						</li>
+						[/#list]
+					[/#if]
+					</ul>
+				</dd>
+				[/#list]
+				[/#if]
+			</dl>
+		</div>
+		[/#list]
+	[#else]
+		<p style="color:gray">您还没有记录该课程相关笔记!</p>
+	[/#if]
+	[/#if]
+</div>

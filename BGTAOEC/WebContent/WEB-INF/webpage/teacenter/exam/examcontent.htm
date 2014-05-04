@@ -1,0 +1,70 @@
+[#if pageModel??]
+		[#if pageModel.list?? && pageModel.list?size>0]
+			[#list pageModel.list as course]
+			[#if course??]
+			<div class="test-body">
+				<dl class="test-course">
+					<!--向上的箭头：shrink-arrow  向下的箭头追加：shrink-arrow-up 类样式-->
+					<dt>
+						<span class="shrink-arrow shrink-arrow-up"></span>课程[@num s='${course_index+1}'/]  ${course.courseName!}
+					</dt>
+					<dd style="display: block;">
+						<ul class="test-course-ul clearfix">
+						[#if course.examList??]
+							[#list course.examList as exam]
+							<li>
+								<!-- <h4>${exam.examName!}</h4> -->
+								<p class="fl">提交：${exam.examCount!}\${exam.learnCount!}</p>
+								<p class="fl">批阅：${exam.hasCorrect!}\${exam.examCount!}</p>
+								[#if paperState?eval ==1]
+								<p class="fr">
+									<!-- <a href="#" class="btn btn-primary btn-small firstStep ml10">成绩</a> -->
+									<a href="#" class="btn btn-success btn-small firstStep" onclick="correctResult(${exam.examId},${exam.examType!})">查看</a>
+								</p>
+								[#else]
+								<p class="fr">
+									<a href="#" class="btn btn-success btn-small mr10" onclick="correct(${exam.examId!},${exam.examType!})">批阅</a>
+									<!-- <a href="#" class="btn btn-primary btn-small">成绩</a> -->
+								</p>
+								[/#if]	
+							</li>
+							[/#list]
+						[/#if]
+						</ul>
+					</dd>
+				</dl>
+			</div>
+			[/#if]
+			[/#list]
+			[@p.tab value=pageModel][#rt/] [/@p.tab]
+		[#else]
+				[#if paperState??][#if paperState?eval == 1]
+					<p>暂无更多已批阅考试!</p>
+					[#else]
+					<p>暂无更多未批阅考试!</p>
+				[/#if][/#if]	
+		[/#if]
+[/#if]
+		
+
+
+<script type="text/javascript">
+	function _gotoPage(pageNo){
+		$('.test-bodybox').load(base+"/teacherCenter/Management/?examType="+examType+"&paperState="+paperState+"&pageNo="+pageNo);
+		if(paperState==1){
+			$('#info').val('该课程暂无更多已批阅考试信息!');
+		}
+	}
+	
+	$(document).ready(function() {
+		$(".shrink-arrow").click(function() {
+			var dd = $(this).parent().nextAll("dd");
+			if (dd.is(':hidden')) {
+				$(this).addClass('shrink-arrow-up');
+			} else {
+				$(this).removeClass('shrink-arrow-up');
+			}
+			dd.toggle();
+		});
+	});
+</script>

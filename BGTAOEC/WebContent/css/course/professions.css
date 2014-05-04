@@ -1,0 +1,158 @@
+@charset "utf-8";
+
+/* CSS Document */
+
+.leftMenu{
+	width:180px;
+	background:#FFF;
+	}
+.menu-head{
+	height:138px;
+	background:#417786;
+	}
+.menu-head .title{
+	font-size:24px;
+	color:#fff;
+	padding:10px;
+	}
+.menu-head .select{
+	height:24px;
+	margin:50px 10px 0 10px;
+	padding:0 0 0 20px;
+	background:#FFF;
+	font-size:12px;
+	line-height:24px;
+	background:#fff url(../../images/course/select_icon.png) no-repeat 140px center;
+	cursor:pointer;
+	}
+	
+
+.leftMenu .menu-body{
+	background:url(../../images/course/menu_hornBg.png) no-repeat 18px 0px ;
+	padding:18px 0 0 0;
+	position:relative;
+	z-index:1;
+	}
+.leftMenu .menu-body .item{
+	position:relative;
+	height:40px;
+	line-height:40px;
+	padding: 0 0 0 20px;
+	background:url(../../images/course/item_icon.png) no-repeat 160px center;
+	border-bottom:1px solid #d7d7d7;
+	}
+.leftMenu .menu-body a{
+	color:#000}
+.leftMenu .menu-body .item:hover .className{
+	color:#36F;
+	font-weight:800;
+	}
+
+.leftMenu .subMenu{
+	display:none;
+	position:absolute;
+	width:200px;
+	right:-200px;
+	top:0px;
+	background:#FFF;
+	}
+.leftMenu .menu-body .item:hover .subMenu{
+	display:block;
+	}
+.leftMenu .subMenu dl{
+	padding-bottom:10px;
+	border-bottom:1px dotted #d7d7d7;
+	padding:10px;
+	}
+.leftMenu .subMenu dl:hover{
+	background:#f2f2f2;
+	}
+.leftMenu .subMenu dt{
+	line-height:24px;
+	padding:0;
+	margin:0;
+	font-weight:800;
+	}
+.leftMenu .subMenu dt a{
+
+	color:#555;
+	}
+.leftMenu .subMenu dt a:hover{	color:#36F;
+	}
+.leftMenu .subMenu dd{
+	line-height:30px;
+	}
+	
+.leftMenu .subMenu dd a{
+	display:inline;
+	float:left;
+	padding:0 10px;
+	margin-right: 10px;
+	margin-left: -11px;
+	white-space: nowrap;
+	color:#555;
+	font-size:12px;
+	background:url(../../images/course/separation.png) no-repeat right center;
+	}
+.leftMenu .subMenu dd a:hover{
+	color:#36F;
+	font-weight:normal
+	}
+
+.subCrumbs{
+	height:29px;
+	line-height:29px;
+	border-bottom:1px solid #d7d7d7;
+	}
+.subCrumbs a{ 
+	float:left; 
+	background:url(../../images/course/subCrumbsBg.png) no-repeat right;
+	padding:0 20px 0 10px;
+	color:#999;
+	}
+.subCrumbs a:hover{ color:#236fd4}
+.subCrumbs span{ padding:0 0 0 10px}
+
+.rightCon{
+	width:810px;
+	background:#fff;
+	}
+.leftCon{
+	width:180px;
+	}
+	
+.professions{margin:20px 20px 10px 20px;}
+.professions li{
+	padding:0 0 10px 0;
+	border-bottom:1px dotted #d7d7d7;
+	margin:0 0 20px 0;
+	}
+.professions p{
+	padding:0 0px 0 26px;}
+.professions h2{ font-weight:normal}
+.collectBtn{
+	width:16px;
+	height:16px;
+	margin:6px 10px 0 0 ;
+	float:left;
+	background:url(../../images/course/collect_icon.png) bottom;
+	cursor:pointer;
+	}
+.empty{background-position:top;}
+.linkList{
+	width:180px;
+	background:#fff;
+	}
+.linkList .title{
+	padding:0 0 0 10px ;
+	height:40px;
+	line-height:40px;
+	font-size:18px;
+	border-bottom:1px solid #d7d7d7;
+	}
+.linkList ul{
+	margin:10px;
+	line-height:30px;
+	}
+.pageMore{ text-align:center;padding:0 0 20px 0;}
+.pageMore .btn{ background:#3a96af;}

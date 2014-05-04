@@ -1,0 +1,366 @@
+@charset "utf-8";
+/* CSS Document */
+
+/*--弹出层样式 start
+-------------------------------*/
+.popWindow{
+	position:absolute;
+	border:1px solid #666;
+	box-shadow:0px 0px 10px #666;
+	left: -1px;
+	top: 1px;
+	}
+.popWindow .title{
+	height:35px;
+	line-height:35px;
+	padding-left:20px;
+	color:#4b4b4b;
+	font-weight:800;
+	border-bottom:1px solid #e7e7e7;
+	background:url(../images/base/poupWindow_title_bg.png) repeat-x;
+	}
+.popWindow .title .close{
+	margin:12px 10px 0 0;
+	width:10px;
+	height:9px;
+	float:right;
+	background:url(../images/base/poupWindow_close_bg.png);
+	cursor:pointer;
+	}
+.popWindow .title .close:hover{
+	background-position:bottom left;
+	}
+.popWindow .popContent{
+	background:#fff;
+	padding:10px;
+	color:#8e8e8e;
+	}
+.popWindow .popContent .tips{ 
+	background:url(../images/base/onIcon.png) 5px -45px  no-repeat;
+	padding:0 0 0 25px;
+	margin-bottom:10px;
+	line-height:24px;
+}
+.popWindow .popContent .button{
+	clear:both;
+	height:26px;
+	}
+.popWindow .bigInputBtn,.popWindow .minInputBtn{
+	float:left;
+	}
+.popWindow .text{
+	height:26px;
+	margin-bottom:12px;
+	overflow:hidden;
+	}
+.popWindow .text .word{
+	float:left;
+	line-height:26px;
+	height:26px;
+	}
+.popWindow .text label{
+	float:left;
+	width:60px;
+	height:26px;
+	padding:0 10px;
+	line-height:26px;
+	}
+.popWindow .text .inputText{
+	float:left;
+	height:24px;
+	margin-right:5px;
+	line-height:24px;
+	border:1px solid #CCC
+	}
+.popWindow .textarea{
+	margin-bottom:12px;
+	}
+.popWindow .textarea label{
+	float:left;
+	width:60px;
+	padding:0 10px;
+	height:30px;
+	line-height:30px;
+	}
+.popWindow .textarea textarea{
+	float:left;
+	height:100px;
+	width:250px;
+	margin-right:5px;
+	}
+/*--弹出层基础样式 end--*/
+
+
+/*--提示信息弹出层 start--*/
+.popWindow .pointOut {
+	width:300px;
+	}
+.popWindow .pointOut .con{
+	margin:0 auto;
+	padding:10px 10px 0 10px;
+	line-height:16px;
+	height:16px;
+	text-align:center;
+	}
+.popWindow .pointOut img{
+	vertical-align:bottom;
+	margin-right:10px;
+	}
+.popWindow .pointOut .button{
+	text-align:center;
+	margin:0 auto;
+	padding:20px 0 10px 0px;
+	}
+.popWindow .pointOut .recharge{
+	padding:20px 0 10px 0px;
+	margin:0 auto;
+	width:210px;
+	}
+.popWindow .pointOut .{
+	}
+/*--提示信息弹出层 end--*/
+
+/*--同意协议弹出层 start--*/
+.popWindow .agreement{
+	width:500px;
+	}
+.popWindow .agreement .con{
+	height:300px;
+	border:1px solid #CCC;
+	overflow:auto;
+	}
+.popWindow .agreement .button{
+	margin:10px auto;
+	text-align:center;
+	}
+/*--同意协议弹出层 end--*/	
+
+
+
+.btn-default{
+	border:1px solid #d7d7d7;
+	background:#d1d1d1;
+	background:-webkit-gradient(linear,left top,left bottom,from(#dfdfdf),to(#d1d1d1));
+	background:-webkit-linear-gradient(top,#dfdfdf,#d1d1d1);
+	background:-moz-linear-gradient(top,#dfdfdf,#d1d1d1);
+	background:-ms-linear-gradient(top,#dfdfdf,#d1d1d1);
+	background:-o-linear-gradient(top,#dfdfdf,#d1d1d1);
+	background-image:-ms-linear-gradient(top,#dfdfdf 0%,#d1d1d1 100%);
+	-webkit-border-radius:3px;
+	-moz-border-radius:3px;
+	border-radius:3px;
+	-webkit-box-shadow:rgba(255,255,255,0.4) 0 0px 0,inset rgba(255,255,255,0.4) 0 0px 0;
+	-moz-box-shadow:rgba(255,255,255,0.4) 0 0px 0,inset rgba(255,255,255,0.4) 0 0px 0;
+	box-shadow:rgba(255,255,255,0.4) 0 0px 0,inset rgba(255,255,255,0.4) 0 0px 0;
+	text-shadow:#f0f0f0 0px 1px 2px;
+	color:#666666;
+	}
+.btn-default:hover{border:1px solid #d7d7d7;text-shadow:#f2f2f2 0 1px 0;background:#c9c9c9;background:-webkit-gradient(linear,left top,left bottom,from(#dedede),to(#c9c9c9));background:-webkit-linear-gradient(top,#dedede,#c9c9c9);background:-moz-linear-gradient(top,#dedede,#c9c9c9);background:-ms-linear-gradient(top,#dedede,#c9c9c9);background:-o-linear-gradient(top,#dedede,#c9c9c9);background-image:-ms-linear-gradient(top,#dedede 0%,#c9c9c9 100%);color:#333333;}
+.btn-default:active{text-shadow:#f5f5f5 0 1px 0;border:1px solid #d7d7d7;background:#d9d9d9;background:-webkit-gradient(linear,left top,left bottom,from(#c3c3c3),to(#c9c9c9));background:-webkit-linear-gradient(top,#c3c3c3,#d9d9d9);background:-moz-linear-gradient(top,#c3c3c3,#d9d9d9);background:-ms-linear-gradient(top,#c3c3c3,#d9d9d9);background:-o-linear-gradient(top,#c3c3c3,#d9d9d9);background-image:-ms-linear-gradient(top,#c3c3c3 0%,#d9d9d9 100%);color:#333333;}
+
+.btn-primary {
+	outline:none;
+	color:#fff;
+	text-shadow:0px 1px 2px #333;
+	border:1px solid #1e7db9;
+	background:#2e88c0;
+	background:-webkit-gradient(linear,left top,left bottom,from(#42a4e0),to(#2e88c0));
+	background:-webkit-linear-gradient(top,#42a4e0,#2e88c0);
+	background:-moz-linear-gradient(top,#42a4e0,#2e88c0);
+	background:-ms-linear-gradient(top,#42a4e0,#2e88c0);
+	background:-o-linear-gradient(top,#42a4e0,#2e88c0);
+	background-image:-ms-linear-gradient(top,#42a4e0 0%,#2e88c0 100%);
+	-webkit-border-radius:3px;
+	-moz-border-radius:3px;
+	border-radius:3px;
+}
+.btn-primary:hover {
+	background:#4097ce;
+	background:-webkit-gradient(linear,left top,left bottom,from(#70bfef),to(#4097ce));
+	background:-webkit-linear-gradient(top,#70bfef,#4097ce);
+	background:-moz-linear-gradient(top,#70bfef,#4097ce);
+	background:-ms-linear-gradient(top,#70bfef,#4097ce);
+	background:-o-linear-gradient(top,#70bfef,#4097ce);
+	background-image:-ms-linear-gradient(top,#70bfef 0%,#4097ce 100%);
+}
+.btn-primary:active {
+	top:1px;
+	background:#1976b1;
+	background:-webkit-gradient(linear,left top,left bottom,from(#1a71a8),to(#1976b1));
+	background:-webkit-linear-gradient(top,#1a71a8,#1976b1);
+	background:-moz-linear-gradient(top,#1a71a8,#1976b1);
+	background:-ms-linear-gradient(top,#1a71a8,#1976b1);
+	background:-o-linear-gradient(top,#1a71a8,#1976b1);
+	background-image:-ms-linear-gradient(top,#1a71a8 0%,#1976b1 100%);
+}
+
+.btn-success {
+	color:#fff;
+	text-shadow:0px 1px 2px #333;
+	border:1px solid #4f8d3b;
+	background:#84d494;
+	background:-webkit-gradient(linear,left top,left bottom,from(#77a64d),to(#6a9742));
+	background:-webkit-linear-gradient(top,#77a64d,#6a9742);
+	background:-moz-linear-gradient(top,#77a64d,#6a9742);
+	background:-ms-linear-gradient(top,#77a64d,#6a9742);
+	background:-o-linear-gradient(top,#77a64d,#6a9742);
+	background-image:-ms-linear-gradient(top,#77a64d 0%,#6a9742 100%);
+	-webkit-border-radius:3px;
+	-moz-border-radius:3px;
+	border-radius:3px;
+}
+.btn-success:hover {
+	background:#82d392;
+	background:-webkit-gradient(linear,left top,left bottom,from(#80b155),to(#75a64a));
+	background:-webkit-linear-gradient(top,#80b155,#75a64a);
+	background:-moz-linear-gradient(top,#80b155,#75a64a);
+	background:-ms-linear-gradient(top,#80b155,#75a64a);
+	background:-o-linear-gradient(top,#80b155,#75a64a);
+	background-image:-ms-linear-gradient(top,#80b155 0%,#75a64a 100%);
+}
+.btn-success:active {
+	top:1px;
+	background:#72b37e;
+	background:-webkit-gradient(linear,left top,left bottom,from(#91d374),to(#7fbb64));
+	background:-webkit-linear-gradient(top,#91d374,#7fbb64);
+	background:-moz-linear-gradient(top,#91d374,#7fbb64);
+	background:-ms-linear-gradient(top,#91d374,#7fbb64);
+	background:-o-linear-gradient(top,#91d374,#7fbb64);
+	background-image:-ms-linear-gradient(top,#5eac6e 0%,#72b37e 100%);
+}
+
+
+/*--批量选择弹出层 start--*/
+.popWindow .multiSelect{
+	width:764px;
+	}
+.popWindow .multiSelect .select{
+	margin-bottom:12px;
+	height:26px;
+	}
+.popWindow .multiSelect .button{
+	padding:10px 0 10px 0px;
+	}
+.popWindow .multiSelect .select label{
+	float:left;
+	display:inline;
+	width:60px;
+	height:26px;
+	padding:0 10px;
+	line-height:26px;
+	}
+.popWindow .multiSelect .select select{
+	float:left;
+	margin:0 5px 0 0 ;
+	height:26px;
+	border:1px solid #ccc;
+	float:left;
+	}
+.popWindow .selectBox{
+	margin:20px 0 10px 0;
+	}
+.popWindow .selectBox .leftBox,.popWindow .selectBox .rightBox{
+	float:left;
+	display:inline;
+	width:332px;
+	}
+.popWindow .selectBox .boxCon{
+	height: 250px;
+	width:330px;
+	border: 1px solid #e7e7e7;
+	overflow:auto;
+	}
+.popWindow .selectBox .boxTitle{
+	line-height:28px;
+	height:28px;
+	padding-left:10px;
+	border: 1px solid #e7e7e7;
+	border-bottom:none;
+	background:url(../images/base/poupWindow_title_bg.png) repeat-x top;
+	font-weight:800;
+	color:#666
+	}
+.popWindow .selectBox .boxCon dl.slideUp {
+	height:25px;
+	overflow:hidden;
+	}
+.popWindow .selectBox .boxCon dl dt{
+	display:block;
+	height:24px;
+	padding:0 0 0 10px;
+	line-height:24px;
+	background:#F2F2F2 url(../images/base/select_bg.png) no-repeat 300px 10px;
+	border-bottom:1px solid #ccc;
+	cursor:pointer;
+	}
+.popWindow .selectBox .boxCon dl dt span{
+	padding:0 4px;
+	}
+.popWindow .selectBox .boxCon dl dt:hover{
+	background:#F2F2F2 url(../images/base/select_bg.png) no-repeat 300px -40px;
+	color:#36C;
+	}
+.popWindow .selectBox .boxCon dl dt.current{
+	background:#F2F2F2 url(../images/base/select_bg.png) no-repeat 300px -90px;
+	}
+.popWindow .selectBox .boxCon dl dt.current:hover{
+	background:#F2F2F2 url(../images/base/select_bg.png) no-repeat 300px -140px;
+	color:#36C;
+	}
+.popWindow .selectBox .boxCon dl dd{
+	height:24px;
+	line-height:24px;
+	padding:0 0 0 20px;
+	color:#7a7a7a;
+	border-bottom:1px dashed #e7e7e7;
+	cursor:pointer;
+	width:292px;
+	overflow:hidden;
+	-o-text-overflow: ellipsis; text-overflow: ellipsis;white-space:nowrap;
+	}
+.popWindow .selectBox .boxCon dl dd.current{
+	background:#2B79D0;
+	color:#FFF;
+	}
+.popWindow .selectBox .centerBox{
+	float:left;
+	display:inline;
+	width:80px;
+	margin:70px 10px 0 10px;
+	}
+.popWindow .selectBox .centerBox input{
+	margin-bottom:10px;
+	color:#666;
+	}
+.popWindow .multiSelect .thead{
+	height:24px;
+	background:#F5F5F5;
+	border: 1px solid #e7e7e7;
+	border-bottom:none;
+	}
+.popWindow .multiSelect .thead span,.popWindow .multiSelect dd span {
+	display:inline;
+	float:left;
+	height:24px;
+	line-height:24px;
+	}
+.popWindow .multiSelect .thead .goodsName{
+	width:180px;
+	padding-left:20px;
+	}
+.popWindow .multiSelect dd .goodsName{
+	width:180px;
+	-o-text-overflow: ellipsis; 
+	text-overflow: ellipsis;
+	white-space:nowrap; 
+	overflow:hidden;
+	}
+.popWindow .multiSelect .goodsPic{
+	width:60px;
+	text-align:center;
+	}
+.popWindow .multiSelect .shelves{
+	width:60px;
+	text-align:center;
+	}
+/*--批量选择弹出层 end--*/

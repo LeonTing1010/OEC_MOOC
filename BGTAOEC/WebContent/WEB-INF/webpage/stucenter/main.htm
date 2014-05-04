@@ -1,0 +1,202 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>学生中心-国泰安网络教育</title>
+<meta name="description" content="插入网站全局描述变量" />
+<meta name="Keywords" content="插入网站全局关键字变量" />
+[#include "/webpage/common/common.htm"/]
+<link href="${base}/css/studentCenter/studentIndex.css" rel="stylesheet" type="text/css">
+<link href="${base}/css/studentCenter/layout.css" rel="stylesheet" type="text/css">
+<script src="${base}/js/stucenter/main.js" type="text/javascript"></script>
+<script src="${base}/js/base.js" type="text/javascript"></script>
+<script src="${base}/js/jquery-1.4.3.min.js" type="text/javascript"></script>    
+<script type="text/javascript">
+var tab = ${tab!};
+</script>
+<style type="text/css">
+	.wordBreak {
+		word-break:break-all;word-wrap:break-word;
+	}
+</style>
+</head>
+<body>
+<div class="wrapper">
+  <div class="headBar">
+        [#include "/webpage/common/personalcentertop.htm"/]
+  </div>
+  <div class="container-student">
+    <div class="student-header">
+      <div class="student-headImg"><img width="162" height="162" src="[#if _user.userHeadPic??]${cache!}${_user.userHeadPic!}[#else]${base!}/images/base/default_pic_temp_user.jpg[/#if]"
+      		></div>
+      <div class="student-header-Info">
+        <div class="student-name">${_user.userName!}<span>/ 学生<a  onclick="switchLoad('9')" href="#"><div><i title="个人资料修改"></i></div></a></span>
+        </div>
+        <div class="positionalTitle">一级荣誉毕业生</div>
+      </div>
+      <div class="header-new-count">
+        <ul>
+          <li title="新收到的答疑提问的答案" style="cursor: pointer;" onclick="switchLoad('10')">
+            <a class="jobInfo" id="c12" onclick="switchLoad('10')">
+            <b id="quesAnswerCount">${quesAnswerCount!}</b></a>
+            <span>答疑提问</span>
+          </li>
+          <li title="新收到的课程提问的答案" style="cursor: pointer;" onclick="switchLoad('7')">
+            <b id="courAnswerCount">${courAnswerCount!}</b>
+            <span>课程提问</span>
+          </li>
+          <li title="未提交的考试" style="cursor: pointer;" onclick="switchLoad('6')">
+            <b>${examCount!}</b>
+            <span >未提交考试</span>
+          </li>
+          <li title="未提交的作业" style="cursor: pointer;" onclick="switchLoad('1')">
+            <b>${taskCount!}</b>
+            <span >未提交作业</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="student-body">
+      [#include "/webpage/stucenter/left.htm"/]
+      <div class="rightCon">
+         <div class="topBox">
+          <div class="menuBtn" style="cursor:auto"></div>
+          <div class="crumbs">你所在的位置：<span id="location">学生中心</span></div>
+        </div>
+        <div class="main" >
+        
+            <div class="student-title"><a href="${base}/course/myCourse/" class="intoCurriculum" title=""  target="_blank">进入课程表</a></div>
+		  <div class="mycur clearfix">
+			<dl class="mycurItem">
+				<dt>上课通知</dt>
+				<dd>
+				    <span class="name">暂无上课通知</span>
+					<!-- <ul class="stuClass">
+						<li>
+							<a href="#">
+								<span class="name">计算机实训</span>
+								<span class="gray">2013-12-01  12:30</span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<span class="name">计算机实训</span>
+								<span class="gray">2013-12-01  12:30</span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<span class="name">计算机实训</span>
+								<span class="gray">2013-12-01  12:30</span>
+							</a>
+						</li>
+					</ul> -->
+				</dd>
+			</dl>
+			<dl class="mycurItem">
+				<dt>考试通知</dt>
+				<dd>
+				[#if examNoticeList??&&examNoticeList?size>0]
+				   [#list examNoticeList as examNotices]
+				     [#if examNotices_index+1 gt 3][#break][/#if] <!-- 取前三条最新考试通知 -->
+						<ul class="stuClass">
+							<li>
+								<a href="${base}/course/main/${examNotices.courseVo.courseId!}/?tab=8&examId=${examNotices.examId!}&examType=1" target="_blank">
+									<span class="name">${examNotices.courseVo.courseName!}</span>
+									<span class="gray">${examNotices.courseVo.cTime?string("yyyy-MM-dd HH:mm:ss")!}</span>
+								</a>
+							</li>
+						</ul>
+					[/#list]
+				  [#else]
+					    <span class="name">暂无考试通知</span>
+			    [/#if]		
+			      [#if examNoticeList??&&examNoticeList?size>3]
+					    <a onclick="switchLoad('6')" >更多考试</a>
+			      [/#if]		
+				</dd>
+			</dl>
+			<dl class="mycurItem">
+				<dt>作业通知</dt>
+				<dd>
+				[#if taskNoticeList??&&taskNoticeList?size>0]
+				   [#list taskNoticeList as taskNotices]
+				     [#if taskNotices_index+1 gt 3][#break][/#if] <!-- 取前三条最新作业通知 -->
+					<ul class="stuClass">
+						<li>
+							<a href="${base}/course/main/${taskNotices.courseVo.courseId!}/?tab=8&examId=${taskNotices.examId!}&examType=3" target="_blank">
+								<span class="name">${taskNotices.taskName!}</span>
+								<span class="gray">${taskNotices.courseVo.cTime?string("yyyy-MM-dd HH:mm:ss")!}</span>
+							</a>
+						</li>
+					</ul>
+					[/#list]
+				  [#else]
+					    <span class="name">暂无作业通知</span>
+			    [/#if]		
+			     [#if taskNoticeList??&&taskNoticeList?size>3]
+					    <a onclick="switchLoad('1')" >更多作业</a>
+			      [/#if]	
+				</dd>
+			</dl>
+			<dl class="mycurItem" style="margin-right:0;">
+				<dt>消息通知</dt>
+				<dd>
+				    <span class="name">暂无消息通知</span>
+					<!-- <h4 class="news">上课通知</h4>
+					<div class="newsTxt">金融某某学科直播课程于2012-12-28 18:00 上课，请准时参加!</div>
+					<div class="gray">时间:  2012-12-28  18: 30</div> -->
+				</dd>
+			</dl>
+		  </div>
+		  
+		  <!--岗位收藏-->
+		  <div class="collection">
+		  	<h3 class="indexTitle">职位收藏</h3>
+			<ul>
+			[#if pjobcoll??]
+				[#list pjobcoll.list as obj]
+				<li>
+					<h4><a href="${base}/job/positiondetail/${obj.jobID}/" title="${obj.jobName!}" target="_Blank">${obj.jobName!}</a></h4>
+						<p>包含课程：
+						[#list obj.courlist as t]
+						[#if t_index < 2]
+							[@text_cut s='${t.courseName!}' len='5' append='..'][/@text_cut]
+							[#if t_has_next]、[/#if]
+						[/#if]
+						[#if t_index == 2]
+							[@text_cut s='${t.courseName!}' len='5' append='..'][/@text_cut]
+						[/#if]
+						[/#list]
+						</p>
+				</li>		
+				[/#list]
+			[/#if]		
+			</ul>	
+		  </div>
+		  <!--我的考试-->
+		  <div class="collection test">
+		  	<h3 class="indexTitle">我的考试</h3>
+			<ul>
+			[#if courexam??]
+				[#list courexam.list as cour]
+				<li>
+					<h4><a href="/course/main/${cour.courId!}/?tab=9&examId=${cour.examId!}&examType=1" title="${cour.courName!}">${cour.courName!}</a></h4>
+					<p class="number">${cour.examScore! }</p>
+					<p class="score">获得学分: <span >${cour.courCredit!}</span></p>
+				</li>	
+				[/#list]
+			[/#if]			
+			</ul>
+		  </div>
+        </div>       
+        <div class="clear"></div>
+      </div>
+      <div class="clear"></div>
+    </div>
+  </div>
+  <div class="footerFixer"></div>
+</div>
+[#include "/webpage/common/footer.htm"/]
+</body>
+</html>

@@ -1,0 +1,140 @@
+@charset "utf-8";
+/* CSS Document */
+
+.main{padding:24px 20px 10px;}
+.student-title{
+	height:40px;
+	line-height:40px;
+	font-size:18px;
+	border-bottom:2px solid #6e8ed1;
+	position:relative;
+}
+.student-title h3{
+	position:absolute;
+	display:inline;
+	border-bottom:2px solid #33518f;
+	bottom:-2px;
+	font-weight:normal;
+	height:40px;
+	line-height:40px;
+}
+.tab{
+	height:47px;
+	width:829px;
+	position:relative; zoom:1;
+}
+.tab ul{width:829px; height:46px; border-bottom:1px solid #ddd; }
+.tab li{
+	z-index:1;
+	float:left;
+	display:inline;
+	padding:0 12px;
+	margin:14px 0;
+	border-right:1px solid #dfdfdf;
+	cursor:pointer;
+}
+.tab li.current{
+	margin:0;
+	z-index:1;
+	border-top:3px solid #6e8ed1;
+	border-right:1px solid #ddd;
+	border-left:1px solid #ddd;
+	height:44px;
+	line-height:44px;
+	background:#FBFAFA;
+	padding:0 12px;
+	position:relative;
+	left:-1px;
+}
+.tab li a{
+	color:#666
+	}
+.tab li.current a{
+	color:#236fd4
+	}
+.tabCon{
+	margin:20px 0 0 0;
+	
+	border:1px solid #d7d7d7;
+	}
+.pgQuestionList  .title{
+	height:34px;
+	line-height:34px;
+	background:#ededed;
+	color:#4a4a4a;
+	font-size:14px;
+	padding-left:32px;
+	}
+.shrink-arrow{
+	float:right;
+	margin:16px 16px 0 0;
+	width:11px;
+	height:4px;
+	background:url(../../images/studentCenter/shrink-arrow.png) no-repeat;
+	display:inline;
+	cursor:pointer;
+	overflow:hidden;
+}
+.shrink-arrow-up{
+	background-position: left -8px;
+}
+.pgQuestionList .con{
+	padding:10px;
+	border-bottom:1px solid #d7d7d7;
+	}
+.pgQuestionList dl{
+	margin-bottom:10px;
+	padding-bottom:10px;
+	border-bottom:1px dotted #d7d7d7;
+	}
+.pgQuestionList dt{
+	line-height:30px;
+	margin-bottom:6px;
+	font-size:18px;
+	}
+.pgQuestionList dd{
+	margin-bottom:10px;
+	color:#555;
+	}
+.pgQuestionList dd .name{ color:#F60}
+
+.loading{
+	height:72px;
+	line-height:72px;
+	border-top:1px solid #e3e4e5;;
+	text-align:center;
+	background:#f3f2f3;
+	font-size:14px;
+	font-weight:bold;
+	margin-top:-1px;	
+}
+.loading a{
+	padding-right:18px;
+	background:url(../../images/studentCenter/loading.png) right 1px no-repeat;
+	color:#727171;
+}
+.dynamic{
+	padding:10px;
+	}
+.dynamic li{
+	margin-bottom:10px;}
+.dynamic img{
+	float:left;
+	padding:2px;
+	margin-right:20px;
+	border:1px solid #d7d7d7;
+	}
+.dynamic .con{
+	float:left;
+	padding:10px;
+	width:680px;
+	margin:2px 0 0 0;
+	background:#f2f2f2;
+	font-size:12px;
+	}
+.dynamic .con span{
+	color: #F60}
+.dynamic .con p{
+	margin:0 0 5px 0;
+	color:#555;
+	}

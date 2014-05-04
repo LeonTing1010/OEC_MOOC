@@ -1,0 +1,119 @@
+@charset "utf-8";
+/* CSS Document */
+.main{padding:24px 20px 10px;}
+.student-title{
+	height:40px;
+	line-height:40px;
+	font-size:18px;
+	border-bottom:2px solid #6e8ed1;
+	position:relative;
+}
+.student-title h3{
+	position:absolute;
+	display:inline;
+	border-bottom:2px solid #33518f;
+	bottom:-2px;
+	font-weight:normal;
+	height:40px;
+	line-height:40px;
+}
+
+.collection-body{padding:15px 0 0 0;}
+.collection-tab-th td{
+	border-right:1px solid #7282a3;
+	height:40px;
+	line-height:40px;
+	background:#8b9abb;
+	text-align:center;
+	color:#fff;
+	font-size:14px;
+	vertical-align:middle;
+}
+.td-w1{width:74px;}
+.td-w2{width:68px;}
+.td-w3{ width:96px;}
+.td-w4{width:393px;}
+.collection-tab-th .td-w4,.collection-course-body .td-w4{
+	text-align:left;
+	padding-left:25px;
+}
+.collection-tab-th .td-w5,.td-w5{width:150px; border:none;}
+
+.collection-course-body{border:1px solid #e3e4e5;}
+
+.collection-course-body td{
+	border-bottom:1px solid #e3e4e5;
+	text-align:center;
+	height:34px;
+	line-height:34px;
+	color:#4a4a4a;
+}
+.collection-course-body td a{color:#4a4a4a;}
+.collection-course-body td a:hover{color:#236FD4}
+.collection-course-body td.time{
+	color:#b5b5b6;
+}
+.searchAndDel{
+	margin-bottom:10px;
+}
+
+.dele{
+	height:28px;
+	line-height:28px;
+	background:#6e8ed1;
+	color:#fff;
+	font-size:12px;
+	border-radius:3px;
+	text-align:center;
+	padding:0 20px;
+	display:inline-block;
+}
+.searchBox{
+	float:right;
+	width:210px;
+	height:28px;
+}
+.searchCon{
+	height:26px;
+	line-height:26px;
+	width:172px;
+	border:1px solid #e5e5e6;
+	border-right:none;
+	color:#c0bfbf;
+	float:left;
+	padding:0 4px;
+}
+.searchBtn{
+	float:left;
+	width:28px;
+	height:28px;
+	background:url(../../images/studentCenter/search-btn-bg.jpg) no-repeat;
+}
+.status{
+	display:block;
+	width:32px;
+	height:32px;
+	margin:0 auto;
+	overflow:hidden;
+}
+.statusOff{
+	background:url(../../images/studentCenter/email.png)
+}
+.statusOn{
+	background:url(../../images/studentCenter/email_c2.png)
+}
+.loading{
+	height:72px;
+	line-height:72px;
+	border:1px solid #e3e4e5;
+	border-top:none;
+	text-align:center;
+	background:#f3f2f3;
+	font-size:14px;
+	font-weight:bold;
+}
+.loading a{
+	padding-right:18px;
+	background:url(../../images/studentCenter/loading.png) right 3px no-repeat;
+	color:#727171;
+}

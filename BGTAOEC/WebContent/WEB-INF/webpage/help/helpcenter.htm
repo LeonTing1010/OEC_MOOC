@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>帮助中心-国泰安网络教育</title>
+<link rel="stylesheet" type="text/css"
+	href="${base!}/css/help/helpCenter.css" />
+[#include "/webpage/common/common.htm"/]
+<script>
+	$(document).ready(function() {
+		$(".sideMenu dt").click(function() {
+			$(this).next("dd").slideToggle();
+			if ($(this).find("span").text() !== "+") {
+				$(this).find("span").text("+");
+			} else {
+				$(this).find("span").text("-");
+			}
+		});
+	});
+</script>
+</head>
+
+<body id="backtop">
+	<div class="wrapper">
+		[#include "/webpage/common/helphead.htm"/]
+		<div class="container">
+			<div class="main">
+				<div class="leftCon">
+					<div class="title">帮助中心</div>
+					<dl class="sideMenu">
+						<dt>
+							<span>-</span>登录注册
+						</dt>
+						<dd>
+							<ul>
+								<li><a href="javascript:void(0)" onclick="help(1);">注册流程</a></li>
+								<li><a href="javascript:void(0)" onclick="help(2);">登录流程</a></li>
+								<li><a href="javascript:void(0)" onclick="help(3);">找回密码流程</a></li>
+							</ul>
+						</dd>
+						<dt>
+							<span>-</span>课程学习
+						</dt>
+						<dd>
+							<ul>
+								<!-- <li><a href="javascript:void(0)" onclick="help(4);">课程购买流程</a></li> -->
+								<li><a href="javascript:void(0)" onclick="help(5);">课程学习</a></li>
+								<li><a href="javascript:void(0)" onclick="help(6);">课程练习与考试</a></li>
+								<!-- <li><a href="javascript:void(0)" onclick="help(7);">岗位查询</a></li> -->
+							<!-- 	<li><a href="javascript:void(0)" onclick="help(8);">认证培训</a></li> -->
+							</ul>
+						</dd>
+						<dt>
+							<span>-</span>答疑中心
+						</dt>
+						<dd>
+							<ul>
+								<li><a href="javascript:void(0)" onclick="help(9);">回答问题</a></li>
+								<li><a href="javascript:void(0)" onclick="help(10);">创建问题</a></li>
+								<li><a href="javascript:void(0)" onclick="help(11);">求助老师</a></li>
+								<!-- <li><a href="javascript:void(0)" onclick="help(12);">关注老师</a></li> -->
+							</ul>
+						</dd>
+						<dt>
+							<span>-</span>学生中心
+						</dt>
+						<dd>
+							<ul>
+								<li><a href="javascript:void(0)" onclick="help(13);">个人资料修改</a></li>
+								<li><a href="javascript:void(0)" onclick="help(14);">成绩管理</a></li>
+								<li><a href="javascript:void(0)" onclick="help(15);">收藏管理</a></li>
+								<li><a href="javascript:void(0)" onclick="help(16);">修改密码</a></li>
+							</ul>
+						</dd>
+						<dt>
+							<span>-</span>教师中心
+						</dt>
+						<dd>
+							<ul>
+								<li><a href="javascript:void(0)" onclick="help(17);">教师资料编辑</a></li>
+								<li><a href="javascript:void(0)" onclick="help(18);">创建课程</a></li>
+								<li><a href="javascript:void(0)" onclick="help(19);">发布试题</a></li>
+								<li><a href="javascript:void(0)" onclick="help(20);">作业/考试管理</a></li>
+								<li><a href="javascript:void(0)" onclick="help(21);">问题解答管理</a></li>
+							</ul>
+						</dd>
+					</dl>
+				</div>
+				<div class="rightCon">
+				[#include "/webpage/help/helpCenter-register.htm"/]
+				</div>
+				<div class="clear"></div>
+			</div>
+		</div>
+		  <div class="footerFixer"></div>
+</div>
+[#include "/webpage/common/footer.htm"/]
+</body>
+</html>

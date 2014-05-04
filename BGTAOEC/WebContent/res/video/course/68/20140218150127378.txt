@@ -1,0 +1,185 @@
+<link href="${base}/css/teacherCenter/operationsManagement.css" rel="stylesheet" type="text/css" />
+<div class="topBox">
+	<div class="menuBtn"></div>
+	<div class="crumbs">
+		你所在的位置：<span>作业管理</span>
+	</div>
+</div>
+<div class="main">
+	<div class="main-title">
+		<h3>作业管理</h3>
+		<a class="btn btn-primary btn-small firstStep fr" href="#">发布作业</a>
+	</div>
+	<div class="table-default">
+		<div class="curTab mt20">
+			<ul id="quickNav" style="">
+				<li class="current"><a class="jobInfo" href="javascript:;">未批阅</a></li>
+				<li class=""><a class="course" href="javascript:;">已批阅</a></li>
+			</ul>
+		</div>
+		<div class="test-bodybox">
+		[#if pageModel??]
+		[#if pageModel.list??]
+			[#list pageModel.list as course]
+			[#if course??]
+			<div class="test-body">
+				<dl class="test-course">
+					<!--向上的箭头：shrink-arrow  向下的箭头追加：shrink-arrow-up 类样式-->
+					<dt>
+						<span class="shrink-arrow shrink-arrow-up"></span>${course.courseName!}
+					</dt>
+					<dd style="display: block;">
+						<ul class="test-course-ul clearfix">
+						[#if course.examList??]
+							[#list course.examList as exam]
+							<li>
+								<h4>${exam.examName!}</h4>
+								<p>提交：20\50</p>
+								<p>批阅：2\20</p>
+								<p>
+									<a href="#" class="btn btn-success btn-small firstStep">审批</a>
+									<a href="#" class="btn btn-primary btn-small firstStep ml10">成绩</a>
+								</p>
+							</li>
+							[/#list]
+						[/#if]
+						</ul>
+					</dd>
+				</dl>
+			</div>
+			[/#if]
+			[/#list]
+		[/#if]
+		[/#if]
+		
+		[#if pageModel??]
+		[#if pageModel.list??]
+			[#list pageModel.list as course]
+			[#if course??]
+			<div class="test-body" style="display: none;">
+				<dl class="test-course">
+					<!--向上的箭头：shrink-arrow  向下的箭头追加：shrink-arrow-up 类样式-->
+					<dt>
+						<span class="shrink-arrow shrink-arrow-up"></span>${course.courseName!}
+					</dt>
+					<dd style="display: block;">
+						<ul class="test-course-ul clearfix">
+						[#if course.examList??]
+							[#list course.examList as exam]
+							<li>
+								<h4>${exam.examName!}</h4>
+								<p>提交：20\50</p>
+								<p>批阅：2\20</p>
+								<p>
+									<a href="#" class="btn btn-primary btn-small firstStep ml10">成绩</a>
+								</p>
+							</li>
+							[/#list]
+						[/#if]
+						</ul>
+					</dd>
+				</dl>
+			</div>
+			[/#if]
+			[/#list]
+		[/#if]
+		[/#if]
+		</div>
+	</div>
+</div>
+<div class="clear"></div>
+[@p.tab value=pageModel][#rt/] [/@p.tab]
+<script type="text/javascript">
+	function _gotoPage(pageNo){
+		$('.rightCon').load(base+"/teacherCenter/Management/?examType="+examType+"&paperState="+paperState+"&pageNo="+pageNo);
+	}
+	
+	$(document).ready(function(){
+	  $(".shrink-arrow").click(
+	  
+		  function(){	
+		  	var dd = $(this).parent().nextAll("dd");
+			if(dd.is(':hidden')){
+				$(this).addClass('shrink-arrow-up');
+			}
+			else{
+				$(this).removeClass('shrink-arrow-up');
+			}
+			dd.toggle();				
+		  }
+	  );
+	
+	  var $li = $(".curTab li"),
+			$content = $(".test-body"),
+			$index;
+	
+		$li.click(function(){
+			$(this).addClass("current").siblings().removeClass('current');
+			$index = $li.index($(this));
+			if($index==0){
+				loadOperation(3,2);
+			}else{
+				loadOperation(3,1);
+				//$li.eq(1).addClass("current").siblings().removeClass('current');
+			}
+			$content.eq($index).show().siblings().hide();
+		});
+	   
+	});
+</script>
+
+
+
+
+[#if ${list.progress*10}>100]
+	<div class="progress" style="width: ${10*10}%"></div>
+[#else]
+	<div class="progress" style="width: ${list.progress*10}%"></div>
+[/#if]
+
+ examStudentVo.setPaperState("2");  //未批阅考试
+ count=examService.getTakeExamCount(examStudentVo);   //得到该考试的未批阅数
+ exam.setNoCorrect(count);    //设置该考试的未批阅数
+			  
+examStudentVo.setPaperState("1");  //已批阅考试
+count=examService.getTakeExamCount(examStudentVo);   //得到该考试的已批阅数
+exam.setHasCorrect(count);   //设置该考试的已批阅数	 
+			  
+ courseVo2.setCourseId(exam.getCourId());
+ count=courseService.getCourStudyCount(courseVo2);   //得到学习该考试课程的人数
+ exam.setLearnCount(count);
+
+
+
+
+<dd style="display: block;">
+					[#if course.list??]
+					<ul class="test-course-ul clearfix">
+						[#list course.list as section]
+							[#if section.list??]
+								[#list section.list as subsection]
+									[#if subsection.examList??]
+										[#list subsection.examList as exam]
+										<li>
+											<h4>第[@num s='${section_index+1}'/]章  第[@num s='${subsection_index+1}'/]节</h4>
+											<p>
+												<a href="#">${exam.examName!}</a>
+											</p>
+											<p>提交：${exam.examCount!}\${exam.learnCount!}</p>
+					
+											<p>
+												<a href="#" class="btn btn-primary btn-small firstStep ml10">成绩</a>
+											</p>
+										</li>	
+										[/#list]
+									[/#if]
+								[/#list]
+							[#else]
+								<p>暂无更多练习信息！</p>
+							[/#if]
+						[/#list]
+					</ul>
+					[#else]
+						<p>暂无更多练习信息！</p>
+					[/#if]
+				</dd>

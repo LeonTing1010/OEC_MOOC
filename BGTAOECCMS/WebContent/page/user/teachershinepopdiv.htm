@@ -1,0 +1,52 @@
+  <div class="popWindow">
+    <div class="title"><span class="close"></span>选择擅长领域</div>
+    <div class="popContent multiSelect">
+      
+      <div class="selectBox">
+        <div class="leftBox">
+          <div class="boxTitle">待选领域</div>
+          <div class="boxCon">
+         	 <#if unselected??>
+         		 <#list unselected as prof>
+		            <dl lang="${prof.proName!}">
+		              <dt class="current">${prof.proName!}(<span><#if prof.jobs ??> ${prof.jobs?size}</#if></span>)</dt>
+			           <#if prof.jobs ??>
+			              <#list prof.jobs as job>
+			              <dd id="${job.jobID!}">${job.jobName!}</dd>
+			              </#list>
+			            </dl>
+						</#if>
+					</#list>
+            </#if>
+          </div>
+        </div>
+        <div class="centerBox">
+          <div><input type="button" class="btn btn-default btn-small grid-12" value=">" /></div>
+         <!--  <div><input type="button" class="btn btn-default btn-small grid-12" value=">>"/></div> -->
+          <div><input type="button" class="btn btn-default btn-small grid-12" value="<"/></div>
+          <!-- <div><input type="button" class="btn btn-default btn-small grid-12" value="<<"/></div> -->
+        </div>
+        <div class="rightBox">
+          <div class="boxTitle">已选中领域</div>
+          <div class="boxCon">
+         			 <#if selected??>
+          				<#list selected as prof>
+				            <dl lang="${prof.proName!}">
+				              <dt class="current" title="${prof.proID!}">${prof.proName!} (<span><#if prof.jobs ??> ${prof.jobs?size} </#if></span>)</dt>
+				          <#if prof.jobs ??>
+					             <#list prof.jobs as job>
+					              <dd id="${job.jobID!}">${job.jobName!}</dd>
+					              </#list>
+					            </dl>
+				            </#if> 
+							</#list>
+            	</#if>
+          </div>
+        </div>
+        <div class="clear"></div>
+      </div>
+      <div class="button">
+        <div class="btn btn-primary btn-small">确定</div>
+        <span class="onShow">您本次选择的擅长领域：<strong id="selectNum">${selectedNum!}</strong>个</span> </div>
+    </div>
+  </div>

@@ -1,0 +1,157 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>我的课程-国泰安网络教育</title>
+<meta name="description" content="插入网站全局描述变量" />
+<meta name="Keywords" content="插入网站全局关键字变量" />
+[#include "/webpage/common/common.htm"/]
+<link href="${base}/css/course/myClass.css" rel="stylesheet" type="text/css">
+<script>
+jQuery.fn.anchorGoWhere = function(options){
+    var obj = jQuery(this);
+			
+    var defaults = {target:0, timer:1000};
+    var o = jQuery.extend(defaults,options);
+    obj.each(function(i){
+        jQuery(obj[i]).click(function(){
+            var _rel = jQuery(this).attr("href").substr(1);
+            switch(o.target){
+                case 1: 
+                    var _targetTop = jQuery("#"+_rel).offset().top;
+                    jQuery("html,body").animate({scrollTop:_targetTop},o.timer);
+                    break;
+                case 2:
+                    var _targetLeft = jQuery("#"+_rel).offset().left;
+                    jQuery("html,body").animate({scrollLeft:_targetLeft},o.timer);
+                    break;
+            }
+			$(this).parent().prevAll().removeClass("current");
+			$(this).parent().nextAll().removeClass("current");
+			$(this).parent().addClass("current");
+            return false;
+        });  
+		                
+    });
+	
+};
+</script>
+<script>
+/* $(document).ready(function(){
+	var IO=document.getElementById('quickNav'),Y=IO,H=0,IE6,L=0;
+		 IE6=window.ActiveXObject&&!window.XMLHttpRequest;
+		 while(Y){H+=Y.offsetTop;L+=Y.offsetLeft;Y=Y.offsetParent};
+		 if(IE6){
+         	IO.style.cssText="position:absolute;top:expression(this.fix?(document"+".documentElement.scrollTop-(this.javascript||"+H+")):0)";
+		 }
+		 window.onscroll=function (){
+			 var d=document,s=Math.max(d.documentElement.scrollTop,document.body.scrollTop);
+			 if(s>H&&IO.fix||s<=H&&!IO.fix)return;
+			 if(!IE6){IO.style.position=IO.fix?"":"fixed"; IO.style.left = IO.fix?"":L+"px";  }   
+			 IO.fix=!IO.fix;
+    	 };
+		 try{document.execCommand("BackgroundImageCache",false,true)}catch(e){};	  
+		 	$(".jobInfo").anchorGoWhere({target:1});
+			$(".course").anchorGoWhere({target:1});
+			$(".train").anchorGoWhere({target:1});
+			$(".develop").anchorGoWhere({target:1});
+			$(".ability").anchorGoWhere({target:1});
+			$(".duty").anchorGoWhere({target:1});
+			$(".salary").anchorGoWhere({target:1});
+	}); */
+</script>
+</head>
+
+<body id="backtop">
+	<div class="wrapper">
+	[#include "/webpage/common/head.htm"/]
+		<div class="container">
+			<div class="content clearfix pt10">
+				<div class="grid grid-12 courseBox clearfix">
+					<div class="myClass-list grid mr10 pb10">
+						<div class="title"><a href="/course/courselist/?headTab=2" class="font12 fr mr10">查看所有课程</a>我的课程</div>
+						<div class="myClass-con">
+							<ul>
+								[#if courList??]
+								[#list courList as list]
+								<li><a href="${base}/course/info/${list.courseId!}/">
+									<img src="[#if list.titlePage??]${cache!}${list.titlePage!}[#else]${cache!}/images/base/default_pic_temp_course.jpg[/#if]"
+									 		width="328"height="170">
+									 </a>
+									<div class="schoolName">学校：${list.schoolName!}</div>
+									<h3>${list.courseName!}</h3>
+									<div class="time">
+										<span class="begin">
+											[#if list.courStartTime??]
+												${list.courStartTime?string("yyyy-MM-dd HH:mm:ss")} 
+											[/#if]
+										</span>
+										<div class="progress" style="width: ${list.progress*10}%"></div>
+									</div>
+									<div class="button">
+										<a href="${base}/course/info/${list.courseId!}/">课程信息</a>
+										[#if list.diffTime gt 0]
+											[#if list.diffDay gt 0]												
+												<a href="${base}/course/main/${list.courseId!}/">
+													<button class="btn btn-gray fr btn-small" disabled>还有${list.diffDay!}天开始</button>
+												</a> 
+											[#else]
+												[#if list.diffHour gt 0]
+												<a href="${base}/course/main/${list.courseId!}/">
+													<button class="btn btn-gray fr btn-small" disabled>还有${list.diffHour!}小时${list.diffMin!}分钟开始</button>
+												</a> 
+												[#else]
+												<a href="${base}/course/main/${list.courseId!}/">
+													<button class="btn btn-gray fr btn-small" disabled>还有${list.diffMin!}分钟开始</button>
+												</a> 
+												[/#if]
+											[/#if]
+										[#else]
+											<a href="${base}/course/main/${list.courseId!}/">
+													<span class="btn btn-darkBlue fr btn-small">进入课程</span>
+											</a> 
+										[/#if]						
+									</div>
+									<div class="clear"></div>
+								</li>
+								[/#list]
+								[/#if]
+							</ul>
+						</div>
+					</div>
+
+					<div class="grid curSide">
+						<!--推荐认证培训 start-->
+						<!--推荐认证培训 end-->
+						<!--推荐课程 start-->
+						<div class="curSideBox">
+							<h3 class="curTitle">推荐课程</h3>
+							[#if courRecommList??]
+								[#list courRecommList as lists]
+							<dl class="subjectList">
+								<dt>${lists.courseName!}</dt>
+								<dd>
+									<a href="${base!}/course/info/${lists.courseId!}/" title="" class="fl"><img
+									src="[#if lists.titlePage??]${cache!}${lists.titlePage!}[#else]${cache!}/images/base/default_pic_temp_course.jpg[/#if]" 
+										width="120"
+										height="62" alt=""/></a>
+									<ul class="modCon">
+										<li title="${lists.teacherName!}">主讲：[@text_cut s='${lists.teacherName!}' len='7' append='..'][/@text_cut]</li>
+										<li>时间：${lists.courStartTime?string('yyyy-MM-dd')!}</li>
+										<!--  <li>浏览次数：${(lists.attention)!'0'}</li>-->
+									</ul>
+								</dd>
+							</dl>
+								[/#list]
+							[/#if]
+						</div>
+						<!--推荐课程 end-->
+					</div>
+				</div>
+			</div>
+		</div>
+  <div class="footerFixer"></div>
+</div>
+[#include "/webpage/common/footer.htm"/]
+</body>
+</html>

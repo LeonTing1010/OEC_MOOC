@@ -1,0 +1,74 @@
+<!---------------------------- 学生未作答 -------------------------------------------------------->
+[#if (isExam lte 0)]
+<div class="poupBox-con">
+[#if examPaper??&&examPaper.radioList??&&(examPaper.radioList?size)>0]
+	<div class="title">本节课程已学完，请完成以下练习，以巩固知识点</div>
+	<form action="" method="post" name="testForm" id="testForm">
+	<input type="hidden" name="examType" value="2"/>
+	<input type="hidden" name="courseId" value="${courseId!}"/>
+	<input type="hidden" name="examId" value="${examPaper.examId!}"/>
+	[#if examPaper.radioList??]
+	 [#list examPaper.radioList as paperList]
+	<dl>
+		<dt>${paperList_index+1}.${paperList.examQuesContent!}</dt>
+		<dd>
+			<ul>
+			   [#if paperList.examOptionlist??]
+			    [#list paperList.examOptionlist as list]
+				<li><input  type="radio" name="quesId${paperList.examQuesId!}" value="${list.optNum!}" id="${list_index}${paperList.examQuesId!}"><label for="${list_index}${paperList.examQuesId!}">${list.optNum!}.${list.optContent!}</label></li>
+				[/#list]	
+				[/#if]
+			</ul>
+		</dd>
+	</dl>
+	[/#list]
+	[/#if]
+	 <div class="ml10 mt20">
+		<button type="button" onclick="saveTest()" class="btn btn-small btn-success">提交练习</button>
+	</div>
+	</form>
+
+[#else]
+	<div class="title">本节课程已学完，无随堂练习！</div>
+	<div class="ml10 mt20">
+		<button onclick="nextVideo()" class="btn btn-small btn-success">下一节</button>
+	</div>
+[/#if]
+</div>
+[/#if]
+<!---------------------------- 学生已作答 -------------------------------------------------------->
+[#if (isExam gt 0)]
+<div class="poupBox-con">
+[#if paperAnswerdetails??]
+	<div class="title">本节课程已学完，请完成以下练习，以巩固知识点</div>
+	[#if paperAnswerdetails??]
+	 [#list paperAnswerdetails as singleSelect]
+	<dl>
+		<dt>${singleSelect_index+1}.${singleSelect.examQuesContent!}</dt>
+		<dd>
+			<ul>
+			   [#if singleSelect.examOptionlist??]
+			    [#list singleSelect.examOptionlist as list]
+				<li><input  type="radio" [#if '${singleSelect.examAnswerDetailVo.examAnswer!}'=='${list.optNum!}']checked="checked"[#else]Wrong[/#if]  disabled="disabled" name="quesId${singleSelect.examQuesId!}" value="${list.optNum!}" id="${list_index}${singleSelect.examQuesId!}"><label for="${list_index}${singleSelect.examQuesId!}">${list.optNum!}.${list.optContent!}</label></li>
+				[/#list]	
+				[/#if]
+			</ul>
+			
+			<div style="display: block;" class="videoAnswer [#if '${singleSelect.examAnswerDetailVo.examAnswer!}'=='${singleSelect.examQuesAnswer!}']correct[#else]Wrong[/#if] ">答案:<span>${singleSelect.examQuesAnswer!}</span></div>
+			
+		</dd>
+	</dl>
+	[/#list]
+	[/#if]
+	<div class="ml10 mt20">
+		<button onclick="nextVideo()" class="btn btn-small btn-success">下一节</button>
+	</div>
+[#else]
+	<div class="title">本节课程已学完，无随堂练习！</div>
+	<div class="ml10 mt20">
+		<button onclick="nextVideo()" class="btn btn-small btn-success">下一节</button>
+	</div>
+[/#if]
+</div>
+[/#if]
+

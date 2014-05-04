@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gta.oec.vo.course.NoteVo">
+	<resultMap type="com.gta.oec.vo.course.NoteVo" id="noteMap">
+		<result column="Note_ID" property="noteId"/>
+		<result column="Sec_ID" property="secId" />
+		<result column="Cour_ID" property="courseId" />
+		<result column="Note_Name" property="noteName" />
+		<result column="Note_SubmitTime" property="noteSubTime" />
+		<result column="Note_Content" property="noteContent"/>
+		<result column="User_ID"  property="userId"/>
+		<result column="VideoTime" property="videoTime"/>
+		<result column="Note_Ctime" property="noteCtime"/>
+		<result column="Note_Utime" property="noteUtime"/>                                                     
+	</resultMap>
+
+	<!-- select -->
+		<select id="getNoteList" parameterType="com.gta.oec.vo.course.NoteVo" resultMap="noteMap">
+			SELECT note.* FROM m_my_note AS note WHERE  note.Sec_ID =#{secId} 
+			<if test="courseId!=0">
+				AND note.Cour_ID=#{courseId}
+			</if>
+			<if test="userId !=0">
+				AND note.User_ID=#{userId}
+			</if>	
+	       <if test="secId !=0">
+				AND note.Sec_ID=#{secId}
+			</if> 
+			order by note.Note_Ctime desc
+		</select>
+	<select id="getUserNoteCount" parameterType="com.gta.oec.vo.course.NoteVo" resultType="int">
+		SELECT count(*) FROM m_my_note AS note WHERE note.Sec_ID =#{secId}
+		<if test="courseId!=0">
+			AND note.Cour_ID=#{courseId}
+		</if>
+		<if test="userId !=0">
+			AND note.User_ID=#{userId}
+		</if>
+	</select> 
+		
+	<!-- select -->
+	<!-- insert -->
+		<insert id="addNote" parameterType="com.gta.oec.vo.course.NoteVo">
+			INSERT INTO m_my_note(Note_ID,Sec_ID,Cour_ID,Note_Name,Note_SubmitTime,Note_Content,User_ID,VideoTime,Note_Ctime,Note_Utime)
+			VALUES(#{noteId},#{secId},#{courseId},#{noteName},#{noteSubTime},#{noteContent},#{userId},#{videoTime},#{noteCtime},#{noteUtime}) 
+		</insert>
+	<!-- insert -->
+</mapper>    

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gta.oec.cms.dao.coursedetail.CourseDetailDao">
+	<resultMap type="com.gta.oec.cms.vo.course.CourseDetail" id="courseDetailResultMap">
+		<result column="Sec_ID" property="id" />
+		<result column="Cour_ID" property="courseId" />
+		<result column="Sec_Name" property="name" />
+		<result column="Sec_Title" property="title" />
+		<result column="Sec_Introduction" property="introduction" />
+		<result column="Sec_Start_Time" property="startTime" />
+		<result column="Sec_Time" property="time" />
+		<result column="Sec_Type" property="type" />
+		<result column="Sec_Url" property="secUrl" />
+		<result column="Sec_Num" property="num" />
+		<result column="Sec_PID" property="pid" />
+		<result column="learn_state" property="learnState" />
+		<result column="Sec_Sequence" property="sequence" />
+		<result column="Sec_Price" property="price" />
+		<result column="Sec_Ctime" property="cTime" />
+		<result column="Sec_Utime" property="uTime" />
+		<result column="Sec_CoreKnowledge" property="coreKnowledge" />
+	</resultMap>
+
+	<!-- 获取章节信息 -->
+	<select id="getSectionByCid" parameterType="com.gta.oec.cms.vo.course.CourseDetail"
+		resultMap="courseDetailResultMap">
+		SELECT * FROM c_course_detail AS c where 1=1
+		<if test="courseDetail.courseId!=0">
+			AND c.Cour_ID = #{courseDetail.courseId}
+		</if>
+		<if test="courseDetail.pid!=0">
+			AND c.Sec_PID =#{courseDetail.pid}
+		</if>
+		<if test="courseDetail.id!=0 ">
+			AND c.Sec_ID=#{courseDetail.id}
+		</if>
+	</select>
+
+	<select id="getSectionInfoById" parameterType="int"
+		resultMap="courseDetailResultMap">
+		select Sec_ID,Cour_ID,Sec_Url,Sec_Type,Sec_CoreKnowledge
+		from c_course_detail where Sec_ID = #{secId}
+	</select>
+
+	<update id="updateSection" parameterType="com.gta.oec.cms.vo.course.CourseDetail">
+		UPDATE c_course_detail
+		<set>
+			<if test="name!=null and name!=''">
+				Sec_Name=#{name},
+			</if>
+			<if test="secUrl!=null and secUrl!=''">
+				Sec_Url=#{secUrl},
+			</if>
+			<if test="coreKnowledge!=null and coreKnowledge!=''">
+				Sec_CoreKnowledge=#{coreKnowledge},
+			</if>
+			<if test="uTime!=null">
+				Sec_Utime=#{uTime}
+			</if>
+		</set>
+		where Sec_ID=#{id}
+	</update>
+
+	<!-- 设置直播通道 -->
+	<update id="setChannelURL" parameterType="com.gta.oec.cms.vo.course.CourseDetail">
+		update c_course_detail
+		set Sec_Url = #{courseDetail.secUrl} where Cour_ID =
+		#{courseDetail.courseId}
+	</update>
+
+	<delete id="deleteSectionInfoById" parameterType="int">
+		delete from
+		c_course_detail where sec_id = #{secId}
+	</delete>
+
+	
+	<insert id="saveSectionInfo" keyColumn="Sec_ID" keyProperty="courseDetail.id"
+		useGeneratedKeys="true" parameterType="com.gta.oec.cms.vo.course.CourseDetail">
+		insert into c_course_detail(Cour_ID,Sec_Name,Sec_Title,Sec_Introduction,Sec_Start_Time,Sec_Time,Sec_Type,Sec_Url,Sec_Num,Sec_PID,Sec_Sequence,Sec_Price,Sec_Ctime,Sec_Utime)
+	 values(#{courseDetail.courseId},#{courseDetail.name},#{courseDetail.title},#{courseDetail.introduction},
+	 #{courseDetail.startTime},#{courseDetail.time},#{courseDetail.type},#{courseDetail.secUrl},#{courseDetail.num},
+	 #{courseDetail.pid},#{courseDetail.sequence},#{courseDetail.price},#{courseDetail.cTime},#{courseDetail.uTime})
+	</insert>
+
+
+</mapper>

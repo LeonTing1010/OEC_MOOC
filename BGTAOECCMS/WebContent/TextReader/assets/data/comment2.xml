@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root bookId="abc">
+  <page id="57F6F643-71E4-0C9D-4961-9DC7286C8A8E" bookId="abc" index="1" userId="swallow">
+    <line id="F461E436-7D3A-FD1B-3F07-DA4934D85FA4" x="245.6" y="301.4" pageIndex="1" x1="-80.50" y1="2.5" x2="80.5" y2="-2.5" color="0xff0000" thickness="2" alpha="0.6" userId="swallow"/>
+  </page>
+  <page id="7C2B8082-A94C-2BAA-7E51-221C00991550" bookId="abc" index="2" userId="swallow">
+    <line id="B9695443-286D-AD18-733E-768C96652392" x="392.2" y="304.35" pageIndex="2" x1="-61.5" y1="-10" x2="61.5" y2="10" color="0xff0000" thickness="2" alpha="0.6" userId="swallow"/>
+    <line id="78E46E13-0FD9-45F3-60AE-AFBCF04DF54D" x="363.2" y="482.35" pageIndex="2" x1="-2.5" y1="3" x2="2.5" y2="-3" color="0xff0000" thickness="2" alpha="0.6" userId="swallow"/>
+    <line id="1B02B3ED-D868-04D2-1227-FC468DA11D5E" x="232.7" y="453.35" pageIndex="2" x1="-20" y1="0" x2="20" y2="0" color="0xff0000" thickness="2" alpha="0.6" userId="swallow"/>
+  </page>
+  <page id="168F5A46-965D-70F3-B254-21C930A4D728" bookId="abc" index="3" userId="swallow">
+    <line id="4062B76F-3183-C073-3D23-271BB80D11CE" x="305.15" y="624.25" pageIndex="3" x1="-70.50" y1="13" x2="70.5" y2="-13" color="0xff0000" thickness="2" alpha="0.6" userId="swallow"/>
+  </page>
+  <page id="FD2015AF-89CB-8757-60A4-64EDE06B4343" bookId="abc" index="4" userId="swallow">
+    <line id="E85CADDE-C1BD-5AAD-C460-F3EDCAD40E5F" x="383.25" y="312.5" pageIndex="4" x1="-42" y1="-3" x2="42" y2="3" color="0xff0000" thickness="2" alpha="0.6" userId="swallow"/>
+  </page>
+  <page id="88CD10FA-F478-B004-A658-09DE861123EC" bookId="abc" index="6" userId="swallow">
+    <line id="288FD84A-7796-1421-5514-7F172582DD62" x="181" y="96.15" pageIndex="6" x1="-38" y1="16" x2="38" y2="-16" color="0xff0000" thickness="2" alpha="0.6" userId="swallow"/>
+  </page>
+</root>

@@ -1,0 +1,27 @@
+@charset "utf-8";
+/* CSS Document */
+ #DetailSide_current{
+	background:#3a96af;
+	color:#fff;
+}
+.outline{
+	margin:20px 0;
+	}
+.outline h4{
+	font-size:16px;
+	}
+.outline h4 span{
+	color:#555
+	}
+.outline dt p{
+	color:#555;
+	text-indent:26px;
+	line-height:24px;}
+.outline h5{
+	font-size:14px;
+	margin:0 0 0 56px;
+	line-height:2;
+	font-weight:normal;}
+.outline h5 span{
+	color:#666;
+	}

@@ -1,0 +1,189 @@
+@charset "utf-8";
+
+/* CSS Document */
+
+.menu-head .select{
+	height:24px;
+	margin:50px 10px 0 10px;
+	padding:0 0 0 20px;
+	background:#FFF;
+	font-size:12px;
+	line-height:24px;
+	background:#fff url(../../images/course/select_icon.png) no-repeat 140px center;
+	cursor:pointer;
+	position:relative;
+	z-index:2
+	}
+.select-list{
+	background:#fff;
+	width:160px;
+	left:0px;
+	top:23px;
+	position:absolute;
+	}
+.select-list li{
+	line-height:30px;
+	padding:0 0 0 20px;
+	border-bottom:1px solid #d7d7d7;
+	}
+.menu-head .select ul li:hover{
+	background:#5EA0C8;
+	color:#fff;}
+
+.leftMenu{
+	width:180px;
+	background:#FFF;
+	}
+.menu-head{
+	height:138px;
+	background:#576c43
+	}
+.menu-head .title{
+	font-size:24px;
+	color:#fff;
+	padding:10px;
+	}
+
+.leftMenu .menu-body{
+	background: url(../../images/answerCenter/menu_hornBg.png) no-repeat 18px 0px ;
+	padding:18px 0 0 0;
+	position:relative;
+	z-index:3;
+	}
+.leftMenu .menu-body .item{
+	position:relative;
+	height:40px;
+	line-height:40px;
+	padding: 0 0 0 20px;
+	background:url(../../images/course/item_icon.png) no-repeat 160px center;
+	border-bottom:1px solid #d7d7d7;
+	}
+.leftMenu .menu-body a{
+	color:#000}
+.leftMenu .menu-body .item:hover .className{
+	color:#36F;
+	font-weight:800;
+	}
+
+.leftMenu .subMenu{
+	display:none;
+	position:absolute;
+	width:200px;
+	right:-200px;
+	top:0px;
+	background:#FFF;
+	}
+.leftMenu .menu-body .item:hover .subMenu{
+	display:block;
+	}
+.leftMenu .subMenu dl{
+	padding-bottom:10px;
+	border-bottom:1px dotted #d7d7d7;
+	padding:10px;
+	}
+.leftMenu .subMenu dl:hover{
+	background:#f2f2f2;
+	}
+.leftMenu .subMenu dt{
+	line-height:24px;
+	padding:0;
+	margin:0;
+	font-weight:800;
+	}
+.leftMenu .subMenu dt a{
+
+	color:#555;
+	}
+.leftMenu .subMenu dt a:hover{	color:#36F;
+	}
+.leftMenu .subMenu dd{
+	line-height:30px;
+	}
+
+.leftMenu .subMenu dd a{
+	display:inline;
+	float:left;
+	padding:0 10px;
+	margin-right: 10px;
+	margin-left: -11px;
+	white-space: nowrap;
+	color:#555;
+	font-size:12px;
+	background:url(../../images/course/separation.png) no-repeat right center;
+	}
+.leftMenu .subMenu dd a:hover{
+	color:#36F;
+	font-weight:normal
+	}
+.subCrumbs{
+	height:29px;
+	line-height:29px;
+	border-bottom:1px solid #d7d7d7;
+	}
+.subCrumbs a{
+	float:left;
+	background:url(../../images/course/subCrumbsBg.png) no-repeat right;
+	padding:0 20px 0 10px;
+	color:#999;
+	}
+.subCrumbs a:hover{ color:#236fd4}
+.subCrumbs span{ padding:0 0 0 10px}
+
+.rightCon{
+
+	background:#fff;
+	}
+
+.teacherContent{padding:20px;}
+.teacherContent-img{width:170px; height:128px; overflow:hidden; float:left;}
+.teacherContent-info{float:left; margin-left:20px; _display:inline; width:770px; color:#595757;}
+.teacherContent-info .name{color:#3a96af; font-size:20px; padding-bottom:5px;}
+.teacherContent-info .name span{float:left; padding-right:10px;}
+.teacherContent-info .name img{float:left; margin-left:3px; _display:inline;}
+.teacherContent-info-st, .teacherContent-info-sp{display:block; word-break:break-all; /*支持IE，chrome，FF不支持*/　word-wrap:break-word;/*支持IE，chrome，FF*/}
+.teacherContent-info-st{font-size:14px;}
+.teacherContent-info-sp{font-size:12px; line-height:20px; margin-top:12px;}
+.teacherContent-info-btn{width:136px; height:28px; text-align:center; line-height:28px; color:#fff; display:inline-block; background-color:#74bfd3; margin-top:12px;}
+.curTab{
+	height:47px;
+	width:960px;
+}
+.curTab ul{width:960px; height:46px; background:#fff;border-bottom:1px solid #ddd; }
+.curTab li{
+	z-index:1;
+	float:left;
+	display:inline;
+	padding:0 12px;
+	margin:14px 0;
+	border-right:1px solid #dfdfdf;
+	cursor:pointer;
+}
+.curTab li.current{
+	margin:0;
+	z-index:1;
+	border-top:3px solid #3a96af;
+	border-right:1px solid #ddd;
+	border-left:1px solid #ddd;
+	height:44px;
+	line-height:44px;
+	background:#fff;
+	padding:0 12px;
+	position:relative;
+	left:-1px;
+}
+.curTabCon{padding:10px;}
+.curTabCon .curTabCon-ul li{border-bottom:1px dotted #e5e5e5; padding:20px 0;}
+.curTabCon .curTabCon-ul h2 a{color:#74bfd3; font-size:16px; font-weight:normal; float:left;}
+.curTabCon .curTabCon-ul h2 span{float:right; color:#b5b5b6; font-size:12px; font-weight:normal; line-height:22px;}
+.curTabCon .curTabCon-ul img{width:100px; height:75px; float:left;}
+.curTabCon-info{float:right; width:820px;}
+.curTabCon-info p{margin:0; padding:0;}
+.curTabCon-faq{font-size:12px; color:#9fa0a0; line-height:30px;}
+.curTabCon-faq span{color:#e73703; font-size:14px;}
+.curTabCon-faqs{line-height:22px; height:44px; width:820px; overflow:hidden; color:#4a4a4a;}
+.curTabCon-down{background:#f3f2f3; width:938px; text-align:center; border:1px solid #e3e4e5; height:72px; line-height:72px; display:block;}
+.curTabCon-list li{float:left; width:165px; margin:10px; color:#666; border:1px solid #ccc; _display:inline;}
+.curTabCon-list li img{width:165px;}
+.curTabCon-list p{padding:5px; margin:0; font-size:12px; width:155px; height:34px; overflow:hidden; line-height:18px; line-height:19px;}
+.noborder{border:none !important;}
+.i-icon1{background:url(../../images/answerCenter/icon_01.png) no-repeat right 4px; padding-right:18px; color:#b5b5b6; font-weight:bold;}

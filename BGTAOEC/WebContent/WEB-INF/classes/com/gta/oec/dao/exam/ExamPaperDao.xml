@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gta.oec.vo.exam.ExamPaperVo">
+	<resultMap type="com.gta.oec.vo.exam.ExamPaperVo" id="examPaperMap">
+		<result column="Paper_ID" property="paperId" />
+		<result column="Paper_Name" property="paperName" />
+		<result column="Paper_Total_Score" property="paperTotalScore" />
+		<result column="User_ID" property="userId" />
+		<result column="Paper_Type" property="paperType" />
+		<result column="Paper_Ctime" property="paperCtime" />
+		<result column="Paper_Utime" property="paperUtime" />
+	</resultMap>
+
+    <!-- 插入试卷数据   by zhangjin -->
+    <insert id="insert" parameterType="com.gta.oec.vo.exam.ExamPaperVo" keyProperty="paperId" useGeneratedKeys="true">
+			INSERT INTO e_exam_paper(Paper_Name,Paper_Total_Score,User_ID,Paper_Type,Paper_Ctime,Paper_Utime)
+			VALUES(#{paperName},#{paperTotalScore},#{userId},#{paperType},#{paperCtime},#{paperUtime})
+    </insert>
+
+</mapper>    

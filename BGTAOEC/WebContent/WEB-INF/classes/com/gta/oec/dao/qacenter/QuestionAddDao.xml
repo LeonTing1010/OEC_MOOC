@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gta.oec.vo.qacenter.QuestionAddVo">
+	<resultMap type="com.gta.oec.vo.qacenter.QuestionAddVo" id="questionAddMap">
+		<result column="Ques_AddID" property="quesAddID" />
+		<result column="User_ID" property="userID" />
+		<result column="Job_GroupID" property="jobGroupID" />
+		<result column="Ques_Content" property="quesContent" />
+		<result column="Ques_Status" property="quesStatus" />
+		<result column="Ques_Type" property="quesType" />
+		<result column="Ques_AnswerCount" property="quesAnswerCount" />
+		<result column="Ques_AttentionCount" property="quesAttentionCount" />
+		<result column="Ques_AnsUserID" property="quesAnswerUserID" />
+		<result column="Ques_LookLimit" property="quesLookLimit" />
+		<result column="Ques_AnswerLimit" property="quesAnswerLimit" />
+		<result column="Ques_Price" property="quesPrice" />
+		<result column="Ques_Ctime" property="quesCtime" />
+		<result column="Ques_Utime" property="quesUtime" />
+		
+		<result column="User_Name" property="userName" />
+		<result column="Answ_ID" property="answerId" />
+		<result column="Ques_ID" property="quesID" />
+		
+		
+	</resultMap>
+
+	<select id="getAllQuestionAddListByAnswId" parameterType="int" resultMap="questionAddMap">
+		select q.* from q_question_add q,re_answer_questionadd r where q.Ques_Type=0 and  q.Ques_AddID=r.Ques_AddID and r.Answ_ID=#{answId}
+		 order by q.Ques_Ctime desc
+	</select>
+	
+	<!-- 根据所有回答,取得所有追加问题 -->
+	<select id="getAllQuestionAddListByAnswList" parameterType="list" resultMap="questionAddMap">
+		select q.* from q_question_add q,re_answer_questionadd r where q.Ques_Type=0 and  q.Ques_AddID=r.Ques_AddID 
+		
+		<if test="list!=null and list.size > 0">
+		   and r.Answ_ID in  
+      	  <foreach collection="list" item="ls"  open="(" separator="," close=")">  
+               #{ls.answID} 
+          </foreach>
+        </if>
+		 order by q.Ques_Ctime desc
+	</select>
+	
+	
+	<select id="getQuestionAddVo" parameterType="int" resultMap="questionAddMap">
+		SELECT  q.*,a.Ques_ID
+		FROM q_question_add  AS q, q_answer AS a ,re_answer_questionadd as r
+		WHERE q.Ques_AddID=r.Ques_AddID and r.Answ_ID =a.Answ_ID AND q.Ques_AddID=#{quesAddId}
+	</select>
+	
+	
+	<insert id="saveQuestionAddByUser" parameterType="com.gta.oec.vo.qacenter.QuestionAddVo" keyProperty="quesAddID" useGeneratedKeys="true">
+		insert into q_question_add(Ques_AddID,User_ID,Job_GroupID,Ques_Content,Ques_Status,Ques_Type,Ques_AnswerCount,
+		Ques_AttentionCount,Ques_AnsUserID,Ques_LookLimit,Ques_AnswerLimit,Ques_Price,Ques_Ctime,Ques_Utime) 
+		values(#{quesAddID},#{userID},#{jobGroupID},#{quesContent},#{quesStatus},#{quesType},#{quesAnswerCount},#{quesAttentionCount},
+		#{quesAnswerUserID},#{quesLookLimit},#{quesAnswerLimit},#{quesPrice},#{quesCtime},#{quesUtime})
+	</insert>
+	
+	
+	<!-- 统计追问问题总条数  by 刘祚家-->
+	<select id="quesAddCout" parameterType="int" resultType="int">
+	SELECT  COUNT(q.Ques_AddID)
+	FROM q_question_add  AS q, q_answer AS a ,re_answer_questionadd as r
+	WHERE q.Ques_AddID=r.Ques_AddID and r.Answ_ID =a.Answ_ID AND a.User_ID=#{userId} AND q.Ques_Status=0
+	
+	</select>
+	
+	<!-- 更改问题回答状态 -->
+	<update id="updateQuestionAddStatus" parameterType="int">
+		update  q_question_add set Ques_Status=1 where Ques_AddID=#{quesAddId}
+	</update>
+	
+	<!-- 老师中心获取追问问题列表 -->
+	<select id="getQuestionAddPageModel" parameterType="java.util.Map" resultMap="questionAddMap">
+	SELECT  q.*,a.Answ_ID,a.Ques_ID,u.User_Name
+	FROM q_question_add  AS q, q_answer AS a ,re_answer_questionadd as r,u_user as u
+	WHERE q.Ques_AddID=r.Ques_AddID and r.Answ_ID =a.Answ_ID AND a.User_ID=#{teacherId} AND q.User_ID=u.User_ID  AND q.Ques_Status=#{status}
+     ORDER BY q.Ques_Ctime DESC
+	LIMIT  #{limit}  OFFSET #{offset}
+	
+	</select>
+	
+	<!-- 老师中心获取追问问题总数 -->
+	<select id="getQuestionAddPageModelCount" parameterType="java.util.Map" resultType="int">
+	SELECT  COUNT(q.Ques_AddID)
+	FROM q_question_add  AS q, q_answer AS a ,re_answer_questionadd as r
+	WHERE q.Ques_AddID=r.Ques_AddID and r.Answ_ID =a.Answ_ID AND a.User_ID=#{teacherId} AND q.Ques_Status=#{status}
+    
+	</select>
+	
+	
+</mapper>    

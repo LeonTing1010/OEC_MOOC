@@ -1,0 +1,179 @@
+@CHARSET "UTF-8";
+body {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    background-color: #f5f5f5;
+}
+
+.form-signin {
+   max-width: 300px;
+   padding: 19px 29px 29px;
+   margin: 0 auto 20px;
+   background-color: #fff;
+   border: 1px solid #e5e5e5;
+   -webkit-border-radius: 5px;
+     -moz-border-radius: 5px;
+         border-radius: 5px;
+   -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+     -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+      box-shadow: 0 1px 2px rgba(0,0,0,.05);
+}
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+   margin-bottom: 10px;
+}
+.form-signin input[type="text"],.form-signin input[type="password"] {
+    font-size: 16px;
+    height: auto;
+    margin-bottom: 15px;
+    padding: 7px 9px;
+}
+/**------------------Main Page css list------------------**/
+.north_logo {
+	background: url("../images/logo.png") no-repeat scroll left top transparent;
+    height: 50px;
+}
+.north_logout {
+    width:32px;
+    height:32px;
+	float:right;
+	cursor:pointer;
+	line-height:32px;
+	background:url(../images/logout.png) no-repeat left top;
+	padding:0px 0px 0px 8px;
+}
+.north_panel_bg {
+	background: url('../images/tog_bg.png') repeat-x scroll left top transparent;
+	height:50px;
+	background-colour:#B3DFDA;
+	padding:10px;
+}
+.south_content {
+    background: url("../images/bot_bg.gif") repeat-x scroll left top transparent;
+    height: 29px;
+    /**line-height: 25px;*/
+    margin: 0 auto;
+    text-align: center;
+    padding : 8px;
+}
+.subMenu {
+    background: none repeat scroll 0 0 #F4F4F4;
+    border-bottom: 1px solid #E6F0FF;
+    color: #263F4D;
+    cursor: pointer;
+    height: 28px;
+    line-height: 24px;
+}
+.subMenu span{
+	background-image: url("../images/listIcon1.gif");
+    background-position: left 55%;
+    background-repeat: no-repeat;
+    border: 0 none;
+    margin: 0 10px 0 15px;
+    padding: 0 0 0 5px;
+}
+.subMenu-header-selected {
+    background: none repeat scroll 0 0 #A9FACD;
+}
+/**------------------Task Page css list------------------**/
+.task_north_panel {
+	width:99%;
+	height:40%;
+	border:1px solid #E6F0FF;
+	border-bottom:2px solid #E6F0FF;
+}
+.task_south_panel {
+	width:99%;
+	height:59%;
+	border:1px solid #E6F0FF;
+	border-top:2px solid #E6F0FF;
+}
+/**-----------Header--------*/
+body{
+	font-size:1em;
+	line-height:2;
+	font-family:"微软雅黑";
+	padding:0;
+	margin:0;
+	}
+.bg{
+	width:800px;
+	height:600px;
+	background:url(../images/base/bg.jpg);
+	}
+	
+.header
+{
+	height:60px;
+	background: #4883B7
+	}
+.logo{
+	float:left;
+	width:330px;
+	height:31px;
+	margin:16px 0 0 20px;
+	background: url(../images/base/logo3.png) no-repeat
+	}
+.headBar{
+	float:right;
+	margin:20px;
+	font-size:14px;
+	}
+.headBar span{
+	margin-left:20px;
+	color:#BDD2E8;}
+.headBar a{
+	color:#FFF;
+	
+	}
+.messageCenter{
+	height:30px;
+	line-height:30px;
+	border-bottom:1px solid #C0D6E2;
+	color: #4A7CA6;
+	font-size:12px;
+	background:#D7E2EC;
+	text-align:right
+	}
+.messageCenter a{
+	color: #930;
+	font-weight:800;
+	}
+.messageCenter label{
+	color: #930;
+	font-weight:800;
+	}
+.messageCenter span{
+	margin-right:20px;}
+.messageCenter a:hover{
+	color:#C00}
+/**-----------query table params and the form css style--------*/
+.queryTable {
+	width:98%;
+	height:98%;
+}
+.queryTable td {
+	line-height : 25px;
+}
+#fm{
+    margin:0;
+    padding:10px 30px;
+}
+.ftitle{
+    font-size:14px;
+    font-weight:bold;
+    padding:5px 0;
+    margin-bottom:10px;
+    border-bottom:1px solid #ccc;
+}
+.fitem{
+    margin-bottom:5px;
+}
+.fitem label{
+    display:inline-block;
+    width:130px;
+}
+
+.fitem input{
+	width:190px;
+}

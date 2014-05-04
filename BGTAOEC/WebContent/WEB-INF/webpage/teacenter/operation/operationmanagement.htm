@@ -1,0 +1,54 @@
+<link href="${base}/css/teacherCenter/operationsManagement.css" rel="stylesheet" type="text/css" />
+<div class="topBox">
+	<div class="menuBtn" style="cursor:auto"></div>
+	<div class="crumbs">
+		你所在的位置：<span>作业管理</span>
+	</div>
+</div>
+<div class="main">
+	<div class="main-title">
+		<h3>作业管理</h3>
+		<a class="btn btn-primary btn-small firstStep fr" href="javascript:void(0)" onclick="releaseTestIndex(3)">发布作业</a>
+	</div>
+	<div class="table-default">
+		<div class="curTab mt20">
+			<ul id="quickNav" style="">
+				<li class="current"><a class="jobInfo" href="javascript:;">未批阅</a></li>
+				<li class=""><a class="course" href="javascript:;">已批阅</a></li>
+			</ul>
+		</div>
+		<div class="test-bodybox">
+		
+		</div>
+	</div>
+</div>
+<div class="clear"></div>
+
+<script type="text/javascript">
+	$(function(){
+		examType=3;
+		paperState=2;
+		$('.test-bodybox').load(base+"/teacherCenter/Management/?examType="+examType+"&paperState="+paperState+"&code="+Math.random());
+	});
+
+	$(document).ready(function(){
+		  var $li = $(".curTab li"),
+		  $content = $(".test-body"),
+		  $index;
+		
+		  $li.click(function(){
+			  $(this).addClass("current").siblings().removeClass('current');
+			  $index = $li.index($(this));
+			  if($index==0){
+					examType=3;
+					paperState=2;
+					$('.test-bodybox').load(base+"/teacherCenter/Management/?examType="+examType+"&paperState="+paperState+"&code="+Math.random());
+			  }else{
+					examType=3;
+					paperState=1;
+					$('.test-bodybox').load(base+"/teacherCenter/Management/?examType="+examType+"&paperState="+paperState+"&code="+Math.random());
+			  }
+					//$content.eq($index).show().siblings().hide();
+		 });   
+	});
+</script>

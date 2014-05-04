@@ -1,0 +1,57 @@
+<script src="${base}/js/stucenter/exam.js" type="text/javascript"></script>
+<div class="m0a curDetailCon">
+	    <h3>
+	           [#if type==3] 作业名称： [#elseif type==2]练习名称：[#else]课堂考试：[/#if] ${examName!""}
+	    </h3>
+	    [#if examSelectQueslist??&&examSelectQueslist?size>0||examAskQuestionlist??&&examAskQuestionlist?size>0]
+                    <div class="itemPool">
+                       <form action="" method="post" id="paperform" name="paperform">
+	                     [#if examSelectQueslist??&&examSelectQueslist?size>0]
+	                       <dl>
+					             [#list examSelectQueslist as examQuestions]
+					 <!----------选择题 ------------->      
+					        <!-- 试题序号和试题提问内容 -->                                               
+		                       <dt>${examQuestions_index+1}. ${examQuestions.examQuesContent!}
+		                            <span>（${examQuestions.examQuesScore!}分）</span>
+		                       </dt>
+		                        <dd>
+		                            [#if examQuestions.examOptionlist??]
+		                                [#list examQuestions.examOptionlist as examOptions]
+				                          <ul>
+				                            <li>
+				                                <input type="radio" class="mr10" name="quesId${examQuestions.examQuesId!}" value="${examOptions.optNum!}"/>
+				                                <!-- 试题项号和试题项内容 -->
+				                                <label for="item1">${examOptions.optNum!}.${examOptions.optContent!}</label>
+				                            </li>
+				                          </ul>
+			                          [/#list]
+		                            [/#if]  
+		                       </dd>
+		                       [/#list]
+		                          </dl>
+		                     [/#if] 
+                   
+                     
+                      <!----------问答题 ------------->
+                    
+                         [#if examAskQuestionlist??&&examAskQuestionlist?size>0]
+                           <dl>
+					         [#list examAskQuestionlist as examQuestions]
+	                          <dt>${examQuestions_index+1}. ${examQuestions.examQuesContent!}<span>（${examQuestions.examQuesScore!}分）</span></dt>
+		                        <dd>
+		                          <textarea name="quesAnswer"></textarea>
+		                          <input type="hidden" name="quesId" value="${examQuestions.examQuesId!}"/>
+		                        </dd>
+                             [/#list]
+                              </dl>
+		                 [/#if] 
+                     
+                   </form>
+                      <div class="button pl20">
+                          <button class="btn btn-darkBlue btn-small mr10" onclick="submitPaper(${examId!},${type!})">[#if type==1] 提交试卷  [#elseif type==2]提交练习 [#else] 提交作业[/#if]</button>
+                      </div>
+        </div>
+	[#else]
+		<p style="color: gray">该课程暂无[#if type==3]作业[#elseif type==2]练习[#else]考试[/#if]!</p>
+	[/#if]
+</div>

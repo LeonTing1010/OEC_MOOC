@@ -1,0 +1,252 @@
+@charset "utf-8";
+/* CSS Document */
+.banner{
+	width:1000px;
+	height:486px;
+	overflow:hidden;
+	margin:0 auto;
+	position:relative; 
+	}
+.banner-con li{
+	width:1000px;
+	float:left;
+	display:inline;
+	height:486px;
+	}
+.banner-nav {
+	position:absolute;
+	right:30px;
+	bottom:30px;
+	width:120px;
+	height:14px;
+	}
+.banner-nav li{
+	width:14px;
+	height:14px;
+	float:left;
+	margin-right:10px;
+	background:#FFF;
+	opacity:0.5;
+	cursor:pointer;
+	}
+.banner-nav li.current{
+	opacity:1;
+	}
+.lineBox{
+	margin:10px 0 20px 0;}
+.centerCon{
+	width:1000px;
+	margin:0 auto;
+	}
+.centerCon .title{
+	padding:30px 0 0 0;
+	height:30px;
+	}
+.centerCon .title h3{
+	font-size:28px;
+	color:#333;
+	line-height:30px;
+	font-weight:normal;
+	float:left;
+	margin-right:20px;
+	}
+.centerCon .tag{
+	float:left;
+	width:600px;
+	padding:10px 0 0 0;
+	}
+.centerCon .more{
+	float:right;
+	padding:10px 0 0 0;
+	}
+.centerCon .tag span{
+	margin-right:20px;}
+.centerCon a{ color:#666;}
+.centerCon a:hover{ color:#36F}
+.video-list{
+	margin:20px 0 0 0;}
+.video-list ul{
+	margin:10px 0 0 0;
+	}
+.video-list li{
+	float:left;
+	width:314px;
+	margin-right:29px;
+	text-align:center;
+	}
+.video-list li.last{
+	margin-right:0}
+.video-list li img{
+	width:314px;
+	height:176px;
+	}
+.video-item h4{
+	line-height:28px;
+	font-size:15px;
+	margin:5px 0 0 0;
+	}
+.video-item p{
+	font-size:12px;
+	margin:5px 0 0 0;
+	padding:0px;
+	color:#999;
+	}
+.questionCenter{
+	background: url(../../images/index/question-bg.png);
+	margin:40px 0 0 0;
+	}
+.question-hd .title{ font-size:20px; color:#fff; padding:20px 0 0 0;}
+.question-hd .tab{
+	float:right;
+	width:400px;
+	}
+.question-hd .tab li{
+	float:right;
+	font-size:20px;
+	color:#FFF;
+	margin:22px 0 0 20px;
+	color:#98cad8;
+	cursor:pointer;
+	}
+.question-hd .tab li.current{ color:#fff;}
+.tabCon .leftBox{
+	float:left;
+	width:592px;
+	margin:16px 0 20px 0;
+	}
+.tabCon .leftBox li{
+	background:#94ad5e;
+	padding:10px;
+	margin-bottom:10px;
+	}
+.tabCon .leftBox li.last{ margin-bottom:0;}
+.tabCon .leftBox li img{
+	float:left;
+	margin:0 10px 0 0;
+	}
+.tabCon .leftBox .answer{
+	float:left;
+	line-height:18px;
+	font-size:12px;
+	margin:10px 0 0 ;
+	width:474px;
+	color:#fff;
+	}
+.question-title{
+	float:left;
+	width:460px;
+	font-size:15px;
+	line-height:18px;
+	color:#354a09}
+.tabCon .leftBox a:hover .question-title{ text-decoration:underline}
+.rightBox { margin:16px 0 0 0; float:right; width:392px; height:326px; background:#f6a957;}
+.rightBox .teacher-title{ background:#b67d40;height:36px; line-height:36px; padding:0 0 0 20px; color:#ffdab3;}
+.rightBox .teacher-con{ padding:20px 0 0 20px;}
+.rightBox .teacher-con li{
+	float:left;
+	width:108px;
+	margin-right:14px;
+	margin-bottom:10px;
+	height:115px;
+	background:#f8b975;
+	text-align:center
+	}
+.rightBox .teacher-con li span{
+	color:#FFF;
+	display:block;
+	width:108px;
+	-o-text-overflow: ellipsis; text-overflow: ellipsis;white-space:nowrap; overflow:hidden;
+	line-height:30px;}
+	
+
+	
+	
+	
+/*插件样式开始*/
+#featurecontainer{
+	margin:20px 0 0 0;
+	}
+#feature {
+	position: relative;
+	width:1000px;
+	margin:0 auto
+}
+#feature .prev {
+	text-indent: -9999px;
+	width: 21px;
+	display: block;
+	background: url(../../images/course/carouselBtn.png) left top;
+	left:0;
+	top:24px;
+	height: 72px;
+	position:absolute;
+	cursor:pointer
+}
+#feature .next {
+	text-indent: -9999px;
+	width: 21px;
+	display: block;
+	background: url(../../images/course/carouselBtn.png) right top;
+	right:0;
+	height: 72px;
+	top:24px;
+	position:absolute;
+	cursor:pointer;
+}
+#feature .prev:hover {
+	background-position: left bottom
+}
+#feature .next:hover {
+	background-position: right bottom
+}
+.featureul {
+	position: relative;
+	width: 2800px;
+	float: left;
+}
+.featurebox {	
+	width: 238px;
+	background-repeat: no-repeat;
+	float: left;
+	height: 168px;
+	overflow: hidden;
+}
+#botton-scroll {
+	z-index: 0;
+	margin: 0px auto;
+	width: 952px;
+	float: left;
+	height: 168px;
+}
+#block {
+	z-index: 0;
+	position: relative;
+	margin: 0px auto;
+	width: 950px;
+	height: 168px;
+	overflow: hidden;
+}
+#block .box {
+	margin: 0px 10px;
+	width: 218px;
+	float: left;
+	height: 168px;
+}
+#block .box img{
+	border:3px #fff solid;}
+#block .box .name{
+	line-height:30px;
+	text-align:center;
+	}
+#block .box .feature-title {
+	font-size: 140%;
+	font-weight: normal
+}
+#block .box .feature-thumb {
+	width: 240px;
+	margin-bottom: 5px;
+	float: left;
+	height: 150px
+}
+
+/*插件样式结束*/

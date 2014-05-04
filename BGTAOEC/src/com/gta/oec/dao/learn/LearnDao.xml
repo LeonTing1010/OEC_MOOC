@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gta.oec.vo.learn.LearnVo">
+	<resultMap type="com.gta.oec.vo.learn.LearnVo" id="learnMap">
+		<result column="Learn_ID" property="learnId"/>
+		<result column="Course_ID" property="courseId"/>
+		<result column="Sec_ID" property="sectionId"/>
+		<result column="User_ID" property="userId"/>
+		<result column="Learn_state" property="learnState"/>
+		<result column="Learn_Ctime" property="createTimeDate"/>
+		<result column="Learn_Utime" property="updateTime"/>
+	</resultMap>
+	<!-- select -->
+	<select id="getLearn" parameterType="com.gta.oec.vo.learn.LearnVo" resultMap="learnMap">		  
+    select * from u_learn_detail as ul 
+    <where>
+        <if test="sectionId!=0">
+        ul.sec_id = #{sectionId} 
+        </if>
+        <if test="courseId!=0">
+        and  ul.cour_id=#{courseId} 
+        </if>
+        <if test="userId!=0">
+        and  ul.user_id=#{userId}	
+        </if>
+     </where>	
+	</select>
+   <select id="getUserCourseLearnCount" parameterType="com.gta.oec.vo.learn.LearnVo" resultType="int">		  
+    select count(*) from u_learn_detail as ul where
+        <if test="courseId!=0">
+         ul.cour_id=#{courseId} 
+        </if>
+        <if test="userId!=0">
+        and  ul.user_id=#{userId}	
+        </if>        
+	</select>
+	<select id="getUserCourse"  parameterType="com.gta.oec.vo.learn.LearnVo" resultMap="learnMap">
+	SELECT * FROM u_user_course AS u WHERE  u.user_id =#{userId} 
+	<if test="courseId!=0">
+	 and  u.cour_id = #{courseId}
+	</if>
+	</select>
+	
+    <insert id="insert" parameterType="com.gta.oec.vo.learn.LearnVo" keyProperty="learnId" useGeneratedKeys="true">
+      insert into u_learn_detail
+      (Cour_ID,Sec_ID,User_ID,Learn_state,Learn_Ctime,Learn_Utime)
+      values(#{courseId},#{sectionId},#{userId},#{learnState},#{createTimeDate},#{updateTime})
+    </insert>
+    <update id="update" parameterType="com.gta.oec.vo.learn.LearnVo">
+    	 update u_learn_detail as u
+    	 <set>
+    	    <if test="learnState!=0">
+    	     u.learnState = #{learnState}
+    	    </if>
+    	 </set>
+    	 where u.Learn_ID = #{learnId}
+    </update>
+    <update id="updateUserCourseProgress" parameterType="java.util.Map">
+      update  u_user_course as u
+       <set>
+        Progress = #{progess},
+        <if test="updateTime!=null">
+          u.UserCour_Utime = #{updateTime}
+        </if>
+      </set>
+      where u.Cour_ID = #{courseId} and u.User_ID = #{userId}
+    </update>
+    
+    <insert id="insertUserCourse" parameterType="com.gta.oec.vo.learn.LearnVo">
+      insert into u_user_course(Cour_ID,User_ID,UserCour_Ctime,UserCour_Utime)
+       values (#{courseId},#{userId},#{createTimeDate},#{updateTime})
+    </insert>
+</mapper>    
